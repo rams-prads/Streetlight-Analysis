@@ -298,7 +298,10 @@ const state = {
   autoOff: new Set(),                   // layers a view switch turned off, restored on return to a view that has them
   reportMode: false,
   draft: null,                          // pending report: location + snapped pole
-  reports: [],                          // reports filed in this session (plus the simulated samples)
+  reports: [],                          // citizen reports: the simulated ones in the data, then this session's
+  reporters: new Map(),                 // simulated reporter identities and their track records
+  publicSharing: PUBLIC_ESCALATION_ENABLED, // Management can switch citizen sharing on X off
+  picking: null,                        // { ticketId } while a crew picks the right pole on the map
 };
 const layers = {};                      // Leaflet layers, created in init()
 const panelPoles = new Map();           // panel id -> Map(circuit -> [uid in wiring order])

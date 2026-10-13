@@ -381,8 +381,11 @@ LIVE_TICKETS = [
     dict(poles=ring("OC", [45]), status="Open", category="flickering", issue="Lamp cycling on/off", source="Citizen app",
          ago=69.75, complaints=2),
     dict(poles=ring("OC", [2]), status="Open", category="not_working", issue="LED driver failure", source="CCMS auto-alert", ago=11.5),
-    dict(poles=ring("OC", [11]), status="Open", category="not_working", issue="Lamp not glowing", source="Call centre", ago=20.2),
-    dict(poles=ring("MC", [18]), status="Open", category="not_working", issue="LED driver failure", source="Night patrol", ago=93.0),
+    dict(poles=ring("OC", [11]), status="Open", category="not_working", issue="Lamp not glowing", source="Call centre",
+         ago=20.2, complaints=1),
+    # Open past its SLA; its citizen reporter shared it publicly on X (simulated).
+    dict(poles=ring("MC", [18]), status="Open", category="not_working", issue="LED driver failure", source="Night patrol",
+         ago=93.0, complaints=1, public_ago=30.0, public_report="CR-D11"),
     dict(poles=ring("MC", [19]), status="Open", category="not_working", issue="LED driver failure", source="Citizen app",
          ago=45.5, complaints=1),
     dict(poles=ring("MC", [21]), status="Open", category="not_working", issue="LED driver failure", source="Night patrol", ago=21.0),
@@ -401,14 +404,15 @@ LIVE_TICKETS = [
          source="Night patrol", ago=22.0, started_ago=7.75, crew="R2 · Deepak R."),
     # Other work in progress
     dict(poles=ring("OC", [52]), status="In Progress", category="damaged", issue="Pole damaged by vehicle", source="Call centre",
-         ago=378.5, started_ago=356.0, crew="R3 · Farhan A.", notes="Pole made safe and isolated. Replacement pole on order."),
+         ago=378.5, started_ago=356.0, crew="R3 · Farhan A.", complaints=1,
+         notes="Pole made safe and isolated. Replacement pole on order."),
     dict(poles=ring("MC", [20]), status="In Progress", category="not_working", issue="LED driver failure", source="Night patrol",
          ago=45.0, started_ago=8.3, crew="J1 · Imran S."),
     dict(poles=ring("IC", [14]), status="In Progress", category="not_working", issue="Water ingress in luminaire",
          source="CCMS auto-alert", ago=44.0, started_ago=9.0, crew="P1 · Ramesh K."),
     # Horticulture: the lamp works, a tree blocks it; the pole status does not change.
     dict(poles=ring("MC", [11]), status="In Progress", category="blocked", issue="Light blocked by tree canopy",
-         source="Citizen app", ago=70.0, started_ago=6.0, crew="HT-1 · Tree pruning",
+         source="Citizen app", ago=70.0, started_ago=6.0, crew="HT-1 · Tree pruning", complaints=1,
          notes="Horticulture team pruning; luminaire to be re-aimed."),
     # Repaired this afternoon, waiting for the after-dusk check (pole stays Under Maintenance until then)
     dict(poles=ring("IC", [3]), status="Awaiting dusk check", category="not_working", issue="Loose connection in junction box",
@@ -417,6 +421,10 @@ LIVE_TICKETS = [
     dict(poles=ring("MC", [29]), status="Awaiting dusk check", category="not_working", issue="Loose connection in junction box",
          source="Night patrol", ago=23.5, started_ago=4.0, closed_ago=2.0, crew="J2 · Harpreet S.",
          resolution="Re-terminated cables, replaced connector"),
+    # Report confidence: the pole's CCMS node reported the lamp on at its last switch-on time, so this citizen
+    # report needs a check. The pole keeps its status until then. (Raised last, so earlier ticket IDs stay put.)
+    dict(poles=ring("OC", [15]), status="Open", category="not_working", issue="Light not working", source="Citizen app",
+         ago=0.5, complaints=1, keep_status=True),
 ]
 # A citizen ticket at a spot with no mapped pole (Palika Park walkway): bearing, radius from the centre.
 LOCATION_TICKETS = [
@@ -470,11 +478,59 @@ PERMITS = [  # line along a road edge: (from bearing, to bearing, radius or None
     dict(id="EXC-03", agency="Urban Gas Distribution", purpose="Gas pipeline", start=4, end=20,
          bearings=(260.0, 280.0), radius=131.0, offset=0.0),
 ]
-# Citizen reports filed from "this device" earlier, so My reports has something to show (simulated).
-CITIZEN_SAMPLES = [
-    dict(id="CR-S01", pole=("IC", 9), category="not_working", ago=45.5, live=True),
-    dict(id="CR-S02", pole=("IC", 6), category="not_working", ago=50.0, live=False),  # fixed yesterday
+# Simulated reporters: an ID and a track record (past reports, and how many were confirmed on site). No names.
+REPORTERS = [
+    dict(id="RP-2001", past_reports=2, past_confirmed=2, mine=True),  # this device: the Citizen view's reporter
+    dict(id="RP-1001", past_reports=14, past_confirmed=13),           # strong track record
+    dict(id="RP-1002", past_reports=0, past_confirmed=0),             # first-time reporter
+    dict(id="RP-1003", past_reports=5, past_confirmed=4),
+    dict(id="RP-1004", past_reports=3, past_confirmed=3),
+    dict(id="RP-1005", past_reports=6, past_confirmed=2),
+    dict(id="RP-1006", past_reports=0, past_confirmed=0),             # first-time reporter
+    dict(id="RP-3001", past_reports=1, past_confirmed=1),             # call-centre callers, known by their mobile
+    dict(id="RP-3002", past_reports=0, past_confirmed=0),
+    dict(id="RP-3003", past_reports=0, past_confirmed=0),
+    dict(id="RP-3004", past_reports=4, past_confirmed=4),
+    dict(id="RP-3005", past_reports=0, past_confirmed=0),
 ]
+# Every citizen and call-centre complaint behind the live tickets (simulated). `after` = hours after the ticket was
+# raised; photo = (live | upload, perceptual hash); device = "Use my location" fix as (metres, bearing from the pole,
+# accuracy in metres). A report on a closed ticket uses `history`. Ticket complaint counts equal these records.
+PHOTO_REUSED = "9c3e6a1f0b8d4e27"  # the same picture on two reports (MC-019, then MC-020): the later one is flagged
+CITIZEN_REPORTS = [
+    # Confirmed by CCMS: IC-010's node reported the lamp off at its last switch-on time.
+    dict(id="CR-S01", reporter="RP-2001", pole=("IC", 9), after=0.0, source="Citizen app"),
+    dict(id="CR-D01", reporter="RP-1001", pole=("IC", 9), after=20.0, source="Citizen app",
+         photo=("live", "e4b1c07a9d2f5836"), device=(14, 60, 9)),
+    dict(id="CR-S02", reporter="RP-2001", pole=("IC", 6), history=True, source="Citizen app"),  # fixed yesterday
+    # Three independent reporters on the dark Outer Circle stretch.
+    dict(id="CR-D02", reporter="RP-1003", pole=("OC", 31), after=1.5, source="Citizen app", device=(1400, 200, 20)),
+    dict(id="CR-D03", reporter="RP-1001", pole=("OC", 33), after=5.0, source="Citizen app", photo=("live", "71d0e8b3c5a6f249")),
+    dict(id="CR-D04", reporter="RP-3001", pole=("OC", 30), after=22.0, source="Call centre"),
+    # Lost phases on the Middle Circle.
+    dict(id="CR-D05", reporter="RP-1004", pole=("MC", 5), after=0.0, source="Citizen app"),
+    dict(id="CR-D06", reporter="RP-3002", pole=("MC", 4), after=0.0, source="Call centre"),
+    # Safety emergencies: never scored, always dispatched.
+    dict(id="CR-D07", reporter="RP-1005", pole=("IC", 21), after=2.0, source="Citizen app", photo=("upload", "2f6a9d40e1c7b583")),
+    dict(id="CR-D08", reporter="RP-3003", pole=("OC", 13), after=0.0, source="Call centre"),
+    # Flickering lamp, open past its SLA: your report can be shared publicly.
+    dict(id="CR-S03", reporter="RP-2001", pole=("OC", 45), after=0.0, source="Citizen app"),
+    dict(id="CR-D09", reporter="RP-1002", pole=("OC", 45), after=26.0, source="Citizen app"),
+    dict(id="CR-D10", reporter="RP-3004", pole=("OC", 11), after=0.0, source="Call centre"),
+    # The same photo on two different poles.
+    dict(id="CR-D11", reporter="RP-1003", pole=("MC", 18), after=40.0, source="Citizen app", photo=("live", PHOTO_REUSED)),
+    dict(id="CR-D12", reporter="RP-1005", pole=("MC", 19), after=0.0, source="Citizen app", photo=("upload", PHOTO_REUSED)),
+    # Physical problems: photos count most here.
+    dict(id="CR-D13", reporter="RP-3005", pole=("OC", 52), after=0.0, source="Call centre"),
+    dict(id="CR-D14", reporter="RP-1004", pole=("MC", 11), after=0.0, source="Citizen app", photo=("live", "c58e2b7d03a1f964"),
+         device=(11, 140, 8)),
+    # A spot with no mapped pole (Palika Park walkway).
+    dict(id="CR-D15", reporter="RP-1004", location=0, after=0.0, source="Citizen app", photo=("live", "4ad79e15b2c08f63"),
+         device=(18, 300, 12)),
+    # Contradicted by CCMS (the lamp came on at its last switch-on time): Needs check.
+    dict(id="CR-D16", reporter="RP-1006", pole=("OC", 15), after=0.0, source="Citizen app", noticed="last_night"),
+]
+NIGHT_CATEGORIES = {"not_working", "flickering"}  # lamp faults you can only see after dark
 
 ISSUES = {
     "LED": [("LED driver failure", "Replaced LED driver", (2600, 4200)),
@@ -698,6 +754,14 @@ def build(as_of: datetime) -> dict:
               raised=raised, resolved=as_of - timedelta(hours=26), downtime_h=24.0, priority="Medium",
               crew=pole["contractor"]["crews"][0], contractor=pole["contractor"]["name"], cost_inr=3400,
               verified_at=as_of - timedelta(hours=23, minutes=50), verified_by="CCMS", citizen_sample="CR-S02")
+    # "Different pole": the most recent past citizen report on the Middle Circle named the pole next door; the crew
+    # found and fixed the fault on this pole. Marks an existing event, so IDs and random draws are unchanged.
+    corrections = sorted(((e, pole) for pole in poles if pole["road"] == "MC" and pole["idx"] > 0 for e in pole["events"]
+                          if e["type"] == "Corrective" and e["source"] == "Citizen app"), key=lambda x: x[0]["raised"])
+    if corrections:
+        event, pole = corrections[-1]
+        event["outcome"] = "different_pole"
+        event["reported_key"] = ("MC", pole["idx"] - 1)
     for pole in poles:
         all_tickets.extend(pole["events"])
 
@@ -710,7 +774,9 @@ def build(as_of: datetime) -> dict:
                       notes=spec.get("notes"), crew=spec.get("crew"),
                       started=at(-spec["started_ago"]) if "started_ago" in spec else None,
                       closed=at(-spec["closed_ago"]) if "closed_ago" in spec else None,
-                      resolution=spec.get("resolution"), pole_keys=spec["poles"], contractor=first["contractor"]["name"])
+                      resolution=spec.get("resolution"), pole_keys=spec["poles"], contractor=first["contractor"]["name"],
+                      keep_status=spec.get("keep_status", False),
+                      public=dict(shared_at=at(-spec["public_ago"]), report_id=spec["public_report"]) if "public_ago" in spec else None)
         live_tickets.append(ticket)
         all_tickets.append(ticket)
     live_by_pole = {}
@@ -753,7 +819,7 @@ def build(as_of: datetime) -> dict:
             # Planned shutdowns are not scheduled burning time, so they never count against uptime.
             scheduled = sum(hours(a, b) for a, b in nights) - sum(night_overlap(s["start_t"], s["end_t"], nights) for s in planned)
             outage = sum(night_overlap(e["raised"], e["resolved"], nights) for e in pole["events"] if e["type"] == "Corrective")
-            if live and live["category"] != "blocked":  # current fault already under way in that month
+            if live and live["category"] != "blocked" and not live["keep_status"]:  # fault already under way that month
                 outage += night_overlap(live["raised"], live["closed"] or as_of, nights)
             lit = max(0.0, scheduled - outage)
             day_burn = 0.0
@@ -785,6 +851,25 @@ def build(as_of: datetime) -> dict:
     def uid_of(key) -> str:
         return f"SL-CP-{key[0]}-{key[1] + 1:03d}"
 
+    sunrise_today, sunset_today = sun_times(as_of.date())
+    switch_on = sunset_today if sunset_today <= as_of else sun_times((as_of - timedelta(days=1)).date())[1]
+
+    def ccms_reading(pole, live, status):
+        """What the pole's CCMS node reported at the last scheduled switch-on time (simulated)."""
+        if not pole["fx"]["ccms_node"]:
+            return None
+        held = any(s["start_t"] <= switch_on < s["end_t"] for s in shutdowns.get(pole["panel_id"], [])
+                   if pole["circuit"] in s["circuits"])
+        if held:
+            state = "off"  # no supply: planned shutdown
+        elif not live or live["raised"] > switch_on or live["keep_status"] or live["category"] == "blocked":
+            state = "on"
+        elif status == "Under Maintenance" and live["closed"] and live["closed"] <= switch_on:
+            state = "on"   # repaired before dusk
+        else:
+            state = "abnormal" if live["category"] == "flickering" else "off"
+        return {"switch_on_at": iso(switch_on), "state": state, "daylight": "off"}
+
     features = []
     for pole in poles:
         fx, road = pole["fx"], pole["road"]
@@ -792,8 +877,8 @@ def build(as_of: datetime) -> dict:
         status = "Functional"
         ticket = None
         if live:
-            if live["category"] == "blocked":
-                status = "Functional"  # the lamp works; a tree or hoarding blocks it
+            if live["category"] == "blocked" or live["keep_status"]:
+                status = "Functional"  # the lamp works (a tree blocks it), or the report still needs a check
             elif live["status"] == "Open":
                 status = "Faulty"
             else:
@@ -805,6 +890,8 @@ def build(as_of: datetime) -> dict:
                 "closed_at": iso(live["closed"]) if live["closed"] else None, "resolution": live["resolution"],
                 "complaints": live["complaints"], "notes": live["notes"],
                 "pole_uids": [uid_of(k) for k in live["pole_keys"]],
+                "public": {"shared_at": iso(live["public"]["shared_at"]), "report_id": live["public"]["report_id"]}
+                if live["public"] else None,
             }
         history = []
         for e in sorted(pole["events"], key=lambda e: e["raised"], reverse=True):
@@ -818,6 +905,9 @@ def build(as_of: datetime) -> dict:
             if e.get("verified_at"):
                 item["verified_at"] = iso(e["verified_at"])
                 item["verified_by"] = e["verified_by"]
+            if e.get("outcome"):
+                item["outcome"] = e["outcome"]
+                item["reported_uid"] = uid_of(e["reported_key"])
             history.append(item)
         series = monthly(pole)
         recent = [datetime.fromisoformat(h["resolved_at"]) for h in history]
@@ -840,6 +930,7 @@ def build(as_of: datetime) -> dict:
                 "wattage": fx["wattage"],
                 "cct_k": fx["cct_k"],
                 "ccms_node": fx["ccms_node"],
+                "ccms_reading": ccms_reading(pole, live, status),
                 "install_date": fx["install_date"],
                 "fixture_installed": fx["fixture_installed"],
                 "fixture_make": fx["fixture_make"],
@@ -931,16 +1022,43 @@ def build(as_of: datetime) -> dict:
                                                  "issue": t["issue"], "source": t["source"], "raised_at": iso(t["raised"]),
                                                  "complaints": t["complaints"]}})
 
-    # --- citizen sample reports ("this device", simulated) -------------------------------------------
-    samples = []
-    for s in CITIZEN_SAMPLES:
-        uid = uid_of(s["pole"])
-        if s["live"]:
-            ticket_id = live_by_pole[s["pole"]]["ticket_id"]
+    # --- citizen reports and reporters (simulated) ---------------------------------------------------
+    def is_night(t: datetime) -> bool:
+        rise, sset = sun_times(t.date())
+        return t < rise or t >= sset
+
+    mine_ids = {r["id"] for r in REPORTERS if r.get("mine")}
+    reports = []
+    for r in CITIZEN_REPORTS:
+        if "location" in r:
+            ticket = location_tickets[r["location"]]
+            uid, lat, lng = None, *ticket["lat_lng"]
+            created = ticket["raised"] + timedelta(hours=r["after"])
+        elif r.get("history"):
+            ticket = next(e for e in by_key[r["pole"]]["events"] if e.get("citizen_sample") == r["id"])
+            uid, lat, lng = uid_of(r["pole"]), by_key[r["pole"]]["lat"], by_key[r["pole"]]["lng"]
+            created = ticket["raised"]
         else:
-            ticket_id = next(e["ticket_id"] for e in by_key[s["pole"]]["events"] if e.get("citizen_sample") == s["id"])
-        samples.append({"id": s["id"], "uid": uid, "ticket_id": ticket_id, "category": s["category"],
-                        "created_at": iso(at(-s["ago"])), "simulated": True})
+            ticket = live_by_pole[r["pole"]]
+            uid, lat, lng = uid_of(r["pole"]), by_key[r["pole"]]["lat"], by_key[r["pole"]]["lng"]
+            created = ticket["raised"] + timedelta(hours=r["after"])
+        category = ticket.get("category", "not_working")
+        noticed = r.get("noticed") or (("just_now" if is_night(created) else "last_night") if category in NIGHT_CATEGORIES else None)
+        device = None
+        if r.get("device"):
+            dist, bearing, accuracy = r["device"]
+            b = math.radians(bearing)
+            device = {"position": position(lat + dist * math.cos(b) / M_PER_DEG_LAT, lng + dist * math.sin(b) / M_PER_DEG_LNG),
+                      "accuracy_m": accuracy}
+        reports.append({
+            "id": r["id"], "reporter_id": r["reporter"], "ticket_id": ticket["ticket_id"], "uid": uid,
+            "spot": position(lat, lng) if uid is None else None, "category": category, "source": r["source"],
+            "created_at": iso(created), "noticed": noticed,
+            "photo": {"kind": r["photo"][0], "hash": r["photo"][1]} if r.get("photo") else None,
+            "device_location": device, "mine": r["reporter"] in mine_ids, "simulated": True,
+        })
+    reporters = [{"id": r["id"], "past_reports": r["past_reports"], "past_confirmed": r["past_confirmed"],
+                  "mine": bool(r.get("mine")), "simulated": True} for r in REPORTERS]
 
     # --- pilot zone boundary (exterior ring anticlockwise per RFC 7946 right-hand rule) --------
     ring_coords = [position(*destination(step * 5 % 360, PILOT_ZONE_RADIUS_M)) for step in range(72, -1, -1)]
@@ -977,7 +1095,8 @@ def build(as_of: datetime) -> dict:
         "excavationPermits": {"type": "FeatureCollection", "name": "excavation_permits", "features": permit_features},
         "waterloggingSpots": {"type": "FeatureCollection", "name": "waterlogging_spots", "features": water_features},
         "locationTickets": {"type": "FeatureCollection", "name": "location_tickets", "features": location_features},
-        "citizenSamples": samples,
+        "reporters": reporters,
+        "citizenReports": reports,
     }
 
 
@@ -1019,6 +1138,9 @@ def main() -> None:
     print(f"layers: {len(data['landmarks']['features'])} landmarks, {len(data['excavationPermits']['features'])} permits, "
           f"{len(data['waterloggingSpots']['features'])} waterlogging spots, "
           f"{len(data['locationTickets']['features'])} location ticket(s)")
+    moved = [(f["id"], h["reported_uid"]) for f in feats for h in f["properties"]["repair_history"] if h.get("outcome")]
+    print(f"reports: {len(data['citizenReports'])} citizen reports from {len(data['reporters'])} reporters; "
+          f"different-pole correction: {moved}")
     print(f"wrote {OUT_DIR / 'streetlights.js'}")
 
 

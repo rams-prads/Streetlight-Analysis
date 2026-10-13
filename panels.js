@@ -42,6 +42,7 @@ function setRole(role, { writeUrl = true } = {}) {
   }
   if (state.reportMode && !roleCanReport()) setReportMode(false);
   if (state.drawing) stopDrawing();
+  if (state.picking) stopPolePick();
   state.highlight = null;
   state.back = null;
   closeSearch();
@@ -159,7 +160,7 @@ function fieldBlock() {
   const crew = currentCrew();
   const jobs = crewJobs(crew);
   const checks = jobs.filter((t) => t.status === 'Awaiting dusk check');
-  const work = jobs.filter((t) => t.status === 'In Progress');
+  const work = jobs.filter((t) => onTheRoute(t, crew));
   const audit = auditPoles();
   const dark = isDark();
   return `<div class="mt-3">
@@ -377,7 +378,11 @@ function renderFeederInsights() {
 function renderMapChip() {
   const host = $('#map-chip');
   const rows = [];
-  if (!state.reportMode && !state.drawing) {
+  if (state.picking) {
+    rows.push(`<i class="fa-solid fa-crosshairs tone-accent" aria-hidden="true"></i>
+      <span>Click the pole where the fault is</span><kbd>Esc</kbd>
+      <button type="button" class="icon-btn icon-btn--sm" data-action="cancel-pick" aria-label="Cancel"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>`);
+  } else if (!state.reportMode && !state.drawing) {
     if (state.highlight) {
       rows.push(`<i class="fa-solid fa-filter tone-accent" aria-hidden="true"></i>
         <span>Showing ${plural(state.highlight.uids.size, 'pole')}: ${esc(state.highlight.label)}</span>

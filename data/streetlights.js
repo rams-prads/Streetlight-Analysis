@@ -436,6 +436,11 @@ window.SLGIS_DATA = {
      "wattage": 60,
      "cct_k": 3000,
      "ccms_node": true,
+     "ccms_reading": {
+      "switch_on_at": "2026-10-13T17:54+05:30",
+      "state": "on",
+      "daylight": "off"
+     },
      "install_date": "2010-08-15",
      "fixture_installed": "2023-04-11",
      "fixture_make": "Lumetra",
@@ -556,6 +561,11 @@ window.SLGIS_DATA = {
      "wattage": 60,
      "cct_k": 3000,
      "ccms_node": true,
+     "ccms_reading": {
+      "switch_on_at": "2026-10-13T17:54+05:30",
+      "state": "on",
+      "daylight": "off"
+     },
      "install_date": "2010-08-27",
      "fixture_installed": "2023-03-18",
      "fixture_make": "Lumetra",
@@ -676,6 +686,11 @@ window.SLGIS_DATA = {
      "wattage": 60,
      "cct_k": 3000,
      "ccms_node": true,
+     "ccms_reading": {
+      "switch_on_at": "2026-10-13T17:54+05:30",
+      "state": "on",
+      "daylight": "off"
+     },
      "install_date": "2010-08-21",
      "fixture_installed": "2023-03-03",
      "fixture_make": "Lumetra",
@@ -812,6 +827,11 @@ window.SLGIS_DATA = {
      "wattage": 60,
      "cct_k": 3000,
      "ccms_node": true,
+     "ccms_reading": {
+      "switch_on_at": "2026-10-13T17:54+05:30",
+      "state": "on",
+      "daylight": "off"
+     },
      "install_date": "2010-08-17",
      "fixture_installed": "2023-03-21",
      "fixture_make": "Lumetra",
@@ -888,7 +908,8 @@ window.SLGIS_DATA = {
       "notes": null,
       "pole_uids": [
        "SL-CP-IC-004"
-      ]
+      ],
+      "public": null
      },
      "repair_history": [
       {
@@ -964,6 +985,11 @@ window.SLGIS_DATA = {
      "wattage": 60,
      "cct_k": 3000,
      "ccms_node": true,
+     "ccms_reading": {
+      "switch_on_at": "2026-10-13T17:54+05:30",
+      "state": "on",
+      "daylight": "off"
+     },
      "install_date": "2010-08-17",
      "fixture_installed": "2023-04-07",
      "fixture_make": "Lumetra",
@@ -1132,6 +1158,11 @@ window.SLGIS_DATA = {
      "wattage": 60,
      "cct_k": 3000,
      "ccms_node": true,
+     "ccms_reading": {
+      "switch_on_at": "2026-10-13T17:54+05:30",
+      "state": "on",
+      "daylight": "off"
+     },
      "install_date": "2010-08-24",
      "fixture_installed": "2023-04-14",
      "fixture_make": "Lumetra",
@@ -1236,6 +1267,11 @@ window.SLGIS_DATA = {
      "wattage": 60,
      "cct_k": 3000,
      "ccms_node": true,
+     "ccms_reading": {
+      "switch_on_at": "2026-10-13T17:54+05:30",
+      "state": "on",
+      "daylight": "off"
+     },
      "install_date": "2010-08-21",
      "fixture_installed": "2023-03-23",
      "fixture_make": "Lumetra",
@@ -1390,6 +1426,11 @@ window.SLGIS_DATA = {
      "wattage": 60,
      "cct_k": 3000,
      "ccms_node": true,
+     "ccms_reading": {
+      "switch_on_at": "2026-10-13T17:54+05:30",
+      "state": "on",
+      "daylight": "off"
+     },
      "install_date": "2010-08-02",
      "fixture_installed": "2023-03-05",
      "fixture_make": "Lumetra",
@@ -1510,6 +1551,11 @@ window.SLGIS_DATA = {
      "wattage": 60,
      "cct_k": 3000,
      "ccms_node": true,
+     "ccms_reading": {
+      "switch_on_at": "2026-10-13T17:54+05:30",
+      "state": "on",
+      "daylight": "off"
+     },
      "install_date": "2010-08-21",
      "fixture_installed": "2023-02-16",
      "fixture_make": "Lumetra",
@@ -1646,6 +1692,11 @@ window.SLGIS_DATA = {
      "wattage": 60,
      "cct_k": 3000,
      "ccms_node": true,
+     "ccms_reading": {
+      "switch_on_at": "2026-10-13T17:54+05:30",
+      "state": "off",
+      "daylight": "off"
+     },
      "install_date": "2010-08-07",
      "fixture_installed": "2023-02-17",
      "fixture_make": "Lumetra",
@@ -1722,7 +1773,8 @@ window.SLGIS_DATA = {
       "notes": null,
       "pole_uids": [
        "SL-CP-IC-010"
-      ]
+      ],
+      "public": null
      },
      "repair_history": [
       {
@@ -1814,6 +1866,11 @@ window.SLGIS_DATA = {
      "wattage": 60,
      "cct_k": 3000,
      "ccms_node": true,
+     "ccms_reading": {
+      "switch_on_at": "2026-10-13T17:54+05:30",
+      "state": "on",
+      "daylight": "off"
+     },
      "install_date": "2010-08-11",
      "fixture_installed": "2023-02-09",
      "fixture_make": "Lumetra",
@@ -1966,6 +2023,11 @@ window.SLGIS_DATA = {
      "wattage": 60,
      "cct_k": 3000,
      "ccms_node": true,
+     "ccms_reading": {
+      "switch_on_at": "2026-10-13T17:54+05:30",
+      "state": "on",
+      "daylight": "off"
+     },
      "install_date": "2010-08-12",
      "fixture_installed": "2023-02-03",
      "fixture_make": "Lumetra",
@@ -2102,6 +2164,11 @@ window.SLGIS_DATA = {
      "wattage": 60,
      "cct_k": 3000,
      "ccms_node": true,
+     "ccms_reading": {
+      "switch_on_at": "2026-10-13T17:54+05:30",
+      "state": "on",
+      "daylight": "off"
+     },
      "install_date": "2010-08-22",
      "fixture_installed": "2023-04-13",
      "fixture_make": "Lumetra",
@@ -2238,6 +2305,11 @@ window.SLGIS_DATA = {
      "wattage": 60,
      "cct_k": 3000,
      "ccms_node": true,
+     "ccms_reading": {
+      "switch_on_at": "2026-10-13T17:54+05:30",
+      "state": "on",
+      "daylight": "off"
+     },
      "install_date": "2010-08-03",
      "fixture_installed": "2023-03-04",
      "fixture_make": "Lumetra",
@@ -2358,6 +2430,11 @@ window.SLGIS_DATA = {
      "wattage": 60,
      "cct_k": 3000,
      "ccms_node": true,
+     "ccms_reading": {
+      "switch_on_at": "2026-10-13T17:54+05:30",
+      "state": "off",
+      "daylight": "off"
+     },
      "install_date": "2010-08-18",
      "fixture_installed": "2023-02-25",
      "fixture_make": "Lumetra",
@@ -2434,7 +2511,8 @@ window.SLGIS_DATA = {
       "notes": null,
       "pole_uids": [
        "SL-CP-IC-015"
-      ]
+      ],
+      "public": null
      },
      "repair_history": [
       {
@@ -2510,6 +2588,11 @@ window.SLGIS_DATA = {
      "wattage": 60,
      "cct_k": 3000,
      "ccms_node": true,
+     "ccms_reading": {
+      "switch_on_at": "2026-10-13T17:54+05:30",
+      "state": "on",
+      "daylight": "off"
+     },
      "install_date": "2010-08-16",
      "fixture_installed": "2023-03-12",
      "fixture_make": "Lumetra",
@@ -2630,6 +2713,11 @@ window.SLGIS_DATA = {
      "wattage": 60,
      "cct_k": 3000,
      "ccms_node": true,
+     "ccms_reading": {
+      "switch_on_at": "2026-10-13T17:54+05:30",
+      "state": "on",
+      "daylight": "off"
+     },
      "install_date": "2010-08-20",
      "fixture_installed": "2023-04-21",
      "fixture_make": "Lumetra",
@@ -2750,6 +2838,11 @@ window.SLGIS_DATA = {
      "wattage": 60,
      "cct_k": 3000,
      "ccms_node": true,
+     "ccms_reading": {
+      "switch_on_at": "2026-10-13T17:54+05:30",
+      "state": "on",
+      "daylight": "off"
+     },
      "install_date": "2010-08-11",
      "fixture_installed": "2023-04-02",
      "fixture_make": "Lumetra",
@@ -2870,6 +2963,11 @@ window.SLGIS_DATA = {
      "wattage": 60,
      "cct_k": 3000,
      "ccms_node": true,
+     "ccms_reading": {
+      "switch_on_at": "2026-10-13T17:54+05:30",
+      "state": "on",
+      "daylight": "off"
+     },
      "install_date": "2010-08-27",
      "fixture_installed": "2023-03-11",
      "fixture_make": "Lumetra",
@@ -2990,6 +3088,11 @@ window.SLGIS_DATA = {
      "wattage": 60,
      "cct_k": 3000,
      "ccms_node": true,
+     "ccms_reading": {
+      "switch_on_at": "2026-10-13T17:54+05:30",
+      "state": "on",
+      "daylight": "off"
+     },
      "install_date": "2010-08-26",
      "fixture_installed": "2023-04-23",
      "fixture_make": "Lumetra",
@@ -3126,6 +3229,11 @@ window.SLGIS_DATA = {
      "wattage": 60,
      "cct_k": 3000,
      "ccms_node": true,
+     "ccms_reading": {
+      "switch_on_at": "2026-10-13T17:54+05:30",
+      "state": "on",
+      "daylight": "off"
+     },
      "install_date": "2010-08-25",
      "fixture_installed": "2023-03-04",
      "fixture_make": "Lumetra",
@@ -3262,6 +3370,11 @@ window.SLGIS_DATA = {
      "wattage": 60,
      "cct_k": 3000,
      "ccms_node": true,
+     "ccms_reading": {
+      "switch_on_at": "2026-10-13T17:54+05:30",
+      "state": "off",
+      "daylight": "off"
+     },
      "install_date": "2010-08-26",
      "fixture_installed": "2023-02-18",
      "fixture_make": "Lumetra",
@@ -3339,7 +3452,8 @@ window.SLGIS_DATA = {
       "pole_uids": [
        "SL-CP-IC-022",
        "SL-CP-IC-023"
-      ]
+      ],
+      "public": null
      },
      "repair_history": [
       {
@@ -3415,6 +3529,11 @@ window.SLGIS_DATA = {
      "wattage": 60,
      "cct_k": 3000,
      "ccms_node": true,
+     "ccms_reading": {
+      "switch_on_at": "2026-10-13T17:54+05:30",
+      "state": "off",
+      "daylight": "off"
+     },
      "install_date": "2010-08-27",
      "fixture_installed": "2023-03-13",
      "fixture_make": "Lumetra",
@@ -3492,7 +3611,8 @@ window.SLGIS_DATA = {
       "pole_uids": [
        "SL-CP-IC-022",
        "SL-CP-IC-023"
-      ]
+      ],
+      "public": null
      },
      "repair_history": [
       {
@@ -3536,6 +3656,11 @@ window.SLGIS_DATA = {
      "wattage": 60,
      "cct_k": 3000,
      "ccms_node": true,
+     "ccms_reading": {
+      "switch_on_at": "2026-10-13T17:54+05:30",
+      "state": "on",
+      "daylight": "off"
+     },
      "install_date": "2010-08-13",
      "fixture_installed": "2023-03-08",
      "fixture_make": "Lumetra",
@@ -3656,6 +3781,7 @@ window.SLGIS_DATA = {
      "wattage": 60,
      "cct_k": 4000,
      "ccms_node": false,
+     "ccms_reading": null,
      "install_date": "2010-09-15",
      "fixture_installed": "2022-06-06",
      "fixture_make": "Arcbeam",
@@ -3760,6 +3886,7 @@ window.SLGIS_DATA = {
      "wattage": 45,
      "cct_k": 4000,
      "ccms_node": false,
+     "ccms_reading": null,
      "install_date": "2010-09-22",
      "fixture_installed": "2022-06-25",
      "fixture_make": "Arcbeam",
@@ -3838,7 +3965,8 @@ window.SLGIS_DATA = {
        "SL-CP-MC-005",
        "SL-CP-MC-003",
        "SL-CP-MC-002"
-      ]
+      ],
+      "public": null
      },
      "repair_history": [
       {
@@ -3914,6 +4042,7 @@ window.SLGIS_DATA = {
      "wattage": 45,
      "cct_k": 4000,
      "ccms_node": false,
+     "ccms_reading": null,
      "install_date": "2010-09-05",
      "fixture_installed": "2022-06-23",
      "fixture_make": "Arcbeam",
@@ -3992,7 +4121,8 @@ window.SLGIS_DATA = {
        "SL-CP-MC-005",
        "SL-CP-MC-003",
        "SL-CP-MC-002"
-      ]
+      ],
+      "public": null
      },
      "repair_history": [
       {
@@ -4084,6 +4214,7 @@ window.SLGIS_DATA = {
      "wattage": 45,
      "cct_k": 4000,
      "ccms_node": false,
+     "ccms_reading": null,
      "install_date": "2010-09-20",
      "fixture_installed": "2022-06-24",
      "fixture_make": "Arcbeam",
@@ -4177,7 +4308,9 @@ window.SLGIS_DATA = {
        "crew": "J1 \u00b7 Imran S.",
        "contractor": "Jyoti Lighting Co.",
        "cost_inr": 2692,
-       "status": "Closed"
+       "status": "Closed",
+       "outcome": "different_pole",
+       "reported_uid": "SL-CP-MC-003"
       }
      ]
     }
@@ -4204,6 +4337,7 @@ window.SLGIS_DATA = {
      "wattage": 45,
      "cct_k": 4000,
      "ccms_node": false,
+     "ccms_reading": null,
      "install_date": "2010-09-10",
      "fixture_installed": "2022-06-20",
      "fixture_make": "Arcbeam",
@@ -4282,7 +4416,8 @@ window.SLGIS_DATA = {
        "SL-CP-MC-005",
        "SL-CP-MC-003",
        "SL-CP-MC-002"
-      ]
+      ],
+      "public": null
      },
      "repair_history": [
       {
@@ -4326,6 +4461,7 @@ window.SLGIS_DATA = {
      "wattage": 45,
      "cct_k": 4000,
      "ccms_node": false,
+     "ccms_reading": null,
      "install_date": "2010-09-08",
      "fixture_installed": "2022-06-24",
      "fixture_make": "Arcbeam",
@@ -4402,7 +4538,8 @@ window.SLGIS_DATA = {
       "notes": null,
       "pole_uids": [
        "SL-CP-MC-006"
-      ]
+      ],
+      "public": null
      },
      "repair_history": [
       {
@@ -4446,6 +4583,7 @@ window.SLGIS_DATA = {
      "wattage": 60,
      "cct_k": 4000,
      "ccms_node": false,
+     "ccms_reading": null,
      "install_date": "2010-09-26",
      "fixture_installed": "2022-06-26",
      "fixture_make": "Arcbeam",
@@ -4533,6 +4671,7 @@ window.SLGIS_DATA = {
      "wattage": 45,
      "cct_k": 4000,
      "ccms_node": false,
+     "ccms_reading": null,
      "install_date": "2010-09-12",
      "fixture_installed": "2022-06-20",
      "fixture_make": "Arcbeam",
@@ -4610,7 +4749,8 @@ window.SLGIS_DATA = {
       "pole_uids": [
        "SL-CP-MC-009",
        "SL-CP-MC-008"
-      ]
+      ],
+      "public": null
      },
      "repair_history": [
       {
@@ -4654,6 +4794,7 @@ window.SLGIS_DATA = {
      "wattage": 45,
      "cct_k": 4000,
      "ccms_node": false,
+     "ccms_reading": null,
      "install_date": "2010-09-06",
      "fixture_installed": "2022-06-27",
      "fixture_make": "Arcbeam",
@@ -4731,7 +4872,8 @@ window.SLGIS_DATA = {
       "pole_uids": [
        "SL-CP-MC-009",
        "SL-CP-MC-008"
-      ]
+      ],
+      "public": null
      },
      "repair_history": []
     }
@@ -4758,6 +4900,7 @@ window.SLGIS_DATA = {
      "wattage": 45,
      "cct_k": 4000,
      "ccms_node": false,
+     "ccms_reading": null,
      "install_date": "2010-09-07",
      "fixture_installed": "2022-06-15",
      "fixture_make": "Arcbeam",
@@ -4862,6 +5005,7 @@ window.SLGIS_DATA = {
      "wattage": 45,
      "cct_k": 4000,
      "ccms_node": false,
+     "ccms_reading": null,
      "install_date": "2010-09-09",
      "fixture_installed": "2022-06-20",
      "fixture_make": "Arcbeam",
@@ -4949,6 +5093,7 @@ window.SLGIS_DATA = {
      "wattage": 45,
      "cct_k": 4000,
      "ccms_node": false,
+     "ccms_reading": null,
      "install_date": "2010-09-05",
      "fixture_installed": "2022-06-23",
      "fixture_make": "Arcbeam",
@@ -5021,11 +5166,12 @@ window.SLGIS_DATA = {
       "work_started_at": "2026-10-13T12:00+05:30",
       "closed_at": null,
       "resolution": null,
-      "complaints": 0,
+      "complaints": 1,
       "notes": "Horticulture team pruning; luminaire to be re-aimed.",
       "pole_uids": [
        "SL-CP-MC-012"
-      ]
+      ],
+      "public": null
      },
      "repair_history": [
       {
@@ -5069,6 +5215,7 @@ window.SLGIS_DATA = {
      "wattage": 45,
      "cct_k": 4000,
      "ccms_node": false,
+     "ccms_reading": null,
      "install_date": "2010-09-19",
      "fixture_installed": "2022-06-21",
      "fixture_make": "Arcbeam",
@@ -5173,6 +5320,7 @@ window.SLGIS_DATA = {
      "wattage": 60,
      "cct_k": 4000,
      "ccms_node": false,
+     "ccms_reading": null,
      "install_date": "2010-09-11",
      "fixture_installed": "2022-06-25",
      "fixture_make": "Arcbeam",
@@ -5277,6 +5425,7 @@ window.SLGIS_DATA = {
      "wattage": 45,
      "cct_k": 4000,
      "ccms_node": false,
+     "ccms_reading": null,
      "install_date": "2010-09-06",
      "fixture_installed": "2022-06-07",
      "fixture_make": "Arcbeam",
@@ -5413,6 +5562,7 @@ window.SLGIS_DATA = {
      "wattage": 45,
      "cct_k": 4000,
      "ccms_node": false,
+     "ccms_reading": null,
      "install_date": "2010-09-24",
      "fixture_installed": "2022-03-21",
      "fixture_make": "Arcbeam",
@@ -5549,6 +5699,7 @@ window.SLGIS_DATA = {
      "wattage": 45,
      "cct_k": 4000,
      "ccms_node": false,
+     "ccms_reading": null,
      "install_date": "2010-09-09",
      "fixture_installed": "2022-03-16",
      "fixture_make": "Arcbeam",
@@ -5701,6 +5852,7 @@ window.SLGIS_DATA = {
      "wattage": 45,
      "cct_k": 4000,
      "ccms_node": false,
+     "ccms_reading": null,
      "install_date": "2010-09-22",
      "fixture_installed": "2022-03-28",
      "fixture_make": "Arcbeam",
@@ -5837,6 +5989,7 @@ window.SLGIS_DATA = {
      "wattage": 45,
      "cct_k": 4000,
      "ccms_node": false,
+     "ccms_reading": null,
      "install_date": "2010-09-09",
      "fixture_installed": "2022-03-15",
      "fixture_make": "Arcbeam",
@@ -5909,11 +6062,15 @@ window.SLGIS_DATA = {
       "work_started_at": null,
       "closed_at": null,
       "resolution": null,
-      "complaints": 0,
+      "complaints": 1,
       "notes": null,
       "pole_uids": [
        "SL-CP-MC-019"
-      ]
+      ],
+      "public": {
+       "shared_at": "2026-10-12T12:00+05:30",
+       "report_id": "CR-D11"
+      }
      },
      "repair_history": [
       {
@@ -5989,6 +6146,7 @@ window.SLGIS_DATA = {
      "wattage": 45,
      "cct_k": 4000,
      "ccms_node": false,
+     "ccms_reading": null,
      "install_date": "2010-09-22",
      "fixture_installed": "2022-03-07",
      "fixture_make": "Arcbeam",
@@ -6065,7 +6223,8 @@ window.SLGIS_DATA = {
       "notes": null,
       "pole_uids": [
        "SL-CP-MC-020"
-      ]
+      ],
+      "public": null
      },
      "repair_history": [
       {
@@ -6173,6 +6332,7 @@ window.SLGIS_DATA = {
      "wattage": 60,
      "cct_k": 4000,
      "ccms_node": false,
+     "ccms_reading": null,
      "install_date": "2010-09-23",
      "fixture_installed": "2022-03-28",
      "fixture_make": "Arcbeam",
@@ -6249,7 +6409,8 @@ window.SLGIS_DATA = {
       "notes": null,
       "pole_uids": [
        "SL-CP-MC-021"
-      ]
+      ],
+      "public": null
      },
      "repair_history": [
       {
@@ -6325,6 +6486,7 @@ window.SLGIS_DATA = {
      "wattage": 45,
      "cct_k": 4000,
      "ccms_node": false,
+     "ccms_reading": null,
      "install_date": "2010-09-21",
      "fixture_installed": "2022-03-27",
      "fixture_make": "Arcbeam",
@@ -6401,7 +6563,8 @@ window.SLGIS_DATA = {
       "notes": null,
       "pole_uids": [
        "SL-CP-MC-022"
-      ]
+      ],
+      "public": null
      },
      "repair_history": [
       {
@@ -6477,6 +6640,7 @@ window.SLGIS_DATA = {
      "wattage": 45,
      "cct_k": 4000,
      "ccms_node": false,
+     "ccms_reading": null,
      "install_date": "2010-09-07",
      "fixture_installed": "2022-03-19",
      "fixture_make": "Arcbeam",
@@ -6597,6 +6761,7 @@ window.SLGIS_DATA = {
      "wattage": 45,
      "cct_k": 4000,
      "ccms_node": false,
+     "ccms_reading": null,
      "install_date": "2010-09-23",
      "fixture_installed": "2022-03-05",
      "fixture_make": "Arcbeam",
@@ -6733,6 +6898,7 @@ window.SLGIS_DATA = {
      "wattage": 45,
      "cct_k": 4000,
      "ccms_node": false,
+     "ccms_reading": null,
      "install_date": "2010-09-17",
      "fixture_installed": "2022-03-24",
      "fixture_make": "Arcbeam",
@@ -6837,6 +7003,7 @@ window.SLGIS_DATA = {
      "wattage": 45,
      "cct_k": 4000,
      "ccms_node": false,
+     "ccms_reading": null,
      "install_date": "2010-09-08",
      "fixture_installed": "2022-03-09",
      "fixture_make": "Arcbeam",
@@ -6989,6 +7156,7 @@ window.SLGIS_DATA = {
      "wattage": 45,
      "cct_k": 4000,
      "ccms_node": false,
+     "ccms_reading": null,
      "install_date": "2010-09-19",
      "fixture_installed": "2022-06-12",
      "fixture_make": "Arcbeam",
@@ -7109,6 +7277,7 @@ window.SLGIS_DATA = {
      "wattage": 60,
      "cct_k": 4000,
      "ccms_node": false,
+     "ccms_reading": null,
      "install_date": "2010-09-05",
      "fixture_installed": "2022-06-23",
      "fixture_make": "Arcbeam",
@@ -7245,6 +7414,7 @@ window.SLGIS_DATA = {
      "wattage": 45,
      "cct_k": 4000,
      "ccms_node": false,
+     "ccms_reading": null,
      "install_date": "2010-09-23",
      "fixture_installed": "2022-06-22",
      "fixture_make": "Arcbeam",
@@ -7349,6 +7519,7 @@ window.SLGIS_DATA = {
      "wattage": 45,
      "cct_k": 4000,
      "ccms_node": false,
+     "ccms_reading": null,
      "install_date": "2010-09-09",
      "fixture_installed": "2022-06-10",
      "fixture_make": "Arcbeam",
@@ -7425,7 +7596,8 @@ window.SLGIS_DATA = {
       "notes": null,
       "pole_uids": [
        "SL-CP-MC-030"
-      ]
+      ],
+      "public": null
      },
      "repair_history": [
       {
@@ -7469,6 +7641,7 @@ window.SLGIS_DATA = {
      "wattage": 45,
      "cct_k": 4000,
      "ccms_node": false,
+     "ccms_reading": null,
      "install_date": "2010-09-02",
      "fixture_installed": "2022-06-25",
      "fixture_make": "Arcbeam",
@@ -7637,6 +7810,7 @@ window.SLGIS_DATA = {
      "wattage": 45,
      "cct_k": 4000,
      "ccms_node": false,
+     "ccms_reading": null,
      "install_date": "2010-09-11",
      "fixture_installed": "2022-06-17",
      "fixture_make": "Arcbeam",
@@ -7741,6 +7915,7 @@ window.SLGIS_DATA = {
      "wattage": 45,
      "cct_k": 4000,
      "ccms_node": false,
+     "ccms_reading": null,
      "install_date": "2010-09-17",
      "fixture_installed": "2022-06-12",
      "fixture_make": "Arcbeam",
@@ -7861,6 +8036,7 @@ window.SLGIS_DATA = {
      "wattage": 45,
      "cct_k": 4000,
      "ccms_node": false,
+     "ccms_reading": null,
      "install_date": "2010-09-28",
      "fixture_installed": "2022-06-25",
      "fixture_make": "Arcbeam",
@@ -7965,6 +8141,11 @@ window.SLGIS_DATA = {
      "wattage": 120,
      "cct_k": 4000,
      "ccms_node": true,
+     "ccms_reading": {
+      "switch_on_at": "2026-10-13T17:54+05:30",
+      "state": "off",
+      "daylight": "off"
+     },
      "install_date": "2010-07-15",
      "fixture_installed": "2023-11-05",
      "fixture_make": "Lumetra",
@@ -8085,6 +8266,11 @@ window.SLGIS_DATA = {
      "wattage": 120,
      "cct_k": 4000,
      "ccms_node": true,
+     "ccms_reading": {
+      "switch_on_at": "2026-10-13T17:54+05:30",
+      "state": "off",
+      "daylight": "off"
+     },
      "install_date": "2010-07-22",
      "fixture_installed": "2023-12-24",
      "fixture_make": "Lumetra",
@@ -8205,6 +8391,11 @@ window.SLGIS_DATA = {
      "wattage": 120,
      "cct_k": 4000,
      "ccms_node": true,
+     "ccms_reading": {
+      "switch_on_at": "2026-10-13T17:54+05:30",
+      "state": "off",
+      "daylight": "off"
+     },
      "install_date": "2010-07-07",
      "fixture_installed": "2023-07-11",
      "fixture_make": "Lumetra",
@@ -8281,7 +8472,8 @@ window.SLGIS_DATA = {
       "notes": null,
       "pole_uids": [
        "SL-CP-OC-003"
-      ]
+      ],
+      "public": null
      },
      "repair_history": [
       {
@@ -8341,6 +8533,11 @@ window.SLGIS_DATA = {
      "wattage": 120,
      "cct_k": 4000,
      "ccms_node": true,
+     "ccms_reading": {
+      "switch_on_at": "2026-10-13T17:54+05:30",
+      "state": "off",
+      "daylight": "off"
+     },
      "install_date": "2010-07-05",
      "fixture_installed": "2023-10-25",
      "fixture_make": "Lumetra",
@@ -8445,6 +8642,11 @@ window.SLGIS_DATA = {
      "wattage": 120,
      "cct_k": 4000,
      "ccms_node": true,
+     "ccms_reading": {
+      "switch_on_at": "2026-10-13T17:54+05:30",
+      "state": "off",
+      "daylight": "off"
+     },
      "install_date": "2010-07-27",
      "fixture_installed": "2023-12-05",
      "fixture_make": "Lumetra",
@@ -8565,6 +8767,11 @@ window.SLGIS_DATA = {
      "wattage": 120,
      "cct_k": 4000,
      "ccms_node": true,
+     "ccms_reading": {
+      "switch_on_at": "2026-10-13T17:54+05:30",
+      "state": "off",
+      "daylight": "off"
+     },
      "install_date": "2010-07-14",
      "fixture_installed": "2023-12-17",
      "fixture_make": "Lumetra",
@@ -8717,6 +8924,11 @@ window.SLGIS_DATA = {
      "wattage": 120,
      "cct_k": 4000,
      "ccms_node": true,
+     "ccms_reading": {
+      "switch_on_at": "2026-10-13T17:54+05:30",
+      "state": "off",
+      "daylight": "off"
+     },
      "install_date": "2010-07-27",
      "fixture_installed": "2023-10-08",
      "fixture_make": "Lumetra",
@@ -8853,6 +9065,11 @@ window.SLGIS_DATA = {
      "wattage": 120,
      "cct_k": 4000,
      "ccms_node": true,
+     "ccms_reading": {
+      "switch_on_at": "2026-10-13T17:54+05:30",
+      "state": "on",
+      "daylight": "off"
+     },
      "install_date": "2010-07-14",
      "fixture_installed": "2023-09-11",
      "fixture_make": "Lumetra",
@@ -8989,6 +9206,11 @@ window.SLGIS_DATA = {
      "wattage": 120,
      "cct_k": 4000,
      "ccms_node": true,
+     "ccms_reading": {
+      "switch_on_at": "2026-10-13T17:54+05:30",
+      "state": "off",
+      "daylight": "off"
+     },
      "install_date": "2010-07-17",
      "fixture_installed": "2023-08-10",
      "fixture_make": "Lumetra",
@@ -9065,7 +9287,8 @@ window.SLGIS_DATA = {
       "notes": null,
       "pole_uids": [
        "SL-CP-OC-009"
-      ]
+      ],
+      "public": null
      },
      "repair_history": [
       {
@@ -9157,6 +9380,11 @@ window.SLGIS_DATA = {
      "wattage": 120,
      "cct_k": 4000,
      "ccms_node": true,
+     "ccms_reading": {
+      "switch_on_at": "2026-10-13T17:54+05:30",
+      "state": "on",
+      "daylight": "off"
+     },
      "install_date": "2010-07-13",
      "fixture_installed": "2023-10-24",
      "fixture_make": "Lumetra",
@@ -9293,6 +9521,11 @@ window.SLGIS_DATA = {
      "wattage": 120,
      "cct_k": 4000,
      "ccms_node": true,
+     "ccms_reading": {
+      "switch_on_at": "2026-10-13T17:54+05:30",
+      "state": "on",
+      "daylight": "off"
+     },
      "install_date": "2010-07-23",
      "fixture_installed": "2024-02-06",
      "fixture_make": "Lumetra",
@@ -9413,6 +9646,11 @@ window.SLGIS_DATA = {
      "wattage": 120,
      "cct_k": 4000,
      "ccms_node": true,
+     "ccms_reading": {
+      "switch_on_at": "2026-10-13T17:54+05:30",
+      "state": "off",
+      "daylight": "off"
+     },
      "install_date": "2010-07-20",
      "fixture_installed": "2023-12-18",
      "fixture_make": "Lumetra",
@@ -9485,11 +9723,12 @@ window.SLGIS_DATA = {
       "work_started_at": null,
       "closed_at": null,
       "resolution": null,
-      "complaints": 0,
+      "complaints": 1,
       "notes": null,
       "pole_uids": [
        "SL-CP-OC-012"
-      ]
+      ],
+      "public": null
      },
      "repair_history": [
       {
@@ -9565,6 +9804,11 @@ window.SLGIS_DATA = {
      "wattage": 120,
      "cct_k": 4000,
      "ccms_node": true,
+     "ccms_reading": {
+      "switch_on_at": "2026-10-13T17:54+05:30",
+      "state": "on",
+      "daylight": "off"
+     },
      "install_date": "2010-07-17",
      "fixture_installed": "2024-01-07",
      "fixture_make": "Lumetra",
@@ -9669,6 +9913,11 @@ window.SLGIS_DATA = {
      "wattage": 120,
      "cct_k": 4000,
      "ccms_node": true,
+     "ccms_reading": {
+      "switch_on_at": "2026-10-13T17:54+05:30",
+      "state": "off",
+      "daylight": "off"
+     },
      "install_date": "2010-07-04",
      "fixture_installed": "2023-09-23",
      "fixture_make": "Lumetra",
@@ -9745,7 +9994,8 @@ window.SLGIS_DATA = {
       "notes": null,
       "pole_uids": [
        "SL-CP-OC-014"
-      ]
+      ],
+      "public": null
      },
      "repair_history": [
       {
@@ -9789,6 +10039,11 @@ window.SLGIS_DATA = {
      "wattage": 120,
      "cct_k": 4000,
      "ccms_node": true,
+     "ccms_reading": {
+      "switch_on_at": "2026-10-13T17:54+05:30",
+      "state": "on",
+      "daylight": "off"
+     },
      "install_date": "2010-07-18",
      "fixture_installed": "2023-07-26",
      "fixture_make": "Lumetra",
@@ -9909,6 +10164,11 @@ window.SLGIS_DATA = {
      "wattage": 120,
      "cct_k": 4000,
      "ccms_node": true,
+     "ccms_reading": {
+      "switch_on_at": "2026-10-13T17:54+05:30",
+      "state": "on",
+      "daylight": "off"
+     },
      "install_date": "2010-07-11",
      "fixture_installed": "2023-11-28",
      "fixture_make": "Lumetra",
@@ -9970,7 +10230,24 @@ window.SLGIS_DATA = {
       "contract_ref": "AMC/SL/CP-OC/2025-28",
       "sla_hours": 48
      },
-     "ticket": null,
+     "ticket": {
+      "id": "TKT-2026-0179",
+      "status": "Open",
+      "category": "not_working",
+      "issue": "Light not working",
+      "source": "Citizen app",
+      "raised_at": "2026-10-13T17:30+05:30",
+      "assigned_crew": null,
+      "work_started_at": null,
+      "closed_at": null,
+      "resolution": null,
+      "complaints": 1,
+      "notes": null,
+      "pole_uids": [
+       "SL-CP-OC-016"
+      ],
+      "public": null
+     },
      "repair_history": [
       {
        "ticket_id": "TKT-2026-0118",
@@ -10029,6 +10306,11 @@ window.SLGIS_DATA = {
      "wattage": 120,
      "cct_k": 4000,
      "ccms_node": true,
+     "ccms_reading": {
+      "switch_on_at": "2026-10-13T17:54+05:30",
+      "state": "on",
+      "daylight": "off"
+     },
      "install_date": "2010-07-02",
      "fixture_installed": "2024-01-27",
      "fixture_make": "Lumetra",
@@ -10165,6 +10447,11 @@ window.SLGIS_DATA = {
      "wattage": 120,
      "cct_k": 4000,
      "ccms_node": true,
+     "ccms_reading": {
+      "switch_on_at": "2026-10-13T17:54+05:30",
+      "state": "on",
+      "daylight": "off"
+     },
      "install_date": "2010-07-27",
      "fixture_installed": "2024-02-25",
      "fixture_make": "Lumetra",
@@ -10285,6 +10572,11 @@ window.SLGIS_DATA = {
      "wattage": 250,
      "cct_k": 4200,
      "ccms_node": true,
+     "ccms_reading": {
+      "switch_on_at": "2026-10-13T17:54+05:30",
+      "state": "off",
+      "daylight": "off"
+     },
      "install_date": "2010-07-03",
      "fixture_installed": "2016-11-12",
      "fixture_make": "Metalux",
@@ -10361,7 +10653,8 @@ window.SLGIS_DATA = {
       "notes": null,
       "pole_uids": [
        "SL-CP-OC-019"
-      ]
+      ],
+      "public": null
      },
      "repair_history": [
       {
@@ -10421,6 +10714,11 @@ window.SLGIS_DATA = {
      "wattage": 120,
      "cct_k": 4000,
      "ccms_node": true,
+     "ccms_reading": {
+      "switch_on_at": "2026-10-13T17:54+05:30",
+      "state": "on",
+      "daylight": "off"
+     },
      "install_date": "2010-07-04",
      "fixture_installed": "2023-07-23",
      "fixture_make": "Lumetra",
@@ -10557,6 +10855,11 @@ window.SLGIS_DATA = {
      "wattage": 120,
      "cct_k": 4000,
      "ccms_node": true,
+     "ccms_reading": {
+      "switch_on_at": "2026-10-13T17:54+05:30",
+      "state": "on",
+      "daylight": "off"
+     },
      "install_date": "2010-07-12",
      "fixture_installed": "2023-07-02",
      "fixture_make": "Lumetra",
@@ -10693,6 +10996,11 @@ window.SLGIS_DATA = {
      "wattage": 120,
      "cct_k": 4000,
      "ccms_node": true,
+     "ccms_reading": {
+      "switch_on_at": "2026-10-13T17:54+05:30",
+      "state": "on",
+      "daylight": "off"
+     },
      "install_date": "2010-07-18",
      "fixture_installed": "2024-01-27",
      "fixture_make": "Lumetra",
@@ -10845,6 +11153,11 @@ window.SLGIS_DATA = {
      "wattage": 120,
      "cct_k": 4000,
      "ccms_node": true,
+     "ccms_reading": {
+      "switch_on_at": "2026-10-13T17:54+05:30",
+      "state": "on",
+      "daylight": "off"
+     },
      "install_date": "2010-07-08",
      "fixture_installed": "2023-09-18",
      "fixture_make": "Lumetra",
@@ -10965,6 +11278,11 @@ window.SLGIS_DATA = {
      "wattage": 120,
      "cct_k": 4000,
      "ccms_node": true,
+     "ccms_reading": {
+      "switch_on_at": "2026-10-13T17:54+05:30",
+      "state": "off",
+      "daylight": "off"
+     },
      "install_date": "2010-07-22",
      "fixture_installed": "2023-10-14",
      "fixture_make": "Lumetra",
@@ -11041,7 +11359,8 @@ window.SLGIS_DATA = {
       "notes": null,
       "pole_uids": [
        "SL-CP-OC-024"
-      ]
+      ],
+      "public": null
      },
      "repair_history": [
       {
@@ -11085,6 +11404,11 @@ window.SLGIS_DATA = {
      "wattage": 120,
      "cct_k": 4000,
      "ccms_node": true,
+     "ccms_reading": {
+      "switch_on_at": "2026-10-13T17:54+05:30",
+      "state": "on",
+      "daylight": "off"
+     },
      "install_date": "2010-07-02",
      "fixture_installed": "2024-01-24",
      "fixture_make": "Lumetra",
@@ -11221,6 +11545,11 @@ window.SLGIS_DATA = {
      "wattage": 120,
      "cct_k": 4000,
      "ccms_node": true,
+     "ccms_reading": {
+      "switch_on_at": "2026-10-13T17:54+05:30",
+      "state": "on",
+      "daylight": "off"
+     },
      "install_date": "2010-07-02",
      "fixture_installed": "2024-01-17",
      "fixture_make": "Lumetra",
@@ -11357,6 +11686,11 @@ window.SLGIS_DATA = {
      "wattage": 120,
      "cct_k": 4000,
      "ccms_node": true,
+     "ccms_reading": {
+      "switch_on_at": "2026-10-13T17:54+05:30",
+      "state": "on",
+      "daylight": "off"
+     },
      "install_date": "2010-07-06",
      "fixture_installed": "2023-07-25",
      "fixture_make": "Lumetra",
@@ -11461,6 +11795,11 @@ window.SLGIS_DATA = {
      "wattage": 120,
      "cct_k": 4000,
      "ccms_node": true,
+     "ccms_reading": {
+      "switch_on_at": "2026-10-13T17:54+05:30",
+      "state": "on",
+      "daylight": "off"
+     },
      "install_date": "2010-07-27",
      "fixture_installed": "2023-11-09",
      "fixture_make": "Lumetra",
@@ -11597,6 +11936,11 @@ window.SLGIS_DATA = {
      "wattage": 250,
      "cct_k": 4200,
      "ccms_node": true,
+     "ccms_reading": {
+      "switch_on_at": "2026-10-13T17:54+05:30",
+      "state": "on",
+      "daylight": "off"
+     },
      "install_date": "2010-07-07",
      "fixture_installed": "2016-10-17",
      "fixture_make": "Metalux",
@@ -11749,6 +12093,11 @@ window.SLGIS_DATA = {
      "wattage": 120,
      "cct_k": 4000,
      "ccms_node": true,
+     "ccms_reading": {
+      "switch_on_at": "2026-10-13T17:54+05:30",
+      "state": "on",
+      "daylight": "off"
+     },
      "install_date": "2010-07-15",
      "fixture_installed": "2024-01-05",
      "fixture_make": "Lumetra",
@@ -11869,6 +12218,11 @@ window.SLGIS_DATA = {
      "wattage": 120,
      "cct_k": 4000,
      "ccms_node": true,
+     "ccms_reading": {
+      "switch_on_at": "2026-10-13T17:54+05:30",
+      "state": "off",
+      "daylight": "off"
+     },
      "install_date": "2010-07-16",
      "fixture_installed": "2023-08-20",
      "fixture_make": "Lumetra",
@@ -11949,7 +12303,8 @@ window.SLGIS_DATA = {
        "SL-CP-OC-033",
        "SL-CP-OC-034",
        "SL-CP-OC-035"
-      ]
+      ],
+      "public": null
      },
      "repair_history": [
       {
@@ -12009,6 +12364,11 @@ window.SLGIS_DATA = {
      "wattage": 120,
      "cct_k": 4000,
      "ccms_node": true,
+     "ccms_reading": {
+      "switch_on_at": "2026-10-13T17:54+05:30",
+      "state": "off",
+      "daylight": "off"
+     },
      "install_date": "2010-07-26",
      "fixture_installed": "2023-11-24",
      "fixture_make": "Lumetra",
@@ -12089,7 +12449,8 @@ window.SLGIS_DATA = {
        "SL-CP-OC-033",
        "SL-CP-OC-034",
        "SL-CP-OC-035"
-      ]
+      ],
+      "public": null
      },
      "repair_history": [
       {
@@ -12165,6 +12526,11 @@ window.SLGIS_DATA = {
      "wattage": 120,
      "cct_k": 4000,
      "ccms_node": true,
+     "ccms_reading": {
+      "switch_on_at": "2026-10-13T17:54+05:30",
+      "state": "off",
+      "daylight": "off"
+     },
      "install_date": "2010-07-20",
      "fixture_installed": "2024-01-09",
      "fixture_make": "Lumetra",
@@ -12245,7 +12611,8 @@ window.SLGIS_DATA = {
        "SL-CP-OC-033",
        "SL-CP-OC-034",
        "SL-CP-OC-035"
-      ]
+      ],
+      "public": null
      },
      "repair_history": [
       {
@@ -12337,6 +12704,11 @@ window.SLGIS_DATA = {
      "wattage": 120,
      "cct_k": 4000,
      "ccms_node": true,
+     "ccms_reading": {
+      "switch_on_at": "2026-10-13T17:54+05:30",
+      "state": "off",
+      "daylight": "off"
+     },
      "install_date": "2010-07-09",
      "fixture_installed": "2024-01-02",
      "fixture_make": "Lumetra",
@@ -12417,7 +12789,8 @@ window.SLGIS_DATA = {
        "SL-CP-OC-033",
        "SL-CP-OC-034",
        "SL-CP-OC-035"
-      ]
+      ],
+      "public": null
      },
      "repair_history": [
       {
@@ -12493,6 +12866,11 @@ window.SLGIS_DATA = {
      "wattage": 120,
      "cct_k": 4000,
      "ccms_node": true,
+     "ccms_reading": {
+      "switch_on_at": "2026-10-13T17:54+05:30",
+      "state": "off",
+      "daylight": "off"
+     },
      "install_date": "2010-07-09",
      "fixture_installed": "2023-10-04",
      "fixture_make": "Lumetra",
@@ -12573,7 +12951,8 @@ window.SLGIS_DATA = {
        "SL-CP-OC-033",
        "SL-CP-OC-034",
        "SL-CP-OC-035"
-      ]
+      ],
+      "public": null
      },
      "repair_history": [
       {
@@ -12633,6 +13012,7 @@ window.SLGIS_DATA = {
      "wattage": 250,
      "cct_k": 2000,
      "ccms_node": false,
+     "ccms_reading": null,
      "install_date": "2010-07-22",
      "fixture_installed": "2014-03-21",
      "fixture_make": "Sodiac",
@@ -12753,6 +13133,7 @@ window.SLGIS_DATA = {
      "wattage": 250,
      "cct_k": 2000,
      "ccms_node": false,
+     "ccms_reading": null,
      "install_date": "2010-07-11",
      "fixture_installed": "2013-06-13",
      "fixture_make": "Sodiac",
@@ -12889,6 +13270,7 @@ window.SLGIS_DATA = {
      "wattage": 250,
      "cct_k": 2000,
      "ccms_node": false,
+     "ccms_reading": null,
      "install_date": "2010-07-12",
      "fixture_installed": "2014-07-26",
      "fixture_make": "Sodiac",
@@ -13073,6 +13455,7 @@ window.SLGIS_DATA = {
      "wattage": 250,
      "cct_k": 2000,
      "ccms_node": false,
+     "ccms_reading": null,
      "install_date": "2010-07-05",
      "fixture_installed": "2014-02-03",
      "fixture_make": "Sodiac",
@@ -13149,7 +13532,8 @@ window.SLGIS_DATA = {
       "notes": null,
       "pole_uids": [
        "SL-CP-OC-039"
-      ]
+      ],
+      "public": null
      },
      "repair_history": [
       {
@@ -13209,6 +13593,7 @@ window.SLGIS_DATA = {
      "wattage": 250,
      "cct_k": 2000,
      "ccms_node": false,
+     "ccms_reading": null,
      "install_date": "2010-07-04",
      "fixture_installed": "2013-01-09",
      "fixture_make": "Sodiac",
@@ -13377,6 +13762,7 @@ window.SLGIS_DATA = {
      "wattage": 250,
      "cct_k": 2000,
      "ccms_node": false,
+     "ccms_reading": null,
      "install_date": "2010-07-04",
      "fixture_installed": "2014-03-18",
      "fixture_make": "Sodiac",
@@ -13561,6 +13947,7 @@ window.SLGIS_DATA = {
      "wattage": 250,
      "cct_k": 2000,
      "ccms_node": false,
+     "ccms_reading": null,
      "install_date": "2010-07-11",
      "fixture_installed": "2014-05-17",
      "fixture_make": "Sodiac",
@@ -13713,6 +14100,7 @@ window.SLGIS_DATA = {
      "wattage": 250,
      "cct_k": 2000,
      "ccms_node": false,
+     "ccms_reading": null,
      "install_date": "2010-07-04",
      "fixture_installed": "2013-08-11",
      "fixture_make": "Sodiac",
@@ -13897,6 +14285,7 @@ window.SLGIS_DATA = {
      "wattage": 250,
      "cct_k": 2000,
      "ccms_node": false,
+     "ccms_reading": null,
      "install_date": "2010-07-26",
      "fixture_installed": "2015-02-11",
      "fixture_make": "Sodiac",
@@ -14081,6 +14470,7 @@ window.SLGIS_DATA = {
      "wattage": 250,
      "cct_k": 2000,
      "ccms_node": false,
+     "ccms_reading": null,
      "install_date": "2010-07-11",
      "fixture_installed": "2014-01-01",
      "fixture_make": "Sodiac",
@@ -14217,6 +14607,7 @@ window.SLGIS_DATA = {
      "wattage": 250,
      "cct_k": 2000,
      "ccms_node": false,
+     "ccms_reading": null,
      "install_date": "2010-07-13",
      "fixture_installed": "2013-09-02",
      "fixture_make": "Sodiac",
@@ -14293,7 +14684,8 @@ window.SLGIS_DATA = {
       "notes": null,
       "pole_uids": [
        "SL-CP-OC-046"
-      ]
+      ],
+      "public": null
      },
      "repair_history": [
       {
@@ -14337,6 +14729,7 @@ window.SLGIS_DATA = {
      "wattage": 250,
      "cct_k": 2000,
      "ccms_node": false,
+     "ccms_reading": null,
      "install_date": "2010-07-25",
      "fixture_installed": "2014-04-10",
      "fixture_make": "Sodiac",
@@ -14413,7 +14806,8 @@ window.SLGIS_DATA = {
       "notes": null,
       "pole_uids": [
        "SL-CP-OC-047"
-      ]
+      ],
+      "public": null
      },
      "repair_history": [
       {
@@ -14537,6 +14931,7 @@ window.SLGIS_DATA = {
      "wattage": 250,
      "cct_k": 2000,
      "ccms_node": false,
+     "ccms_reading": null,
      "install_date": "2010-07-09",
      "fixture_installed": "2013-03-08",
      "fixture_make": "Sodiac",
@@ -14657,6 +15052,7 @@ window.SLGIS_DATA = {
      "wattage": 250,
      "cct_k": 2000,
      "ccms_node": false,
+     "ccms_reading": null,
      "install_date": "2010-07-02",
      "fixture_installed": "2015-08-26",
      "fixture_make": "Sodiac",
@@ -14825,6 +15221,11 @@ window.SLGIS_DATA = {
      "wattage": 120,
      "cct_k": 4000,
      "ccms_node": true,
+     "ccms_reading": {
+      "switch_on_at": "2026-10-13T17:54+05:30",
+      "state": "off",
+      "daylight": "off"
+     },
      "install_date": "2010-07-14",
      "fixture_installed": "2023-10-20",
      "fixture_make": "Lumetra",
@@ -14961,6 +15362,11 @@ window.SLGIS_DATA = {
      "wattage": 120,
      "cct_k": 4000,
      "ccms_node": true,
+     "ccms_reading": {
+      "switch_on_at": "2026-10-13T17:54+05:30",
+      "state": "off",
+      "daylight": "off"
+     },
      "install_date": "2010-07-25",
      "fixture_installed": "2024-02-11",
      "fixture_make": "Lumetra",
@@ -15097,6 +15503,11 @@ window.SLGIS_DATA = {
      "wattage": 120,
      "cct_k": 4000,
      "ccms_node": true,
+     "ccms_reading": {
+      "switch_on_at": "2026-10-13T17:54+05:30",
+      "state": "off",
+      "daylight": "off"
+     },
      "install_date": "2010-07-08",
      "fixture_installed": "2024-02-10",
      "fixture_make": "Lumetra",
@@ -15233,6 +15644,11 @@ window.SLGIS_DATA = {
      "wattage": 120,
      "cct_k": 4000,
      "ccms_node": true,
+     "ccms_reading": {
+      "switch_on_at": "2026-10-13T17:54+05:30",
+      "state": "off",
+      "daylight": "off"
+     },
      "install_date": "2010-07-25",
      "fixture_installed": "2023-12-17",
      "fixture_make": "Lumetra",
@@ -15305,11 +15721,12 @@ window.SLGIS_DATA = {
       "work_started_at": "2026-09-28T22:00+05:30",
       "closed_at": null,
       "resolution": null,
-      "complaints": 0,
+      "complaints": 1,
       "notes": "Pole made safe and isolated. Replacement pole on order.",
       "pole_uids": [
        "SL-CP-OC-053"
-      ]
+      ],
+      "public": null
      },
      "repair_history": [
       {
@@ -15369,6 +15786,11 @@ window.SLGIS_DATA = {
      "wattage": 120,
      "cct_k": 4000,
      "ccms_node": true,
+     "ccms_reading": {
+      "switch_on_at": "2026-10-13T17:54+05:30",
+      "state": "off",
+      "daylight": "off"
+     },
      "install_date": "2010-07-22",
      "fixture_installed": "2024-02-15",
      "fixture_make": "Lumetra",
@@ -15489,6 +15911,11 @@ window.SLGIS_DATA = {
      "wattage": 120,
      "cct_k": 4000,
      "ccms_node": true,
+     "ccms_reading": {
+      "switch_on_at": "2026-10-13T17:54+05:30",
+      "state": "off",
+      "daylight": "off"
+     },
      "install_date": "2010-07-03",
      "fixture_installed": "2023-11-27",
      "fixture_make": "Lumetra",
@@ -15641,6 +16068,11 @@ window.SLGIS_DATA = {
      "wattage": 120,
      "cct_k": 4000,
      "ccms_node": true,
+     "ccms_reading": {
+      "switch_on_at": "2026-10-13T17:54+05:30",
+      "state": "off",
+      "daylight": "off"
+     },
      "install_date": "2010-07-04",
      "fixture_installed": "2024-02-20",
      "fixture_make": "Lumetra",
@@ -15745,6 +16177,11 @@ window.SLGIS_DATA = {
      "wattage": 45,
      "cct_k": 4000,
      "ccms_node": true,
+     "ccms_reading": {
+      "switch_on_at": "2026-10-13T17:54+05:30",
+      "state": "on",
+      "daylight": "off"
+     },
      "install_date": "2024-03-15",
      "fixture_installed": "2024-03-02",
      "fixture_make": "Arcbeam",
@@ -15865,6 +16302,11 @@ window.SLGIS_DATA = {
      "wattage": 45,
      "cct_k": 4000,
      "ccms_node": true,
+     "ccms_reading": {
+      "switch_on_at": "2026-10-13T17:54+05:30",
+      "state": "on",
+      "daylight": "off"
+     },
      "install_date": "2024-03-10",
      "fixture_installed": "2024-03-20",
      "fixture_make": "Arcbeam",
@@ -15985,6 +16427,11 @@ window.SLGIS_DATA = {
      "wattage": 45,
      "cct_k": 4000,
      "ccms_node": true,
+     "ccms_reading": {
+      "switch_on_at": "2026-10-13T17:54+05:30",
+      "state": "on",
+      "daylight": "off"
+     },
      "install_date": "2024-03-04",
      "fixture_installed": "2024-03-21",
      "fixture_make": "Arcbeam",
@@ -16105,6 +16552,11 @@ window.SLGIS_DATA = {
      "wattage": 45,
      "cct_k": 4000,
      "ccms_node": true,
+     "ccms_reading": {
+      "switch_on_at": "2026-10-13T17:54+05:30",
+      "state": "on",
+      "daylight": "off"
+     },
      "install_date": "2024-03-09",
      "fixture_installed": "2024-03-09",
      "fixture_make": "Arcbeam",
@@ -16209,6 +16661,11 @@ window.SLGIS_DATA = {
      "wattage": 45,
      "cct_k": 4000,
      "ccms_node": true,
+     "ccms_reading": {
+      "switch_on_at": "2026-10-13T17:54+05:30",
+      "state": "on",
+      "daylight": "off"
+     },
      "install_date": "2024-03-26",
      "fixture_installed": "2024-03-16",
      "fixture_make": "Arcbeam",
@@ -17511,21 +17968,424 @@ window.SLGIS_DATA = {
    }
   ]
  },
- "citizenSamples": [
+ "reporters": [
+  {
+   "id": "RP-2001",
+   "past_reports": 2,
+   "past_confirmed": 2,
+   "mine": true,
+   "simulated": true
+  },
+  {
+   "id": "RP-1001",
+   "past_reports": 14,
+   "past_confirmed": 13,
+   "mine": false,
+   "simulated": true
+  },
+  {
+   "id": "RP-1002",
+   "past_reports": 0,
+   "past_confirmed": 0,
+   "mine": false,
+   "simulated": true
+  },
+  {
+   "id": "RP-1003",
+   "past_reports": 5,
+   "past_confirmed": 4,
+   "mine": false,
+   "simulated": true
+  },
+  {
+   "id": "RP-1004",
+   "past_reports": 3,
+   "past_confirmed": 3,
+   "mine": false,
+   "simulated": true
+  },
+  {
+   "id": "RP-1005",
+   "past_reports": 6,
+   "past_confirmed": 2,
+   "mine": false,
+   "simulated": true
+  },
+  {
+   "id": "RP-1006",
+   "past_reports": 0,
+   "past_confirmed": 0,
+   "mine": false,
+   "simulated": true
+  },
+  {
+   "id": "RP-3001",
+   "past_reports": 1,
+   "past_confirmed": 1,
+   "mine": false,
+   "simulated": true
+  },
+  {
+   "id": "RP-3002",
+   "past_reports": 0,
+   "past_confirmed": 0,
+   "mine": false,
+   "simulated": true
+  },
+  {
+   "id": "RP-3003",
+   "past_reports": 0,
+   "past_confirmed": 0,
+   "mine": false,
+   "simulated": true
+  },
+  {
+   "id": "RP-3004",
+   "past_reports": 4,
+   "past_confirmed": 4,
+   "mine": false,
+   "simulated": true
+  },
+  {
+   "id": "RP-3005",
+   "past_reports": 0,
+   "past_confirmed": 0,
+   "mine": false,
+   "simulated": true
+  }
+ ],
+ "citizenReports": [
   {
    "id": "CR-S01",
-   "uid": "SL-CP-IC-010",
+   "reporter_id": "RP-2001",
    "ticket_id": "TKT-2026-0159",
+   "uid": "SL-CP-IC-010",
+   "spot": null,
    "category": "not_working",
+   "source": "Citizen app",
    "created_at": "2026-10-11T20:30+05:30",
+   "noticed": "just_now",
+   "photo": null,
+   "device_location": null,
+   "mine": true,
+   "simulated": true
+  },
+  {
+   "id": "CR-D01",
+   "reporter_id": "RP-1001",
+   "ticket_id": "TKT-2026-0159",
+   "uid": "SL-CP-IC-010",
+   "spot": null,
+   "category": "not_working",
+   "source": "Citizen app",
+   "created_at": "2026-10-12T16:30+05:30",
+   "noticed": "last_night",
+   "photo": {
+    "kind": "live",
+    "hash": "e4b1c07a9d2f5836"
+   },
+   "device_location": {
+    "position": [
+     77.220592,
+     28.631976
+    ],
+    "accuracy_m": 9
+   },
+   "mine": false,
    "simulated": true
   },
   {
    "id": "CR-S02",
-   "uid": "SL-CP-IC-007",
+   "reporter_id": "RP-2001",
    "ticket_id": "TKT-2026-0157",
+   "uid": "SL-CP-IC-007",
+   "spot": null,
    "category": "not_working",
+   "source": "Citizen app",
    "created_at": "2026-10-11T16:00+05:30",
+   "noticed": "last_night",
+   "photo": null,
+   "device_location": null,
+   "mine": true,
+   "simulated": true
+  },
+  {
+   "id": "CR-D02",
+   "reporter_id": "RP-1003",
+   "ticket_id": "TKT-2026-0162",
+   "uid": "SL-CP-OC-032",
+   "spot": null,
+   "category": "not_working",
+   "source": "Citizen app",
+   "created_at": "2026-10-12T00:12+05:30",
+   "noticed": "just_now",
+   "photo": null,
+   "device_location": {
+    "position": [
+     77.213542,
+     28.618223
+    ],
+    "accuracy_m": 20
+   },
+   "mine": false,
+   "simulated": true
+  },
+  {
+   "id": "CR-D03",
+   "reporter_id": "RP-1001",
+   "ticket_id": "TKT-2026-0162",
+   "uid": "SL-CP-OC-034",
+   "spot": null,
+   "category": "not_working",
+   "source": "Citizen app",
+   "created_at": "2026-10-12T03:42+05:30",
+   "noticed": "just_now",
+   "photo": {
+    "kind": "live",
+    "hash": "71d0e8b3c5a6f249"
+   },
+   "device_location": null,
+   "mine": false,
+   "simulated": true
+  },
+  {
+   "id": "CR-D04",
+   "reporter_id": "RP-3001",
+   "ticket_id": "TKT-2026-0162",
+   "uid": "SL-CP-OC-031",
+   "spot": null,
+   "category": "not_working",
+   "source": "Call centre",
+   "created_at": "2026-10-12T20:42+05:30",
+   "noticed": "just_now",
+   "photo": null,
+   "device_location": null,
+   "mine": false,
+   "simulated": true
+  },
+  {
+   "id": "CR-D05",
+   "reporter_id": "RP-1004",
+   "ticket_id": "TKT-2026-0176",
+   "uid": "SL-CP-MC-006",
+   "spot": null,
+   "category": "not_working",
+   "source": "Citizen app",
+   "created_at": "2026-10-13T15:00+05:30",
+   "noticed": "last_night",
+   "photo": null,
+   "device_location": null,
+   "mine": false,
+   "simulated": true
+  },
+  {
+   "id": "CR-D06",
+   "reporter_id": "RP-3002",
+   "ticket_id": "TKT-2026-0177",
+   "uid": "SL-CP-MC-005",
+   "spot": null,
+   "category": "not_working",
+   "source": "Call centre",
+   "created_at": "2026-10-13T16:30+05:30",
+   "noticed": "last_night",
+   "photo": null,
+   "device_location": null,
+   "mine": false,
+   "simulated": true
+  },
+  {
+   "id": "CR-D07",
+   "reporter_id": "RP-1005",
+   "ticket_id": "TKT-2026-0172",
+   "uid": "SL-CP-IC-022",
+   "spot": null,
+   "category": "exposed",
+   "source": "Citizen app",
+   "created_at": "2026-10-13T01:12+05:30",
+   "noticed": null,
+   "photo": {
+    "kind": "upload",
+    "hash": "2f6a9d40e1c7b583"
+   },
+   "device_location": null,
+   "mine": false,
+   "simulated": true
+  },
+  {
+   "id": "CR-D08",
+   "reporter_id": "RP-3003",
+   "ticket_id": "TKT-2026-0178",
+   "uid": "SL-CP-OC-014",
+   "spot": null,
+   "category": "shock",
+   "source": "Call centre",
+   "created_at": "2026-10-13T17:12+05:30",
+   "noticed": null,
+   "photo": null,
+   "device_location": null,
+   "mine": false,
+   "simulated": true
+  },
+  {
+   "id": "CR-S03",
+   "reporter_id": "RP-2001",
+   "ticket_id": "TKT-2026-0156",
+   "uid": "SL-CP-OC-046",
+   "spot": null,
+   "category": "flickering",
+   "source": "Citizen app",
+   "created_at": "2026-10-10T20:15+05:30",
+   "noticed": "just_now",
+   "photo": null,
+   "device_location": null,
+   "mine": true,
+   "simulated": true
+  },
+  {
+   "id": "CR-D09",
+   "reporter_id": "RP-1002",
+   "ticket_id": "TKT-2026-0156",
+   "uid": "SL-CP-OC-046",
+   "spot": null,
+   "category": "flickering",
+   "source": "Citizen app",
+   "created_at": "2026-10-11T22:15+05:30",
+   "noticed": "just_now",
+   "photo": null,
+   "device_location": null,
+   "mine": false,
+   "simulated": true
+  },
+  {
+   "id": "CR-D10",
+   "reporter_id": "RP-3004",
+   "ticket_id": "TKT-2026-0171",
+   "uid": "SL-CP-OC-012",
+   "spot": null,
+   "category": "not_working",
+   "source": "Call centre",
+   "created_at": "2026-10-12T21:48+05:30",
+   "noticed": "just_now",
+   "photo": null,
+   "device_location": null,
+   "mine": false,
+   "simulated": true
+  },
+  {
+   "id": "CR-D11",
+   "reporter_id": "RP-1003",
+   "ticket_id": "TKT-2026-0154",
+   "uid": "SL-CP-MC-019",
+   "spot": null,
+   "category": "not_working",
+   "source": "Citizen app",
+   "created_at": "2026-10-11T13:00+05:30",
+   "noticed": "last_night",
+   "photo": {
+    "kind": "live",
+    "hash": "9c3e6a1f0b8d4e27"
+   },
+   "device_location": null,
+   "mine": false,
+   "simulated": true
+  },
+  {
+   "id": "CR-D12",
+   "reporter_id": "RP-1005",
+   "ticket_id": "TKT-2026-0158",
+   "uid": "SL-CP-MC-020",
+   "spot": null,
+   "category": "not_working",
+   "source": "Citizen app",
+   "created_at": "2026-10-11T20:30+05:30",
+   "noticed": "just_now",
+   "photo": {
+    "kind": "upload",
+    "hash": "9c3e6a1f0b8d4e27"
+   },
+   "device_location": null,
+   "mine": false,
+   "simulated": true
+  },
+  {
+   "id": "CR-D13",
+   "reporter_id": "RP-3005",
+   "ticket_id": "TKT-2026-0153",
+   "uid": "SL-CP-OC-053",
+   "spot": null,
+   "category": "damaged",
+   "source": "Call centre",
+   "created_at": "2026-09-27T23:30+05:30",
+   "noticed": null,
+   "photo": null,
+   "device_location": null,
+   "mine": false,
+   "simulated": true
+  },
+  {
+   "id": "CR-D14",
+   "reporter_id": "RP-1004",
+   "ticket_id": "TKT-2026-0155",
+   "uid": "SL-CP-MC-012",
+   "spot": null,
+   "category": "blocked",
+   "source": "Citizen app",
+   "created_at": "2026-10-10T20:00+05:30",
+   "noticed": null,
+   "photo": {
+    "kind": "live",
+    "hash": "c58e2b7d03a1f964"
+   },
+   "device_location": {
+    "position": [
+     77.219087,
+     28.634748
+    ],
+    "accuracy_m": 8
+   },
+   "mine": false,
+   "simulated": true
+  },
+  {
+   "id": "CR-D15",
+   "reporter_id": "RP-1004",
+   "ticket_id": "TKT-2026-0175",
+   "uid": null,
+   "spot": [
+    77.218928,
+    28.630908
+   ],
+   "category": "not_working",
+   "source": "Citizen app",
+   "created_at": "2026-10-13T13:00+05:30",
+   "noticed": "last_night",
+   "photo": {
+    "kind": "live",
+    "hash": "4ad79e15b2c08f63"
+   },
+   "device_location": {
+    "position": [
+     77.218769,
+     28.630989
+    ],
+    "accuracy_m": 12
+   },
+   "mine": false,
+   "simulated": true
+  },
+  {
+   "id": "CR-D16",
+   "reporter_id": "RP-1006",
+   "ticket_id": "TKT-2026-0179",
+   "uid": "SL-CP-OC-016",
+   "spot": null,
+   "category": "not_working",
+   "source": "Citizen app",
+   "created_at": "2026-10-13T17:30+05:30",
+   "noticed": "last_night",
+   "photo": null,
+   "device_location": null,
+   "mine": false,
    "simulated": true
   }
  ]

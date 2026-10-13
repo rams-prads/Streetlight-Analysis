@@ -175,7 +175,60 @@ const PANEL_LOAD_WARN_SHARE = 0.8;       // warn when a panel's load passes this
 const PANEL_POWER_FACTOR = 0.9;          // kVA rating × power factor = usable kW
 const FESTIVE_WINDOW = { start: '2026-10-10', end: '2026-11-15', label: 'Festive season' }; // EXAMPLE dates
 
-// ---- 1.11 Citizen text (EN / हिन्दी) ------------------------------------------
+// ---- 1.11 Report confidence ----------------------------------------------------
+// Confidence orders the work and picks the cheapest check first. It never decides whether a report is
+// recorded, and safety emergencies are never scored.
+const LOCATION_MAX_ACCURACY_M = 50;      // a "Use my location" fix rougher than this is ignored
+const LOCATION_MATCH_M = 30;             // a fix this close to the pole supports the report (farther away is neutral)
+const PHOTO_MATCH_MAX_BITS = 6;          // perceptual hashes this close (out of 64 bits) are the same picture
+const PHOTO_HASH_MIN_CONTRAST = 8;       // a picture flatter than this (grey-level spread, 0-255) is too dark or plain to compare
+const REPORTS_PER_REPORTER_PER_HOUR = 5; // beyond this, a reporter's reports are logged and held for review
+const NEEDS_CHECK_MAX_HOURS = 12;        // a cheap check must be possible within this long, or a crew is dispatched
+const NEARBY_CREW_M = 250;               // a crew already dispatched this close can look in on a Needs-check report
+const CONFIDENCE = {                     // scoring weights, in points
+  neutral: 50,                           // every report starts here; no evidence means no change
+  confirmedMin: 75,                      // score at or above: Confirmed
+  likelyMin: 40,                         // score at or above: Likely; below: Needs check
+  ccms: 35,                              // CCMS backs up (+) or contradicts (−) a lamp report; a contradiction always means Needs check
+  circuitFault: 30,                      // the pole is on a detected circuit or cable fault
+  circuitNeighbour: 15,                  // the next pole on its circuit is dark
+  perReporter: 8,                        // each independent reporter after the first...
+  reporterCap: 3,                        // ...counted up to this many
+  trackMin: 3,                           // past reports needed before a track record counts (new reporters are neutral)
+  trackWeight: 30,                       // (share of past reports confirmed − 0.5) × this
+  photoLive: 16,                         // photo taken in the app, at full relevance
+  photoUpload: 8,                        // uploaded photo, at full relevance
+  photoRelevance: { damaged: 1, exposed: 1, shock: 1, blocked: 1, day_burning: 0.75, other: 0.5, flickering: 0.25, not_working: 0.25 }, // how much a photo can show, by category
+  photoReused: 20,                       // the photo matches another report's, on a different pole or day
+  locationMatch: 10,                     // the reporter was within LOCATION_MATCH_M of the pole
+  timing: 5,                             // noticed at a time when the problem can be seen
+  locationMaxAccuracyM: LOCATION_MAX_ACCURACY_M,
+  locationMatchM: LOCATION_MATCH_M,
+  nightCategories: ['not_working', 'flickering'], // lamp faults that can only be seen after dark
+  dayCategories: ['day_burning'],        // the one that can only be seen in daylight
+  emergencyCategories: REPORT_CATEGORIES.filter((c) => c.team === 'emergency').map((c) => c.id), // never scored
+};
+const CONFIDENCE_PRIORITY = { Confirmed: 6, Likely: 0, 'Needs check': -6 }; // added to the priority score; smaller than every other factor
+const SYSTEM_SOURCES = ['CCMS auto-alert', 'Night patrol', 'Night audit', 'Circuit analysis']; // tickets raised by systems or crews are confirmed
+
+// ---- 1.12 Public escalation on X (citizen-initiated) ----------------------------
+// The citizen posts from their own account, by choice. No bot, no X API, no keys.
+const PUBLIC_ESCALATION_ENABLED = true;  // let citizens share overdue complaints on X; Management can switch it off
+const OFFICIAL_HANDLES = {               // replace with verified official handles; placeholders are left out of posts
+  electrical: '@OFFICIAL_HANDLE_ELECTRICAL',
+  horticulture: '@OFFICIAL_HANDLE_HORTICULTURE',
+  emergency: '@OFFICIAL_HANDLE_EMERGENCY',
+};
+const TEAM_DEPARTMENT = { lamp: 'electrical', cable: 'electrical', survey: 'electrical', horticulture: 'horticulture', emergency: 'emergency' }; // which handle each team answers to
+const X_POST = {                         // X web intent and its character counting
+  intentUrl: 'https://x.com/intent/tweet', // official web intent; `text` is pre-filled and the citizen posts it
+  maxWeighted: 280,                      // post limit, in weighted characters
+  urlWeight: 23,                         // every link counts as 23 (t.co)
+  singleRanges: [[0x0000, 0x10ff], [0x2000, 0x200d], [0x2010, 0x201f], [0x2032, 0x2037]], // weight 1 (incl. Devanagari); all else 2
+};
+const SHARE_LANDMARK_MAX_M = 150;        // a post names the nearest landmark within this distance
+
+// ---- 1.13 Citizen text (EN / हिन्दी) ------------------------------------------
 // Every string the Citizen view shows, in one dictionary. {name} marks a value filled in at run time.
 // The Hindi strings are a first draft and need review by a native speaker before any public use.
 const CITIZEN_TEXT = {
@@ -218,7 +271,6 @@ const CITIZEN_TEXT = {
     form_note: 'Note',
     optional: 'optional',
     form_note_placeholder: 'e.g. Third light from the Janpath corner, dark since Tuesday',
-    form_photo: 'Add photo',
     form_photo_not_image: 'Choose an image file',
     form_contact: 'Contact details',
     form_name: 'Your name',
@@ -264,6 +316,36 @@ const CITIZEN_TEXT = {
     pole_reported: 'Already reported. Repair under way.',
     pole_ok: 'No known problem.',
     pole_shutdown: 'Off for a planned power shutdown until {time}.',
+    photo_take: 'Take photo',
+    photo_upload: 'Upload photo',
+    photo_privacy: 'Photo is used only to check this report.',
+    use_location: 'Use my location',
+    locating: 'Finding your location…',
+    location_added: 'Location added (±{m} m)',
+    location_failed: 'Location not available',
+    noticed: 'Noticed',
+    noticed_last_night: 'Last night',
+    noticed_earlier_today: 'Earlier today',
+    noticed_just_now: 'Just now',
+    st_confirmed: 'Confirmed',
+    st_confirmed_assigned: 'Confirmed. Crew assigned.',
+    st_checked: 'Checked on site: the light was working',
+    working_q: 'Working now?',
+    share: 'Share publicly',
+    share_title: 'Share this complaint',
+    share_note: 'You post it yourself, from your own account. Nothing is posted automatically.',
+    share_x: 'Post on X',
+    share_other: 'Share…',
+    share_copy: 'Copy text',
+    copied: 'Copied',
+    share_count: '{n} of {max} characters',
+    post_main: 'Streetlight complaint {id}: {category}, {road}{near}.',
+    post_near: ' (near {landmark})',
+    post_open: 'Open for {days} days.',
+    post_open_one: 'Open for 1 day.',
+    post_status: 'Status: {url}',
+    status_title: 'Complaint status',
+    status_missing: 'This complaint is not in this demo’s data.',
   },
   hi: {
     brand_sub: 'कनॉट प्लेस पायलट · एनडीएमसी क्षेत्र, नई दिल्ली',
@@ -304,7 +386,6 @@ const CITIZEN_TEXT = {
     form_note: 'टिप्पणी',
     optional: 'वैकल्पिक',
     form_note_placeholder: 'जैसे: जनपथ कोने से तीसरी बत्ती, मंगलवार से बंद',
-    form_photo: 'फोटो जोड़ें',
     form_photo_not_image: 'कोई चित्र फ़ाइल चुनें',
     form_contact: 'संपर्क विवरण',
     form_name: 'आपका नाम',
@@ -350,5 +431,35 @@ const CITIZEN_TEXT = {
     pole_reported: 'यह पहले से दर्ज है। मरम्मत जारी है।',
     pole_ok: 'कोई ज्ञात समस्या नहीं।',
     pole_shutdown: '{time} तक नियोजित बिजली कटौती के कारण बंद।',
+    photo_take: 'फोटो खींचें',
+    photo_upload: 'फोटो अपलोड करें',
+    photo_privacy: 'फोटो का उपयोग केवल इस शिकायत की जांच के लिए होगा।',
+    use_location: 'मेरी लोकेशन इस्तेमाल करें',
+    locating: 'आपकी लोकेशन खोजी जा रही है…',
+    location_added: 'लोकेशन जोड़ी गई (±{m} मी.)',
+    location_failed: 'लोकेशन उपलब्ध नहीं',
+    noticed: 'कब देखा',
+    noticed_last_night: 'कल रात',
+    noticed_earlier_today: 'आज पहले',
+    noticed_just_now: 'अभी',
+    st_confirmed: 'पुष्टि हुई',
+    st_confirmed_assigned: 'पुष्टि हुई। टीम भेजी गई।',
+    st_checked: 'मौके पर जांच: बत्ती जल रही थी',
+    working_q: 'अब जल रही है?',
+    share: 'सार्वजनिक रूप से साझा करें',
+    share_title: 'यह शिकायत साझा करें',
+    share_note: 'आप इसे अपने खाते से खुद पोस्ट करते हैं। कुछ भी अपने-आप पोस्ट नहीं होता।',
+    share_x: 'X पर पोस्ट करें',
+    share_other: 'साझा करें…',
+    share_copy: 'टेक्स्ट कॉपी करें',
+    copied: 'कॉपी हो गया',
+    share_count: '{max} में से {n} अक्षर',
+    post_main: 'स्ट्रीटलाइट शिकायत {id}: {category}, {road}{near}।',
+    post_near: ' ({landmark} के पास)',
+    post_open: '{days} दिन से लंबित।',
+    post_open_one: '1 दिन से लंबित।',
+    post_status: 'स्थिति: {url}',
+    status_title: 'शिकायत की स्थिति',
+    status_missing: 'यह शिकायत इस डेमो के डेटा में नहीं है।',
   },
 };

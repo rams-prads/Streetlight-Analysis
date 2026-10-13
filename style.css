@@ -684,8 +684,10 @@ kbd {
 .leaflet-container.is-reporting .leaflet-marker-icon,
 .leaflet-container.is-drawing,
 .leaflet-container.is-drawing .leaflet-interactive,
-.leaflet-container.is-drawing .leaflet-marker-icon { cursor: crosshair !important; }
-.leaflet-container.is-reporting.leaflet-dragging, .leaflet-container.is-drawing.leaflet-dragging { cursor: grabbing !important; }
+.leaflet-container.is-drawing .leaflet-marker-icon,
+.leaflet-container.is-picking,
+.leaflet-container.is-picking .leaflet-interactive { cursor: crosshair !important; }
+.leaflet-container.is-reporting.leaflet-dragging, .leaflet-container.is-drawing.leaflet-dragging, .leaflet-container.is-picking.leaflet-dragging { cursor: grabbing !important; }
 /* leaflet.heat appends a full-size <canvas> to the overlay pane: it must never swallow clicks */
 .leaflet-heatmap-layer { pointer-events: none; }
 
@@ -1115,6 +1117,42 @@ button.chip-toggle[aria-pressed="true"] { border-color: var(--accent); backgroun
 .report-status--assigned i, .report-status--checking i { color: var(--warn); }
 .fixed-q { display: flex; align-items: center; gap: 8px; margin-top: 10px; font-size: 13px; }
 .fixed-q span { margin-right: auto; color: var(--ink-1); font-weight: 500; }
+.report-status--confirmed i, .report-status--checked i { color: var(--accent-hi); }
+button.share-link { display: inline-flex; align-items: center; gap: 6px; margin-top: 10px; font-size: 12.5px; }
+
+/* Report confidence: a quiet band label, the reasons folded away */
+.band { display: inline-block; padding: 0 6px; border-radius: 5px; border: 1px solid var(--hairline-strong); font-size: 11px; font-weight: 500; line-height: 17px; color: var(--ink-2); white-space: nowrap; }
+.band--confirmed { color: var(--ink-1); }
+.band--needs-check { border-style: dashed; color: var(--ink-1); }
+details.evidence { margin-top: 6px; }
+details.evidence > summary { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; list-style: none; font-size: 12px; color: var(--ink-3); }
+details.evidence > summary::-webkit-details-marker { display: none; }
+details.evidence > summary:hover .evidence-why { color: var(--ink-1); }
+details.evidence[open] .fold-chevron { transform: none; }
+.signals { margin-top: 6px; display: grid; gap: 3px; font-size: 12px; color: var(--ink-2); }
+.sig { display: flex; gap: 7px; }
+.sig > span:first-child { width: 10px; flex: none; text-align: center; }
+.sig--pos > span:first-child { color: var(--accent-hi); }
+.sig--neu > span:first-child { color: var(--ink-3); }
+.sig--neg > span:first-child { color: var(--serious); }
+.check-steps { display: grid; gap: 6px; font-size: 12.5px; color: var(--ink-2); }
+.check-steps li { display: flex; align-items: flex-start; gap: 8px; }
+.check-steps .step-n { display: grid; place-items: center; flex: none; width: 18px; height: 18px; border-radius: 50%; border: 1px solid var(--hairline-strong); font-size: 10.5px; color: var(--ink-2); }
+.check-steps .is-next { color: var(--ink-1); }
+.check-steps .is-next .step-n { border-color: var(--accent); color: var(--accent-hi); }
+.check-steps .is-done .step-n { border-color: transparent; background: var(--surface-3); color: var(--accent-hi); }
+.check-steps .is-na { opacity: 0.55; }
+.check-note { display: flex; gap: 7px; margin-top: 8px; font-size: 12px; color: var(--ink-1); }
+.check-note i { margin-top: 2px; color: var(--ink-3); }
+.outcome-options { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
+.outcome-options button.chip-toggle { width: 100%; border-radius: var(--r-sm); }
+.privacy { margin-top: 6px; font-size: 11.5px; color: var(--ink-3); }
+
+/* Public escalation: preview the exact post before anything opens */
+.post-preview { padding: 12px; border-radius: 10px; background: var(--surface-1); border: 1px solid var(--hairline-strong); font-size: 13.5px; line-height: 1.5; color: var(--ink-1); white-space: pre-wrap; overflow-wrap: anywhere; }
+.chip--quiet { height: 20px; padding: 0 7px; font-size: 11px; color: var(--ink-2); background: transparent; }
+.chip--xs { height: 18px; padding: 0 5px; gap: 4px; }
+.queue-card { padding: 9px 10px; border-radius: 9px; background: var(--surface-1); border: 1px solid var(--hairline); list-style: none; }
 
 /* ---------- 10. Modal ---------- */
 .modal { position: fixed; inset: 0; z-index: 1200; display: grid; place-items: center; padding: 16px; }
@@ -1157,6 +1195,12 @@ button.chip-toggle[aria-pressed="true"] { border-color: var(--accent); backgroun
 .issue-option--danger input:checked + span { border-color: var(--bad); background: rgba(208, 59, 59, 0.12); }
 .issue-option--danger input:checked + span i { color: var(--bad); }
 .issue-option input:focus-visible + span { outline: 2px solid var(--accent-hi); outline-offset: 2px; }
+.chip-radios { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip-radio { position: relative; }
+.chip-radio input { position: absolute; opacity: 0; pointer-events: none; }
+.chip-radio span { display: inline-flex; align-items: center; height: 30px; padding: 0 12px; border-radius: 999px; border: 1px solid var(--hairline-strong); background: var(--surface-2); font-size: 12.5px; color: var(--ink-2); cursor: pointer; }
+.chip-radio input:checked + span { border-color: var(--accent); background: var(--accent-soft); color: var(--ink-1); }
+.chip-radio input:focus-visible + span { outline: 2px solid var(--accent-hi); outline-offset: 2px; }
 details.contact > summary { cursor: pointer; width: max-content; }
 details.contact > summary:hover { color: var(--ink-1); }
 .photo-preview { width: 40px; height: 40px; object-fit: cover; border-radius: 8px; border: 1px solid var(--hairline-strong); }
@@ -1199,6 +1243,7 @@ details.contact > summary:hover { color: var(--ink-1); }
 /* ---------- 13. Responsive ---------- */
 @media (max-width: 640px) {
   :root { --gutter: 12px; }
+  body.is-picking #sidebar { transform: translateX(calc(100% + 32px)); } /* picking a pole needs the map */
   #command { right: var(--gutter); width: auto; padding: 12px; }
   #command .health { display: none; }
   #command .role-note { margin-top: 10px; }

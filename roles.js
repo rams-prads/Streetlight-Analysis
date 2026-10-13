@@ -36,15 +36,19 @@ VIEWS.queue = function renderQueueView() {
   const rest = live.filter((t) => !isEmergency(t));
   const breached = live.filter(isBreached).length;
   const shutdowns = activeShutdowns();
-  const group = (title, items, cls = '') => (items.length ? `<h3 class="queue-h${cls}">${esc(title)} · ${items.length}</h3><ul class="queue">${items.map(queueRow).join('')}</ul>` : '');
+  const held = state.reports.filter((r) => r.review);
+  const fixedPublic = [...state.closed.values()].filter((t) => t.public && t.verified_by);
+  const group = (title, items, row = queueRow, cls = '') => (items.length ? `<h3 class="queue-h${cls}">${esc(title)} · ${items.length}</h3><ul class="queue">${items.map(row).join('')}</ul>` : '');
   return `${viewHead({ eyebrow: 'Operator', title: 'Ticket queue', sub: `${plural(live.length, 'open ticket')} · ${breached} past SLA` })}
     <div class="sb-body">
       ${shutdowns.map((s) => `<div class="callout mt-4"><i class="fa-solid fa-power-off" aria-hidden="true"></i><div>
         <strong>Planned shutdown until ${esc(fmtTime(s.end))}:</strong> ${esc(s.panelId)} circuits ${esc(s.circuits.join(', '))} (${esc(s.reason)}).
         Lamp-out reports there are logged, not dispatched.</div></div>`).join('')}
-      ${group('Safety emergencies', emergencies, ' queue-h--emergency')}
+      ${group('Safety emergencies', emergencies, queueRow, ' queue-h--emergency')}
       ${group('Open and in progress', rest)}
       ${group('Awaiting dusk check', awaiting)}
+      ${group('Held for review', held, heldRow)}
+      ${group('Shared publicly, now fixed', fixedPublic, publicRow)}
       ${list.length ? '' : `<div class="mt-4">${quietCard('fa-circle-check', 'No open tickets.')}</div>`}
       <div class="tools">
         <p class="eyebrow">Tools</p>
@@ -61,13 +65,33 @@ function queueRow(t) {
   const esc2 = t.escalationIndex > 0 ? ` · <span class="escalated"><i class="fa-solid fa-arrow-trend-up" aria-hidden="true"></i> ${esc(t.escalation.level)}</span>` : '';
   const status = { 'In Progress': `with ${esc(t.assigned_crew ?? 'crew')}`, 'Awaiting dusk check': 'repaired' }[t.status] ?? 'not dispatched';
   return `<li><button type="button" class="queue-item${isEmergency(t) ? ' is-emergency' : ''}" data-action="open-ticket" data-ticket="${esc(t.id)}">
-    <span class="flex items-baseline justify-between gap-2"><span class="mono text-[12.5px] text-ink-1">${esc(t.id)}</span>${priorityBadge(t)}</span>
+    <span class="flex items-baseline justify-between gap-2"><span class="mono text-[12.5px] text-ink-1">${esc(t.id)}</span>
+      <span class="flex items-center gap-1.5">${bandChip(t)}${t.public ? '<span class="chip chip--quiet chip--xs" title="Shared publicly by the reporter"><i class="fa-brands fa-x-twitter" aria-hidden="true"></i>Public</span>' : ''}${priorityBadge(t)}</span></span>
     <span class="block text-[13px] text-ink-1 mt-0.5 truncate">${esc(t.issue)}</span>
     <span class="block text-[11.5px] text-ink-3 truncate">${esc(whereText(t))} · ${esc(assigneeOf(t))}</span>
     <span class="block text-[11.5px] text-ink-3 truncate">Why: ${esc(t.why)}</span>
     <span class="block text-[11.5px] text-ink-2 mt-0.5">${status} · ${dueText(t)}${esc2}</span>
   </button></li>`;
 }
+
+const bandChip = (t) => {
+  const c = t.confidence;
+  if (!c || c.bypass || !(c.final ?? c.band)) return '';
+  return `<span class="band band--${esc((c.band ?? 'final').toLowerCase().replace(/\s+/g, '-'))}">${esc(c.final ?? c.band)}</span>`;
+};
+
+/** A report held back by the hourly limit: logged, waiting for an operator (never rejected). */
+const heldRow = (r) => `<li class="queue-card">
+  <span class="flex items-baseline justify-between gap-2"><span class="mono text-[12.5px] text-ink-1">${esc(r.id)}</span><span class="text-[11.5px] text-ink-3">${esc(fmtDateTime(r.created_at))}</span></span>
+  <span class="block text-[13px] text-ink-1 mt-0.5">${esc(catLabel(r.category, false))} · ${esc(r.uid ? shortUid(r.uid) : 'map location')}</span>
+  <span class="block text-[11.5px] text-ink-3">More than ${REPORTS_PER_REPORTER_PER_HOUR} reports in an hour from one reporter</span>
+  <button type="button" class="btn btn-ghost btn-sm mt-2" data-action="accept-report" data-report="${esc(r.id)}"><i class="fa-solid fa-check" aria-hidden="true"></i>Accept</button></li>`;
+
+/** A ticket its reporter shared publicly, now fixed: offer the department's own short update. */
+const publicRow = (t) => `<li class="queue-card">
+  <span class="flex items-baseline justify-between gap-2"><span class="mono text-[12.5px] text-ink-1">${esc(t.id)}</span><span class="text-[11.5px] text-ink-3">Fixed ${esc(fmtDay(t.verified_at))}</span></span>
+  <span class="block text-[13px] text-ink-1 mt-0.5">${esc(t.issue)}</span>
+  <button type="button" class="btn btn-ghost btn-sm mt-2" data-action="draft-update" data-ticket="${esc(t.id)}"><i class="fa-brands fa-x-twitter" aria-hidden="true"></i>${t.update_drafted ? 'Draft again' : 'Draft public update'}</button></li>`;
 
 // ---- 15.2 Field crew: work order (D1, D2) --------------------------------------------
 function allCrews() {
@@ -79,7 +103,9 @@ function currentCrew() {
   const busiest = mostCommonAll(openTickets().filter((t) => t.status === 'In Progress' && t.assigned_crew).map((t) => t.assigned_crew))[0]?.[0];
   return busiest ?? allCrews()[0];
 }
-const crewJobs = (crew) => openTickets().filter((t) => t.assigned_crew === crew && (t.status === 'In Progress' || t.status === 'Awaiting dusk check'));
+/** A crew's jobs: dispatched work, repairs awaiting their dusk check, and Needs-check reports they were asked to look at. */
+const crewJobs = (crew) => openTickets().filter((t) => (t.assigned_crew === crew && (t.status === 'In Progress' || t.status === 'Awaiting dusk check')) || isCrewCheck(t, crew));
+const onTheRoute = (t, crew) => t.status === 'In Progress' || isCrewCheck(t, crew);
 
 function ticketCentre(t) {
   const lls = t.pole_uids.map((u) => state.byUid.get(u)?.latlng).filter(Boolean);
@@ -91,7 +117,7 @@ function ticketCentre(t) {
  * the most urgent stop and always goes to the nearest stop not yet visited (nearest neighbour).
  */
 function workOrderStops(crew) {
-  const jobs = crewJobs(crew).filter((t) => t.status === 'In Progress').map((t) => ({ t, at: ticketCentre(t) })).filter((j) => j.at);
+  const jobs = crewJobs(crew).filter((t) => onTheRoute(t, crew)).map((t) => ({ t, at: ticketCentre(t) })).filter((j) => j.at);
   const parent = jobs.map((_, i) => i);
   const find = (i) => (parent[i] === i ? i : (parent[i] = find(parent[i])));
   for (let i = 0; i < jobs.length; i++) {
@@ -146,6 +172,7 @@ function jobCard(t) {
       <button type="button" class="link mono text-[12.5px]" data-action="open-ticket" data-ticket="${esc(t.id)}">${esc(t.id)}</button>${priorityBadge(t)}</div>
     <p class="text-[13px] text-ink-1 mt-0.5">${esc(t.issue)}</p>
     <p class="text-[11.5px] text-ink-3">${poles} · ${dueText(t)}</p>
+    ${t.status === 'Open' ? `<p class="check-note"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>Check visit: ${esc(t.confidence?.signals.find((s) => s.effect < 0)?.text ?? 'confirm the report')}</p>` : ''}
     ${spares ? `<p class="spares"><i class="fa-solid fa-toolbox" aria-hidden="true"></i>${esc(spares)}</p>` : ''}
     ${ticketWarranty(t) ? '<p class="mt-1.5"><span class="badge"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i>Under warranty</span></p>' : ''}
     ${t.status === 'Awaiting dusk check' ? duskCheckHtml(t) : workflowControls(t)}
@@ -168,8 +195,33 @@ function renderRouteLayer() {
 
 // ---- 15.3 Field crew: night audit (D4) -------------------------------------------------
 let auditOrderCache = null;
+/** The night audit route: the walk below, plus any reports sent to it for a check (state.auditRoute). */
+const auditPoles = () => state.auditRoute ?? auditBaseOrder();
+
+/** Needs check: slot poles into the audit route where they add the least walking, never behind the pole being checked now. */
+function addToAuditRoute(uids) {
+  const order = [...auditPoles()];
+  const ll = (u) => state.byUid.get(u).latlng;
+  for (const uid of uids) {
+    if (order.includes(uid)) continue;
+    let best = order.length;
+    let cost = Infinity;
+    for (let i = (state.audit?.index ?? -1) + 1; i <= order.length; i++) {
+      const a = order[i - 1] ? ll(order[i - 1]) : null;
+      const b = order[i] ? ll(order[i]) : null;
+      const c = (a ? a.distanceTo(ll(uid)) : 0) + (b ? b.distanceTo(ll(uid)) : 0) - (a && b ? a.distanceTo(b) : 0);
+      if (c < cost) {
+        cost = c;
+        best = i;
+      }
+    }
+    order.splice(best, 0, uid);
+  }
+  state.auditRoute = order;
+}
+
 /** Poles without a CCMS node, in walking order: start at the first along the roads, then always the nearest. */
-function auditPoles() {
+function auditBaseOrder() {
   if (auditOrderCache) return auditOrderCache;
   const ordered = [...roadOrder.values()].flatMap((r) => r.uids).filter((uid) => !props(uid).ccms_node);
   const rest = new Set(ordered.slice(1));
@@ -205,7 +257,7 @@ VIEWS.audit = function renderAuditView() {
   const dark = Object.values(a.results).filter((v) => v === 'dark').length;
   const progress = `<div class="audit-progress" role="img" aria-label="${checked} of ${order.length} checked"><span style="width:${(checked / Math.max(1, order.length)) * 100}%"></span></div>
     <p class="text-[12px] text-ink-3 mt-1.5">${checked} of ${order.length} checked · ${dark} dark · ${plural(a.tickets.length, 'new ticket')}</p>`;
-  const head = viewHead({ eyebrow: 'Field crew', title: 'Night audit', sub: 'Poles without CCMS, in walking order' });
+  const head = viewHead({ eyebrow: 'Field crew', title: 'Night audit', sub: 'Poles without CCMS, and reports to check, in walking order' });
   if (!isDark()) {
     return `${head}<div class="sb-body">${progress}
       <div class="mt-4">${quietCard('fa-sun', `Lamps switch on at ${esc(fmtTime(nextDusk()))}. Start the audit after dark.`, 'info')}</div></div>`;
@@ -226,6 +278,7 @@ VIEWS.audit = function renderAuditView() {
       <p class="text-[13px] text-ink-2 mt-0.5">${esc(p.location)}</p>
       <p class="text-[12px] text-ink-3 mt-2">${statusSymbol(p.status, 12)} ${esc(STATUS[p.status]?.label)}${p.ticket ? ` · open ticket <span class="mono">${esc(p.ticket.id)}</span>` : ''}${before ? ` · marked ${esc(before)}` : ''}</p>
       ${hold ? `<p class="text-[12px] text-ink-2 mt-1"><i class="fa-solid fa-power-off" aria-hidden="true"></i> Planned shutdown until ${esc(fmtTime(hold.end))}: a dark lamp here is logged, not dispatched.</p>` : ''}
+      ${p.ticket?.check?.kind === 'audit' ? `<p class="check-note"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>Check for ${esc(p.ticket.id)}: ${esc(p.ticket.confidence?.signals.find((s) => s.effect < 0)?.text ?? 'a report needs confirming')}</p>` : ''}
     </div>
     <div class="audit-buttons">
       <button type="button" class="btn audit-btn audit-btn--lit" data-action="audit-lit"><i class="fa-solid fa-lightbulb" aria-hidden="true"></i>Lit</button>
@@ -242,7 +295,12 @@ function auditMark(result) {
   const a = state.audit;
   const uid = auditUid();
   if (!a || !uid || !isDark()) return;
-  if (result === 'dark' && a.results[uid] !== 'dark') {
+  const check = props(uid).ticket;
+  if (check?.check?.kind === 'audit') { // a report sent here for a check: the audit settles it
+    if (result === 'dark') confirmFromAudit(check);
+    else closeNoFault(check.id);
+    a.tickets.push({ uid, text: result === 'dark' ? `${check.id} confirmed` : `${check.id}: working, not confirmed on site` });
+  } else if (result === 'dark' && a.results[uid] !== 'dark') {
     const { ticket, outcome, hold } = fileReport({ category: 'not_working', uid, latlng: state.byUid.get(uid).latlng, source: 'Night audit', role: 'field' });
     const text = outcome === 'logged' ? `logged: planned shutdown until ${fmtTime(hold.end)}`
       : outcome === 'new' ? `new ticket ${ticket.id}` : `${outcome === 'reopened' ? 'reopened' : '+1 report on'} ${ticket.id}`;
@@ -273,6 +331,7 @@ VIEWS.dashboard = function renderDashboardView(openKey) {
       ${dashFold('assets', 'Chronic poles and batches', 'fa-layer-group', assetsHtml(), openKey === 'assets')}
       ${dashFold('energy', 'Energy reconciliation', 'fa-scale-unbalanced', reconciliationHtml(), openKey === 'energy')}
       ${dashFold('readiness', 'Readiness', 'fa-clipboard-check', readinessHtml(), openKey === 'readiness')}
+      ${dashFold('reports', 'Citizen reports', 'fa-bullhorn', citizenReportsHtml(), openKey === 'reports')}
     </div>`;
 };
 
@@ -361,6 +420,23 @@ function readinessHtml() {
     <div class="flex flex-wrap gap-2 mt-2">${toolButton('open-monsoon', 'fa-list', 'Open list')}${toolButton('highlight-monsoon', 'fa-filter', 'Show on map')}</div>
     <p class="text-[12.5px] text-ink-1 font-medium mt-4">Events and labels</p>
     <div class="flex flex-wrap gap-2 mt-2">${toolButton('open-event', 'fa-route', 'Event check')}${toolButton('open-labels', 'fa-qrcode', 'Pole labels')}</div>`;
+}
+
+/** Report confidence across open tickets, and the public-sharing switch (a client may not allow it). */
+function citizenReportsHtml() {
+  const bands = { Confirmed: 0, Likely: 0, 'Needs check': 0 };
+  for (const t of openTickets()) if (t.confidence?.band in bands && !t.confidence.bypass) bands[t.confidence.band] += 1;
+  const notConfirmed = [...state.closed.values()].filter((t) => t.field_outcome === 'no_fault').length;
+  const held = state.reports.filter((r) => r.review).length;
+  return `<p class="text-[12px] text-ink-3">Open tickets by report confidence (safety emergencies are never scored)</p>
+    <div class="grid grid-cols-3 gap-2 mt-2">${Object.entries(bands).map(([band, n]) => `<div class="stat"><span class="stat-label">${esc(band)}</span><span class="stat-value">${n}</span></div>`).join('')}</div>
+    <p class="text-[12px] text-ink-2 mt-2">${notConfirmed} not confirmed on site · ${held} held for review (this session)</p>
+    <div class="toggle-row mt-3">
+      <span class="min-w-0 flex-1"><span class="toggle-title" id="lbl-public">Public sharing on X</span>
+        <span class="toggle-desc">Citizens may share their own overdue or unfixed complaints, from their own account</span></span>
+      <button type="button" class="switch" role="switch" aria-checked="${state.publicSharing}" data-action="toggle-public" aria-labelledby="lbl-public"></button>
+    </div>
+    ${handlesArePlaceholders() ? '<p class="note">Official X handles are placeholders, so shared posts leave the tag out. Set OFFICIAL_HANDLES in config.js.</p>' : ''}`;
 }
 
 // ---- 15.5 Due before monsoon (F1) ----------------------------------------------------------

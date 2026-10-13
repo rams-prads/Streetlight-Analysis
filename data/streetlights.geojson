@@ -24,6 +24,11 @@
     "wattage": 60,
     "cct_k": 3000,
     "ccms_node": true,
+    "ccms_reading": {
+     "switch_on_at": "2026-10-13T17:54+05:30",
+     "state": "on",
+     "daylight": "off"
+    },
     "install_date": "2010-08-15",
     "fixture_installed": "2023-04-11",
     "fixture_make": "Lumetra",
@@ -144,6 +149,11 @@
     "wattage": 60,
     "cct_k": 3000,
     "ccms_node": true,
+    "ccms_reading": {
+     "switch_on_at": "2026-10-13T17:54+05:30",
+     "state": "on",
+     "daylight": "off"
+    },
     "install_date": "2010-08-27",
     "fixture_installed": "2023-03-18",
     "fixture_make": "Lumetra",
@@ -264,6 +274,11 @@
     "wattage": 60,
     "cct_k": 3000,
     "ccms_node": true,
+    "ccms_reading": {
+     "switch_on_at": "2026-10-13T17:54+05:30",
+     "state": "on",
+     "daylight": "off"
+    },
     "install_date": "2010-08-21",
     "fixture_installed": "2023-03-03",
     "fixture_make": "Lumetra",
@@ -400,6 +415,11 @@
     "wattage": 60,
     "cct_k": 3000,
     "ccms_node": true,
+    "ccms_reading": {
+     "switch_on_at": "2026-10-13T17:54+05:30",
+     "state": "on",
+     "daylight": "off"
+    },
     "install_date": "2010-08-17",
     "fixture_installed": "2023-03-21",
     "fixture_make": "Lumetra",
@@ -476,7 +496,8 @@
      "notes": null,
      "pole_uids": [
       "SL-CP-IC-004"
-     ]
+     ],
+     "public": null
     },
     "repair_history": [
      {
@@ -552,6 +573,11 @@
     "wattage": 60,
     "cct_k": 3000,
     "ccms_node": true,
+    "ccms_reading": {
+     "switch_on_at": "2026-10-13T17:54+05:30",
+     "state": "on",
+     "daylight": "off"
+    },
     "install_date": "2010-08-17",
     "fixture_installed": "2023-04-07",
     "fixture_make": "Lumetra",
@@ -720,6 +746,11 @@
     "wattage": 60,
     "cct_k": 3000,
     "ccms_node": true,
+    "ccms_reading": {
+     "switch_on_at": "2026-10-13T17:54+05:30",
+     "state": "on",
+     "daylight": "off"
+    },
     "install_date": "2010-08-24",
     "fixture_installed": "2023-04-14",
     "fixture_make": "Lumetra",
@@ -824,6 +855,11 @@
     "wattage": 60,
     "cct_k": 3000,
     "ccms_node": true,
+    "ccms_reading": {
+     "switch_on_at": "2026-10-13T17:54+05:30",
+     "state": "on",
+     "daylight": "off"
+    },
     "install_date": "2010-08-21",
     "fixture_installed": "2023-03-23",
     "fixture_make": "Lumetra",
@@ -978,6 +1014,11 @@
     "wattage": 60,
     "cct_k": 3000,
     "ccms_node": true,
+    "ccms_reading": {
+     "switch_on_at": "2026-10-13T17:54+05:30",
+     "state": "on",
+     "daylight": "off"
+    },
     "install_date": "2010-08-02",
     "fixture_installed": "2023-03-05",
     "fixture_make": "Lumetra",
@@ -1098,6 +1139,11 @@
     "wattage": 60,
     "cct_k": 3000,
     "ccms_node": true,
+    "ccms_reading": {
+     "switch_on_at": "2026-10-13T17:54+05:30",
+     "state": "on",
+     "daylight": "off"
+    },
     "install_date": "2010-08-21",
     "fixture_installed": "2023-02-16",
     "fixture_make": "Lumetra",
@@ -1234,6 +1280,11 @@
     "wattage": 60,
     "cct_k": 3000,
     "ccms_node": true,
+    "ccms_reading": {
+     "switch_on_at": "2026-10-13T17:54+05:30",
+     "state": "off",
+     "daylight": "off"
+    },
     "install_date": "2010-08-07",
     "fixture_installed": "2023-02-17",
     "fixture_make": "Lumetra",
@@ -1310,7 +1361,8 @@
      "notes": null,
      "pole_uids": [
       "SL-CP-IC-010"
-     ]
+     ],
+     "public": null
     },
     "repair_history": [
      {
@@ -1402,6 +1454,11 @@
     "wattage": 60,
     "cct_k": 3000,
     "ccms_node": true,
+    "ccms_reading": {
+     "switch_on_at": "2026-10-13T17:54+05:30",
+     "state": "on",
+     "daylight": "off"
+    },
     "install_date": "2010-08-11",
     "fixture_installed": "2023-02-09",
     "fixture_make": "Lumetra",
@@ -1554,6 +1611,11 @@
     "wattage": 60,
     "cct_k": 3000,
     "ccms_node": true,
+    "ccms_reading": {
+     "switch_on_at": "2026-10-13T17:54+05:30",
+     "state": "on",
+     "daylight": "off"
+    },
     "install_date": "2010-08-12",
     "fixture_installed": "2023-02-03",
     "fixture_make": "Lumetra",
@@ -1690,6 +1752,11 @@
     "wattage": 60,
     "cct_k": 3000,
     "ccms_node": true,
+    "ccms_reading": {
+     "switch_on_at": "2026-10-13T17:54+05:30",
+     "state": "on",
+     "daylight": "off"
+    },
     "install_date": "2010-08-22",
     "fixture_installed": "2023-04-13",
     "fixture_make": "Lumetra",
@@ -1826,6 +1893,11 @@
     "wattage": 60,
     "cct_k": 3000,
     "ccms_node": true,
+    "ccms_reading": {
+     "switch_on_at": "2026-10-13T17:54+05:30",
+     "state": "on",
+     "daylight": "off"
+    },
     "install_date": "2010-08-03",
     "fixture_installed": "2023-03-04",
     "fixture_make": "Lumetra",
@@ -1946,6 +2018,11 @@
     "wattage": 60,
     "cct_k": 3000,
     "ccms_node": true,
+    "ccms_reading": {
+     "switch_on_at": "2026-10-13T17:54+05:30",
+     "state": "off",
+     "daylight": "off"
+    },
     "install_date": "2010-08-18",
     "fixture_installed": "2023-02-25",
     "fixture_make": "Lumetra",
@@ -2022,7 +2099,8 @@
      "notes": null,
      "pole_uids": [
       "SL-CP-IC-015"
-     ]
+     ],
+     "public": null
     },
     "repair_history": [
      {
@@ -2098,6 +2176,11 @@
     "wattage": 60,
     "cct_k": 3000,
     "ccms_node": true,
+    "ccms_reading": {
+     "switch_on_at": "2026-10-13T17:54+05:30",
+     "state": "on",
+     "daylight": "off"
+    },
     "install_date": "2010-08-16",
     "fixture_installed": "2023-03-12",
     "fixture_make": "Lumetra",
@@ -2218,6 +2301,11 @@
     "wattage": 60,
     "cct_k": 3000,
     "ccms_node": true,
+    "ccms_reading": {
+     "switch_on_at": "2026-10-13T17:54+05:30",
+     "state": "on",
+     "daylight": "off"
+    },
     "install_date": "2010-08-20",
     "fixture_installed": "2023-04-21",
     "fixture_make": "Lumetra",
@@ -2338,6 +2426,11 @@
     "wattage": 60,
     "cct_k": 3000,
     "ccms_node": true,
+    "ccms_reading": {
+     "switch_on_at": "2026-10-13T17:54+05:30",
+     "state": "on",
+     "daylight": "off"
+    },
     "install_date": "2010-08-11",
     "fixture_installed": "2023-04-02",
     "fixture_make": "Lumetra",
@@ -2458,6 +2551,11 @@
     "wattage": 60,
     "cct_k": 3000,
     "ccms_node": true,
+    "ccms_reading": {
+     "switch_on_at": "2026-10-13T17:54+05:30",
+     "state": "on",
+     "daylight": "off"
+    },
     "install_date": "2010-08-27",
     "fixture_installed": "2023-03-11",
     "fixture_make": "Lumetra",
@@ -2578,6 +2676,11 @@
     "wattage": 60,
     "cct_k": 3000,
     "ccms_node": true,
+    "ccms_reading": {
+     "switch_on_at": "2026-10-13T17:54+05:30",
+     "state": "on",
+     "daylight": "off"
+    },
     "install_date": "2010-08-26",
     "fixture_installed": "2023-04-23",
     "fixture_make": "Lumetra",
@@ -2714,6 +2817,11 @@
     "wattage": 60,
     "cct_k": 3000,
     "ccms_node": true,
+    "ccms_reading": {
+     "switch_on_at": "2026-10-13T17:54+05:30",
+     "state": "on",
+     "daylight": "off"
+    },
     "install_date": "2010-08-25",
     "fixture_installed": "2023-03-04",
     "fixture_make": "Lumetra",
@@ -2850,6 +2958,11 @@
     "wattage": 60,
     "cct_k": 3000,
     "ccms_node": true,
+    "ccms_reading": {
+     "switch_on_at": "2026-10-13T17:54+05:30",
+     "state": "off",
+     "daylight": "off"
+    },
     "install_date": "2010-08-26",
     "fixture_installed": "2023-02-18",
     "fixture_make": "Lumetra",
@@ -2927,7 +3040,8 @@
      "pole_uids": [
       "SL-CP-IC-022",
       "SL-CP-IC-023"
-     ]
+     ],
+     "public": null
     },
     "repair_history": [
      {
@@ -3003,6 +3117,11 @@
     "wattage": 60,
     "cct_k": 3000,
     "ccms_node": true,
+    "ccms_reading": {
+     "switch_on_at": "2026-10-13T17:54+05:30",
+     "state": "off",
+     "daylight": "off"
+    },
     "install_date": "2010-08-27",
     "fixture_installed": "2023-03-13",
     "fixture_make": "Lumetra",
@@ -3080,7 +3199,8 @@
      "pole_uids": [
       "SL-CP-IC-022",
       "SL-CP-IC-023"
-     ]
+     ],
+     "public": null
     },
     "repair_history": [
      {
@@ -3124,6 +3244,11 @@
     "wattage": 60,
     "cct_k": 3000,
     "ccms_node": true,
+    "ccms_reading": {
+     "switch_on_at": "2026-10-13T17:54+05:30",
+     "state": "on",
+     "daylight": "off"
+    },
     "install_date": "2010-08-13",
     "fixture_installed": "2023-03-08",
     "fixture_make": "Lumetra",
@@ -3244,6 +3369,7 @@
     "wattage": 60,
     "cct_k": 4000,
     "ccms_node": false,
+    "ccms_reading": null,
     "install_date": "2010-09-15",
     "fixture_installed": "2022-06-06",
     "fixture_make": "Arcbeam",
@@ -3348,6 +3474,7 @@
     "wattage": 45,
     "cct_k": 4000,
     "ccms_node": false,
+    "ccms_reading": null,
     "install_date": "2010-09-22",
     "fixture_installed": "2022-06-25",
     "fixture_make": "Arcbeam",
@@ -3426,7 +3553,8 @@
       "SL-CP-MC-005",
       "SL-CP-MC-003",
       "SL-CP-MC-002"
-     ]
+     ],
+     "public": null
     },
     "repair_history": [
      {
@@ -3502,6 +3630,7 @@
     "wattage": 45,
     "cct_k": 4000,
     "ccms_node": false,
+    "ccms_reading": null,
     "install_date": "2010-09-05",
     "fixture_installed": "2022-06-23",
     "fixture_make": "Arcbeam",
@@ -3580,7 +3709,8 @@
       "SL-CP-MC-005",
       "SL-CP-MC-003",
       "SL-CP-MC-002"
-     ]
+     ],
+     "public": null
     },
     "repair_history": [
      {
@@ -3672,6 +3802,7 @@
     "wattage": 45,
     "cct_k": 4000,
     "ccms_node": false,
+    "ccms_reading": null,
     "install_date": "2010-09-20",
     "fixture_installed": "2022-06-24",
     "fixture_make": "Arcbeam",
@@ -3765,7 +3896,9 @@
       "crew": "J1 \u00b7 Imran S.",
       "contractor": "Jyoti Lighting Co.",
       "cost_inr": 2692,
-      "status": "Closed"
+      "status": "Closed",
+      "outcome": "different_pole",
+      "reported_uid": "SL-CP-MC-003"
      }
     ]
    }
@@ -3792,6 +3925,7 @@
     "wattage": 45,
     "cct_k": 4000,
     "ccms_node": false,
+    "ccms_reading": null,
     "install_date": "2010-09-10",
     "fixture_installed": "2022-06-20",
     "fixture_make": "Arcbeam",
@@ -3870,7 +4004,8 @@
       "SL-CP-MC-005",
       "SL-CP-MC-003",
       "SL-CP-MC-002"
-     ]
+     ],
+     "public": null
     },
     "repair_history": [
      {
@@ -3914,6 +4049,7 @@
     "wattage": 45,
     "cct_k": 4000,
     "ccms_node": false,
+    "ccms_reading": null,
     "install_date": "2010-09-08",
     "fixture_installed": "2022-06-24",
     "fixture_make": "Arcbeam",
@@ -3990,7 +4126,8 @@
      "notes": null,
      "pole_uids": [
       "SL-CP-MC-006"
-     ]
+     ],
+     "public": null
     },
     "repair_history": [
      {
@@ -4034,6 +4171,7 @@
     "wattage": 60,
     "cct_k": 4000,
     "ccms_node": false,
+    "ccms_reading": null,
     "install_date": "2010-09-26",
     "fixture_installed": "2022-06-26",
     "fixture_make": "Arcbeam",
@@ -4121,6 +4259,7 @@
     "wattage": 45,
     "cct_k": 4000,
     "ccms_node": false,
+    "ccms_reading": null,
     "install_date": "2010-09-12",
     "fixture_installed": "2022-06-20",
     "fixture_make": "Arcbeam",
@@ -4198,7 +4337,8 @@
      "pole_uids": [
       "SL-CP-MC-009",
       "SL-CP-MC-008"
-     ]
+     ],
+     "public": null
     },
     "repair_history": [
      {
@@ -4242,6 +4382,7 @@
     "wattage": 45,
     "cct_k": 4000,
     "ccms_node": false,
+    "ccms_reading": null,
     "install_date": "2010-09-06",
     "fixture_installed": "2022-06-27",
     "fixture_make": "Arcbeam",
@@ -4319,7 +4460,8 @@
      "pole_uids": [
       "SL-CP-MC-009",
       "SL-CP-MC-008"
-     ]
+     ],
+     "public": null
     },
     "repair_history": []
    }
@@ -4346,6 +4488,7 @@
     "wattage": 45,
     "cct_k": 4000,
     "ccms_node": false,
+    "ccms_reading": null,
     "install_date": "2010-09-07",
     "fixture_installed": "2022-06-15",
     "fixture_make": "Arcbeam",
@@ -4450,6 +4593,7 @@
     "wattage": 45,
     "cct_k": 4000,
     "ccms_node": false,
+    "ccms_reading": null,
     "install_date": "2010-09-09",
     "fixture_installed": "2022-06-20",
     "fixture_make": "Arcbeam",
@@ -4537,6 +4681,7 @@
     "wattage": 45,
     "cct_k": 4000,
     "ccms_node": false,
+    "ccms_reading": null,
     "install_date": "2010-09-05",
     "fixture_installed": "2022-06-23",
     "fixture_make": "Arcbeam",
@@ -4609,11 +4754,12 @@
      "work_started_at": "2026-10-13T12:00+05:30",
      "closed_at": null,
      "resolution": null,
-     "complaints": 0,
+     "complaints": 1,
      "notes": "Horticulture team pruning; luminaire to be re-aimed.",
      "pole_uids": [
       "SL-CP-MC-012"
-     ]
+     ],
+     "public": null
     },
     "repair_history": [
      {
@@ -4657,6 +4803,7 @@
     "wattage": 45,
     "cct_k": 4000,
     "ccms_node": false,
+    "ccms_reading": null,
     "install_date": "2010-09-19",
     "fixture_installed": "2022-06-21",
     "fixture_make": "Arcbeam",
@@ -4761,6 +4908,7 @@
     "wattage": 60,
     "cct_k": 4000,
     "ccms_node": false,
+    "ccms_reading": null,
     "install_date": "2010-09-11",
     "fixture_installed": "2022-06-25",
     "fixture_make": "Arcbeam",
@@ -4865,6 +5013,7 @@
     "wattage": 45,
     "cct_k": 4000,
     "ccms_node": false,
+    "ccms_reading": null,
     "install_date": "2010-09-06",
     "fixture_installed": "2022-06-07",
     "fixture_make": "Arcbeam",
@@ -5001,6 +5150,7 @@
     "wattage": 45,
     "cct_k": 4000,
     "ccms_node": false,
+    "ccms_reading": null,
     "install_date": "2010-09-24",
     "fixture_installed": "2022-03-21",
     "fixture_make": "Arcbeam",
@@ -5137,6 +5287,7 @@
     "wattage": 45,
     "cct_k": 4000,
     "ccms_node": false,
+    "ccms_reading": null,
     "install_date": "2010-09-09",
     "fixture_installed": "2022-03-16",
     "fixture_make": "Arcbeam",
@@ -5289,6 +5440,7 @@
     "wattage": 45,
     "cct_k": 4000,
     "ccms_node": false,
+    "ccms_reading": null,
     "install_date": "2010-09-22",
     "fixture_installed": "2022-03-28",
     "fixture_make": "Arcbeam",
@@ -5425,6 +5577,7 @@
     "wattage": 45,
     "cct_k": 4000,
     "ccms_node": false,
+    "ccms_reading": null,
     "install_date": "2010-09-09",
     "fixture_installed": "2022-03-15",
     "fixture_make": "Arcbeam",
@@ -5497,11 +5650,15 @@
      "work_started_at": null,
      "closed_at": null,
      "resolution": null,
-     "complaints": 0,
+     "complaints": 1,
      "notes": null,
      "pole_uids": [
       "SL-CP-MC-019"
-     ]
+     ],
+     "public": {
+      "shared_at": "2026-10-12T12:00+05:30",
+      "report_id": "CR-D11"
+     }
     },
     "repair_history": [
      {
@@ -5577,6 +5734,7 @@
     "wattage": 45,
     "cct_k": 4000,
     "ccms_node": false,
+    "ccms_reading": null,
     "install_date": "2010-09-22",
     "fixture_installed": "2022-03-07",
     "fixture_make": "Arcbeam",
@@ -5653,7 +5811,8 @@
      "notes": null,
      "pole_uids": [
       "SL-CP-MC-020"
-     ]
+     ],
+     "public": null
     },
     "repair_history": [
      {
@@ -5761,6 +5920,7 @@
     "wattage": 60,
     "cct_k": 4000,
     "ccms_node": false,
+    "ccms_reading": null,
     "install_date": "2010-09-23",
     "fixture_installed": "2022-03-28",
     "fixture_make": "Arcbeam",
@@ -5837,7 +5997,8 @@
      "notes": null,
      "pole_uids": [
       "SL-CP-MC-021"
-     ]
+     ],
+     "public": null
     },
     "repair_history": [
      {
@@ -5913,6 +6074,7 @@
     "wattage": 45,
     "cct_k": 4000,
     "ccms_node": false,
+    "ccms_reading": null,
     "install_date": "2010-09-21",
     "fixture_installed": "2022-03-27",
     "fixture_make": "Arcbeam",
@@ -5989,7 +6151,8 @@
      "notes": null,
      "pole_uids": [
       "SL-CP-MC-022"
-     ]
+     ],
+     "public": null
     },
     "repair_history": [
      {
@@ -6065,6 +6228,7 @@
     "wattage": 45,
     "cct_k": 4000,
     "ccms_node": false,
+    "ccms_reading": null,
     "install_date": "2010-09-07",
     "fixture_installed": "2022-03-19",
     "fixture_make": "Arcbeam",
@@ -6185,6 +6349,7 @@
     "wattage": 45,
     "cct_k": 4000,
     "ccms_node": false,
+    "ccms_reading": null,
     "install_date": "2010-09-23",
     "fixture_installed": "2022-03-05",
     "fixture_make": "Arcbeam",
@@ -6321,6 +6486,7 @@
     "wattage": 45,
     "cct_k": 4000,
     "ccms_node": false,
+    "ccms_reading": null,
     "install_date": "2010-09-17",
     "fixture_installed": "2022-03-24",
     "fixture_make": "Arcbeam",
@@ -6425,6 +6591,7 @@
     "wattage": 45,
     "cct_k": 4000,
     "ccms_node": false,
+    "ccms_reading": null,
     "install_date": "2010-09-08",
     "fixture_installed": "2022-03-09",
     "fixture_make": "Arcbeam",
@@ -6577,6 +6744,7 @@
     "wattage": 45,
     "cct_k": 4000,
     "ccms_node": false,
+    "ccms_reading": null,
     "install_date": "2010-09-19",
     "fixture_installed": "2022-06-12",
     "fixture_make": "Arcbeam",
@@ -6697,6 +6865,7 @@
     "wattage": 60,
     "cct_k": 4000,
     "ccms_node": false,
+    "ccms_reading": null,
     "install_date": "2010-09-05",
     "fixture_installed": "2022-06-23",
     "fixture_make": "Arcbeam",
@@ -6833,6 +7002,7 @@
     "wattage": 45,
     "cct_k": 4000,
     "ccms_node": false,
+    "ccms_reading": null,
     "install_date": "2010-09-23",
     "fixture_installed": "2022-06-22",
     "fixture_make": "Arcbeam",
@@ -6937,6 +7107,7 @@
     "wattage": 45,
     "cct_k": 4000,
     "ccms_node": false,
+    "ccms_reading": null,
     "install_date": "2010-09-09",
     "fixture_installed": "2022-06-10",
     "fixture_make": "Arcbeam",
@@ -7013,7 +7184,8 @@
      "notes": null,
      "pole_uids": [
       "SL-CP-MC-030"
-     ]
+     ],
+     "public": null
     },
     "repair_history": [
      {
@@ -7057,6 +7229,7 @@
     "wattage": 45,
     "cct_k": 4000,
     "ccms_node": false,
+    "ccms_reading": null,
     "install_date": "2010-09-02",
     "fixture_installed": "2022-06-25",
     "fixture_make": "Arcbeam",
@@ -7225,6 +7398,7 @@
     "wattage": 45,
     "cct_k": 4000,
     "ccms_node": false,
+    "ccms_reading": null,
     "install_date": "2010-09-11",
     "fixture_installed": "2022-06-17",
     "fixture_make": "Arcbeam",
@@ -7329,6 +7503,7 @@
     "wattage": 45,
     "cct_k": 4000,
     "ccms_node": false,
+    "ccms_reading": null,
     "install_date": "2010-09-17",
     "fixture_installed": "2022-06-12",
     "fixture_make": "Arcbeam",
@@ -7449,6 +7624,7 @@
     "wattage": 45,
     "cct_k": 4000,
     "ccms_node": false,
+    "ccms_reading": null,
     "install_date": "2010-09-28",
     "fixture_installed": "2022-06-25",
     "fixture_make": "Arcbeam",
@@ -7553,6 +7729,11 @@
     "wattage": 120,
     "cct_k": 4000,
     "ccms_node": true,
+    "ccms_reading": {
+     "switch_on_at": "2026-10-13T17:54+05:30",
+     "state": "off",
+     "daylight": "off"
+    },
     "install_date": "2010-07-15",
     "fixture_installed": "2023-11-05",
     "fixture_make": "Lumetra",
@@ -7673,6 +7854,11 @@
     "wattage": 120,
     "cct_k": 4000,
     "ccms_node": true,
+    "ccms_reading": {
+     "switch_on_at": "2026-10-13T17:54+05:30",
+     "state": "off",
+     "daylight": "off"
+    },
     "install_date": "2010-07-22",
     "fixture_installed": "2023-12-24",
     "fixture_make": "Lumetra",
@@ -7793,6 +7979,11 @@
     "wattage": 120,
     "cct_k": 4000,
     "ccms_node": true,
+    "ccms_reading": {
+     "switch_on_at": "2026-10-13T17:54+05:30",
+     "state": "off",
+     "daylight": "off"
+    },
     "install_date": "2010-07-07",
     "fixture_installed": "2023-07-11",
     "fixture_make": "Lumetra",
@@ -7869,7 +8060,8 @@
      "notes": null,
      "pole_uids": [
       "SL-CP-OC-003"
-     ]
+     ],
+     "public": null
     },
     "repair_history": [
      {
@@ -7929,6 +8121,11 @@
     "wattage": 120,
     "cct_k": 4000,
     "ccms_node": true,
+    "ccms_reading": {
+     "switch_on_at": "2026-10-13T17:54+05:30",
+     "state": "off",
+     "daylight": "off"
+    },
     "install_date": "2010-07-05",
     "fixture_installed": "2023-10-25",
     "fixture_make": "Lumetra",
@@ -8033,6 +8230,11 @@
     "wattage": 120,
     "cct_k": 4000,
     "ccms_node": true,
+    "ccms_reading": {
+     "switch_on_at": "2026-10-13T17:54+05:30",
+     "state": "off",
+     "daylight": "off"
+    },
     "install_date": "2010-07-27",
     "fixture_installed": "2023-12-05",
     "fixture_make": "Lumetra",
@@ -8153,6 +8355,11 @@
     "wattage": 120,
     "cct_k": 4000,
     "ccms_node": true,
+    "ccms_reading": {
+     "switch_on_at": "2026-10-13T17:54+05:30",
+     "state": "off",
+     "daylight": "off"
+    },
     "install_date": "2010-07-14",
     "fixture_installed": "2023-12-17",
     "fixture_make": "Lumetra",
@@ -8305,6 +8512,11 @@
     "wattage": 120,
     "cct_k": 4000,
     "ccms_node": true,
+    "ccms_reading": {
+     "switch_on_at": "2026-10-13T17:54+05:30",
+     "state": "off",
+     "daylight": "off"
+    },
     "install_date": "2010-07-27",
     "fixture_installed": "2023-10-08",
     "fixture_make": "Lumetra",
@@ -8441,6 +8653,11 @@
     "wattage": 120,
     "cct_k": 4000,
     "ccms_node": true,
+    "ccms_reading": {
+     "switch_on_at": "2026-10-13T17:54+05:30",
+     "state": "on",
+     "daylight": "off"
+    },
     "install_date": "2010-07-14",
     "fixture_installed": "2023-09-11",
     "fixture_make": "Lumetra",
@@ -8577,6 +8794,11 @@
     "wattage": 120,
     "cct_k": 4000,
     "ccms_node": true,
+    "ccms_reading": {
+     "switch_on_at": "2026-10-13T17:54+05:30",
+     "state": "off",
+     "daylight": "off"
+    },
     "install_date": "2010-07-17",
     "fixture_installed": "2023-08-10",
     "fixture_make": "Lumetra",
@@ -8653,7 +8875,8 @@
      "notes": null,
      "pole_uids": [
       "SL-CP-OC-009"
-     ]
+     ],
+     "public": null
     },
     "repair_history": [
      {
@@ -8745,6 +8968,11 @@
     "wattage": 120,
     "cct_k": 4000,
     "ccms_node": true,
+    "ccms_reading": {
+     "switch_on_at": "2026-10-13T17:54+05:30",
+     "state": "on",
+     "daylight": "off"
+    },
     "install_date": "2010-07-13",
     "fixture_installed": "2023-10-24",
     "fixture_make": "Lumetra",
@@ -8881,6 +9109,11 @@
     "wattage": 120,
     "cct_k": 4000,
     "ccms_node": true,
+    "ccms_reading": {
+     "switch_on_at": "2026-10-13T17:54+05:30",
+     "state": "on",
+     "daylight": "off"
+    },
     "install_date": "2010-07-23",
     "fixture_installed": "2024-02-06",
     "fixture_make": "Lumetra",
@@ -9001,6 +9234,11 @@
     "wattage": 120,
     "cct_k": 4000,
     "ccms_node": true,
+    "ccms_reading": {
+     "switch_on_at": "2026-10-13T17:54+05:30",
+     "state": "off",
+     "daylight": "off"
+    },
     "install_date": "2010-07-20",
     "fixture_installed": "2023-12-18",
     "fixture_make": "Lumetra",
@@ -9073,11 +9311,12 @@
      "work_started_at": null,
      "closed_at": null,
      "resolution": null,
-     "complaints": 0,
+     "complaints": 1,
      "notes": null,
      "pole_uids": [
       "SL-CP-OC-012"
-     ]
+     ],
+     "public": null
     },
     "repair_history": [
      {
@@ -9153,6 +9392,11 @@
     "wattage": 120,
     "cct_k": 4000,
     "ccms_node": true,
+    "ccms_reading": {
+     "switch_on_at": "2026-10-13T17:54+05:30",
+     "state": "on",
+     "daylight": "off"
+    },
     "install_date": "2010-07-17",
     "fixture_installed": "2024-01-07",
     "fixture_make": "Lumetra",
@@ -9257,6 +9501,11 @@
     "wattage": 120,
     "cct_k": 4000,
     "ccms_node": true,
+    "ccms_reading": {
+     "switch_on_at": "2026-10-13T17:54+05:30",
+     "state": "off",
+     "daylight": "off"
+    },
     "install_date": "2010-07-04",
     "fixture_installed": "2023-09-23",
     "fixture_make": "Lumetra",
@@ -9333,7 +9582,8 @@
      "notes": null,
      "pole_uids": [
       "SL-CP-OC-014"
-     ]
+     ],
+     "public": null
     },
     "repair_history": [
      {
@@ -9377,6 +9627,11 @@
     "wattage": 120,
     "cct_k": 4000,
     "ccms_node": true,
+    "ccms_reading": {
+     "switch_on_at": "2026-10-13T17:54+05:30",
+     "state": "on",
+     "daylight": "off"
+    },
     "install_date": "2010-07-18",
     "fixture_installed": "2023-07-26",
     "fixture_make": "Lumetra",
@@ -9497,6 +9752,11 @@
     "wattage": 120,
     "cct_k": 4000,
     "ccms_node": true,
+    "ccms_reading": {
+     "switch_on_at": "2026-10-13T17:54+05:30",
+     "state": "on",
+     "daylight": "off"
+    },
     "install_date": "2010-07-11",
     "fixture_installed": "2023-11-28",
     "fixture_make": "Lumetra",
@@ -9558,7 +9818,24 @@
      "contract_ref": "AMC/SL/CP-OC/2025-28",
      "sla_hours": 48
     },
-    "ticket": null,
+    "ticket": {
+     "id": "TKT-2026-0179",
+     "status": "Open",
+     "category": "not_working",
+     "issue": "Light not working",
+     "source": "Citizen app",
+     "raised_at": "2026-10-13T17:30+05:30",
+     "assigned_crew": null,
+     "work_started_at": null,
+     "closed_at": null,
+     "resolution": null,
+     "complaints": 1,
+     "notes": null,
+     "pole_uids": [
+      "SL-CP-OC-016"
+     ],
+     "public": null
+    },
     "repair_history": [
      {
       "ticket_id": "TKT-2026-0118",
@@ -9617,6 +9894,11 @@
     "wattage": 120,
     "cct_k": 4000,
     "ccms_node": true,
+    "ccms_reading": {
+     "switch_on_at": "2026-10-13T17:54+05:30",
+     "state": "on",
+     "daylight": "off"
+    },
     "install_date": "2010-07-02",
     "fixture_installed": "2024-01-27",
     "fixture_make": "Lumetra",
@@ -9753,6 +10035,11 @@
     "wattage": 120,
     "cct_k": 4000,
     "ccms_node": true,
+    "ccms_reading": {
+     "switch_on_at": "2026-10-13T17:54+05:30",
+     "state": "on",
+     "daylight": "off"
+    },
     "install_date": "2010-07-27",
     "fixture_installed": "2024-02-25",
     "fixture_make": "Lumetra",
@@ -9873,6 +10160,11 @@
     "wattage": 250,
     "cct_k": 4200,
     "ccms_node": true,
+    "ccms_reading": {
+     "switch_on_at": "2026-10-13T17:54+05:30",
+     "state": "off",
+     "daylight": "off"
+    },
     "install_date": "2010-07-03",
     "fixture_installed": "2016-11-12",
     "fixture_make": "Metalux",
@@ -9949,7 +10241,8 @@
      "notes": null,
      "pole_uids": [
       "SL-CP-OC-019"
-     ]
+     ],
+     "public": null
     },
     "repair_history": [
      {
@@ -10009,6 +10302,11 @@
     "wattage": 120,
     "cct_k": 4000,
     "ccms_node": true,
+    "ccms_reading": {
+     "switch_on_at": "2026-10-13T17:54+05:30",
+     "state": "on",
+     "daylight": "off"
+    },
     "install_date": "2010-07-04",
     "fixture_installed": "2023-07-23",
     "fixture_make": "Lumetra",
@@ -10145,6 +10443,11 @@
     "wattage": 120,
     "cct_k": 4000,
     "ccms_node": true,
+    "ccms_reading": {
+     "switch_on_at": "2026-10-13T17:54+05:30",
+     "state": "on",
+     "daylight": "off"
+    },
     "install_date": "2010-07-12",
     "fixture_installed": "2023-07-02",
     "fixture_make": "Lumetra",
@@ -10281,6 +10584,11 @@
     "wattage": 120,
     "cct_k": 4000,
     "ccms_node": true,
+    "ccms_reading": {
+     "switch_on_at": "2026-10-13T17:54+05:30",
+     "state": "on",
+     "daylight": "off"
+    },
     "install_date": "2010-07-18",
     "fixture_installed": "2024-01-27",
     "fixture_make": "Lumetra",
@@ -10433,6 +10741,11 @@
     "wattage": 120,
     "cct_k": 4000,
     "ccms_node": true,
+    "ccms_reading": {
+     "switch_on_at": "2026-10-13T17:54+05:30",
+     "state": "on",
+     "daylight": "off"
+    },
     "install_date": "2010-07-08",
     "fixture_installed": "2023-09-18",
     "fixture_make": "Lumetra",
@@ -10553,6 +10866,11 @@
     "wattage": 120,
     "cct_k": 4000,
     "ccms_node": true,
+    "ccms_reading": {
+     "switch_on_at": "2026-10-13T17:54+05:30",
+     "state": "off",
+     "daylight": "off"
+    },
     "install_date": "2010-07-22",
     "fixture_installed": "2023-10-14",
     "fixture_make": "Lumetra",
@@ -10629,7 +10947,8 @@
      "notes": null,
      "pole_uids": [
       "SL-CP-OC-024"
-     ]
+     ],
+     "public": null
     },
     "repair_history": [
      {
@@ -10673,6 +10992,11 @@
     "wattage": 120,
     "cct_k": 4000,
     "ccms_node": true,
+    "ccms_reading": {
+     "switch_on_at": "2026-10-13T17:54+05:30",
+     "state": "on",
+     "daylight": "off"
+    },
     "install_date": "2010-07-02",
     "fixture_installed": "2024-01-24",
     "fixture_make": "Lumetra",
@@ -10809,6 +11133,11 @@
     "wattage": 120,
     "cct_k": 4000,
     "ccms_node": true,
+    "ccms_reading": {
+     "switch_on_at": "2026-10-13T17:54+05:30",
+     "state": "on",
+     "daylight": "off"
+    },
     "install_date": "2010-07-02",
     "fixture_installed": "2024-01-17",
     "fixture_make": "Lumetra",
@@ -10945,6 +11274,11 @@
     "wattage": 120,
     "cct_k": 4000,
     "ccms_node": true,
+    "ccms_reading": {
+     "switch_on_at": "2026-10-13T17:54+05:30",
+     "state": "on",
+     "daylight": "off"
+    },
     "install_date": "2010-07-06",
     "fixture_installed": "2023-07-25",
     "fixture_make": "Lumetra",
@@ -11049,6 +11383,11 @@
     "wattage": 120,
     "cct_k": 4000,
     "ccms_node": true,
+    "ccms_reading": {
+     "switch_on_at": "2026-10-13T17:54+05:30",
+     "state": "on",
+     "daylight": "off"
+    },
     "install_date": "2010-07-27",
     "fixture_installed": "2023-11-09",
     "fixture_make": "Lumetra",
@@ -11185,6 +11524,11 @@
     "wattage": 250,
     "cct_k": 4200,
     "ccms_node": true,
+    "ccms_reading": {
+     "switch_on_at": "2026-10-13T17:54+05:30",
+     "state": "on",
+     "daylight": "off"
+    },
     "install_date": "2010-07-07",
     "fixture_installed": "2016-10-17",
     "fixture_make": "Metalux",
@@ -11337,6 +11681,11 @@
     "wattage": 120,
     "cct_k": 4000,
     "ccms_node": true,
+    "ccms_reading": {
+     "switch_on_at": "2026-10-13T17:54+05:30",
+     "state": "on",
+     "daylight": "off"
+    },
     "install_date": "2010-07-15",
     "fixture_installed": "2024-01-05",
     "fixture_make": "Lumetra",
@@ -11457,6 +11806,11 @@
     "wattage": 120,
     "cct_k": 4000,
     "ccms_node": true,
+    "ccms_reading": {
+     "switch_on_at": "2026-10-13T17:54+05:30",
+     "state": "off",
+     "daylight": "off"
+    },
     "install_date": "2010-07-16",
     "fixture_installed": "2023-08-20",
     "fixture_make": "Lumetra",
@@ -11537,7 +11891,8 @@
       "SL-CP-OC-033",
       "SL-CP-OC-034",
       "SL-CP-OC-035"
-     ]
+     ],
+     "public": null
     },
     "repair_history": [
      {
@@ -11597,6 +11952,11 @@
     "wattage": 120,
     "cct_k": 4000,
     "ccms_node": true,
+    "ccms_reading": {
+     "switch_on_at": "2026-10-13T17:54+05:30",
+     "state": "off",
+     "daylight": "off"
+    },
     "install_date": "2010-07-26",
     "fixture_installed": "2023-11-24",
     "fixture_make": "Lumetra",
@@ -11677,7 +12037,8 @@
       "SL-CP-OC-033",
       "SL-CP-OC-034",
       "SL-CP-OC-035"
-     ]
+     ],
+     "public": null
     },
     "repair_history": [
      {
@@ -11753,6 +12114,11 @@
     "wattage": 120,
     "cct_k": 4000,
     "ccms_node": true,
+    "ccms_reading": {
+     "switch_on_at": "2026-10-13T17:54+05:30",
+     "state": "off",
+     "daylight": "off"
+    },
     "install_date": "2010-07-20",
     "fixture_installed": "2024-01-09",
     "fixture_make": "Lumetra",
@@ -11833,7 +12199,8 @@
       "SL-CP-OC-033",
       "SL-CP-OC-034",
       "SL-CP-OC-035"
-     ]
+     ],
+     "public": null
     },
     "repair_history": [
      {
@@ -11925,6 +12292,11 @@
     "wattage": 120,
     "cct_k": 4000,
     "ccms_node": true,
+    "ccms_reading": {
+     "switch_on_at": "2026-10-13T17:54+05:30",
+     "state": "off",
+     "daylight": "off"
+    },
     "install_date": "2010-07-09",
     "fixture_installed": "2024-01-02",
     "fixture_make": "Lumetra",
@@ -12005,7 +12377,8 @@
       "SL-CP-OC-033",
       "SL-CP-OC-034",
       "SL-CP-OC-035"
-     ]
+     ],
+     "public": null
     },
     "repair_history": [
      {
@@ -12081,6 +12454,11 @@
     "wattage": 120,
     "cct_k": 4000,
     "ccms_node": true,
+    "ccms_reading": {
+     "switch_on_at": "2026-10-13T17:54+05:30",
+     "state": "off",
+     "daylight": "off"
+    },
     "install_date": "2010-07-09",
     "fixture_installed": "2023-10-04",
     "fixture_make": "Lumetra",
@@ -12161,7 +12539,8 @@
       "SL-CP-OC-033",
       "SL-CP-OC-034",
       "SL-CP-OC-035"
-     ]
+     ],
+     "public": null
     },
     "repair_history": [
      {
@@ -12221,6 +12600,7 @@
     "wattage": 250,
     "cct_k": 2000,
     "ccms_node": false,
+    "ccms_reading": null,
     "install_date": "2010-07-22",
     "fixture_installed": "2014-03-21",
     "fixture_make": "Sodiac",
@@ -12341,6 +12721,7 @@
     "wattage": 250,
     "cct_k": 2000,
     "ccms_node": false,
+    "ccms_reading": null,
     "install_date": "2010-07-11",
     "fixture_installed": "2013-06-13",
     "fixture_make": "Sodiac",
@@ -12477,6 +12858,7 @@
     "wattage": 250,
     "cct_k": 2000,
     "ccms_node": false,
+    "ccms_reading": null,
     "install_date": "2010-07-12",
     "fixture_installed": "2014-07-26",
     "fixture_make": "Sodiac",
@@ -12661,6 +13043,7 @@
     "wattage": 250,
     "cct_k": 2000,
     "ccms_node": false,
+    "ccms_reading": null,
     "install_date": "2010-07-05",
     "fixture_installed": "2014-02-03",
     "fixture_make": "Sodiac",
@@ -12737,7 +13120,8 @@
      "notes": null,
      "pole_uids": [
       "SL-CP-OC-039"
-     ]
+     ],
+     "public": null
     },
     "repair_history": [
      {
@@ -12797,6 +13181,7 @@
     "wattage": 250,
     "cct_k": 2000,
     "ccms_node": false,
+    "ccms_reading": null,
     "install_date": "2010-07-04",
     "fixture_installed": "2013-01-09",
     "fixture_make": "Sodiac",
@@ -12965,6 +13350,7 @@
     "wattage": 250,
     "cct_k": 2000,
     "ccms_node": false,
+    "ccms_reading": null,
     "install_date": "2010-07-04",
     "fixture_installed": "2014-03-18",
     "fixture_make": "Sodiac",
@@ -13149,6 +13535,7 @@
     "wattage": 250,
     "cct_k": 2000,
     "ccms_node": false,
+    "ccms_reading": null,
     "install_date": "2010-07-11",
     "fixture_installed": "2014-05-17",
     "fixture_make": "Sodiac",
@@ -13301,6 +13688,7 @@
     "wattage": 250,
     "cct_k": 2000,
     "ccms_node": false,
+    "ccms_reading": null,
     "install_date": "2010-07-04",
     "fixture_installed": "2013-08-11",
     "fixture_make": "Sodiac",
@@ -13485,6 +13873,7 @@
     "wattage": 250,
     "cct_k": 2000,
     "ccms_node": false,
+    "ccms_reading": null,
     "install_date": "2010-07-26",
     "fixture_installed": "2015-02-11",
     "fixture_make": "Sodiac",
@@ -13669,6 +14058,7 @@
     "wattage": 250,
     "cct_k": 2000,
     "ccms_node": false,
+    "ccms_reading": null,
     "install_date": "2010-07-11",
     "fixture_installed": "2014-01-01",
     "fixture_make": "Sodiac",
@@ -13805,6 +14195,7 @@
     "wattage": 250,
     "cct_k": 2000,
     "ccms_node": false,
+    "ccms_reading": null,
     "install_date": "2010-07-13",
     "fixture_installed": "2013-09-02",
     "fixture_make": "Sodiac",
@@ -13881,7 +14272,8 @@
      "notes": null,
      "pole_uids": [
       "SL-CP-OC-046"
-     ]
+     ],
+     "public": null
     },
     "repair_history": [
      {
@@ -13925,6 +14317,7 @@
     "wattage": 250,
     "cct_k": 2000,
     "ccms_node": false,
+    "ccms_reading": null,
     "install_date": "2010-07-25",
     "fixture_installed": "2014-04-10",
     "fixture_make": "Sodiac",
@@ -14001,7 +14394,8 @@
      "notes": null,
      "pole_uids": [
       "SL-CP-OC-047"
-     ]
+     ],
+     "public": null
     },
     "repair_history": [
      {
@@ -14125,6 +14519,7 @@
     "wattage": 250,
     "cct_k": 2000,
     "ccms_node": false,
+    "ccms_reading": null,
     "install_date": "2010-07-09",
     "fixture_installed": "2013-03-08",
     "fixture_make": "Sodiac",
@@ -14245,6 +14640,7 @@
     "wattage": 250,
     "cct_k": 2000,
     "ccms_node": false,
+    "ccms_reading": null,
     "install_date": "2010-07-02",
     "fixture_installed": "2015-08-26",
     "fixture_make": "Sodiac",
@@ -14413,6 +14809,11 @@
     "wattage": 120,
     "cct_k": 4000,
     "ccms_node": true,
+    "ccms_reading": {
+     "switch_on_at": "2026-10-13T17:54+05:30",
+     "state": "off",
+     "daylight": "off"
+    },
     "install_date": "2010-07-14",
     "fixture_installed": "2023-10-20",
     "fixture_make": "Lumetra",
@@ -14549,6 +14950,11 @@
     "wattage": 120,
     "cct_k": 4000,
     "ccms_node": true,
+    "ccms_reading": {
+     "switch_on_at": "2026-10-13T17:54+05:30",
+     "state": "off",
+     "daylight": "off"
+    },
     "install_date": "2010-07-25",
     "fixture_installed": "2024-02-11",
     "fixture_make": "Lumetra",
@@ -14685,6 +15091,11 @@
     "wattage": 120,
     "cct_k": 4000,
     "ccms_node": true,
+    "ccms_reading": {
+     "switch_on_at": "2026-10-13T17:54+05:30",
+     "state": "off",
+     "daylight": "off"
+    },
     "install_date": "2010-07-08",
     "fixture_installed": "2024-02-10",
     "fixture_make": "Lumetra",
@@ -14821,6 +15232,11 @@
     "wattage": 120,
     "cct_k": 4000,
     "ccms_node": true,
+    "ccms_reading": {
+     "switch_on_at": "2026-10-13T17:54+05:30",
+     "state": "off",
+     "daylight": "off"
+    },
     "install_date": "2010-07-25",
     "fixture_installed": "2023-12-17",
     "fixture_make": "Lumetra",
@@ -14893,11 +15309,12 @@
      "work_started_at": "2026-09-28T22:00+05:30",
      "closed_at": null,
      "resolution": null,
-     "complaints": 0,
+     "complaints": 1,
      "notes": "Pole made safe and isolated. Replacement pole on order.",
      "pole_uids": [
       "SL-CP-OC-053"
-     ]
+     ],
+     "public": null
     },
     "repair_history": [
      {
@@ -14957,6 +15374,11 @@
     "wattage": 120,
     "cct_k": 4000,
     "ccms_node": true,
+    "ccms_reading": {
+     "switch_on_at": "2026-10-13T17:54+05:30",
+     "state": "off",
+     "daylight": "off"
+    },
     "install_date": "2010-07-22",
     "fixture_installed": "2024-02-15",
     "fixture_make": "Lumetra",
@@ -15077,6 +15499,11 @@
     "wattage": 120,
     "cct_k": 4000,
     "ccms_node": true,
+    "ccms_reading": {
+     "switch_on_at": "2026-10-13T17:54+05:30",
+     "state": "off",
+     "daylight": "off"
+    },
     "install_date": "2010-07-03",
     "fixture_installed": "2023-11-27",
     "fixture_make": "Lumetra",
@@ -15229,6 +15656,11 @@
     "wattage": 120,
     "cct_k": 4000,
     "ccms_node": true,
+    "ccms_reading": {
+     "switch_on_at": "2026-10-13T17:54+05:30",
+     "state": "off",
+     "daylight": "off"
+    },
     "install_date": "2010-07-04",
     "fixture_installed": "2024-02-20",
     "fixture_make": "Lumetra",
@@ -15333,6 +15765,11 @@
     "wattage": 45,
     "cct_k": 4000,
     "ccms_node": true,
+    "ccms_reading": {
+     "switch_on_at": "2026-10-13T17:54+05:30",
+     "state": "on",
+     "daylight": "off"
+    },
     "install_date": "2024-03-15",
     "fixture_installed": "2024-03-02",
     "fixture_make": "Arcbeam",
@@ -15453,6 +15890,11 @@
     "wattage": 45,
     "cct_k": 4000,
     "ccms_node": true,
+    "ccms_reading": {
+     "switch_on_at": "2026-10-13T17:54+05:30",
+     "state": "on",
+     "daylight": "off"
+    },
     "install_date": "2024-03-10",
     "fixture_installed": "2024-03-20",
     "fixture_make": "Arcbeam",
@@ -15573,6 +16015,11 @@
     "wattage": 45,
     "cct_k": 4000,
     "ccms_node": true,
+    "ccms_reading": {
+     "switch_on_at": "2026-10-13T17:54+05:30",
+     "state": "on",
+     "daylight": "off"
+    },
     "install_date": "2024-03-04",
     "fixture_installed": "2024-03-21",
     "fixture_make": "Arcbeam",
@@ -15693,6 +16140,11 @@
     "wattage": 45,
     "cct_k": 4000,
     "ccms_node": true,
+    "ccms_reading": {
+     "switch_on_at": "2026-10-13T17:54+05:30",
+     "state": "on",
+     "daylight": "off"
+    },
     "install_date": "2024-03-09",
     "fixture_installed": "2024-03-09",
     "fixture_make": "Arcbeam",
@@ -15797,6 +16249,11 @@
     "wattage": 45,
     "cct_k": 4000,
     "ccms_node": true,
+    "ccms_reading": {
+     "switch_on_at": "2026-10-13T17:54+05:30",
+     "state": "on",
+     "daylight": "off"
+    },
     "install_date": "2024-03-26",
     "fixture_installed": "2024-03-16",
     "fixture_make": "Arcbeam",

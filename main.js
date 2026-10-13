@@ -119,6 +119,11 @@ function modeClick(latlng) {
 
 function onPoleClick(uid) {
   const rec = state.byUid.get(uid);
+  if (state.picking) { // "Different pole": this is where the fault is
+    const id = state.picking.ticketId;
+    stopPolePick();
+    return moveTicketToPole(id, uid);
+  }
   if (state.drawing) return addDrawPoint(rec.latlng);
   if (state.reportMode) return beginReport(rec.latlng, uid);
   return selectPole(uid);
@@ -210,6 +215,25 @@ function handleAction(el, { fromSidebar = false } = {}) {
     case 'event-print': printEvent(); break;
     case 'event-highlight': setHighlight('not working on the event route', eventCheck(state.event).notWorking.map((p) => p.uid)); break;
     case 'draw-finish': finishDrawing(); break;
+    case 'check-ccms': pollCcms(d.ticket); break;
+    case 'check-audit': sendToCheck(d.ticket, 'audit'); break;
+    case 'check-crew': sendToCheck(d.ticket, 'crew'); break;
+    case 'take-check': takeCheckJob(d.ticket, currentCrew()); break;
+    case 'no-fault': closeNoFault(d.ticket); break;
+    case 'obstruction': markObstruction(d.ticket); break;
+    case 'pick-pole': startPolePick(d.ticket); break;
+    case 'cancel-pick': stopPolePick(); break;
+    case 'accept-report': acceptReport(d.report); break;
+    case 'open-share': openShare(d.report); break;
+    case 'share-x': shareVia('x', d.share); break;
+    case 'share-native': shareVia('native', d.share); break;
+    case 'share-copy': shareVia('copy', d.share); break;
+    case 'draft-update': openDepartmentUpdate(d.ticket); break;
+    case 'toggle-public':
+      state.publicSharing = !state.publicSharing;
+      logActivity(`Public sharing on X switched ${state.publicSharing ? 'on' : 'off'}`, { role: 'management' });
+      keep();
+      break;
     default: break;
   }
 }
@@ -217,6 +241,11 @@ function handleAction(el, { fromSidebar = false } = {}) {
 function bindEvents() {
   // Map
   map.on('click', (e) => {
+    if (state.picking) {
+      const near = poleNearPoint(e.containerPoint, HIT_TOLERANCE_PX);
+      if (near) onPoleClick(near.uid);
+      return;
+    }
     if (modeClick(e.latlng)) return;
     const near = poleNearPoint(e.containerPoint, HIT_TOLERANCE_PX);
     if (near) selectPole(near.uid);
@@ -305,6 +334,13 @@ function bindEvents() {
 
   // Sidebar actions (event delegation; views are re-rendered often)
   sidebarEl.addEventListener('click', (e) => {
+    const outcome = e.target.closest('[data-outcome]');
+    if (outcome) { // on-site outcome chips only switch the panel below them
+      const host = outcome.closest('[data-outcome-host]');
+      for (const b of host.querySelectorAll('[data-outcome]')) b.setAttribute('aria-checked', String(b === outcome));
+      for (const panel of host.querySelectorAll('[data-outcome-panel]')) panel.hidden = panel.dataset.outcomePanel !== outcome.dataset.outcome;
+      return;
+    }
     const el = e.target.closest('[data-action]');
     if (el && !el.disabled) handleAction(el, { fromSidebar: true });
   });
@@ -362,21 +398,9 @@ function bindEvents() {
     }
   });
   $('#rm-description').addEventListener('input', (e) => { $('#rm-count').textContent = `${e.target.value.length}/500`; });
-  $('#rm-photo').addEventListener('change', (e) => {
-    clearPhoto();
-    const file = e.target.files?.[0];
-    if (!file) return;
-    if (!file.type.startsWith('image/')) {
-      e.target.value = '';
-      $('#rm-photo-name').textContent = tr('form_photo_not_image');
-      return;
-    }
-    photoUrl = URL.createObjectURL(file);
-    const img = $('#rm-photo-preview');
-    img.src = photoUrl;
-    img.hidden = false;
-    $('#rm-photo-name').textContent = file.name;
-  });
+  $('#rm-photo-take').addEventListener('change', (e) => setDraftPhoto(e.target.files?.[0], 'live'));
+  $('#rm-photo-upload').addEventListener('change', (e) => setDraftPhoto(e.target.files?.[0], 'upload'));
+  $('#rm-geo').addEventListener('click', useMyLocation);
   form.addEventListener('submit', (e) => {
     e.preventDefault();
     submitReportForm();
@@ -412,6 +436,7 @@ function bindEvents() {
     if (e.key === 'Escape') {
       if (!modal.hidden) closeReportModal();
       else if (state.drawing) stopDrawing();
+      else if (state.picking) stopPolePick();
       else if (state.reportMode) setReportMode(false);
       else if (state.highlight) setHighlight(null, null);
       else if (state.trace) {

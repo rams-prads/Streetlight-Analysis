@@ -119,13 +119,13 @@ function panIntoView(latlng) {
  *   #SL-CP-OC-031 · #SL-CP-OC-031&view=field · #view=citizen · #report=SL-CP-OC-031 (QR label link)
  */
 function parseHash() {
-  const out = { id: null, view: null, report: null };
+  const out = { id: null, view: null, report: null, ticket: null };
   for (const part of location.hash.slice(1).split('&').filter(Boolean)) {
     try {
       const eq = part.indexOf('=');
+      const key = eq < 0 ? null : part.slice(0, eq);
       if (eq < 0) out.id = decodeURIComponent(part);
-      else if (part.slice(0, eq) === 'view') out.view = decodeURIComponent(part.slice(eq + 1));
-      else if (part.slice(0, eq) === 'report') out.report = decodeURIComponent(part.slice(eq + 1));
+      else if (key in out && key !== 'id') out[key] = decodeURIComponent(part.slice(eq + 1));
     } catch { /* a malformed escape: ignore that part */ }
   }
   return out;
@@ -135,6 +135,7 @@ function writeHash() {
   const sel = state.selected;
   const parts = [];
   if (sel && (sel.type === 'pole' || sel.type === 'panel')) parts.push(encodeURIComponent(sel.id));
+  if (sel?.type === 'status') parts.push(`ticket=${encodeURIComponent(sel.id)}`);
   if (state.role !== DEFAULT_ROLE) parts.push(`view=${encodeURIComponent(state.role)}`);
   try {
     history.replaceState(null, '', parts.length ? `#${parts.join('&')}` : location.pathname + location.search);
@@ -151,6 +152,11 @@ function openFromHash() {
       beginReport(rec.latlng, rec.uid);
     }
     writeHash(); // drop report= so a reload doesn't reopen the form
+    return;
+  }
+  if (h.ticket) { // a public status link: BASE_URL#ticket=<ID>
+    setRole('citizen', { writeUrl: false });
+    openStatus(h.ticket);
     return;
   }
   const view = ROLES.some((r) => r.id === h.view) ? h.view : DEFAULT_ROLE;
@@ -435,13 +441,14 @@ function ticketCard(t, { selfUid = null } = {}) {
     <section class="card card--ticket${isEmergency(t) ? ' card--emergency' : ''}" style="--c:${color}" aria-label="Ticket ${esc(t.id)}">
       <div class="flex items-center justify-between gap-2">
         <span class="eyebrow">${isEmergency(t) ? '<i class="fa-solid fa-triangle-exclamation tone-bad" aria-hidden="true"></i> Safety emergency' : 'Active ticket'}</span>
-        <span class="ticket-status"><i class="fa-solid ${icon}" aria-hidden="true"></i>${label}</span>
+        <span class="flex items-center gap-2">${publicChip(t)}<span class="ticket-status"><i class="fa-solid ${icon}" aria-hidden="true"></i>${label}</span></span>
       </div>
       <div class="flex items-baseline justify-between gap-2 mt-1.5">
         <span class="mono text-[15px] font-semibold">${esc(t.id)}</span>
         <span class="priority priority--${esc(t.priority.toLowerCase())}">${esc(t.priority)} priority</span>
       </div>
       <p class="why"><span class="text-ink-3">Why:</span> ${esc(t.why)}</p>
+      ${confidenceHtml(t)}
       <p class="text-[14px] mt-1.5">${esc(t.issue)}</p>
       ${ticketWarranty(t) ? '<p class="mt-1.5"><span class="badge"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i>Under warranty: claim the fixture from the supplier</span></p>' : ''}
       ${others.length ? `<p class="text-xs text-ink-2 mt-1.5">Same ticket covers ${others.map((u) => poleLink(u)).join(', ')}</p>` : ''}
@@ -481,11 +488,29 @@ function escalationHtml(t) {
 }
 
 function reportsHtml(t) {
-  const list = t.reports.map((id) => state.reports.find((r) => r.id === id)).filter(Boolean);
+  const list = t.reports.map(reportById).filter(Boolean);
   const canSplit = state.role === 'operator' && t.complaints >= 2;
   return `${esc(t.complaints)}${list.length ? `<ul class="report-list">${list.map((r) => `<li>
     <span class="mono">${esc(r.id)}</span> · ${esc(r.source)} · ${esc(fmtDateTime(r.created_at))}${r.category !== t.category ? ` · ${esc(catLabel(r.category, false))}` : ''}
+    ${r.photo ? (r.photo.url ? ` · <a class="link" href="${esc(r.photo.url)}" target="_blank" rel="noopener">photo</a>` : ' · photo') : ''}${r.device ? ' · location' : ''}
     ${canSplit ? `<button type="button" class="link" data-action="split" data-report="${esc(r.id)}">Split out</button>` : ''}</li>`).join('')}</ul>` : ''}`;
+}
+
+const publicChip = (t) => (t.public && !isCitizen()
+  ? `<span class="chip chip--quiet" title="Shared publicly by the reporter, ${esc(fmtDateTime(t.public.shared_at))}"><i class="fa-brands fa-x-twitter" aria-hidden="true"></i>Public</span>` : '');
+
+/** Report confidence (operators): a quiet band label, with the reasons folded away (✓ supports, – neutral, ✗ contradicts). */
+function confidenceHtml(t) {
+  const c = t.confidence;
+  if (!c || c.bypass || isCitizen()) return '';
+  const mark = { 1: ['✓', 'pos', 'supports'], 0: ['–', 'neu', 'neutral'], [-1]: ['✗', 'neg', 'contradicts'] };
+  const line = (effect, text) => `<li class="sig sig--${mark[effect][1]}"><span aria-hidden="true">${mark[effect][0]}</span><span class="sr-only">${mark[effect][2]}:</span>${esc(text)}</li>`;
+  const label = c.final ?? c.band;
+  return `<details class="evidence" data-fold="evidence-${esc(t.id)}">
+    <summary><span class="band band--${esc((c.band ?? 'final').toLowerCase().replace(/\s+/g, '-'))}">${esc(label)}</span><span class="evidence-why">Why</span><i class="fa-solid fa-chevron-down fold-chevron" aria-hidden="true"></i></summary>
+    <ul class="signals">${c.signals.map((s) => line(s.effect, s.text)).join('')}${c.notes.map((n) => line(-1, n)).join('')}</ul>
+    ${c.count > 1 && c.basis ? `<p class="text-[11px] text-ink-3 mt-1">Best supported of ${c.count} reports: ${esc(c.basis)}</p>` : ''}
+  </details>`;
 }
 
 /** Dusk check (D3): CCMS confirms by itself after dark; other poles need a night photo from the crew. */
@@ -505,29 +530,63 @@ function duskCheckHtml(t) {
   } else {
     body = state.role === 'field'
       ? `<label class="btn btn-primary btn-block mt-1 cursor-pointer"><i class="fa-solid fa-camera" aria-hidden="true"></i>Add night photo
-          <input type="file" accept="image/*" capture="environment" class="sr-only" data-change="dusk-photo" data-ticket="${esc(t.id)}"></label>`
+          <input type="file" accept="image/*" capture="environment" class="sr-only" data-change="dusk-photo" data-ticket="${esc(t.id)}"></label>
+        <p class="privacy">Photo is used only to check this repair.</p>`
       : 'Night photo of the lit lamp needed from the field crew.';
   }
   return `<div class="dusk"><p class="workflow-label"><i class="fa-solid fa-moon" aria-hidden="true"></i>Dusk check</p><div class="text-[12.5px] text-ink-2">${body}</div></div>`;
 }
 
+const DEMO_LABEL = '<p class="workflow-label"><i class="fa-solid fa-user-gear" aria-hidden="true"></i>Demo workflow</p>';
+const isCrewCheck = (t, crew) => t.status === 'Open' && t.check?.kind === 'crew' && t.check.crew === crew;
+const resolutionSelect = (t) => `<select class="input flex-1" data-field="resolution" aria-label="Work carried out">${[...(RESOLUTIONS.find(([re]) => re.test(t.issue ?? ''))?.[1] ?? []), 'Repaired on site (other)']
+  .map((o) => `<option>${esc(o)}</option>`).join('')}</select>`;
+const dispatchRow = (t) => `<div class="flex gap-2">
+  <select class="input flex-1" data-field="crew" aria-label="Crew to dispatch">${crewsFor(t).map((c) => `<option>${esc(c)}</option>`).join('')}</select>
+  <button type="button" class="btn btn-primary" data-action="dispatch" data-ticket="${esc(t.id)}"><i class="fa-solid fa-truck-fast" aria-hidden="true"></i>Dispatch</button></div>`;
+
 function workflowControls(t) {
   const role = state.role;
-  const label = '<p class="workflow-label"><i class="fa-solid fa-user-gear" aria-hidden="true"></i>Demo workflow</p>';
-  if (role === 'operator' && t.status === 'Open') {
-    return `<div class="workflow">${label}<div class="flex gap-2">
-      <select class="input flex-1" data-field="crew" aria-label="Crew to dispatch">${crewsFor(t).map((c) => `<option>${esc(c)}</option>`).join('')}</select>
-      <button type="button" class="btn btn-primary" data-action="dispatch" data-ticket="${esc(t.id)}"><i class="fa-solid fa-truck-fast" aria-hidden="true"></i>Dispatch</button>
-    </div></div>`;
-  }
-  if ((role === 'operator' || role === 'field') && t.status === 'In Progress') {
-    const options = [...(RESOLUTIONS.find(([re]) => re.test(t.issue ?? ''))?.[1] ?? []), 'Repaired on site (other)'];
-    return `<div class="workflow">${label}<div class="flex gap-2">
-      <select class="input flex-1" data-field="resolution" aria-label="Work carried out">${options.map((o) => `<option>${esc(o)}</option>`).join('')}</select>
-      <button type="button" class="btn btn-primary" data-action="resolve" data-ticket="${esc(t.id)}"><i class="fa-solid fa-check" aria-hidden="true"></i>Close ticket</button>
-    </div></div>`;
+  if (role === 'operator' && t.status === 'Open') return needsCheck(t) ? checkHtml(t) : `<div class="workflow">${DEMO_LABEL}${dispatchRow(t)}</div>`;
+  if (role === 'field' && (t.status === 'In Progress' || isCrewCheck(t, currentCrew()))) return outcomeHtml(t);
+  if (role === 'operator' && t.status === 'In Progress') {
+    return `<div class="workflow">${DEMO_LABEL}<div class="flex gap-2">${resolutionSelect(t)}
+      <button type="button" class="btn btn-primary" data-action="resolve" data-ticket="${esc(t.id)}"><i class="fa-solid fa-check" aria-hidden="true"></i>Close ticket</button></div></div>`;
   }
   return '';
+}
+
+/** Needs check (operators): the cheapest checks first; a dedicated dispatch only when none of them can happen in time. */
+function checkHtml(t) {
+  const plan = checkPlan(t);
+  const steps = plan.steps.map((s, i) => `<li class="${s.done ? 'is-done' : s === plan.next ? 'is-next' : !s.available ? 'is-na' : ''}">
+    <span class="step-n" aria-hidden="true">${s.done ? '<i class="fa-solid fa-check"></i>' : i + 1}</span>
+    <span>${esc(s.label)}${s.result ? `: ${esc(s.result)}` : ''}${!s.available && !s.done ? ' <span class="text-ink-3">(not possible here)</span>' : ''}</span></li>`).join('');
+  return `<div class="workflow"><p class="workflow-label"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>Needs check · cheapest first</p>
+    <ol class="check-steps">${steps}</ol>
+    ${plan.next ? `<button type="button" class="btn btn-primary btn-block mt-2" data-action="check-${plan.next.key}" data-ticket="${esc(t.id)}">${esc(plan.next.label)}</button>` : ''}
+    ${plan.waiting ? `<p class="text-[12px] text-ink-2 mt-2"><i class="fa-regular fa-clock" aria-hidden="true"></i> ${esc(plan.waiting)}</p>` : ''}
+    ${plan.dispatch ? `<p class="text-[12px] text-ink-3 mt-2">No cheaper check within ${NEEDS_CHECK_MAX_HOURS} h.</p>${dispatchRow(t)}` : ''}
+  </div>`;
+}
+
+/** Field crew on site: what they found. Each outcome feeds the reporters' track records. */
+function outcomeHtml(t) {
+  const visit = t.status === 'Open'; // a check visit: not their job yet
+  const lamp = !t.circuit && ['not_working', 'flickering', 'other'].includes(t.category);
+  const single = t.pole_uids.length === 1;
+  const options = [['confirmed', 'Fault confirmed'], ['no_fault', 'Working, no fault'], lamp && ['obstruction', 'Obstruction'], single && ['different_pole', 'Different pole']].filter(Boolean);
+  const panel = (key, html, open = false) => `<div class="mt-2" data-outcome-panel="${key}"${open ? '' : ' hidden'}>${html}</div>`;
+  const button = (action, label) => `<button type="button" class="btn btn-primary btn-block" data-action="${action}" data-ticket="${esc(t.id)}">${esc(label)}</button>`;
+  return `<div class="workflow" data-outcome-host>
+    <p class="workflow-label"><i class="fa-solid fa-clipboard-check" aria-hidden="true"></i>${visit ? 'Check visit · what did you find?' : 'On site · what did you find?'}</p>
+    <div class="outcome-options" role="radiogroup" aria-label="What did you find?">${options.map(([key, label], i) => `<button type="button" class="chip-toggle" role="radio" data-outcome="${key}" aria-checked="${i === 0}">${esc(label)}</button>`).join('')}</div>
+    ${panel('confirmed', visit ? button('take-check', 'Take the job')
+      : `<div class="flex gap-2">${resolutionSelect(t)}<button type="button" class="btn btn-primary" data-action="resolve" data-ticket="${esc(t.id)}"><i class="fa-solid fa-check" aria-hidden="true"></i>Close ticket</button></div>`, true)}
+    ${panel('no_fault', button('no-fault', 'Close: working, no fault'))}
+    ${lamp ? panel('obstruction', button('obstruction', 'Send to horticulture / enforcement')) : ''}
+    ${single ? panel('different_pole', button('pick-pole', 'Pick the right pole on the map')) : ''}
+  </div>`;
 }
 
 // ---- energy, contractor, history, activity -------------------------------------------
@@ -627,7 +686,7 @@ function historySection(p) {
 }
 
 function historyItem(h) {
-  const icon = { Retrofit: 'fa-bolt', Preventive: 'fa-broom', Corrective: 'fa-wrench' }[h.type] ?? 'fa-wrench';
+  const icon = { Retrofit: 'fa-bolt', Preventive: 'fa-broom', Corrective: 'fa-wrench', Check: 'fa-magnifying-glass' }[h.type] ?? 'fa-wrench';
   const sla = h.type !== 'Corrective' ? ''
     : h.sla_met ? '<span class="ok"><i class="fa-solid fa-check" aria-hidden="true"></i> SLA met</span>'
       : '<span class="miss"><i class="fa-solid fa-xmark" aria-hidden="true"></i> SLA missed</span>';
@@ -638,6 +697,8 @@ function historyItem(h) {
     sla,
     h.cost_inr ? esc(inr(h.cost_inr)) : '',
     h.verified_by ? `verified by ${esc(h.verified_by === 'CCMS' ? 'CCMS' : 'night photo')}` : '',
+    h.outcome === 'different_pole' ? `reported on ${esc(h.reported_uid.replace('SL-CP-', ''))}, fault found here` : '',
+    h.outcome === 'no_fault' ? 'not confirmed on site' : '',
     h.reopened_at ? `<span class="miss">reopened ${esc(fmtDay(h.reopened_at))}</span>` : '',
   ].filter(Boolean).join(' · ');
   return `<li class="tl-item">
@@ -817,14 +878,19 @@ VIEWS.gap = function renderGapView(id) {
 
 // ---- my reports (Citizen view) ---------------------------------------------------------------
 /** A report's progress in plain words (B4). */
+/** A report's progress in plain words (B4). Citizens see progress only: never a score or a band below "Confirmed". */
 function reportStatus(r) {
   if (r.held_until) return { key: 'logged', text: tr('st_logged', { time: fmtTime(r.held_until) }), icon: 'fa-power-off' };
+  if (r.resolved_at && r.outcome === 'no_fault') return { key: 'checked', text: tr('st_checked'), icon: 'fa-magnifying-glass' };
   if (r.resolved_at) return { key: 'fixed', text: tr('st_fixed'), icon: 'fa-circle-check' };
-  const t = state.tickets.get(r.ticket_id);
-  if (!t) return { key: 'received', text: tr('st_received'), icon: 'fa-inbox' };
-  if (t.status === 'In Progress') return { key: 'assigned', text: tr('st_assigned'), icon: 'fa-person-digging' };
-  if (t.status === 'Awaiting dusk check') return { key: 'checking', text: tr('st_checking'), icon: 'fa-moon' };
-  return { key: r.reopened_at ? 'reopened' : 'received', text: r.reopened_at ? tr('st_reopened') : tr('st_received'), icon: 'fa-inbox' };
+  return ticketStatusText(state.tickets.get(r.ticket_id), r.reopened_at);
+}
+function ticketStatusText(t, reopened = false) {
+  const confirmed = t?.confidence?.band === 'Confirmed';
+  if (t?.status === 'In Progress') return { key: 'assigned', text: confirmed ? tr('st_confirmed_assigned') : tr('st_assigned'), icon: 'fa-person-digging' };
+  if (t?.status === 'Awaiting dusk check') return { key: 'checking', text: tr('st_checking'), icon: 'fa-moon' };
+  if (t && confirmed) return { key: 'confirmed', text: tr('st_confirmed'), icon: 'fa-circle-check' };
+  return { key: reopened ? 'reopened' : 'received', text: reopened ? tr('st_reopened') : tr('st_received'), icon: 'fa-inbox' };
 }
 
 VIEWS.myreports = function renderMyReportsView() {
@@ -832,8 +898,8 @@ VIEWS.myreports = function renderMyReportsView() {
   const mine = state.reports.filter((r) => r.mine).sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
   const items = mine.map((r) => {
     const s = reportStatus(r);
-    const ask = s.key === 'fixed' && !r.confirmed
-      ? `<div class="fixed-q"><span>${esc(tr('fixed_q'))}</span>
+    const ask = (s.key === 'fixed' || s.key === 'checked') && !r.confirmed
+      ? `<div class="fixed-q"><span>${esc(tr(s.key === 'checked' ? 'working_q' : 'fixed_q'))}</span>
           <button type="button" class="btn btn-ghost" data-action="fixed-yes" data-report="${esc(r.id)}">${esc(tr('yes'))}</button>
           <button type="button" class="btn btn-ghost" data-action="fixed-no" data-report="${esc(r.id)}">${esc(tr('no'))}</button></div>`
       : r.confirmed === 'yes' ? `<p class="text-[12px] text-ink-3 mt-1.5">${esc(tr('fixed_thanks'))}</p>` : '';
@@ -845,6 +911,7 @@ VIEWS.myreports = function renderMyReportsView() {
       <p class="text-[12px] text-ink-3 mt-0.5">${r.uid ? `<button type="button" class="link mono" data-action="select-pole" data-uid="${esc(r.uid)}">${esc(r.uid)}</button>` : esc(tr('map_location'))}${r.ticket_id ? ` · <span class="mono">${esc(r.ticket_id)}</span>` : ''}</p>
       <p class="report-status report-status--${s.key}"><i class="fa-solid ${s.icon}" aria-hidden="true"></i>${esc(s.text)}</p>
       ${ask}
+      ${shareEligible(r) ? `<button type="button" class="link share-link" data-action="open-share" data-report="${esc(r.id)}"><i class="fa-solid fa-share-nodes" aria-hidden="true"></i>${esc(tr('share'))}</button>` : ''}
     </li>`;
   }).join('');
   return `${viewHead({ eyebrow: tr('pole_eyebrow'), title: tr('my_reports') })}
@@ -877,6 +944,104 @@ function answerFixed(reportId, fixed) {
   afterDataChange();
   toast({ tone: 'info', icon: 'fa-rotate-left', title: tr('st_reopened'), body: tr('reopened_toast') });
 }
+
+// ---- public escalation: share preview (citizen) and department update (operator) ------------------
+function openShare(reportId) {
+  navigate({ type: 'share', id: reportId }, { fromSidebar: true });
+}
+function openDepartmentUpdate(ticketId) {
+  navigate({ type: 'share', id: `update:${ticketId}` }, { fromSidebar: true });
+}
+/** The exact text before anything opens; the post goes out from the person's own account. */
+function sharePreview(text, citizen, attrs) {
+  const n = weightedLength(text, X_POST);
+  const words = citizen ? { count: tr('share_count', { n, max: X_POST.maxWeighted }), note: tr('share_note'), x: tr('share_x'), other: tr('share_other'), copy: tr('share_copy') }
+    : { count: `${n} of ${X_POST.maxWeighted} characters`, note: 'Opens X with this text for the department’s own account. Nothing is posted automatically.', x: 'Post on X', other: 'Share…', copy: 'Copy text' };
+  return `<div class="post-preview" lang="${citizen ? state.lang : 'en'}">${esc(text)}</div>
+    <p class="text-[11.5px] text-ink-3 mt-1">${esc(words.count)}</p>
+    <p class="text-[12px] text-ink-2 mt-3">${esc(words.note)}</p>
+    <button type="button" class="btn btn-primary btn-block mt-4" data-action="share-x" ${attrs}><i class="fa-brands fa-x-twitter" aria-hidden="true"></i>${esc(words.x)}</button>
+    ${typeof navigator.share === 'function'
+      ? `<button type="button" class="btn btn-ghost btn-block mt-2" data-action="share-native" ${attrs}><i class="fa-solid fa-share-nodes" aria-hidden="true"></i>${esc(words.other)}</button>`
+      : `<button type="button" class="btn btn-ghost btn-block mt-2" data-action="share-copy" ${attrs}><i class="fa-regular fa-copy" aria-hidden="true"></i>${esc(words.copy)}</button>`}`;
+}
+/** The text a share action uses: a citizen's post, or a department update. */
+function shareText(id) {
+  if (id.startsWith('update:')) {
+    const t = state.closed.get(id.slice(7));
+    return t?.public ? departmentUpdate(t) : null;
+  }
+  const r = reportById(id);
+  return shareEligible(r) ? citizenPost(r) : null;
+}
+
+VIEWS.share = function renderShareView(id) {
+  const text = shareText(id);
+  if (!text) return null;
+  if (id.startsWith('update:')) {
+    if (state.role !== 'operator') return null;
+    return `${viewHead({ eyebrow: 'Public update', title: id.slice(7), sub: 'Shared publicly by its reporter; now fixed' })}
+      <div class="sb-body mt-4">${sharePreview(text, false, `data-share="${esc(id)}"`)}</div>`;
+  }
+  if (!isCitizen()) return null;
+  return `${viewHead({ eyebrow: tr('my_reports'), title: tr('share_title') })}
+    <div class="sb-body mt-4">${sharePreview(text, true, `data-share="${esc(id)}"`)}</div>`;
+};
+
+/** Share actions: X's web intent, the device's share sheet, or the clipboard. The person posts it themselves. */
+async function shareVia(channel, id) {
+  const text = shareText(id);
+  if (!text) return;
+  const report = id.startsWith('update:') ? null : reportById(id);
+  if (channel === 'x') window.open(intentUrl(text, X_POST), '_blank', 'noopener');
+  else if (channel === 'native') {
+    try {
+      await navigator.share({ text });
+    } catch {
+      return; // cancelled
+    }
+  } else {
+    try {
+      await navigator.clipboard.writeText(text);
+      toast({ tone: 'ok', icon: 'fa-copy', title: report ? tr('copied') : 'Copied' });
+    } catch {
+      toast({ tone: 'warn', icon: 'fa-triangle-exclamation', title: 'Copy failed' });
+    }
+    return;
+  }
+  if (report) markShared(report, channel === 'x' ? 'X' : 'share sheet');
+  else {
+    const t = state.closed.get(id.slice(7));
+    t.update_drafted = now().toISOString();
+    logActivity('Public update drafted for the department’s account', { ticket: t });
+  }
+  renderSelected({ keepScroll: true });
+}
+
+// ---- public status link (#ticket=<ID>) --------------------------------------------------------------
+function openStatus(id) {
+  navigate({ type: 'status', id });
+  const t = state.tickets.get(id) ?? state.closed.get(id);
+  const at = t ? ticketLatLng(t) : null;
+  if (at) flyToVisible(at, Math.max(map.getZoom(), 18));
+}
+
+VIEWS.status = function renderStatusView(id) {
+  if (!isCitizen()) return null;
+  let t = state.tickets.get(id) ?? state.closed.get(id);
+  while (t?.merged_into) t = state.tickets.get(t.merged_into) ?? state.closed.get(t.merged_into);
+  if (!t) return `${viewHead({ eyebrow: tr('status_title'), title: id })}<div class="sb-body"><p class="empty mt-4">${esc(tr('status_missing'))}</p></div>`;
+  const s = t.status === 'Closed' ? (t.field_outcome === 'no_fault' ? { key: 'checked', text: tr('st_checked'), icon: 'fa-magnifying-glass' }
+    : { key: 'fixed', text: tr('st_fixed'), icon: 'fa-circle-check' }) : ticketStatusText(t);
+  const at = ticketLatLng(t);
+  const landmark = at ? landmarkNear(at) : null;
+  const days = Math.max(1, Math.floor(daysBetween(t.first_raised_at ?? t.raised_at, now())));
+  return `${viewHead({ eyebrow: tr('status_title'), title: t.id, sub: esc(`${catLabel(t.category, true)} · ${ticketRoad(t)}${landmark ? tr('post_near', { landmark }) : ''}`) })}
+    <div class="sb-body">
+      <p class="report-status report-status--${s.key} mt-4"><i class="fa-solid ${s.icon}" aria-hidden="true"></i>${esc(s.text)}</p>
+      ${t.status === 'Closed' ? '' : `<p class="text-[12.5px] text-ink-3 mt-2">${esc(days <= 1 ? tr('post_open_one') : tr('post_open', { days }))}</p>`}
+    </div>`;
+};
 
 /** Map layers that belong to a sidebar view (work order route, event route) follow the selection. */
 function syncViewLayers() {

@@ -73,15 +73,23 @@ function indexTickets() {
     state.tickets.set(t.id, t);
     noteTicketId(t.id);
   }
-  // Two earlier reports from "this citizen", so My reports and "Fixed? Yes / No" can be shown (simulated).
-  for (const s of DATA.citizenSamples ?? []) {
+  // Simulated reporters and the citizen reports behind the tickets (photos, locations, when it was noticed).
+  for (const r of DATA.reporters ?? []) state.reporters.set(r.id, { ...r });
+  for (const s of DATA.citizenReports ?? []) {
     const report = {
-      id: s.id, category: s.category, uid: s.uid, latlng: state.byUid.get(s.uid)?.latlng ?? null, note: '', source: 'Citizen app',
-      created_at: s.created_at, ticket_id: s.ticket_id, mine: true, simulated: true,
+      id: s.id, reporter_id: s.reporter_id, category: s.category, uid: s.uid,
+      latlng: s.uid ? state.byUid.get(s.uid)?.latlng ?? null : toLatLng(s.spot),
+      note: '', source: s.source, created_at: s.created_at, ticket_id: s.ticket_id, noticed: s.noticed,
+      photo: s.photo ? { ...s.photo } : null,
+      device: s.device_location ? { latlng: toLatLng(s.device_location.position), accuracy_m: s.device_location.accuracy_m } : null,
+      mine: s.mine, simulated: true,
     };
-    if (!state.tickets.has(s.ticket_id)) {
+    if (!state.tickets.has(s.ticket_id)) { // closed before this session: its repair is in the history
       const h = props(s.uid)?.repair_history.find((x) => x.ticket_id === s.ticket_id);
-      if (h) report.resolved_at = h.verified_at ?? h.resolved_at;
+      if (h) {
+        report.resolved_at = h.verified_at ?? h.resolved_at;
+        report.outcome = h.outcome ?? 'confirmed';
+      }
     }
     state.tickets.get(s.ticket_id)?.reports.push(report.id);
     state.reports.push(report);
@@ -107,11 +115,13 @@ function ticketCriticality(t) {
 const ticketUnlitM = (t) => Math.max(0, ...t.pole_uids.map((uid) => darkRunByUid.get(uid)?.unlitM ?? 0));
 
 /**
- * Priority (C3) = category severity + landmark criticality + extra reports (capped) + unlit stretch.
+ * Priority (C3) = category severity + landmark criticality + extra reports (capped) + unlit stretch
+ * + a small confidence adjustment. Being shared publicly never changes it.
  * SLA = the team's base hours (the contractor's for lamp jobs), cut by the named modifiers.
  * Escalation (C4) = how many SLAs have passed since the ticket was raised.
  */
 function rateTicket(t) {
+  t.confidence = ticketConfidence(t);
   const crit = ticketCriticality(t);
   const runM = ticketUnlitM(t);
   const reports = Math.max(1, t.complaints ?? 0);
@@ -130,6 +140,11 @@ function rateTicket(t) {
   if (runBonus) {
     score += runBonus[1];
     factors.push(`${nf0.format(roundTo(runM, 5))} m unlit`);
+  }
+  const sure = CONFIDENCE_PRIORITY[t.confidence.band] ?? 0;
+  if (sure) {
+    score += sure;
+    factors.push(t.confidence.band.toLowerCase());
   }
   t.score = score;
   t.priority = PRIORITY_THRESHOLDS.find(([, min]) => score >= min)?.[0] ?? 'Low';
@@ -203,6 +218,132 @@ const underWarranty = (p, at = now()) => {
 const ticketWarranty = (t) => t.team === 'lamp' && !EXTERNAL_CAUSE.test(t.issue ?? '') && !NOT_A_LAMP_JOB.test(t.issue ?? '')
   && ticketPoles(t).some((p) => underWarranty(p));
 
+// ---- 9.1 Report confidence: the evidence confidence.js scores ------------------------
+const BAND_RANK = { Confirmed: 3, Likely: 2, 'Needs check': 1 };
+const SOURCE_TEXT = { 'CCMS auto-alert': 'a CCMS alert', 'Night patrol': 'the night patrol', 'Night audit': 'the night audit', 'Circuit analysis': 'circuit analysis' };
+const reportById = (id) => state.reports.find((r) => r.id === id) ?? null;
+const sessionReporterId = () => [...state.reporters.values()].find((r) => r.mine)?.id ?? 'RP-SESSION';
+
+/** The last scheduled switch-on (sunset) at or before `at`. */
+function lastSwitchOn(at = now()) {
+  const key = istDateKey(at);
+  const today = sunTimes(key).sunset;
+  return today <= at ? today : sunTimes(addDays(key, -1)).sunset;
+}
+/** Simulated CCMS feed: a node reports its lamp on when the pole works and has supply. */
+const simulatedCcmsState = (p) => (p.status === 'Functional' && !shutdownOf(p) ? 'on' : 'off');
+
+/** What the pole's CCMS node says: a fresh poll (simulated), else its reading at the last switch-on. */
+function ccmsEvidence(p, poll = null) {
+  if (!p?.ccms_node) return null;
+  if (poll) return { night: poll.state, daylight: poll.daylight, poll: true };
+  const r = p.ccms_reading;
+  if (r && Math.abs(new Date(r.switch_on_at) - lastSwitchOn()) < 3.6e6) return { night: r.state, daylight: r.daylight };
+  return { night: simulatedCcmsState(p), daylight: 'off' }; // an evening after the data snapshot: simulated feed
+}
+
+/** On a detected circuit or cable fault, or next to a dark pole on the same circuit. */
+function circuitEvidence(p) {
+  if (circuitFault(p.feeder_panel, p.circuit)?.uids.includes(p.uid)) return 'fault';
+  const uids = circuitUids(p.feeder_panel, p.circuit);
+  const i = uids.indexOf(p.uid);
+  return [uids[i - 1], uids[i + 1]].some((u) => u && isDarkStatus(props(u))) ? 'neighbour' : null;
+}
+
+const samePlace = (a, b) => (a.uid || b.uid ? a.uid === b.uid : Boolean(a.latlng && b.latlng) && a.latlng.distanceTo(b.latlng) <= DUPLICATE_RADIUS_M);
+
+/** The earliest other report with a near-identical photo (perceptual hash), if any. */
+function photoMatchFor(r) {
+  if (!r.photo?.hash) return null;
+  const when = (x) => [new Date(x.created_at).getTime(), state.reports.indexOf(x)];
+  const [rt, ri] = when(r);
+  const earlier = state.reports.filter((x) => {
+    if (x === r || !x.photo?.hash || hashDistance(x.photo.hash, r.photo.hash) > PHOTO_MATCH_MAX_BITS) return false;
+    const [xt, xi] = when(x);
+    return xt < rt || (xt === rt && xi < ri);
+  }).sort((a, b) => new Date(a.created_at) - new Date(b.created_at))[0];
+  return earlier ? {
+    reportId: earlier.id, samePole: samePlace(earlier, r), sameReporter: earlier.reporter_id === r.reporter_id,
+    sameDay: istDateKey(earlier.created_at) === istDateKey(r.created_at),
+  } : null;
+}
+
+/** Everything confidence.js needs about one report, read from the data model. */
+function reportEvidence(r, t = state.tickets.get(r.ticket_id) ?? null) {
+  const p = r.uid ? props(r.uid) : null;
+  const target = p ? state.byUid.get(r.uid).latlng : r.latlng;
+  const siblings = (t?.reports ?? [r.id]).map(reportById).filter((x) => x && !x.review);
+  const reporters = new Set(siblings.filter((x) => Math.abs(hoursBetween(x.created_at, r.created_at)) <= DUPLICATE_WINDOW_HOURS).map((x) => x.reporter_id));
+  const rep = state.reporters.get(r.reporter_id);
+  return {
+    category: r.category,
+    field: t ? t.field_outcome ?? (r.source === 'Night audit' ? 'confirmed' : null) : r.outcome ?? null,
+    ccms: p ? ccmsEvidence(p, t?.ccms_poll) : null,
+    circuit: p ? circuitEvidence(p) : null,
+    reporters: Math.max(1, reporters.size),
+    track: rep ? { reports: rep.past_reports, confirmed: rep.past_confirmed } : null,
+    photo: r.photo ? { live: r.photo.kind === 'live' } : null,
+    photoMatch: photoMatchFor(r),
+    location: r.device && target ? { accuracyM: r.device.accuracy_m, distanceM: r.device.latlng.distanceTo(target) } : null,
+    timing: { noticed: r.noticed ?? null, darkAtReport: isDark(new Date(r.created_at)) },
+    extra: photoCheck(r.photo, r.category, p),
+  };
+}
+
+/**
+ * A ticket's confidence: emergencies are never scored; a field check is final; tickets raised by CCMS,
+ * patrols, audits or circuit analysis are confirmed; otherwise its best-supported citizen report decides.
+ */
+function ticketConfidence(t) {
+  const plain = (ev) => ({ ...scoreReport(ev, CONFIDENCE), notes: [], count: 0 });
+  if (isEmergency(t)) return plain({ category: CONFIDENCE.emergencyCategories[0] });
+  if (t.field_outcome) return plain({ category: t.category, field: t.field_outcome });
+  if (SYSTEM_SOURCES.includes(t.source)) {
+    return { bypass: false, band: 'Confirmed', final: null, score: null, contradicted: false, notes: [], count: t.reports.length,
+      signals: [{ key: 'source', effect: 1, points: 0, text: `Raised by ${SOURCE_TEXT[t.source]}` }] };
+  }
+  const reports = t.reports.map(reportById).filter((r) => r && !r.review);
+  if (!reports.length) return plain({ category: t.category });
+  const scored = reports.map((r) => ({ r, res: scoreReport(reportEvidence(r, t), CONFIDENCE) }))
+    .sort((a, b) => (BAND_RANK[b.res.band] ?? 0) - (BAND_RANK[a.res.band] ?? 0) || (b.res.score ?? 0) - (a.res.score ?? 0));
+  const notes = scored.slice(1).flatMap(({ r, res }) => res.signals.filter((s) => s.key === 'photo-match' && s.effect < 0).map((s) => `${r.id}: ${s.text}`));
+  return { ...scored[0].res, basis: scored[0].r.id, count: reports.length, notes };
+}
+
+/** A crew already working within NEARBY_CREW_M of a spot, nearest first. */
+function nearestCrew(latlng, except = null) {
+  let best = null;
+  for (const job of state.tickets.values()) {
+    const at = job !== except && job.status === 'In Progress' && job.assigned_crew ? ticketLatLng(job) : null;
+    const d = at ? at.distanceTo(latlng) : Infinity;
+    if (d <= NEARBY_CREW_M && (!best || d < best.d)) best = { crew: job.assigned_crew, d };
+  }
+  return best;
+}
+
+/**
+ * Needs check: the cheapest checks first, in order: a CCMS poll (simulated), the next night audit, a crew
+ * already nearby. A dedicated dispatch is offered only when none of them can happen within NEEDS_CHECK_MAX_HOURS.
+ */
+function checkPlan(t) {
+  const at = ticketLatLng(t);
+  const dusk = nextDusk();
+  const crew = at ? nearestCrew(at, t) : null;
+  const lampState = [...CONFIDENCE.nightCategories, ...CONFIDENCE.dayCategories].includes(t.category); // what CCMS and audits can see
+  const steps = [
+    { key: 'ccms', available: lampState && ticketPoles(t).some((p) => p.ccms_node), done: Boolean(t.ccms_poll), label: 'Poll CCMS (simulated)',
+      result: t.ccms_poll ? `lamp ${t.ccms_poll.state} at ${fmtTime(t.ccms_poll.at)}` : null },
+    { key: 'audit', available: CONFIDENCE.nightCategories.includes(t.category) && t.pole_uids.length > 0 && hoursBetween(now(), dusk) <= NEEDS_CHECK_MAX_HOURS,
+      done: t.check?.kind === 'audit', label: `Add to the night audit (${isDark() ? 'tonight' : `from ${fmtTime(dusk)}`})` },
+    { key: 'crew', available: Boolean(crew), done: t.check?.kind === 'crew', crew: crew?.crew,
+      label: crew ? `Ask ${crew.crew} (${Math.round(crew.d)} m away)` : 'Ask a crew nearby' },
+  ];
+  const waiting = t.check ? (t.check.kind === 'audit' ? 'Waiting for the night audit' : `Waiting for ${t.check.crew}`) : null;
+  const next = waiting ? null : steps.find((s) => s.available && !s.done) ?? null;
+  return { steps, next, waiting, dispatch: !waiting && !next };
+}
+const needsCheck = (t) => t.status === 'Open' && t.confidence?.band === 'Needs check';
+
 // ========================================================================
 // 10. Workflow: dispatch -> close -> dusk check -> closed (or reopened)
 // ========================================================================
@@ -241,6 +382,7 @@ function dispatchTicket(id, crew) {
 function closeTicket(id, resolution) {
   const t = state.tickets.get(id);
   if (!t || t.status !== 'In Progress' || !resolution) return;
+  if (!t.field_outcome) recordOutcome(t, 'confirmed');
   t.status = 'Awaiting dusk check';
   t.closed_at = now().toISOString();
   t.resolution = resolution;
@@ -314,6 +456,7 @@ function finishTicket(t, by, at = now()) {
       raised_at: t.raised_at, resolved_at: t.closed_at ?? verifiedAt, downtime_h: round1(downtime), sla_met: downtime <= t.sla_hours,
       crew: t.assigned_crew, contractor: t.team === 'lamp' ? p.contractor?.name ?? null : TEAMS[t.team]?.label ?? null,
       cost_inr: null, status: 'Closed', verified_at: verifiedAt, verified_by: by,
+      ...(t.reported_uid ? { outcome: 'different_pole', reported_uid: t.reported_uid } : {}),
     });
     if (p.ticket === t) p.ticket = null;
     setPoleStatus(p, 'Functional', t, { role: by === 'CCMS' ? 'system' : state.role, at });
@@ -348,16 +491,24 @@ function reopenTicket(id, reason, { report = null } = {}) {
   if (busy) return busy; // the pole already has a newer open ticket: the report joins that one instead
   const was = t.status;
   if (t.dusk_photo?.url) URL.revokeObjectURL(t.dusk_photo.url);
+  if (t.field_outcome === 'no_fault') { // the reporter disagrees: their report is counted again once it is checked
+    for (const r of t.reports.map(reportById)) {
+      const rep = r?.outcome === 'no_fault' ? state.reporters.get(r.reporter_id) : null;
+      if (rep) rep.past_reports -= 1;
+      if (r?.outcome === 'no_fault') r.outcome = null;
+    }
+  }
   Object.assign(t, {
     status: 'Open', first_raised_at: t.first_raised_at ?? t.raised_at, raised_at: now().toISOString(), reopened_at: now().toISOString(),
     assigned_crew: null, work_started_at: null, closed_at: null, resolution: null, verified_at: null, verified_by: null,
-    escalationIndex: 0, escalation: ESCALATION[0], dusk_photo: null,
+    escalationIndex: 0, escalation: ESCALATION[0], dusk_photo: null, field_outcome: null, check: null, ccms_poll: null,
   });
   state.closed.delete(t.id);
   state.tickets.set(t.id, t);
+  for (const p of ticketPoles(t)) p.ticket = t;
+  const checkFirst = ticketConfidence(t).band === 'Needs check'; // e.g. CCMS shows the lamp on: check before darkening it
   for (const p of ticketPoles(t)) {
-    p.ticket = t;
-    if (darkens(t)) setPoleStatus(p, 'Faulty', t);
+    if (darkens(t) && !checkFirst) setPoleStatus(p, 'Faulty', t);
     const h = p.repair_history.find((x) => x.ticket_id === t.id);
     if (h) h.reopened_at = t.reopened_at;
   }
@@ -382,6 +533,160 @@ function splitReport(reportId) {
   logActivity(`Report ${r.id} split out`, { ticket: from, from: from.id, to: t.id });
   afterDataChange();
   toast({ tone: 'info', icon: 'fa-code-branch', title: `${r.id} split out`, body: `New ticket ${t.id}; ${from.id} keeps ${plural(from.complaints, 'report')}.` });
+}
+
+// ---- 10.1 Checks and on-site outcomes (report confidence) -----------------------------
+const OUTCOME_LABEL = { confirmed: 'Fault confirmed', no_fault: 'Working, no fault', obstruction: 'Obstruction', different_pole: 'Different pole' };
+
+/** What the crew found on site. Every outcome updates the track record of the ticket's reporters. */
+function recordOutcome(t, outcome) {
+  if (t.field_outcome === outcome) return;
+  t.field_outcome = outcome;
+  for (const r of t.reports.map(reportById)) {
+    if (!r || r.outcome) continue;
+    r.outcome = outcome;
+    const rep = state.reporters.get(r.reporter_id);
+    if (rep) {
+      rep.past_reports += 1;
+      if (countsAsConfirmed(outcome)) rep.past_confirmed += 1;
+    }
+  }
+  logActivity(`On site: ${OUTCOME_LABEL[outcome]}`, { ticket: t, to: OUTCOME_LABEL[outcome] });
+}
+
+/** Needs check, cheapest first: poll the pole's CCMS node (simulated). */
+function pollCcms(id) {
+  const t = state.tickets.get(id);
+  const p = t && ticketPoles(t).find((x) => x.ccms_node);
+  if (!p) return;
+  t.ccms_poll = { at: now().toISOString(), state: simulatedCcmsState(p), daylight: 'off' };
+  logActivity(`CCMS polled (simulated): lamp ${t.ccms_poll.state}`, { ticket: t, to: t.ccms_poll.state });
+  afterDataChange();
+  toast({ tone: 'info', icon: 'fa-tower-broadcast', title: `CCMS (simulated): lamp ${t.ccms_poll.state}`, body: needsCheck(t) ? 'Still needs a check.' : `Now ${t.confidence.band.toLowerCase()}.` });
+}
+
+/** Needs check: put the pole on the next night audit, or ask a crew already working nearby to look. */
+function sendToCheck(id, kind) {
+  const t = state.tickets.get(id);
+  const step = t && checkPlan(t).steps.find((s) => s.key === kind && s.available && !s.done);
+  if (!step) return;
+  t.check = kind === 'audit' ? { kind, at: now().toISOString() } : { kind, crew: step.crew, at: now().toISOString() };
+  if (kind === 'audit') addToAuditRoute(t.pole_uids);
+  logActivity(kind === 'audit' ? 'Check: added to the night audit' : `Check: asked ${step.crew}`, { ticket: t });
+  afterDataChange();
+  toast({ tone: 'info', icon: kind === 'audit' ? 'fa-moon' : 'fa-person-walking', title: `${t.id}: check arranged`, body: kind === 'audit' ? 'On the night audit route.' : `In ${step.crew}'s work order.` });
+}
+
+/** A crew checking a report confirms the fault: it becomes their job. */
+function takeCheckJob(id, crew) {
+  const t = state.tickets.get(id);
+  if (!t || t.status !== 'Open' || !crew) return;
+  recordOutcome(t, 'confirmed');
+  Object.assign(t, { check: null, status: 'In Progress', assigned_crew: crew, work_started_at: now().toISOString() });
+  logActivity(`${crew} took the job`, { ticket: t, from: 'Open', to: 'In Progress' });
+  if (darkens(t)) for (const p of ticketPoles(t)) setPoleStatus(p, 'Under Maintenance', t);
+  afterDataChange();
+}
+
+/** The night audit saw the lamp dark: confirmed, still to be dispatched. */
+function confirmFromAudit(t) {
+  recordOutcome(t, 'confirmed');
+  t.check = null;
+  if (darkens(t)) for (const p of ticketPoles(t)) if (p.status === 'Functional') setPoleStatus(p, 'Faulty', t);
+}
+
+/** Working when checked: the ticket closes as "Not confirmed on site". No report is ever called wrong. */
+function closeNoFault(id) {
+  const t = state.tickets.get(id);
+  if (!t) return;
+  const was = t.status;
+  const at = now().toISOString();
+  recordOutcome(t, 'no_fault');
+  for (const p of ticketPoles(t)) {
+    p.repair_history.unshift({
+      ticket_id: t.id, type: 'Check', issue: t.issue, action: 'Checked on site: working, no fault', source: t.source,
+      priority: t.priority, raised_at: t.raised_at, resolved_at: at, downtime_h: null, crew: t.assigned_crew ?? t.check?.crew ?? null,
+      contractor: null, cost_inr: null, status: 'Closed', outcome: 'no_fault',
+    });
+    if (p.ticket === t) p.ticket = null;
+    setPoleStatus(p, 'Functional', t);
+    p.last_inspected = istDateKey(at);
+  }
+  Object.assign(t, { status: 'Closed', closed_at: at, resolution: 'Not confirmed on site', check: null });
+  state.tickets.delete(t.id);
+  state.closed.set(t.id, t);
+  for (const r of state.reports) if (r.ticket_id === t.id) r.resolved_at = at;
+  logActivity('Closed: not confirmed on site', { ticket: t, from: was, to: 'Closed' });
+  afterDataChange();
+  toast({ tone: 'info', icon: 'fa-circle-check', title: `${t.id} closed`, body: 'Not confirmed on site.' });
+}
+
+/** The lamp works but a tree or hoarding blocks it: the ticket goes to horticulture / enforcement. */
+function markObstruction(id) {
+  const t = state.tickets.get(id);
+  if (!t) return;
+  recordOutcome(t, 'obstruction');
+  const from = assigneeOf(t);
+  Object.assign(t, { category: 'blocked', status: 'Open', assigned_crew: null, work_started_at: null, check: null, issue: 'Light blocked by a tree or hoarding (found on site)' });
+  t.team = routeTeam(t);
+  for (const p of ticketPoles(t)) setPoleStatus(p, 'Functional', t);
+  logActivity('Re-routed: light blocked by a tree or hoarding', { ticket: t, from, to: assigneeOf(t) });
+  afterDataChange();
+  toast({ tone: 'info', icon: 'fa-tree', title: `${t.id} → ${assigneeOf(t)}`, body: 'The lamp works; the obstruction needs clearing.' });
+}
+
+/** The fault is on another pole: the ticket moves there (or joins that pole's open ticket). Confirmed for the reporter. */
+function moveTicketToPole(id, uid) {
+  const t = state.tickets.get(id);
+  const to = props(uid);
+  const from = t && t.pole_uids.length === 1 ? props(t.pole_uids[0]) : null;
+  if (!from || !to || from === to) return false;
+  recordOutcome(t, 'different_pole');
+  t.reported_uid = from.uid;
+  if (from.ticket === t) {
+    from.ticket = null;
+    setPoleStatus(from, 'Functional', t);
+  }
+  let target = t;
+  if (to.ticket && to.ticket !== t) {
+    target = to.ticket;
+    mergeTicketInto(t, target, `fault found on ${uid}, not ${from.uid}`);
+  } else {
+    t.pole_uids = [uid];
+    to.ticket = t;
+    if (darkens(t)) setPoleStatus(to, t.status === 'In Progress' ? 'Under Maintenance' : 'Faulty', t);
+  }
+  logActivity(`Moved from ${from.uid} to ${uid}: the fault is there`, { ticket: target, uids: [from.uid, uid], from: from.uid, to: uid });
+  afterDataChange();
+  toast({ tone: 'ok', icon: 'fa-arrows-left-right', title: `${target.id} moved to ${uid.replace('SL-CP-', '')}`, body: 'Counted as confirmed for the reporter.' });
+  return true;
+}
+
+/** "Different pole": pick the right pole on the map (Esc cancels). */
+function startPolePick(id) {
+  if (state.reportMode) setReportMode(false); // one map mode at a time
+  if (state.drawing) stopDrawing();
+  state.picking = { ticketId: id };
+  document.body.classList.add('is-picking');
+  map.getContainer().classList.add('is-picking');
+  renderMapChip();
+}
+function stopPolePick() {
+  state.picking = null;
+  document.body.classList.remove('is-picking');
+  map.getContainer().classList.remove('is-picking');
+  renderMapChip();
+}
+
+/** Operator: accept a report that was held for review; it is then handled like any other. */
+function acceptReport(id) {
+  const r = reportById(id);
+  if (!r?.review) return;
+  r.review = false;
+  logActivity(`Report ${r.id} accepted after review`, { uids: r.uid ? [r.uid] : [] });
+  const { ticket } = processReport(r);
+  afterDataChange();
+  toast({ tone: 'ok', icon: 'fa-circle-check', title: `${r.id} accepted`, body: ticket ? `On ticket ${ticket.id}.` : 'Logged.' });
 }
 
 /** Everything that depends on pole status or tickets, after any change. */
@@ -489,18 +794,53 @@ function nearbyLocationTicket(latlng, at = now()) {
 }
 
 /**
- * File one report from any source. Returns { report, ticket, outcome } where outcome is
- *   'logged' (planned shutdown: no dispatch), 'merged' (+1 report on an open ticket),
- *   'reopened' (the repaired lamp is still out) or 'new'.
+ * Who filed a report (a simulated identity: no names). The Citizen view is this device's reporter; a
+ * call-centre caller is known by their mobile number (hashed), or not at all; a night audit is the crew.
  */
-function fileReport({ category, uid = null, latlng, note = '', photo = null, name = '', phone = '', source, role = state.role }) {
+function reporterFor(source, phone = '') {
+  if (source === 'Citizen app') return sessionReporterId();
+  if (source === 'Night audit') return `crew:${currentCrew()}`;
+  if (!phone) return null;
+  let h = 2166136261; // FNV-1a: an ID from the number without showing it
+  for (const ch of phone) h = Math.imul(h ^ ch.charCodeAt(0), 16777619) >>> 0;
+  const id = `RP-C${String(h % 10000).padStart(4, '0')}`;
+  if (!state.reporters.has(id)) state.reporters.set(id, { id, past_reports: 0, past_confirmed: 0, mine: false, simulated: true });
+  return id;
+}
+/** More than REPORTS_PER_REPORTER_PER_HOUR from one reporter in the last hour. */
+function overHourlyLimit(r) {
+  if (!state.reporters.has(r.reporter_id)) return false;
+  const since = now().getTime() - 3.6e6;
+  return state.reports.filter((x) => x !== r && x.reporter_id === r.reporter_id && new Date(x.created_at).getTime() > since).length >= REPORTS_PER_REPORTER_PER_HOUR;
+}
+
+/**
+ * File one report from any source. Returns { report, ticket, outcome } where outcome is
+ *   'review' (over the hourly limit: logged, held for an operator), 'logged' (planned shutdown: no
+ *   dispatch), 'merged' (+1 report on an open ticket), 'reopened' (the repaired lamp is still out) or 'new'.
+ * Every report is recorded; confidence only changes the order and the check, never whether it counts.
+ */
+function fileReport({ category, uid = null, latlng, note = '', photo = null, device = null, noticed = null, name = '', phone = '', source, role = state.role }) {
   const cat = CATEGORY[category] ?? CATEGORY.other;
-  const at = now();
   const report = {
-    id: nextReportId(), category: cat.id, uid, latlng, note, photo, name, phone, source,
-    created_at: at.toISOString(), mine: role === 'citizen', ticket_id: null,
+    id: nextReportId(), reporter_id: reporterFor(source, phone), category: cat.id, uid, latlng, note, photo, device, noticed,
+    name, phone, source, created_at: now().toISOString(), mine: role === 'citizen', ticket_id: null,
   };
+  report.reporter_id ??= `ANON-${report.id}`;
   state.reports.push(report);
+  if (cat.team !== 'emergency' && overHourlyLimit(report)) { // safety reports always go through
+    report.review = true;
+    logActivity(`Report ${report.id} held for review: more than ${REPORTS_PER_REPORTER_PER_HOUR} in an hour from one reporter`, { uids: uid ? [uid] : [], role });
+    return { report, ticket: null, outcome: 'review' };
+  }
+  return processReport(report, role);
+}
+
+/** Put a recorded report on a ticket: shutdown hold, merge into an open ticket, or a new ticket. */
+function processReport(report, role = state.role) {
+  const cat = CATEGORY[report.category];
+  const at = now();
+  const { uid, latlng, note, source } = report;
   const hold = SHUTDOWN_HOLDS.includes(cat.id) ? shutdownAt(uid, latlng, at) : null;
   if (hold) {
     report.held_until = hold.end.toISOString();
@@ -527,21 +867,21 @@ function fileReport({ category, uid = null, latlng, note = '', photo = null, nam
       ticket.team = routeTeam(ticket);
       logActivity('Category raised by a report', { ticket, from: catLabel(from, false), to: catLabel(cat.id, false), role });
     }
-    if (cat.darkens && p && p.status === 'Functional') setPoleStatus(p, 'Faulty', ticket, { role });
   } else {
     ticket = newTicket({ kind: p ? 'pole' : 'location', category: cat.id, source, uids: p ? [p.uid] : [], latlng: p ? null : latlng, note, at, role });
     ticket.complaints = 1;
     ticket.reports = [report.id];
-    if (p) {
-      p.ticket = ticket;
-      if (cat.darkens && p.status === 'Functional') setPoleStatus(p, 'Faulty', ticket, { role });
-    }
+    if (p) p.ticket = ticket;
   }
   report.ticket_id = ticket.id;
+  // A lamp report darkens the pole, unless the evidence says to check first (CCMS shows the lamp on).
+  if (cat.darkens && p && p.status === 'Functional' && ticketConfidence(ticket).band !== 'Needs check') setPoleStatus(p, 'Faulty', ticket, { role });
   return { report, ticket, outcome };
 }
 
 function setReportMode(on) {
+  if (on && state.picking) stopPolePick(); // one map mode at a time
+  if (on && state.drawing) stopDrawing();
   state.reportMode = on;
   document.body.classList.toggle('is-reporting', on);
   map.getContainer().classList.toggle('is-reporting', on); // crosshair cursor over the whole map
@@ -595,18 +935,36 @@ function renderCategoryChips(selected = null) {
 function syncSafetyNote() {
   const picked = form.querySelector('input[name="issue"]:checked')?.value;
   $('#rm-safety').hidden = CATEGORY[picked]?.team !== 'emergency';
+  syncNoticed(picked);
 }
+
+/** "Noticed: Last night / Earlier today / Just now", for faults only visible after dark; pre-set by the time of day. */
+function syncNoticed(category) {
+  const show = CONFIDENCE.nightCategories.includes(category);
+  $('#rm-noticed').hidden = !show;
+  if (show && !form.querySelector('input[name="noticed"]:checked')) {
+    form.querySelector(`input[name="noticed"][value="${isDark() ? 'just_now' : 'last_night'}"]`).checked = true;
+  }
+}
+
+let draftPhoto = null;  // { kind: 'live' | 'upload', name, url, hash, ready }: kept in memory only
+let draftDevice = null; // { latlng, accuracy_m } from "Use my location", only when the reporter taps it
+let submitting = false;
 
 function openReportModal(presetCategory) {
   lastFocus = document.activeElement;
   form.reset();
   clearPhoto();
+  draftDevice = null;
   applyLanguage();
   $('#rm-issue-error').hidden = true;
   $('#rm-phone-error').hidden = true;
   $('#rm-count').textContent = '0/500';
   $('#rm-contact').open = false;
+  $('#rm-geo-status').textContent = '';
   $('#rm-location').innerHTML = draftLocationHtml();
+  $('#rm-noticed-options').innerHTML = ['last_night', 'earlier_today', 'just_now'].map((k) => `<label class="chip-radio">
+    <input type="radio" name="noticed" value="${k}"><span>${esc(tr(`noticed_${k}`))}</span></label>`).join('');
   renderCategoryChips(presetCategory);
   modal.hidden = false;
   (form.querySelector('input[name="issue"]:checked') ?? form.querySelector('input[name="issue"]'))?.focus();
@@ -623,14 +981,90 @@ function closeReportModal({ restoreFocus = true } = {}) {
 function clearPhoto() {
   if (photoUrl) URL.revokeObjectURL(photoUrl);
   photoUrl = null;
+  draftPhoto = null;
   const img = $('#rm-photo-preview');
   img.hidden = true;
   img.removeAttribute('src');
   $('#rm-photo-name').textContent = '';
+  for (const id of ['#rm-photo-take', '#rm-photo-upload']) $(id).value = '';
+}
+
+/** A photo for the report: "Take photo" (the camera) counts as live, "Upload photo" as uploaded. */
+function setDraftPhoto(file, kind) {
+  clearPhoto();
+  if (!file) return;
+  if (!file.type.startsWith('image/')) {
+    $('#rm-photo-name').textContent = tr('form_photo_not_image');
+    return;
+  }
+  photoUrl = URL.createObjectURL(file);
+  const img = $('#rm-photo-preview');
+  img.src = photoUrl;
+  img.hidden = false;
+  $('#rm-photo-name').textContent = file.name;
+  const photo = { kind, name: file.name, url: photoUrl, hash: null };
+  photo.ready = imageHash(file).then((hash) => { photo.hash = hash; });
+  draftPhoto = photo;
+}
+
+/**
+ * Perceptual hash (dHash, 64 bits) of a picture, computed in the browser: the same picture resized or
+ * re-saved gives nearly the same hash. Pictures too dark or plain to compare give null.
+ */
+function imageHash(file) {
+  return new Promise((resolve) => {
+    const url = URL.createObjectURL(file);
+    const img = new Image();
+    const done = (hash) => {
+      URL.revokeObjectURL(url);
+      resolve(hash);
+    };
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      canvas.width = 9;
+      canvas.height = 8;
+      const ctx = canvas.getContext('2d', { willReadFrequently: true });
+      ctx.drawImage(img, 0, 0, 9, 8);
+      const px = ctx.getImageData(0, 0, 9, 8).data;
+      const grey = Array.from({ length: 72 }, (_, i) => 0.299 * px[i * 4] + 0.587 * px[i * 4 + 1] + 0.114 * px[i * 4 + 2]);
+      const mean = sum(grey) / grey.length;
+      if (Math.sqrt(sum(grey.map((g) => (g - mean) ** 2)) / grey.length) < PHOTO_HASH_MIN_CONTRAST) return done(null);
+      let hex = '';
+      for (let y = 0; y < 8; y++) {
+        let byte = 0;
+        for (let x = 0; x < 8; x++) byte = (byte << 1) | (grey[y * 9 + x] > grey[y * 9 + x + 1] ? 1 : 0);
+        hex += byte.toString(16).padStart(2, '0');
+      }
+      return done(hex);
+    };
+    img.onerror = () => done(null);
+    img.src = url;
+  });
+}
+
+/** "Use my location": asked only when the reporter taps it, never automatically. */
+function useMyLocation() {
+  const status = $('#rm-geo-status');
+  const draft = state.draft;
+  if (!navigator.geolocation) {
+    status.textContent = tr('location_failed');
+    return;
+  }
+  status.textContent = tr('locating');
+  navigator.geolocation.getCurrentPosition((pos) => {
+    if (state.draft !== draft) return; // the form was closed meanwhile
+    draftDevice = { latlng: toLatLng([pos.coords.longitude, pos.coords.latitude]), accuracy_m: Math.round(pos.coords.accuracy) };
+    status.textContent = tr('location_added', { m: draftDevice.accuracy_m });
+  }, () => {
+    if (state.draft !== draft) return;
+    draftDevice = null;
+    status.textContent = tr('location_failed');
+  }, { enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 });
 }
 
 /** Form submit: validate, file the report, update the map, say what happened. */
-function submitReportForm() {
+async function submitReportForm() {
+  if (submitting) return;
   const fd = new FormData(form);
   const category = String(fd.get('issue') ?? '');
   const phone = String(fd.get('phone') ?? '').replace(/[\s-]/g, '');
@@ -648,11 +1082,19 @@ function submitReportForm() {
   }
   const draft = state.draft;
   if (!draft) return;
+  submitting = true;
+  const photoDraft = draftPhoto;
+  if (photoDraft) await photoDraft.ready; // the perceptual hash takes a moment
+  submitting = false;
+  if (state.draft !== draft) return;
   const citizen = isCitizen();
+  const photo = photoDraft ? { kind: photoDraft.kind, name: photoDraft.name, url: photoDraft.url, hash: photoDraft.hash } : null;
+  if (photo) photoUrl = null; // the report keeps the picture, in memory only
   const { report, ticket, outcome, hold } = fileReport({
-    category, uid: draft.uid, latlng: draft.clickLatLng,
+    category, uid: draft.uid, latlng: draft.clickLatLng, photo, device: draftDevice,
+    noticed: CONFIDENCE.nightCategories.includes(category) ? String(fd.get('noticed') || '') || null : null,
     note: String(fd.get('description') ?? '').trim(), name: String(fd.get('name') ?? '').trim(), phone,
-    photo: $('#rm-photo').files?.[0]?.name ?? null, source: citizen ? 'Citizen app' : 'Call centre',
+    source: citizen ? 'Citizen app' : 'Call centre',
   });
   closeReportModal({ restoreFocus: false });
   setReportMode(false);
@@ -664,6 +1106,11 @@ function submitReportForm() {
 }
 
 function reportToast(report, ticket, outcome, hold, citizen) {
+  if (outcome === 'review') {
+    return citizen
+      ? { tone: 'ok', icon: 'fa-circle-check', title: tr('toast_sent'), body: tr('toast_sent_body', { id: report.id }) }
+      : { tone: 'info', icon: 'fa-hourglass-half', title: `${report.id} held for review`, body: `More than ${REPORTS_PER_REPORTER_PER_HOUR} reports in an hour from this caller.` };
+  }
   if (outcome === 'logged') {
     return { tone: 'info', icon: 'fa-power-off', title: citizen ? tr('toast_logged') : `${report.id} logged, not dispatched`, body: tr('shutdown_until', { time: fmtTime(hold.end) }) };
   }
@@ -677,6 +1124,49 @@ function reportToast(report, ticket, outcome, hold, citizen) {
   }
   return { tone: 'info', icon: 'fa-link', title: `${outcome === 'reopened' ? 'Reopened' : 'Added to'} ${ticket.id}`, body: `${plural(ticket.complaints, 'report')} on this ticket now.` };
 }
+
+// ---- 11.1 Public escalation on X (citizen-initiated) -----------------------------------------
+/** Offered only once earned: still open past its SLA, or the reporter said it was not fixed. Never at report time. */
+function shareEligible(r) {
+  const t = state.tickets.get(r?.ticket_id);
+  return state.publicSharing && Boolean(r?.mine) && Boolean(t) && (isBreached(t) || Boolean(r.reopened_at));
+}
+const statusUrl = (id) => (BASE_URL ? `${BASE_URL.replace(/#.*$/, '')}#ticket=${encodeURIComponent(id)}` : null);
+const departmentHandle = (t) => OFFICIAL_HANDLES[TEAM_DEPARTMENT[t.team]] ?? null;
+const handlesArePlaceholders = () => Object.values(OFFICIAL_HANDLES).some(isPlaceholderHandle);
+function ticketRoad(t) {
+  const p = props(t.pole_uids[0] ?? t.near_uid);
+  if (p) return p.road;
+  const at = ticketLatLng(t);
+  return at ? nearestPole(at)?.rec.feature.properties.road ?? '' : '';
+}
+function landmarkNear(latlng) {
+  const best = landmarkRecs.map((l) => ({ l, d: l.latlng.distanceTo(latlng) })).filter((x) => x.d <= SHARE_LANDMARK_MAX_M).sort((a, b) => a.d - b.d)[0];
+  return best?.l.name ?? null;
+}
+
+/** The citizen's post, exactly as it opens on X: factual, in their language; no name, number, photo or personal location. */
+function citizenPost(r) {
+  const t = state.tickets.get(r.ticket_id);
+  const at = ticketLatLng(t);
+  return buildPost({
+    id: t.id, category: catLabel(t.category, true), road: ticketRoad(t), landmark: at ? landmarkNear(at) : null,
+    days: Math.max(1, Math.floor(daysBetween(t.first_raised_at ?? t.raised_at, now()))), url: statusUrl(t.id), handle: departmentHandle(t),
+  }, tr, X_POST);
+}
+
+/** The citizen chose to share: tell operators. Sharing never changes a ticket's priority. */
+function markShared(r, channel) {
+  const t = state.tickets.get(r.ticket_id);
+  if (!t) return;
+  t.public ??= { shared_at: now().toISOString(), report_id: r.id };
+  logActivity(`Shared publicly by reporter (${channel})`, { ticket: t, role: 'citizen' });
+}
+
+/** After a shared ticket closes: a short factual update for the department's own account (operators). */
+const departmentUpdate = (t) => buildUpdate({
+  id: t.id, category: catLabel(t.category, false), road: ticketRoad(t), date: fmtDate(t.verified_at ?? t.closed_at), url: statusUrl(t.id),
+}, X_POST);
 
 const reportIcon = (draft = false) => L.divIcon({
   className: `report-pin${draft ? ' is-draft' : ''}`,
@@ -712,7 +1202,7 @@ function reportMarker({ latlng, report, ticket }, citizen) {
     <div class="tt-row">${esc(what)} · ${esc(fmtDateTime(report?.created_at ?? ticket?.raised_at))}</div>
     <div class="tt-hint">${esc(report?.uid ?? (citizen ? tr('map_location') : 'No mapped pole'))}</div>`, { className: 'sl-tooltip', direction: 'top', opacity: 1 });
   m.on('click', (e) => {
-    if (state.reportMode) return beginReport(e.latlng);
+    if (modeClick(e.latlng)) return undefined;
     if (citizen) return report?.uid ? selectPole(report.uid) : openMyReports();
     if (report?.uid && !ticket?.near_uid && ticket?.kind !== 'location') return selectPole(report.uid);
     if (ticket && state.tickets.has(ticket.id)) return openTicket(ticket.id);

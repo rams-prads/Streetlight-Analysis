@@ -7,8 +7,9 @@ Checks
     closed polygon rings wound by the right-hand rule.
   * Coordinate order: every position is [longitude, latitude] inside the pilot zone
     (a swapped [lat, lon] pair is reported as such).
-  * Cross-references: poles -> panels and circuits, tickets -> poles, samples -> tickets,
-    shutdown circuits -> panel circuits, monthly series -> the meta month list.
+  * Cross-references: poles -> panels and circuits, tickets -> poles, shutdown circuits -> panel
+    circuits, monthly series -> the meta month list, citizen reports -> tickets, poles and reporters
+    (each ticket's complaint count equals its linked reports), CCMS readings on CCMS poles only.
   * Sync: data/streetlights.js holds exactly the same collections as the .geojson files.
   * Honesty flags: every landmark, permit and waterlogging spot carries `approximate: true`.
 
@@ -17,6 +18,7 @@ Usage:  python tools/validate_data.py      (exit code 1 when anything is wrong)
 from __future__ import annotations
 
 import json
+import re
 import sys
 from datetime import datetime
 from pathlib import Path
@@ -26,6 +28,8 @@ LON, LAT = (77.19, 77.25), (28.60, 28.66)  # pilot zone box, longitude first
 STATUSES = {"Functional", "Faulty", "Under Maintenance"}
 TICKET_STATUSES = {"Open", "In Progress", "Awaiting dusk check"}
 CATEGORIES = {"not_working", "flickering", "day_burning", "damaged", "exposed", "shock", "blocked", "other"}
+CCMS_STATES = {"on", "off", "abnormal"}
+OUTCOMES = {"confirmed", "no_fault", "obstruction", "different_pole"}
 FILES = {"streetlights.geojson": "streetlights", "feeder_panels.geojson": "feederPanels",
          "landmarks.geojson": "landmarks", "excavation_permits.geojson": "excavationPermits",
          "waterlogging_spots.geojson": "waterloggingSpots"}
@@ -178,11 +182,58 @@ def main() -> int:
     for pid, pm in permits.items():
         if datetime.fromisoformat(pm["start"]) >= datetime.fromisoformat(pm["end"]):
             bad(f"{pid}: permit ends before it starts")
-    for s in js["citizenSamples"]:
-        if s["ticket_id"] not in tickets and s["ticket_id"] not in history_ids:
-            bad(f"{s['id']}: ticket {s['ticket_id']} not found")
-        if s["uid"] not in poles or s.get("simulated") is not True:
-            bad(f"{s['id']}: unknown pole or missing `simulated: true`")
+
+    # CCMS readings, report-confidence fields
+    for uid, p in poles.items():
+        reading = p.get("ccms_reading")
+        if bool(reading) != bool(p["ccms_node"]):
+            bad(f"{uid}: ccms_reading must be present exactly when the pole has a CCMS node")
+        elif reading and (reading["state"] not in CCMS_STATES or reading["daylight"] not in ("on", "off")):
+            bad(f"{uid}: bad ccms_reading {reading}")
+        for h in p["repair_history"]:
+            if "outcome" in h and (h["outcome"] not in OUTCOMES or h.get("reported_uid") not in poles):
+                bad(f"{uid}: history {h['ticket_id']} has outcome {h.get('outcome')!r} / reported_uid {h.get('reported_uid')!r}")
+    reporters = {r["id"]: r for r in js["reporters"]}
+    if len(reporters) != len(js["reporters"]) or sum(r["mine"] for r in js["reporters"]) != 1:
+        bad("reporters: duplicate IDs, or not exactly one `mine` reporter (this device)")
+    for r in js["reporters"]:
+        if not 0 <= r["past_confirmed"] <= r["past_reports"] or r.get("simulated") is not True:
+            bad(f"{r['id']}: bad track record or missing `simulated: true`")
+    report_ids = set()
+    linked: dict[str, int] = {}
+    for r in js["citizenReports"]:
+        where = f"report {r['id']}"
+        if r["id"] in report_ids:
+            bad(f"{where}: duplicate ID")
+        report_ids.add(r["id"])
+        rep = reporters.get(r["reporter_id"])
+        if not rep or rep["mine"] != r["mine"]:
+            bad(f"{where}: unknown reporter {r['reporter_id']} or `mine` disagrees with the reporter")
+        if r["category"] not in CATEGORIES or r.get("simulated") is not True:
+            bad(f"{where}: category {r['category']!r} or missing `simulated: true`")
+        if (r["uid"] is None) == (r["spot"] is None) or (r["uid"] and r["uid"] not in poles):
+            bad(f"{where}: needs either a known pole uid or a spot")
+        if r["spot"]:
+            check_position(r["spot"], where)
+        if r["device_location"]:
+            check_position(r["device_location"]["position"], where)
+        if r["photo"] and (r["photo"]["kind"] not in ("live", "upload") or not re.fullmatch(r"[0-9a-f]{16}", r["photo"]["hash"])):
+            bad(f"{where}: bad photo {r['photo']}")
+        if r["noticed"] not in (None, "last_night", "earlier_today", "just_now"):
+            bad(f"{where}: bad noticed {r['noticed']!r}")
+        t = tickets.get(r["ticket_id"]) or locations.get(r["ticket_id"])
+        if t is None and r["ticket_id"] not in history_ids:
+            bad(f"{where}: ticket {r['ticket_id']} not found")
+        if t is not None:
+            linked[r["ticket_id"]] = linked.get(r["ticket_id"], 0) + 1
+            if r["uid"] and r["uid"] not in t.get("pole_uids", []):
+                bad(f"{where}: pole {r['uid']} is not on ticket {r['ticket_id']}")
+    for tid, t in [*tickets.items(), *locations.items()]:
+        if t.get("complaints", 0) != linked.get(tid, 0):
+            bad(f"{tid}: {t.get('complaints', 0)} complaints but {linked.get(tid, 0)} linked citizen reports")
+        pub = t.get("public")
+        if pub and next((r for r in js["citizenReports"] if r["id"] == pub["report_id"] and r["ticket_id"] == tid), None) is None:
+            bad(f"{tid}: shared publicly by report {pub['report_id']}, which is not on this ticket")
     every_id = list(tickets) + list(history_ids) + list(locations)
     if len(every_id) != len(set(every_id)):
         bad("ticket ids are not unique across live, history and location tickets")

@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Street Light GIS · Connaught Place</title>
+  <meta name="description" content="Map-first street light management GIS for the Connaught Place pilot zone (NDMC area): asset register, citizen fault reporting, maintenance ticketing and spatial analysis. MVP with mock data.">
+  <meta name="theme-color" content="#0d0d0d">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23141413'/%3E%3Ccircle cx='16' cy='16' r='9' fill='%23fff4d6' fill-opacity='.25'/%3E%3Ccircle cx='16' cy='16' r='4.5' fill='%23fff4d6'/%3E%3C/svg%3E">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
+
+  <!-- Leaflet 1.9.4: map engine -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+  <!-- MapLibre GL + Leaflet binding: draws the keyless OpenFreeMap "dark" vector basemap inside Leaflet -->
+  <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css"
+        integrity="sha256-V2sIX92Uh6ZaGSFTKMHghsB85b9toJtmazgG09AI2uk=" crossorigin="">
+  <!-- Font Awesome 6: icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer">
+
+  <!-- Tailwind CSS (Play CDN) + theme tokens (keep in sync with :root in style.css) -->
+  <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            ink: { 1: '#f0efec', 2: '#c3c2b7', 3: '#898781' },
+            surface: { 1: '#1a1a19', 2: '#232322', 3: '#2c2c2a' },
+            accent: { DEFAULT: '#3987e5', hi: '#86b6ef' },
+            ok: '#0ca30c', warn: '#fab219', bad: '#d03b3b', serious: '#ec835a',
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'sans-serif'],
+            mono: ['JetBrains Mono', 'ui-monospace', 'Cascadia Mono', 'Consolas', 'monospace'],
+          },
+        },
+      },
+    };
+  </script>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- SVG paint servers used by map symbology (gradients must not live in a display:none SVG) -->
+  <svg class="svg-defs" width="0" height="0" aria-hidden="true" focusable="false">
+    <defs>
+      <!-- Light pool around a working lamp -->
+      <radialGradient id="halo-grad">
+        <stop offset="0" stop-color="#fff4d6" stop-opacity=".55"/>
+        <stop offset=".35" stop-color="#ffe7b3" stop-opacity=".22"/>
+        <stop offset="1" stop-color="#ffe7b3" stop-opacity="0"/>
+      </radialGradient>
+    </defs>
+  </svg>
+
+  <!-- ================= MAP (100vw × 100vh) ================= -->
+  <div id="map" role="region" aria-label="Map of Connaught Place street lights"></div>
+
+  <!-- ================= Top-left: brand, search, zone health ================= -->
+  <header id="command" class="panel p-4">
+    <div class="flex items-start gap-3">
+      <div class="brand-mark" aria-hidden="true"><i class="fa-solid fa-lightbulb"></i></div>
+      <div class="min-w-0 flex-1">
+        <h1 class="text-[15px] font-semibold leading-tight tracking-tight">Street Light GIS</h1>
+        <p class="text-xs text-ink-3 mt-0.5">Connaught Place pilot · NDMC area, New Delhi</p>
+      </div>
+      <span class="chip chip--muted" title="Minimum viable product running on synthetic data">MVP · mock data</span>
+    </div>
+
+    <div class="search mt-3">
+      <i class="fa-solid fa-magnifying-glass search-icon" aria-hidden="true"></i>
+      <input id="search" type="search" class="input search-input" autocomplete="off" spellcheck="false"
+             placeholder="Search pole, road, feeder or ticket"
+             role="combobox" aria-expanded="false" aria-controls="search-results" aria-autocomplete="list"
+             aria-label="Search poles, roads, feeder panels and tickets">
+      <kbd class="search-kbd" aria-hidden="true">/</kbd>
+      <ul id="search-results" class="search-results panel" role="listbox" aria-label="Search results" hidden></ul>
+    </div>
+
+    <div class="mt-4">
+      <div class="flex items-baseline justify-between">
+        <span class="eyebrow">Zone health</span>
+        <span class="text-[13px] text-ink-2"><span id="health-pct" class="font-semibold text-ink-1">–</span> lit</span>
+      </div>
+      <div id="health-meter" class="meter mt-2" role="img" aria-label="Status breakdown"></div>
+      <div class="kpis mt-3 grid grid-cols-3 gap-2">
+        <div class="stat"><span class="stat-label">Poles</span><span class="stat-value" id="kpi-poles">–</span><span class="stat-sub" id="kpi-poles-sub">&nbsp;</span></div>
+        <div class="stat"><span class="stat-label">Open tickets</span><span class="stat-value" id="kpi-tickets">–</span><span class="stat-sub" id="kpi-tickets-sub">&nbsp;</span></div>
+        <div class="stat"><span class="stat-label" id="kpi-energy-label">Energy</span><span class="stat-value" id="kpi-energy">–</span><span class="stat-sub" id="kpi-energy-sub">kWh</span></div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ================= Top-right: layers & spatial analysis ================= -->
+  <aside id="layers" class="panel shift-with-sidebar" aria-label="Layers and analysis">
+    <button type="button" id="layers-toggle" class="panel-header" aria-expanded="true" aria-controls="layers-body">
+      <i class="fa-solid fa-layer-group text-ink-2" aria-hidden="true"></i>
+      <span class="flex-1 text-left">Layers &amp; analysis</span>
+      <i class="fa-solid fa-chevron-down chevron" aria-hidden="true"></i>
+    </button>
+    <div id="layers-body" class="layers-body">
+      <p class="eyebrow px-1">Spatial analysis</p>
+
+      <div class="toggle-row">
+        <span class="toggle-icon" aria-hidden="true"><i class="fa-solid fa-circle-half-stroke"></i></span>
+        <span class="min-w-0 flex-1">
+          <span class="toggle-title" id="lbl-heatmap">Dark-spot heatmap</span>
+          <span class="toggle-desc">Failure density of faulty lights</span>
+        </span>
+        <button type="button" class="switch" role="switch" aria-checked="false" data-analysis="heatmap" aria-labelledby="lbl-heatmap"></button>
+      </div>
+      <div id="insights-heatmap" class="insights" hidden></div>
+
+      <div class="toggle-row">
+        <span class="toggle-icon" aria-hidden="true"><i class="fa-solid fa-bolt"></i></span>
+        <span class="min-w-0 flex-1">
+          <span class="toggle-title" id="lbl-energy">Energy consumption</span>
+          <span class="toggle-desc">Symbol size by monthly kWh</span>
+        </span>
+        <button type="button" class="switch" role="switch" aria-checked="false" data-analysis="energy" aria-labelledby="lbl-energy"></button>
+      </div>
+      <div id="insights-energy" class="insights" hidden></div>
+
+      <div class="toggle-row">
+        <span class="toggle-icon" aria-hidden="true"><i class="fa-solid fa-diagram-project"></i></span>
+        <span class="min-w-0 flex-1">
+          <span class="toggle-title" id="lbl-feeder">Feeder network</span>
+          <span class="toggle-desc">Circuits from each feeder panel</span>
+        </span>
+        <button type="button" class="switch" role="switch" aria-checked="false" data-analysis="feeder" aria-labelledby="lbl-feeder"></button>
+      </div>
+      <div id="insights-feeder" class="insights" hidden></div>
+
+      <p class="eyebrow px-1 mt-4">Overlays</p>
+      <div class="toggle-row toggle-row--compact">
+        <span class="toggle-icon" aria-hidden="true"><i class="fa-solid fa-bullhorn"></i></span>
+        <span class="toggle-title flex-1" id="lbl-reports">Citizen reports <span id="reports-count" class="text-ink-3 font-normal"></span></span>
+        <button type="button" class="switch" role="switch" aria-checked="true" data-overlay="reports" aria-labelledby="lbl-reports"></button>
+      </div>
+      <div class="toggle-row toggle-row--compact">
+        <span class="toggle-icon" aria-hidden="true"><i class="fa-regular fa-circle"></i></span>
+        <span class="toggle-title flex-1" id="lbl-zone">Pilot zone boundary</span>
+        <button type="button" class="switch" role="switch" aria-checked="true" data-overlay="zone" aria-labelledby="lbl-zone"></button>
+      </div>
+
+      <p class="eyebrow px-1 mt-4">Basemap</p>
+      <div class="segmented mt-2" role="radiogroup" aria-label="Basemap">
+        <button type="button" role="radio" aria-checked="true" data-basemap="night"><i class="fa-solid fa-moon" aria-hidden="true"></i> Night</button>
+        <button type="button" role="radio" aria-checked="false" data-basemap="satellite"><i class="fa-solid fa-satellite" aria-hidden="true"></i> Satellite</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ================= Bottom-left: legend + status bar ================= -->
+  <section id="legend" class="panel" aria-label="Legend">
+    <button type="button" id="legend-toggle" class="panel-header" aria-expanded="true" aria-controls="legend-body">
+      <i class="fa-solid fa-list-ul text-ink-2" aria-hidden="true"></i>
+      <span class="flex-1 text-left">Legend</span>
+      <i class="fa-solid fa-chevron-down chevron" aria-hidden="true"></i>
+    </button>
+    <div id="legend-body" class="legend-body">
+      <p class="eyebrow">Streetlight status <span class="normal-case tracking-normal font-normal text-ink-3">· click to filter</span></p>
+      <ul id="legend-status" class="mt-1.5 space-y-0.5"></ul>
+      <div id="legend-energy" class="legend-block" hidden></div>
+      <div id="legend-heatmap" class="legend-block" hidden></div>
+      <div id="legend-feeder" class="legend-block" hidden></div>
+      <div id="legend-reports" class="legend-block" hidden></div>
+    </div>
+  </section>
+
+  <footer id="statusbar" class="statusbar">
+    <span id="sb-scale" class="sb-scale"></span>
+    <span id="sb-coords" class="mono sb-coords" aria-live="off">–</span>
+    <span id="sb-zoom" class="mono sb-zoom">z–</span>
+    <span id="sb-attrib" class="sb-attrib"></span>
+  </footer>
+
+  <!-- ================= Bottom-right: map controls ================= -->
+  <div id="map-controls" class="shift-with-sidebar">
+    <div class="panel control-stack">
+      <button type="button" class="control-btn" id="zoom-in" aria-label="Zoom in" title="Zoom in"><i class="fa-solid fa-plus"></i></button>
+      <button type="button" class="control-btn" id="zoom-out" aria-label="Zoom out" title="Zoom out"><i class="fa-solid fa-minus"></i></button>
+    </div>
+    <div class="panel control-stack">
+      <button type="button" class="control-btn" id="zoom-home" aria-label="Fit pilot zone" title="Fit pilot zone"><i class="fa-solid fa-expand"></i></button>
+    </div>
+  </div>
+
+  <!-- ================= Bottom-centre: citizen reporting ================= -->
+  <button type="button" id="report-btn" class="report-cta" aria-pressed="false">
+    <span class="fab-icon" aria-hidden="true"><i class="fa-solid fa-bullhorn"></i></span>
+    <span class="fab-label">Report an issue</span>
+  </button>
+
+  <div id="report-hint" class="panel report-hint" role="status" hidden>
+    <i class="fa-solid fa-crosshairs text-accent-hi" aria-hidden="true"></i>
+    <span>Click a pole or any spot on the map to report it</span>
+    <kbd>Esc</kbd><span class="text-ink-3">to cancel</span>
+  </div>
+
+  <!-- ================= Right: asset sidebar ================= -->
+  <aside id="sidebar" aria-label="Details" aria-hidden="true" inert>
+    <div id="sidebar-content" class="sidebar-content"></div>
+  </aside>
+
+  <!-- ================= Citizen report modal ================= -->
+  <div id="report-modal" class="modal" hidden>
+    <div class="modal-backdrop" data-close></div>
+    <form id="report-form" class="modal-card panel" role="dialog" aria-modal="true" aria-labelledby="rm-title" novalidate>
+      <div class="flex items-start gap-3">
+        <div class="min-w-0 flex-1">
+          <p class="eyebrow">Citizen fault report</p>
+          <h2 id="rm-title" class="text-lg font-semibold mt-0.5">What's wrong with this light?</h2>
+        </div>
+        <button type="button" class="icon-btn" data-close aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <div id="rm-location" class="mt-3"></div>
+
+      <fieldset class="mt-4">
+        <legend class="field-label">Issue <span class="text-bad" aria-hidden="true">*</span></legend>
+        <div id="rm-issues" class="issue-grid mt-2"></div>
+        <p id="rm-issue-error" class="field-error" hidden>Pick the issue that fits best.</p>
+      </fieldset>
+
+      <label class="block mt-4">
+        <span class="field-label flex justify-between"><span>Details <span class="text-ink-3 font-normal">(optional)</span></span><span id="rm-count" class="text-ink-3 font-normal">0/500</span></span>
+        <textarea name="description" id="rm-description" class="input textarea mt-1.5" rows="3" maxlength="500"
+                  placeholder="e.g. Third pole from the Janpath corner has been dark since Tuesday"></textarea>
+      </label>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-3">
+        <label class="block">
+          <span class="field-label">Your name <span class="text-ink-3 font-normal">(optional)</span></span>
+          <input name="name" class="input mt-1.5" maxlength="60" autocomplete="name">
+        </label>
+        <label class="block">
+          <span class="field-label">Mobile <span class="text-ink-3 font-normal">(for updates)</span></span>
+          <input name="phone" id="rm-phone" class="input mt-1.5" inputmode="tel" autocomplete="tel" placeholder="98765 43210" aria-describedby="rm-phone-error">
+          <span id="rm-phone-error" class="field-error" hidden>Enter a 10-digit Indian mobile number, or leave it blank.</span>
+        </label>
+      </div>
+
+      <div class="mt-3 flex items-center gap-3">
+        <label class="btn btn-ghost cursor-pointer">
+          <i class="fa-solid fa-camera" aria-hidden="true"></i><span>Add photo</span>
+          <input type="file" name="photo" id="rm-photo" accept="image/*" class="sr-only">
+        </label>
+        <img id="rm-photo-preview" class="photo-preview" alt="Selected photo preview" hidden>
+        <span id="rm-photo-name" class="text-xs text-ink-3 truncate"></span>
+      </div>
+
+      <p class="text-[11.5px] text-ink-3 mt-4"><i class="fa-solid fa-circle-info" aria-hidden="true"></i>
+        Demo: the ticket is created in this browser session only. Nothing is sent to a server.</p>
+
+      <div class="mt-4 flex justify-end gap-2">
+        <button type="button" class="btn btn-ghost" data-close>Cancel</button>
+        <button type="submit" class="btn btn-primary"><i class="fa-solid fa-paper-plane" aria-hidden="true"></i> Submit report</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- ================= Toasts ================= -->
+  <div id="toasts" class="toasts" aria-live="polite"></div>
+
+  <!-- ================= Scripts ================= -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+          integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"
+          integrity="sha256-vpYzxNhw4m+zfxz+XFp3GBZnEUAD6hYgeseFDY2ordE=" crossorigin=""></script>
+  <script src="https://unpkg.com/@maplibre/maplibre-gl-leaflet@0.0.22/leaflet-maplibre-gl.js"
+          integrity="sha256-WezY0rMnedJPG9Jrh8iJDyfkpueFjZk70X5Nh45tJnc=" crossorigin=""></script>
+  <script src="https://unpkg.com/leaflet.heat@0.2.0/dist/leaflet-heat.js"
+          integrity="sha256-65UqrlgGoRAnKfKRuriH3eeDrOhZgZo1SCenduc+SGo=" crossorigin=""></script>
+  <script src="data/streetlights.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

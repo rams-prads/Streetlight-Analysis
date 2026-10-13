@@ -1,0 +1,214 @@
+{
+ "type": "FeatureCollection",
+ "name": "feeder_panels",
+ "features": [
+  {
+   "type": "Feature",
+   "id": "FP-CP-01",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     77.219705,
+     28.633764
+    ]
+   },
+   "properties": {
+    "panel_id": "FP-CP-01",
+    "name": "Central Park North",
+    "road": "Inner Circle",
+    "location": "Central Park north lawn, opposite Radial Road 4",
+    "source_dt": "DT-CP-01 (11 kV/433 V, 630 kVA)",
+    "capacity_kva": 6,
+    "controller": "CCMS panel controller (GSM)",
+    "commissioned": "2010-08-14",
+    "circuits": [
+     "C1",
+     "C2"
+    ],
+    "contractor_id": "CTR-01"
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "FP-CP-02",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     77.219705,
+     28.631816
+    ]
+   },
+   "properties": {
+    "panel_id": "FP-CP-02",
+    "name": "Central Park South",
+    "road": "Inner Circle",
+    "location": "Central Park south lawn, behind Palika Bazaar Gate 1",
+    "source_dt": "DT-CP-01 (11 kV/433 V, 630 kVA)",
+    "capacity_kva": 6,
+    "controller": "CCMS panel controller (GSM)",
+    "commissioned": "2010-08-14",
+    "circuits": [
+     "C1",
+     "C2"
+    ],
+    "contractor_id": "CTR-01"
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "FP-CP-03",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     77.218142,
+     28.634506
+    ]
+   },
+   "properties": {
+    "panel_id": "FP-CP-03",
+    "name": "Middle Circle North-West",
+    "road": "Middle Circle",
+    "location": "Middle Circle footpath between B- and H-Blocks",
+    "source_dt": "DT-CP-02 (11 kV/433 V, 630 kVA)",
+    "capacity_kva": 6,
+    "controller": "Astronomical timer + contactor",
+    "commissioned": "2010-09-02",
+    "circuits": [
+     "C1",
+     "C2"
+    ],
+    "contractor_id": "CTR-02"
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "FP-CP-04",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     77.222025,
+     28.631978
+    ]
+   },
+   "properties": {
+    "panel_id": "FP-CP-04",
+    "name": "Middle Circle East",
+    "road": "Middle Circle",
+    "location": "Middle Circle footpath between E- and M-Blocks",
+    "source_dt": "DT-CP-03 (11 kV/433 V, 990 kVA)",
+    "capacity_kva": 6,
+    "controller": "Astronomical timer + contactor",
+    "commissioned": "2010-09-02",
+    "circuits": [
+     "C1",
+     "C2"
+    ],
+    "contractor_id": "CTR-02"
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "FP-CP-05",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     77.219705,
+     28.63585
+    ]
+   },
+   "properties": {
+    "panel_id": "FP-CP-05",
+    "name": "Outer Circle North",
+    "road": "Outer Circle",
+    "location": "Outer Circle footpath at State Entry Road junction",
+    "source_dt": "DT-CP-02 (11 kV/433 V, 630 kVA)",
+    "capacity_kva": 10,
+    "controller": "CCMS panel controller (GSM)",
+    "commissioned": "2010-07-21",
+    "circuits": [
+     "C1",
+     "C2"
+    ],
+    "contractor_id": "CTR-03"
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "FP-CP-06",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     77.223157,
+     28.63279
+    ]
+   },
+   "properties": {
+    "panel_id": "FP-CP-06",
+    "name": "Outer Circle East",
+    "road": "Outer Circle",
+    "location": "Outer Circle footpath, M-Block frontage",
+    "source_dt": "DT-CP-03 (11 kV/433 V, 990 kVA)",
+    "capacity_kva": 10,
+    "controller": "CCMS panel controller (GSM)",
+    "commissioned": "2010-07-21",
+    "circuits": [
+     "C1",
+     "C2"
+    ],
+    "contractor_id": "CTR-03"
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "FP-CP-07",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     77.219705,
+     28.62974
+    ]
+   },
+   "properties": {
+    "panel_id": "FP-CP-07",
+    "name": "Outer Circle South",
+    "road": "Outer Circle",
+    "location": "Outer Circle footpath at Janpath junction",
+    "source_dt": "DT-CP-04 (11 kV/433 V, 990 kVA)",
+    "capacity_kva": 10,
+    "controller": "CCMS panel controller (GSM)",
+    "commissioned": "2010-07-21",
+    "circuits": [
+     "C1",
+     "C2"
+    ],
+    "contractor_id": "CTR-03"
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "FP-CP-08",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     77.216259,
+     28.63279
+    ]
+   },
+   "properties": {
+    "panel_id": "FP-CP-08",
+    "name": "Outer Circle West",
+    "road": "Outer Circle",
+    "location": "Outer Circle footpath, G-Block frontage",
+    "source_dt": "DT-CP-04 (11 kV/433 V, 990 kVA)",
+    "capacity_kva": 10,
+    "controller": "Astronomical timer + contactor",
+    "commissioned": "2010-07-21",
+    "circuits": [
+     "C1",
+     "C2"
+    ],
+    "contractor_id": "CTR-03"
+   }
+  }
+ ]
+}

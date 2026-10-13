@@ -146,7 +146,7 @@ function rateTicket(t) {
     if (runM >= LONG_DARK_RUN_M) mods.push(SLA_MODIFIERS.longDarkRun);
     if (reports >= MANY_REPORTS) mods.push(SLA_MODIFIERS.manyReports);
     t.sla_hours = Math.max(SLA_MIN_HOURS, Math.round(base * mods.reduce((k, m) => k * m.factor, 1)));
-    t.sla_why = `${base} h ${t.team === 'lamp' ? 'contractor SLA' : 'team target'}${mods.length ? `, ${mods.map((m) => m.label).join(', ')}` : ''}`;
+    t.sla_why = `${base} h ${t.team === 'lamp' ? 'contractor SLA' : 'team target'}${mods.length ? ` · ${mods.map((m) => m.label).join(' · ')}` : ''}`;
   }
   t.sla_due = new Date(new Date(t.raised_at).getTime() + t.sla_hours * 3.6e6).toISOString();
 

@@ -129,10 +129,10 @@ const PRIORITY_RANK = { Low: 0, Medium: 1, High: 2, Critical: 3 };
 const EMERGENCY_SLA_HOURS = 4;           // EXAMPLE: hours to make an emergency safe
 const SLA_BASE_HOURS = { cable: 24, horticulture: 72, survey: 48 }; // EXAMPLE; lamp tickets use the contractor's SLA
 const SLA_MODIFIERS = {                  // EXAMPLE: multiply the base SLA (emergencies are never stretched)
-  highCriticality: { factor: 0.5, label: 'halved near a busy landmark' },
-  mediumCriticality: { factor: 0.75, label: 'cut by a quarter near a landmark' },
-  longDarkRun: { factor: 0.5, label: 'halved for a long dark stretch' },
-  manyReports: { factor: 0.75, label: 'cut by a quarter for repeated reports' },
+  highCriticality: { factor: 0.5, label: 'halved: busy landmark' },
+  mediumCriticality: { factor: 0.75, label: '−25%: landmark' },
+  longDarkRun: { factor: 0.5, label: 'halved: long dark stretch' },
+  manyReports: { factor: 0.75, label: '−25%: repeat reports' },
 };
 const LONG_DARK_RUN_M = 200;             // unlit stretch at least this long uses the longDarkRun modifier
 const MANY_REPORTS = 3;                  // this many citizen reports uses the manyReports modifier

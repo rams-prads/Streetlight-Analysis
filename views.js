@@ -354,7 +354,7 @@ VIEWS.pole = function renderPoleView(uid) {
     extra: `<div class="flex flex-wrap items-center gap-2 mt-3">${chips}</div>${actions}`,
   })}
     <div class="sb-body">
-      ${p.ticket ? ticketCard(p.ticket, { selfUid: uid }) : quietCard('fa-circle-check', `No open ticket. Last inspected ${esc(fmtDate(p.last_inspected))}.`)}
+      ${p.ticket ? ticketCard(p.ticket, { selfUid: uid }) : quietCard('fa-circle-check', `No open ticket · inspected ${esc(fmtDate(p.last_inspected))}`)}
       ${split.map((t) => quietCard('fa-code-branch', `Also open here: <button type="button" class="link mono" data-action="open-ticket" data-ticket="${esc(t.id)}">${esc(t.id)}</button> · ${esc(t.issue)}`, 'info')).join('')}
       ${fixtureSection(p, rec)}
       ${safetySection(p)}
@@ -508,7 +508,7 @@ function duskCheckHtml(t) {
           <input type="file" accept="image/*" capture="environment" class="sr-only" data-change="dusk-photo" data-ticket="${esc(t.id)}"></label>`
       : 'Night photo of the lit lamp needed from the field crew.';
   }
-  return `<div class="dusk"><p class="workflow-label"><i class="fa-solid fa-moon" aria-hidden="true"></i>Dusk check · closes the ticket</p><div class="text-[12.5px] text-ink-2">${body}</div></div>`;
+  return `<div class="dusk"><p class="workflow-label"><i class="fa-solid fa-moon" aria-hidden="true"></i>Dusk check</p><div class="text-[12.5px] text-ink-2">${body}</div></div>`;
 }
 
 function workflowControls(t) {

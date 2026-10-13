@@ -69,16 +69,13 @@ function queueRow(t) {
       <span class="flex items-center gap-1.5">${bandChip(t)}${t.public ? '<span class="chip chip--quiet chip--xs" title="Shared publicly by the reporter"><i class="fa-brands fa-x-twitter" aria-hidden="true"></i>Public</span>' : ''}${priorityBadge(t)}</span></span>
     <span class="block text-[13px] text-ink-1 mt-0.5 truncate">${esc(t.issue)}</span>
     <span class="block text-[11.5px] text-ink-3 truncate">${esc(whereText(t))} · ${esc(assigneeOf(t))}</span>
-    <span class="block text-[11.5px] text-ink-3 truncate">Why: ${esc(t.why)}</span>
+    <span class="block text-[11.5px] text-ink-3 truncate">Based on: ${esc(t.why)}</span>
     <span class="block text-[11.5px] text-ink-2 mt-0.5">${status} · ${dueText(t)}${esc2}</span>
   </button></li>`;
 }
 
-const bandChip = (t) => {
-  const c = t.confidence;
-  if (!c || c.bypass || !(c.final ?? c.band)) return '';
-  return `<span class="band band--${esc((c.band ?? 'final').toLowerCase().replace(/\s+/g, '-'))}">${esc(c.final ?? c.band)}</span>`;
-};
+/** Queue rows flag only the band that changes handling: Needs check (cheapest check first). */
+const bandChip = (t) => (needsCheck(t) ? '<span class="band band--needs-check">Needs check</span>' : '');
 
 /** A report held back by the hourly limit: logged, waiting for an operator (never rejected). */
 const heldRow = (r) => `<li class="queue-card">
@@ -172,7 +169,7 @@ function jobCard(t) {
       <button type="button" class="link mono text-[12.5px]" data-action="open-ticket" data-ticket="${esc(t.id)}">${esc(t.id)}</button>${priorityBadge(t)}</div>
     <p class="text-[13px] text-ink-1 mt-0.5">${esc(t.issue)}</p>
     <p class="text-[11.5px] text-ink-3">${poles} · ${dueText(t)}</p>
-    ${t.status === 'Open' ? `<p class="check-note"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>Check visit: ${esc(t.confidence?.signals.find((s) => s.effect < 0)?.text ?? 'confirm the report')}</p>` : ''}
+    ${t.status === 'Open' ? `<p class="check-note"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>Check visit${(() => { const why = t.confidence?.signals.find((s) => s.effect < 0)?.text; return why ? `: ${esc(why)}` : ''; })()}</p>` : ''}
     ${spares ? `<p class="spares"><i class="fa-solid fa-toolbox" aria-hidden="true"></i>${esc(spares)}</p>` : ''}
     ${ticketWarranty(t) ? '<p class="mt-1.5"><span class="badge"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i>Under warranty</span></p>' : ''}
     ${t.status === 'Awaiting dusk check' ? duskCheckHtml(t) : workflowControls(t)}
@@ -428,7 +425,7 @@ function citizenReportsHtml() {
   for (const t of openTickets()) if (t.confidence?.band in bands && !t.confidence.bypass) bands[t.confidence.band] += 1;
   const notConfirmed = [...state.closed.values()].filter((t) => t.field_outcome === 'no_fault').length;
   const held = state.reports.filter((r) => r.review).length;
-  return `<p class="text-[12px] text-ink-3">Open tickets by report confidence (safety emergencies are never scored)</p>
+  return `<p class="text-[12px] text-ink-3">Open tickets by report confidence; safety emergencies are not scored</p>
     <div class="grid grid-cols-3 gap-2 mt-2">${Object.entries(bands).map(([band, n]) => `<div class="stat"><span class="stat-label">${esc(band)}</span><span class="stat-value">${n}</span></div>`).join('')}</div>
     <p class="text-[12px] text-ink-2 mt-2">${notConfirmed} not confirmed on site · ${held} held for review (this session)</p>
     <div class="toggle-row mt-3">

@@ -447,7 +447,7 @@ function ticketCard(t, { selfUid = null } = {}) {
         <span class="mono text-[15px] font-semibold">${esc(t.id)}</span>
         <span class="priority priority--${esc(t.priority.toLowerCase())}">${esc(t.priority)} priority</span>
       </div>
-      <p class="why"><span class="text-ink-3">Why:</span> ${esc(t.why)}</p>
+      <p class="why"><span class="text-ink-3">Based on:</span> ${esc(t.why)}</p>
       ${confidenceHtml(t)}
       <p class="text-[14px] mt-1.5">${esc(t.issue)}</p>
       ${ticketWarranty(t) ? '<p class="mt-1.5"><span class="badge"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i>Under warranty: claim the fixture from the supplier</span></p>' : ''}
@@ -562,7 +562,7 @@ function checkHtml(t) {
   const steps = plan.steps.map((s, i) => `<li class="${s.done ? 'is-done' : s === plan.next ? 'is-next' : !s.available ? 'is-na' : ''}">
     <span class="step-n" aria-hidden="true">${s.done ? '<i class="fa-solid fa-check"></i>' : i + 1}</span>
     <span>${esc(s.label)}${s.result ? `: ${esc(s.result)}` : ''}${!s.available && !s.done ? ' <span class="text-ink-3">(not possible here)</span>' : ''}</span></li>`).join('');
-  return `<div class="workflow"><p class="workflow-label"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>Needs check · cheapest first</p>
+  return `<div class="workflow"><p class="workflow-label"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>Cheapest check first</p>
     <ol class="check-steps">${steps}</ol>
     ${plan.next ? `<button type="button" class="btn btn-primary btn-block mt-2" data-action="check-${plan.next.key}" data-ticket="${esc(t.id)}">${esc(plan.next.label)}</button>` : ''}
     ${plan.waiting ? `<p class="text-[12px] text-ink-2 mt-2"><i class="fa-regular fa-clock" aria-hidden="true"></i> ${esc(plan.waiting)}</p>` : ''}
@@ -579,7 +579,7 @@ function outcomeHtml(t) {
   const panel = (key, html, open = false) => `<div class="mt-2" data-outcome-panel="${key}"${open ? '' : ' hidden'}>${html}</div>`;
   const button = (action, label) => `<button type="button" class="btn btn-primary btn-block" data-action="${action}" data-ticket="${esc(t.id)}">${esc(label)}</button>`;
   return `<div class="workflow" data-outcome-host>
-    <p class="workflow-label"><i class="fa-solid fa-clipboard-check" aria-hidden="true"></i>${visit ? 'Check visit · what did you find?' : 'On site · what did you find?'}</p>
+    <p class="workflow-label"><i class="fa-solid fa-clipboard-check" aria-hidden="true"></i>What did you find?</p>
     <div class="outcome-options" role="radiogroup" aria-label="What did you find?">${options.map(([key, label], i) => `<button type="button" class="chip-toggle" role="radio" data-outcome="${key}" aria-checked="${i === 0}">${esc(label)}</button>`).join('')}</div>
     ${panel('confirmed', visit ? button('take-check', 'Take the job')
       : `<div class="flex gap-2">${resolutionSelect(t)}<button type="button" class="btn btn-primary" data-action="resolve" data-ticket="${esc(t.id)}"><i class="fa-solid fa-check" aria-hidden="true"></i>Close ticket</button></div>`, true)}
@@ -984,7 +984,7 @@ VIEWS.share = function renderShareView(id) {
       <div class="sb-body mt-4">${sharePreview(text, false, `data-share="${esc(id)}"`)}</div>`;
   }
   if (!isCitizen()) return null;
-  return `${viewHead({ eyebrow: tr('my_reports'), title: tr('share_title') })}
+  return `${viewHead({ eyebrow: reportById(id).ticket_id, title: tr('share_title') })}
     <div class="sb-body mt-4">${sharePreview(text, true, `data-share="${esc(id)}"`)}</div>`;
 };
 
@@ -1035,7 +1035,7 @@ VIEWS.status = function renderStatusView(id) {
     : { key: 'fixed', text: tr('st_fixed'), icon: 'fa-circle-check' }) : ticketStatusText(t);
   const at = ticketLatLng(t);
   const landmark = at ? landmarkNear(at) : null;
-  const days = Math.max(1, Math.floor(daysBetween(t.first_raised_at ?? t.raised_at, now())));
+  const days = daysOpen(t);
   return `${viewHead({ eyebrow: tr('status_title'), title: t.id, sub: esc(`${catLabel(t.category, true)} · ${ticketRoad(t)}${landmark ? tr('post_near', { landmark }) : ''}`) })}
     <div class="sb-body">
       <p class="report-status report-status--${s.key} mt-4"><i class="fa-solid ${s.icon}" aria-hidden="true"></i>${esc(s.text)}</p>

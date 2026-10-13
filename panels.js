@@ -100,10 +100,14 @@ function renderReportCta() {
 }
 
 // ---- 14.2 Header block: what each view needs at a glance -------------------------
+let roleBlockHtml = '';
 function renderRoleBlock() {
   const host = $('#role-block');
+  const html = { citizen: citizenBlock, operator: operatorBlock, field: fieldBlock, management: managementBlock }[state.role]();
+  if (html === roleBlockHtml) return; // the clock ticks every 30 s: leave the buttons alone unless something changed
+  roleBlockHtml = html;
   const focused = host.contains(document.activeElement) ? document.activeElement.dataset.focusKey : null;
-  host.innerHTML = { citizen: citizenBlock, operator: operatorBlock, field: fieldBlock, management: managementBlock }[state.role]();
+  host.innerHTML = html;
   if (focused) host.querySelector(`[data-focus-key="${CSS.escape(focused)}"]`)?.focus();
 }
 

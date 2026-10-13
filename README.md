@@ -27,20 +27,23 @@ A switch at the top of the header picks the view. It is a **demo switch, not a l
 
 | View | Shows |
 |---|---|
-| Citizen | Map, search, **Report an issue** (the primary action), **My reports**, EN / हिन्दी |
-| Operator (default) | Everything below plus the ticket queue, dispatch, split reports, pole labels, event check |
-| Field crew | Crew picker, work order in suggested order, dusk checks, night audit |
-| Management | Uptime, unlit road, SLA tiles; dashboard with scorecards, chronic poles, energy reconciliation, readiness |
+| Citizen | Map, search, **Report an issue** (the primary action), **My reports** with progress and, when earned, **Share publicly**, EN / हिन्दी |
+| Operator (default) | Everything below plus the ticket queue, report confidence and cheapest checks, dispatch, split reports, reports held for review, pole labels, event check |
+| Field crew | Crew picker, work order in suggested order (including check visits), on-site outcomes, dusk checks, night audit |
+| Management | Uptime, unlit road, SLA tiles; dashboard with scorecards, chronic poles, energy reconciliation, readiness, report confidence and the public-sharing switch |
 
 ## What you can do
 
 | Feature | How |
 |---|---|
 | Inspect a pole | Click any marker. A sidebar slides in with pole, fixture, feeder, energy, contractor, the repair-history timeline and a folded **Activity** audit trail. |
-| Report a fault | **Report an issue** → crosshair → click a pole or any spot. Clicks snap to the nearest pole within 40 m; otherwise the ticket is raised for that exact location. Pick one of 8 category chips (only the category is required). |
+| Report a fault | **Report an issue** → crosshair → click a pole or any spot. Clicks snap to the nearest pole within 40 m; otherwise the ticket is raised for that exact location. Pick one of 8 category chips (only the category is required). Optional: when it was noticed, a photo (**Take photo** or **Upload photo**), and **Use my location**. |
 | Duplicates | A report on a pole with an open ticket adds **+1 report**; a location report within 30 m / 48 h of an open location ticket merges into it. The operator can **Split out** a wrongly merged report. |
 | Work a ticket (operator demo) | **Dispatch** a crew (pole → *Under maintenance*), then **Close ticket** → *Awaiting dusk check*. CCMS poles confirm by themselves after dark (simulated); other poles need a night photo from the field crew. Only then does the pole turn *Functional* and the repair get logged. |
-| Ticket queue | Click **Open tickets**. Safety emergencies are pinned on top; each ticket shows priority, a one-line *why*, SLA and escalation level (JE → AE → EE). |
+| Report confidence | Each citizen report gets a band: **Confirmed**, **Likely** or **Needs check**, shown quietly on the ticket with a folded **Why** list (✓ supports, – neutral, ✗ contradicts). See *How report confidence works*. |
+| Cheapest check first | A **Needs check** ticket offers, in order: poll CCMS (simulated), add the pole to the night audit, ask a crew already working nearby. A crew is dispatched only when none of these can happen within 12 h. |
+| On-site outcomes (field crew) | **Fault confirmed**, **Working, no fault** (closes as "Not confirmed on site"), **Obstruction** (to horticulture / enforcement) or **Different pole** (pick the right pole on the map; `Esc` cancels). Every outcome updates the reporters' track records. |
+| Ticket queue | Click **Open tickets**. Safety emergencies are pinned on top; each ticket shows priority and what it is **based on**, SLA, escalation level (JE → AE → EE), a **Needs check** flag, and a **Public** marker when its reporter shared it. Reports over the hourly limit wait under **Held for review**; **Accept** puts them on a ticket. |
 | Dark spots | **Dark spots** switch: heat from *Faulty* poles, plus each unlit stretch (2+ dark poles in a row, measured along the road between lit poles) labelled e.g. "DS-1 · 220 m unlit" with a likely root cause, e.g. "probable cable fault after pole #2". |
 | Circuit faults | When most of a circuit (or its far end) is dark, the lamp tickets collapse into one electrical ticket for the cable & panel team; an active excavation permit nearby is named as a possible cause. |
 | Planned shutdowns | Poles on a switched-off circuit keep their status but show no light; reports there are logged, not dispatched; citizens see "Planned power shutdown until HH:MM". |
@@ -50,6 +53,8 @@ A switch at the top of the header picks the view. It is a **demo switch, not a l
 | Field crew | Work order grouped into stops and ordered by nearest neighbour (route drawn while open), "Carry: …" spares line on lamp jobs, night audit with large **Lit / Dark** buttons. |
 | Management | Uptime per month (zone, road, contractor), contractor scorecard (example payment rule), chronic poles and batch failure rates, warranty claims, energy reconciliation, "Due before monsoon", event check (pick roads or draw a route; printable). |
 | Pole labels | Printable QR label sheet; each code opens `BASE_URL#report=<UID>`. Set `BASE_URL` in `config.js` first. |
+| Share publicly (citizen) | In **My reports**, a quiet **Share publicly** appears only on a complaint past its SLA, or one the citizen said was not fixed. It previews the exact post, then opens X's web intent, the device's share sheet, or copies the text. See *Public escalation on X*. |
+| Public status link | `#ticket=<ID>` (e.g. `BASE_URL#ticket=TKT-2026-0156`) opens a plain status card for that complaint in the Citizen view. |
 | Search / filter | Search box (or press `/`). Click a status in the legend to hide or show it. `Esc` backs out one step (form, drawing, report mode, highlight, trace, sidebar, back to a list). |
 | Share a view | The URL hash follows the selection and view, e.g. `#SL-CP-OC-031`, `#SL-CP-OC-031&view=field`, `#view=citizen`. |
 
@@ -65,7 +70,9 @@ Status symbols use shape as well as colour, so red/green colour blindness doesn'
 ├── app.js                        0, 2–7  Boot, utilities, clock & sun, data model, map, poles, feeders
 ├── analysis.js                   8  Heatmap, road order, unlit stretches, root cause, coverage, criticality,
 │                                    load, uptime, scorecard, chronic, reconciliation, monsoon, event check
-├── tickets.js                    9–11  Ticket model, workflow, reporting
+├── confidence.js                 9a  Report confidence: a pure scoring function (no DOM, no state)
+├── share.js                      9b  Public escalation text: X's weighted count, the post, the intent link
+├── tickets.js                    9–11  Ticket model, confidence evidence, workflow, checks and outcomes, reporting
 ├── views.js                      12–13  Selection, URL hash, sidebar views
 ├── panels.js                     14  View switch, header, layers, legend, insights, search, toasts
 ├── roles.js                      15  Queue, work order, night audit, dashboard, labels, event check
@@ -79,7 +86,9 @@ Status symbols use shape as well as colour, so red/green colour blindness doesn'
 │   └── waterlogging_spots.geojson 3 spots (approximate)
 └── tools/
     ├── generate_data.py          Rebuilds the dataset (seeded, reproducible)
-    └── validate_data.py          Checks structure, [lon, lat] order, cross-references, sync
+    ├── validate_data.py          Checks structure, [lon, lat] order, cross-references, sync
+    ├── test_confidence.js        Unit tests for report confidence (node, no dependencies)
+    └── test_share.js             Unit tests for the post text and X's counting rules
 ```
 
 All scripts are plain `<script>` files sharing one scope (no modules, so `file://` works).
@@ -91,17 +100,21 @@ All scripts are plain `<script>` files sharing one scope (no modules, so `file:/
 | `uid`, `road`, `location` | `SL-CP-OC-031`, `Outer Circle`, `Outer Circle, Palika Park side · …` |
 | `pole_type`, `pole_height_m`, `arm_count` | `Octagonal GI`, `9`, `1` |
 | `fixture_type`, `wattage`, `cct_k`, `ccms_node` | `LED`, `120`, `4000`, `true` |
+| `ccms_reading` (CCMS poles only, simulated) | `{switch_on_at, state: on · off · abnormal, daylight: on · off}`: what the node reported at the last scheduled switch-on |
 | `fixture_installed`, `fixture_make`, `fixture_batch`, `fixture_warranty_years` | `2023-03-21`, `Lumetra` (fictional), `LUM-2302`, `5` (example) |
 | `last_inspected`, `last_earthing_check`, `junction_box_condition` | `2026-08-01`, `2024-09-15`, `Good` |
 | `feeder_panel`, `circuit`, `circuit_seq`, `phase` | `FP-CP-07`, `C1`, `3`, `B` |
 | `status` | `Functional` · `Faulty` · `Under Maintenance` |
 | `contractor` | name, contact, masked phone, contract ref, SLA hours |
-| `ticket` | live ticket (id, status, category, issue, source, crew, `pole_uids`, …) or `null`. Priority and SLA are computed in the app. |
-| `repair_history` | closed tickets, newest first |
+| `ticket` | live ticket (id, status, category, issue, source, crew, `pole_uids`, `public`, …) or `null`. Priority, SLA and confidence are computed in the app; `public` = `{shared_at, report_id}` once its reporter shared it. |
+| `repair_history` | closed tickets, newest first; `outcome` and `reported_uid` mark a "Different pole" correction |
 | `energy_kwh`, `energy_month`, `energy_history` | last month, plus 6 months of `{month, kwh, scheduled_h, lit_h}` |
 
 Feeder panels add `capacity_kva`, `metered_kwh_history`, `temp_connections` and `planned_shutdowns`.
-`locationTickets` and `citizenSamples` (two simulated earlier reports) are in `streetlights.js`.
+`streetlights.js` also holds `locationTickets`, `reporters` (simulated IDs with their past reports and how many
+were confirmed on site; no names) and `citizenReports`: every complaint behind the tickets, with its reporter,
+category, time, when it was noticed, an optional photo (`live` or `upload`, plus a perceptual hash) and an
+optional "Use my location" fix (`[lon, lat]` and accuracy). A ticket's `complaints` count equals its linked reports.
 
 **Coordinates:** GeoJSON stores `[longitude, latitude]`; Leaflet wants `[latitude, longitude]`.
 `L.geoJSON` converts automatically, and the only hand-written conversion is `toLatLng()` (and
@@ -130,9 +143,76 @@ illustrative, not real regulations, contract terms, penalty rates or warranty pe
 | `EARTHING_CHECK_MAX_MONTHS`, `MONSOON_START` | 12, 2027-06-25 (examples) | pre-monsoon checks |
 | `PERMIT_PROXIMITY_M`, `EVENT_ROUTE_BUFFER_M` | 30, 25 | permits near faults, event routes |
 | `PANEL_LOAD_WARN_SHARE`, `FESTIVE_WINDOW` | 0.8, 10 Oct – 15 Nov (example) | festive load |
+| `CONFIDENCE` | neutral 50; Confirmed ≥ 75, Likely ≥ 40; a weight per signal | report confidence scoring |
+| `CONFIDENCE_PRIORITY` | Confirmed +6, Likely 0, Needs check −6 | the confidence nudge to priority |
+| `LOCATION_MAX_ACCURACY_M`, `LOCATION_MATCH_M` | 50, 30 | "Use my location": too rough to use; close enough to support |
+| `PHOTO_MATCH_MAX_BITS`, `PHOTO_HASH_MIN_CONTRAST` | 6, 8 | the same picture (of 64 bits); too dark or plain to compare |
+| `REPORTS_PER_REPORTER_PER_HOUR` | 5 | beyond this, reports are logged and held for review |
+| `NEEDS_CHECK_MAX_HOURS`, `NEARBY_CREW_M` | 12, 250 | cheap checks must fit in this time; what counts as a crew nearby |
+| `PUBLIC_ESCALATION_ENABLED` | `true` | citizens may share overdue complaints on X (Management can switch it off) |
+| `OFFICIAL_HANDLES`, `TEAM_DEPARTMENT` | placeholders | department X handles; replace with verified official handles |
+| `X_POST`, `SHARE_LANDMARK_MAX_M` | 280, links count 23; 150 | X's limit and counting; landmark named in a post |
 
 Sunrise and sunset are computed (NOAA solar position, zenith 90.833°) for the zone centre, in IST,
 in both the generator and the browser; the energy baseline uses each month's real night length.
+
+## How report confidence works
+
+Confidence decides the **order** in which reports are handled and **how** they are checked. It never decides
+whether a report counts: every report is recorded, nothing is rejected, and the app never calls a report or a
+person fake. Safety emergencies (exposed wires, shock or sparking) skip it entirely and go out at once.
+
+- Every report starts at a neutral 50. With no evidence it stays there, in **Likely**, and is handled as before.
+  A first-time reporter is not penalised.
+- Evidence moves it up or down:
+  - what the pole's CCMS node reported at its last switch-on;
+  - a detected cable or panel fault, or a dark neighbour on the same circuit;
+  - other people reporting the same pole within 48 h (up to a cap);
+  - the reporter's record of reports confirmed on site, once they have one;
+  - a photo (taken in the app counts more than uploaded; photos count most for physical problems such as a damaged pole);
+  - "Use my location" close to the pole (far away is neutral: people often report later, from home);
+  - whether the problem could be seen when they say they noticed it.
+- If CCMS shows the lamp working, the report goes to **Needs check**, never to rejection, because CCMS can be wrong.
+  The pole keeps its status until the check.
+- A picture matching an earlier report's on another pole or another day lowers confidence, and the operator sees
+  "Photo matches report <ID>". The same picture resent for the same pole by the same person is neutral.
+- A check on site is final. "Different pole" counts as confirmed for the reporter: honest mistakes are common.
+- Citizens never see a score, only progress such as "Confirmed. Crew assigned."
+- Confidence nudges priority by at most 6 points, less than any other factor, so it never outweighs safety,
+  criticality or the length of a dark stretch.
+
+**AI photo check (designed, not live).** `photoCheck(photo, category, pole)` in `confidence.js` is a pluggable hook
+that returns signals with reasons. In this MVP it is a labelled, simulated stub: nothing leaves the browser. A real
+check needs a backend that calls a vision model, or a custom model trained on local street-light photos
+(general-purpose object detectors have no street-lamp class). API keys must stay on that server, never in this
+front end.
+
+## Public escalation on X
+
+- **Citizen-initiated only.** The citizen posts from their own account, by choice, through X's official web intent
+  (`https://x.com/intent/tweet?text=…`). No bot, no auto-posting, no X API, no keys.
+- **Only when earned:** the complaint is still open past its SLA, or the citizen answered "No" to "Fixed?". Never at
+  report time, and no reminders.
+- **Factual and private:** complaint ID, category, road and nearby landmark, days open, the public status link
+  (`BASE_URL#ticket=<ID>`, left out while `BASE_URL` is empty) and the department's handle. No name, phone number,
+  photo or personal location. Written in the citizen's language and fitted to X's 280-character limit with its
+  weighted counting (links count as 23).
+- **Placeholder handles** (`@OFFICIAL_HANDLE_…`) are left out of posts until replaced with verified official
+  handles; the Management view says so.
+- The exact text is previewed first. **Share…** uses the device's share sheet where available (e.g. WhatsApp);
+  otherwise **Copy text**.
+- Operators see **Public** on the ticket and "Shared publicly by reporter" in its activity. It never raises priority,
+  so people who post do not get faster repairs than equally urgent reports from people who don't.
+- When a shared ticket is fixed, the queue offers **Draft public update**: a short factual "Fixed" message with the
+  complaint ID, for the department's own account, through the same intent.
+- Management can switch the feature off (`PUBLIC_ESCALATION_ENABLED`, and a switch in the dashboard).
+
+## Run the tests
+
+```
+node tools/test_confidence.js    # report confidence: emergencies, neutral evidence, CCMS, location, reporters, photos, outcomes
+node tools/test_share.js         # post text, X's weighted counting, handles, links
+```
 
 ## Regenerate the data
 
@@ -160,5 +240,12 @@ dark-grey raster tiles. To use CARTO Dark Matter, set `CARTO_API_KEY` in `config
 - Set `BASE_URL` once hosted, so the QR pole labels work.
 - The Hindi strings in `config.js` are a first draft and **need review by a native speaker**. Data strings (locations, issues) stay in English.
 - Landmark, permit and waterlogging positions are approximate synthetic placements; replace them with verified survey data.
-- The CCMS feed is simulated; live CCMS, crew GPS and meter readings would replace the mock data.
+- The CCMS feed and CCMS polls are simulated; live CCMS, crew GPS and meter readings would replace the mock data.
+- Reporter identities are simulated. A real deployment would verify reporters by phone OTP, which needs a backend.
+- A browser cannot prove a photo was taken live; "Take photo" only asks for the camera.
+- The AI photo check is a simulated stub (see above); a real one needs a backend with a vision model or a custom model.
+- `#ticket=<ID>` only shows tickets in the loaded data; a live public status page needs a backend.
+- Replace the placeholder X handles with verified official handles before switching public sharing on.
+- Privacy, before storing any photo: blur faces and number plates, set a retention period, and review data handling
+  against India's Digital Personal Data Protection Act, 2023. In this MVP photos stay in memory only.
 - Tailwind runs from its Play CDN (it logs a "not for production" warning); compile it for production.

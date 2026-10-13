@@ -1,8 +1,8 @@
 /* ==========================================================================
  * Street Light GIS · tickets.js
- * Section 9: ticket model (routing, priority, SLA, escalation, audit trail)
- * Section 10: workflow (dispatch, close, dusk check, reopen, split)
- * Section 11: reporting (report mode, form, duplicate merging, shutdown holds, report pins)
+ * Section 9: ticket model (routing, priority, SLA, escalation, audit trail); 9.1 report confidence evidence
+ * Section 10: workflow (dispatch, close, dusk check, reopen, split); 10.1 checks and on-site outcomes
+ * Section 11: reporting (report mode, form, duplicate merging, shutdown holds, report pins); 11.1 public escalation
  * ========================================================================== */
 'use strict';
 
@@ -141,11 +141,7 @@ function rateTicket(t) {
     score += runBonus[1];
     factors.push(`${nf0.format(roundTo(runM, 5))} m unlit`);
   }
-  const sure = CONFIDENCE_PRIORITY[t.confidence.band] ?? 0;
-  if (sure) {
-    score += sure;
-    factors.push(t.confidence.band.toLowerCase());
-  }
+  score += CONFIDENCE_PRIORITY[t.confidence.band] ?? 0; // a small nudge; the band label shows it
   t.score = score;
   t.priority = PRIORITY_THRESHOLDS.find(([, min]) => score >= min)?.[0] ?? 'Low';
   t.why = factors.join(' · ');
@@ -654,6 +650,9 @@ function moveTicketToPole(id, uid) {
   } else {
     t.pole_uids = [uid];
     to.ticket = t;
+    if (t.status === 'Open' && t.check?.kind === 'crew') { // found on a check visit: the crew there takes the job
+      Object.assign(t, { status: 'In Progress', assigned_crew: t.check.crew, work_started_at: now().toISOString(), check: null });
+    }
     if (darkens(t)) setPoleStatus(to, t.status === 'In Progress' ? 'Under Maintenance' : 'Faulty', t);
   }
   logActivity(`Moved from ${from.uid} to ${uid}: the fault is there`, { ticket: target, uids: [from.uid, uid], from: from.uid, to: uid });
@@ -1131,6 +1130,7 @@ function shareEligible(r) {
   const t = state.tickets.get(r?.ticket_id);
   return state.publicSharing && Boolean(r?.mine) && Boolean(t) && (isBreached(t) || Boolean(r.reopened_at));
 }
+const daysOpen = (t) => Math.max(1, Math.round(daysBetween(t.first_raised_at ?? t.raised_at, now())));
 const statusUrl = (id) => (BASE_URL ? `${BASE_URL.replace(/#.*$/, '')}#ticket=${encodeURIComponent(id)}` : null);
 const departmentHandle = (t) => OFFICIAL_HANDLES[TEAM_DEPARTMENT[t.team]] ?? null;
 const handlesArePlaceholders = () => Object.values(OFFICIAL_HANDLES).some(isPlaceholderHandle);
@@ -1151,7 +1151,7 @@ function citizenPost(r) {
   const at = ticketLatLng(t);
   return buildPost({
     id: t.id, category: catLabel(t.category, true), road: ticketRoad(t), landmark: at ? landmarkNear(at) : null,
-    days: Math.max(1, Math.floor(daysBetween(t.first_raised_at ?? t.raised_at, now()))), url: statusUrl(t.id), handle: departmentHandle(t),
+    days: daysOpen(t), url: statusUrl(t.id), handle: departmentHandle(t),
   }, tr, X_POST);
 }
 

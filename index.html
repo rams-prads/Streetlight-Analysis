@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Street Light GIS · Connaught Place</title>
-  <meta name="description" content="Map-first street light management GIS for the Connaught Place pilot zone (NDMC area): asset register, citizen fault reporting, maintenance ticketing and spatial analysis. MVP with mock data.">
+  <meta name="description" content="Map-first street light management GIS for the Connaught Place pilot zone (NDMC area): asset register, citizen fault reporting, maintenance ticketing, field work orders, management reports and spatial analysis. MVP with mock data.">
   <meta name="theme-color" content="#0d0d0d">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23141413'/%3E%3Ccircle cx='16' cy='16' r='9' fill='%23fff4d6' fill-opacity='.25'/%3E%3Ccircle cx='16' cy='16' r='4.5' fill='%23fff4d6'/%3E%3C/svg%3E">
 
@@ -37,7 +37,7 @@
             ok: '#0ca30c', warn: '#fab219', bad: '#d03b3b', serious: '#ec835a',
           },
           fontFamily: {
-            sans: ['Inter', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'sans-serif'],
+            sans: ['Inter', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'Nirmala UI', 'Noto Sans Devanagari', 'sans-serif'],
             mono: ['JetBrains Mono', 'ui-monospace', 'Cascadia Mono', 'Consolas', 'monospace'],
           },
         },
@@ -47,15 +47,15 @@
 
   <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body data-role="operator">
   <!-- SVG paint servers used by map symbology (gradients must not live in a display:none SVG) -->
   <svg class="svg-defs" width="0" height="0" aria-hidden="true" focusable="false">
     <defs>
       <!-- Light pool around a working lamp -->
       <radialGradient id="halo-grad">
-        <stop offset="0" stop-color="#fff4d6" stop-opacity=".55"/>
-        <stop offset=".35" stop-color="#ffe7b3" stop-opacity=".22"/>
-        <stop offset="1" stop-color="#ffe7b3" stop-opacity="0"/>
+        <stop class="halo-stop-core" offset="0"/>
+        <stop class="halo-stop-mid" offset=".35"/>
+        <stop class="halo-stop-edge" offset="1"/>
       </radialGradient>
     </defs>
   </svg>
@@ -63,62 +63,53 @@
   <!-- ================= MAP (100vw × 100vh) ================= -->
   <div id="map" role="region" aria-label="Map of Connaught Place street lights"></div>
 
-  <!-- ================= Top-left: brand, search, zone health ================= -->
-  <header id="command" class="panel p-4">
+  <!-- ================= Top-left: brand, view, search, what this view needs ================= -->
+  <header id="command" class="panel">
     <div class="flex items-start gap-3">
       <div class="brand-mark" aria-hidden="true"><i class="fa-solid fa-lightbulb"></i></div>
       <div class="min-w-0 flex-1">
         <h1 class="text-[15px] font-semibold leading-tight tracking-tight">Street Light GIS</h1>
-        <p class="text-xs text-ink-3 mt-0.5">Connaught Place pilot · NDMC area, New Delhi</p>
+        <p class="text-xs text-ink-3 mt-0.5" data-i18n="brand_sub">Connaught Place pilot · NDMC area, New Delhi</p>
       </div>
-      <span class="chip chip--muted" title="Minimum viable product running on synthetic data">MVP · mock data</span>
+      <span class="chip chip--muted" data-i18n="mock_chip" data-i18n-title="mock_chip_tip" title="Demo running on synthetic data">MVP · mock data</span>
     </div>
+
+    <div id="view-switch" class="segmented view-switch mt-3" role="radiogroup" aria-label="View (demo switch, not a login)" title="Demo switch, not a login"></div>
 
     <div class="search mt-3">
       <i class="fa-solid fa-magnifying-glass search-icon" aria-hidden="true"></i>
       <input id="search" type="search" class="input search-input" autocomplete="off" spellcheck="false"
-             placeholder="Search pole, road, feeder or ticket"
+             placeholder="Search pole, road, feeder or ticket" data-i18n-placeholder="search_placeholder"
              role="combobox" aria-expanded="false" aria-controls="search-results" aria-autocomplete="list"
-             aria-label="Search poles, roads, feeder panels and tickets">
+             aria-label="Search poles, roads, feeder panels and tickets" data-i18n-aria="search_label">
       <kbd class="search-kbd" aria-hidden="true">/</kbd>
       <ul id="search-results" class="search-results panel" role="listbox" aria-label="Search results" hidden></ul>
     </div>
 
-    <div class="mt-4">
-      <div class="flex items-baseline justify-between">
-        <span class="eyebrow">Zone health</span>
-        <span class="text-[13px] text-ink-2"><span id="health-pct" class="font-semibold text-ink-1">–</span> lit</span>
-      </div>
-      <div id="health-meter" class="meter mt-2" role="img" aria-label="Status breakdown"></div>
-      <div class="kpis mt-3 grid grid-cols-3 gap-2">
-        <div class="stat"><span class="stat-label">Poles</span><span class="stat-value" id="kpi-poles">–</span><span class="stat-sub" id="kpi-poles-sub">&nbsp;</span></div>
-        <div class="stat"><span class="stat-label">Open tickets</span><span class="stat-value" id="kpi-tickets">–</span><span class="stat-sub" id="kpi-tickets-sub">&nbsp;</span></div>
-        <div class="stat"><span class="stat-label" id="kpi-energy-label">Energy</span><span class="stat-value" id="kpi-energy">–</span><span class="stat-sub" id="kpi-energy-sub">kWh</span></div>
-      </div>
-    </div>
+    <div id="role-block"></div>
   </header>
 
   <!-- ================= Top-right: layers & spatial analysis ================= -->
-  <aside id="layers" class="panel shift-with-sidebar" aria-label="Layers and analysis">
+  <aside id="layers" class="panel shift-with-sidebar" aria-label="Layers">
     <button type="button" id="layers-toggle" class="panel-header" aria-expanded="true" aria-controls="layers-body">
       <i class="fa-solid fa-layer-group text-ink-2" aria-hidden="true"></i>
-      <span class="flex-1 text-left">Layers &amp; analysis</span>
+      <span class="flex-1 text-left" data-i18n="layers">Layers &amp; analysis</span>
       <i class="fa-solid fa-chevron-down chevron" aria-hidden="true"></i>
     </button>
     <div id="layers-body" class="layers-body">
-      <p class="eyebrow px-1">Spatial analysis</p>
+      <p id="analysis-heading" class="eyebrow px-1">Spatial analysis</p>
 
-      <div class="toggle-row">
+      <div class="toggle-row" data-analysis-row="heatmap">
         <span class="toggle-icon" aria-hidden="true"><i class="fa-solid fa-circle-half-stroke"></i></span>
         <span class="min-w-0 flex-1">
-          <span class="toggle-title" id="lbl-heatmap">Dark-spot heatmap</span>
-          <span class="toggle-desc">Failure density of faulty lights</span>
+          <span class="toggle-title" id="lbl-heatmap">Dark spots</span>
+          <span class="toggle-desc">Faulty-lamp heat and unlit stretches</span>
         </span>
         <button type="button" class="switch" role="switch" aria-checked="false" data-analysis="heatmap" aria-labelledby="lbl-heatmap"></button>
       </div>
       <div id="insights-heatmap" class="insights" hidden></div>
 
-      <div class="toggle-row">
+      <div class="toggle-row" data-analysis-row="energy">
         <span class="toggle-icon" aria-hidden="true"><i class="fa-solid fa-bolt"></i></span>
         <span class="min-w-0 flex-1">
           <span class="toggle-title" id="lbl-energy">Energy consumption</span>
@@ -128,7 +119,7 @@
       </div>
       <div id="insights-energy" class="insights" hidden></div>
 
-      <div class="toggle-row">
+      <div class="toggle-row" data-analysis-row="feeder">
         <span class="toggle-icon" aria-hidden="true"><i class="fa-solid fa-diagram-project"></i></span>
         <span class="min-w-0 flex-1">
           <span class="toggle-title" id="lbl-feeder">Feeder network</span>
@@ -138,22 +129,13 @@
       </div>
       <div id="insights-feeder" class="insights" hidden></div>
 
-      <p class="eyebrow px-1 mt-4">Overlays</p>
-      <div class="toggle-row toggle-row--compact">
-        <span class="toggle-icon" aria-hidden="true"><i class="fa-solid fa-bullhorn"></i></span>
-        <span class="toggle-title flex-1" id="lbl-reports">Citizen reports <span id="reports-count" class="text-ink-3 font-normal"></span></span>
-        <button type="button" class="switch" role="switch" aria-checked="true" data-overlay="reports" aria-labelledby="lbl-reports"></button>
-      </div>
-      <div class="toggle-row toggle-row--compact">
-        <span class="toggle-icon" aria-hidden="true"><i class="fa-regular fa-circle"></i></span>
-        <span class="toggle-title flex-1" id="lbl-zone">Pilot zone boundary</span>
-        <button type="button" class="switch" role="switch" aria-checked="true" data-overlay="zone" aria-labelledby="lbl-zone"></button>
-      </div>
+      <p id="overlay-heading" class="eyebrow px-1 mt-4" data-i18n="overlays">Overlays</p>
+      <div id="overlay-list"></div>
 
-      <p class="eyebrow px-1 mt-4">Basemap</p>
+      <p class="eyebrow px-1 mt-4" data-i18n="basemap">Basemap</p>
       <div class="segmented mt-2" role="radiogroup" aria-label="Basemap">
-        <button type="button" role="radio" aria-checked="true" data-basemap="night"><i class="fa-solid fa-moon" aria-hidden="true"></i> Night</button>
-        <button type="button" role="radio" aria-checked="false" data-basemap="satellite"><i class="fa-solid fa-satellite" aria-hidden="true"></i> Satellite</button>
+        <button type="button" role="radio" aria-checked="true" data-basemap="night"><i class="fa-solid fa-moon" aria-hidden="true"></i> <span data-i18n="night">Night</span></button>
+        <button type="button" role="radio" aria-checked="false" data-basemap="satellite"><i class="fa-solid fa-satellite" aria-hidden="true"></i> <span data-i18n="satellite">Satellite</span></button>
       </div>
     </div>
   </aside>
@@ -162,16 +144,13 @@
   <section id="legend" class="panel" aria-label="Legend">
     <button type="button" id="legend-toggle" class="panel-header" aria-expanded="true" aria-controls="legend-body">
       <i class="fa-solid fa-list-ul text-ink-2" aria-hidden="true"></i>
-      <span class="flex-1 text-left">Legend</span>
+      <span class="flex-1 text-left" data-i18n="legend">Legend</span>
       <i class="fa-solid fa-chevron-down chevron" aria-hidden="true"></i>
     </button>
     <div id="legend-body" class="legend-body">
-      <p class="eyebrow">Streetlight status <span class="normal-case tracking-normal font-normal text-ink-3">· click to filter</span></p>
+      <p class="eyebrow"><span data-i18n="legend_status">Streetlight status</span> <span class="normal-case tracking-normal font-normal text-ink-3">· <span data-i18n="legend_filter">click to filter</span></span></p>
       <ul id="legend-status" class="mt-1.5 space-y-0.5"></ul>
-      <div id="legend-energy" class="legend-block" hidden></div>
-      <div id="legend-heatmap" class="legend-block" hidden></div>
-      <div id="legend-feeder" class="legend-block" hidden></div>
-      <div id="legend-reports" class="legend-block" hidden></div>
+      <div id="legend-extra"></div>
     </div>
   </section>
 
@@ -185,15 +164,15 @@
   <!-- ================= Bottom-right: map controls ================= -->
   <div id="map-controls" class="shift-with-sidebar">
     <div class="panel control-stack">
-      <button type="button" class="control-btn" id="zoom-in" aria-label="Zoom in" title="Zoom in"><i class="fa-solid fa-plus"></i></button>
-      <button type="button" class="control-btn" id="zoom-out" aria-label="Zoom out" title="Zoom out"><i class="fa-solid fa-minus"></i></button>
+      <button type="button" class="control-btn" id="zoom-in" aria-label="Zoom in" title="Zoom in" data-i18n-aria="zoom_in" data-i18n-title="zoom_in"><i class="fa-solid fa-plus" aria-hidden="true"></i></button>
+      <button type="button" class="control-btn" id="zoom-out" aria-label="Zoom out" title="Zoom out" data-i18n-aria="zoom_out" data-i18n-title="zoom_out"><i class="fa-solid fa-minus" aria-hidden="true"></i></button>
     </div>
     <div class="panel control-stack">
-      <button type="button" class="control-btn" id="zoom-home" aria-label="Fit pilot zone" title="Fit pilot zone"><i class="fa-solid fa-expand"></i></button>
+      <button type="button" class="control-btn" id="zoom-home" aria-label="Fit pilot zone" title="Fit pilot zone" data-i18n-aria="zoom_home" data-i18n-title="zoom_home"><i class="fa-solid fa-expand" aria-hidden="true"></i></button>
     </div>
   </div>
 
-  <!-- ================= Bottom-centre: citizen reporting ================= -->
+  <!-- ================= Bottom-centre: reporting, map chips ================= -->
   <button type="button" id="report-btn" class="report-cta" aria-pressed="false">
     <span class="fab-icon" aria-hidden="true"><i class="fa-solid fa-bullhorn"></i></span>
     <span class="fab-label">Report an issue</span>
@@ -201,74 +180,82 @@
 
   <div id="report-hint" class="panel report-hint" role="status" hidden>
     <i class="fa-solid fa-crosshairs text-accent-hi" aria-hidden="true"></i>
-    <span>Click a pole or any spot on the map to report it</span>
-    <kbd>Esc</kbd><span class="text-ink-3">to cancel</span>
+    <span data-i18n="report_hint">Click a pole or any spot on the map</span>
+    <kbd>Esc</kbd><span class="text-ink-3" data-i18n="esc_hint">to cancel</span>
   </div>
 
-  <!-- ================= Right: asset sidebar ================= -->
+  <div id="map-chip" class="panel map-chip" role="status" hidden></div>
+  <div id="draw-chip" class="panel map-chip draw-chip" role="status" hidden></div>
+
+  <!-- ================= Right: sidebar ================= -->
   <aside id="sidebar" aria-label="Details" aria-hidden="true" inert>
     <div id="sidebar-content" class="sidebar-content"></div>
   </aside>
 
-  <!-- ================= Citizen report modal ================= -->
+  <!-- ================= Report form ================= -->
   <div id="report-modal" class="modal" hidden>
     <div class="modal-backdrop" data-close></div>
     <form id="report-form" class="modal-card panel" role="dialog" aria-modal="true" aria-labelledby="rm-title" novalidate>
       <div class="flex items-start gap-3">
         <div class="min-w-0 flex-1">
-          <p class="eyebrow">Citizen fault report</p>
-          <h2 id="rm-title" class="text-lg font-semibold mt-0.5">What's wrong with this light?</h2>
+          <p class="eyebrow" data-i18n="form_eyebrow">Report an issue</p>
+          <h2 id="rm-title" class="text-lg font-semibold mt-0.5" data-i18n="form_title">What’s wrong?</h2>
         </div>
-        <button type="button" class="icon-btn" data-close aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+        <button type="button" class="icon-btn" data-close aria-label="Close" data-i18n-aria="close"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
       </div>
 
       <div id="rm-location" class="mt-3"></div>
 
       <fieldset class="mt-4">
-        <legend class="field-label">Issue <span class="text-bad" aria-hidden="true">*</span></legend>
+        <legend class="field-label"><span data-i18n="form_problem">Problem</span> <span class="text-bad" aria-hidden="true">*</span></legend>
         <div id="rm-issues" class="issue-grid mt-2"></div>
-        <p id="rm-issue-error" class="field-error" hidden>Pick the issue that fits best.</p>
+        <p id="rm-issue-error" class="field-error" hidden data-i18n="form_pick">Pick one.</p>
+        <p id="rm-safety" class="callout callout--warn" hidden><i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i><span data-i18n="safety">Stay away from the pole. If someone is hurt, call 112.</span></p>
       </fieldset>
 
       <label class="block mt-4">
-        <span class="field-label flex justify-between"><span>Details <span class="text-ink-3 font-normal">(optional)</span></span><span id="rm-count" class="text-ink-3 font-normal">0/500</span></span>
+        <span class="field-label flex justify-between"><span><span data-i18n="form_note">Note</span> <span class="text-ink-3 font-normal">(<span data-i18n="optional">optional</span>)</span></span><span id="rm-count" class="text-ink-3 font-normal">0/500</span></span>
         <textarea name="description" id="rm-description" class="input textarea mt-1.5" rows="3" maxlength="500"
-                  placeholder="e.g. Third pole from the Janpath corner has been dark since Tuesday"></textarea>
+                  placeholder="e.g. Third light from the Janpath corner, dark since Tuesday" data-i18n-placeholder="form_note_placeholder"></textarea>
       </label>
-
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-3">
-        <label class="block">
-          <span class="field-label">Your name <span class="text-ink-3 font-normal">(optional)</span></span>
-          <input name="name" class="input mt-1.5" maxlength="60" autocomplete="name">
-        </label>
-        <label class="block">
-          <span class="field-label">Mobile <span class="text-ink-3 font-normal">(for updates)</span></span>
-          <input name="phone" id="rm-phone" class="input mt-1.5" inputmode="tel" autocomplete="tel" placeholder="98765 43210" aria-describedby="rm-phone-error">
-          <span id="rm-phone-error" class="field-error" hidden>Enter a 10-digit Indian mobile number, or leave it blank.</span>
-        </label>
-      </div>
 
       <div class="mt-3 flex items-center gap-3">
         <label class="btn btn-ghost cursor-pointer">
-          <i class="fa-solid fa-camera" aria-hidden="true"></i><span>Add photo</span>
+          <i class="fa-solid fa-camera" aria-hidden="true"></i><span data-i18n="form_photo">Add photo</span>
           <input type="file" name="photo" id="rm-photo" accept="image/*" class="sr-only">
         </label>
-        <img id="rm-photo-preview" class="photo-preview" alt="Selected photo preview" hidden>
+        <img id="rm-photo-preview" class="photo-preview" alt="" hidden>
         <span id="rm-photo-name" class="text-xs text-ink-3 truncate"></span>
       </div>
 
+      <details id="rm-contact" class="contact mt-4">
+        <summary class="field-label"><span data-i18n="form_contact">Contact details</span> <span class="text-ink-3 font-normal">(<span data-i18n="optional">optional</span>)</span></summary>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-2">
+          <label class="block">
+            <span class="field-label" data-i18n="form_name">Your name</span>
+            <input name="name" class="input mt-1.5" maxlength="60" autocomplete="name">
+          </label>
+          <label class="block">
+            <span class="field-label" data-i18n="form_mobile">Mobile</span>
+            <input name="phone" id="rm-phone" class="input mt-1.5" inputmode="tel" autocomplete="tel" placeholder="98765 43210" aria-describedby="rm-phone-error">
+            <span id="rm-phone-error" class="field-error" hidden data-i18n="form_mobile_error">Enter a 10-digit Indian mobile number, or leave it blank.</span>
+          </label>
+        </div>
+      </details>
+
       <p class="text-[11.5px] text-ink-3 mt-4"><i class="fa-solid fa-circle-info" aria-hidden="true"></i>
-        Demo: the ticket is created in this browser session only. Nothing is sent to a server.</p>
+        <span data-i18n="form_demo">Demo: saved in this browser session only. Nothing is sent.</span></p>
 
       <div class="mt-4 flex justify-end gap-2">
-        <button type="button" class="btn btn-ghost" data-close>Cancel</button>
-        <button type="submit" class="btn btn-primary"><i class="fa-solid fa-paper-plane" aria-hidden="true"></i> Submit report</button>
+        <button type="button" class="btn btn-ghost" data-close data-i18n="report_cancel">Cancel</button>
+        <button type="submit" class="btn btn-primary"><i class="fa-solid fa-paper-plane" aria-hidden="true"></i> <span data-i18n="form_send">Send report</span></button>
       </div>
     </form>
   </div>
 
-  <!-- ================= Toasts ================= -->
+  <!-- ================= Toasts, print sheet ================= -->
   <div id="toasts" class="toasts" aria-live="polite"></div>
+  <div id="print-sheet" class="print-sheet" aria-hidden="true"></div>
 
   <!-- ================= Scripts ================= -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
@@ -279,7 +266,19 @@
           integrity="sha256-WezY0rMnedJPG9Jrh8iJDyfkpueFjZk70X5Nh45tJnc=" crossorigin=""></script>
   <script src="https://unpkg.com/leaflet.heat@0.2.0/dist/leaflet-heat.js"
           integrity="sha256-65UqrlgGoRAnKfKRuriH3eeDrOhZgZo1SCenduc+SGo=" crossorigin=""></script>
+  <!-- qrcode-generator 1.4.4 (MIT): QR codes for the printable pole labels -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"
+          integrity="sha384-mZT2gIty7ZDdOGkxfP6joZcYdMW1Jvj9dRlfpTmaJAKKXTqzygtB22k7FLe+KZC1"
+          crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <!-- The app: plain scripts sharing one scope, in this order (no modules, so file:// works) -->
   <script src="data/streetlights.js"></script>
+  <script src="config.js"></script>
   <script src="app.js"></script>
+  <script src="analysis.js"></script>
+  <script src="tickets.js"></script>
+  <script src="views.js"></script>
+  <script src="panels.js"></script>
+  <script src="roles.js"></script>
+  <script src="main.js"></script>
 </body>
 </html>

@@ -1,0 +1,57 @@
+{
+ "type": "FeatureCollection",
+ "name": "waterlogging_spots",
+ "features": [
+  {
+   "type": "Feature",
+   "id": "WL-01",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     77.21935,
+     28.629811
+    ]
+   },
+   "properties": {
+    "spot_id": "WL-01",
+    "name": "Outer Circle near Janpath",
+    "radius_m": 45,
+    "approximate": true
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "WL-02",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     77.220912,
+     28.630946
+    ]
+   },
+   "properties": {
+    "spot_id": "WL-02",
+    "name": "Middle Circle near F-Block",
+    "radius_m": 40,
+    "approximate": true
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "WL-03",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     77.218521,
+     28.632389
+    ]
+   },
+   "properties": {
+    "spot_id": "WL-03",
+    "name": "Inner Circle near metro exit 7",
+    "radius_m": 35,
+    "approximate": true
+   }
+  }
+ ]
+}

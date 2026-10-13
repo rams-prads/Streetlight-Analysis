@@ -253,6 +253,12 @@
           p.ticket = shared;
         } else {
           p.ticket.pole_uids ??= [p.uid];
+          if (!p.ticket.priority) { // interim defaults from the category (replaced by the priority rules)
+            const byCategory = { exposed: 'Critical', shock: 'Critical', damaged: 'High', not_working: 'Medium', flickering: 'Medium' };
+            p.ticket.priority = byCategory[p.ticket.category] ?? 'Low';
+            p.ticket.sla_hours = CONFIG.sla[p.ticket.priority];
+            p.ticket.sla_due = new Date(new Date(p.ticket.raised_at).getTime() + p.ticket.sla_hours * 3.6e6).toISOString();
+          }
           state.tickets.set(p.ticket.id, p.ticket);
         }
       }
@@ -305,12 +311,10 @@
   // Energy model: rated watts × arms × driver/ballast loss × dusk-to-dawn hours (meta.energy_model)
   function expectedKwh(p, ym = p.energy_month ?? META.energy_month) {
     const model = META.energy_model;
-    if (!model || !ym || !p.wattage) return null;
-    const [y, m] = ym.split('-').map(Number);
-    const days = new Date(Date.UTC(y, m, 0)).getUTCDate();
-    const hours = model.burn_hours_by_month?.[String(m)] ?? 11.5;
+    const nightHours = META.night_hours_by_month?.[ym];
+    if (!model || !nightHours || !p.wattage) return null;
     const loss = model.system_loss?.[p.fixture_type] ?? 1.1;
-    return (p.wattage * (p.arm_count ?? 1) * loss * hours * days) / 1000;
+    return (p.wattage * (p.arm_count ?? 1) * loss * nightHours) / 1000;
   }
   const ledEquivalentW = (p) => LED_EQUIVALENT_W[p.fixture_type]?.[p.wattage] ?? Math.round(p.wattage * 0.5);
   function retrofitSavingKwh(p) {
@@ -1018,7 +1022,9 @@
     const others = (t.pole_uids ?? []).filter((u) => u !== selfUid);
     const statusLine = t.status === 'In Progress'
       ? '<span class="ticket-status"><i class="fa-solid fa-person-digging" aria-hidden="true"></i>In progress</span>'
-      : '<span class="ticket-status"><i class="fa-solid fa-circle-dot" aria-hidden="true"></i>Open · awaiting crew</span>';
+      : t.status === 'Awaiting dusk check'
+        ? '<span class="ticket-status"><i class="fa-solid fa-moon" aria-hidden="true"></i>Awaiting dusk check</span>'
+        : '<span class="ticket-status"><i class="fa-solid fa-circle-dot" aria-hidden="true"></i>Open · awaiting crew</span>';
     return `
       <section class="card card--ticket" style="--c:${color}" aria-label="Active ticket">
         <div class="flex items-center justify-between gap-2">
@@ -1155,7 +1161,7 @@
       items.push(`<li class="tl-item">
         <span class="tl-node tl-node--now" style="--c:${s.color}"><i class="fa-solid ${s.icon}" aria-hidden="true"></i></span>
         <div class="flex items-baseline justify-between gap-2"><span class="tl-title">${esc(p.ticket.issue)}</span><time class="tl-date" datetime="${esc(p.ticket.raised_at)}">${esc(fmtDate(p.ticket.raised_at))}</time></div>
-        <p class="tl-action">${p.ticket.status === 'In Progress' ? 'Work in progress' : 'Open, awaiting crew'}</p>
+        <p class="tl-action">${{ 'In Progress': 'Work in progress', 'Awaiting dusk check': 'Repaired, awaiting dusk check' }[p.ticket.status] ?? 'Open, awaiting crew'}</p>
         <p class="tl-meta mono">${esc(p.ticket.id)}</p></li>`);
     }
     for (const h of p.repair_history) items.push(historyItem(h));

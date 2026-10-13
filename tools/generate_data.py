@@ -3,9 +3,10 @@
 Street Light GIS - mock dataset generator
 =========================================
 
-Builds the pilot-zone dataset for Connaught Place (NDMC area), New Delhi:
-Inner, Middle and Outer Circle street lights, their feeder pillars (panels),
-AMC contractors, live tickets, repair history and monthly energy use.
+Builds the pilot-zone dataset for Connaught Place (NDMC area), New Delhi: street lights on
+the Inner, Middle and Outer Circle and Radial Road 1, their feeder pillars (panels), AMC
+contractors, live tickets, repair history, monthly energy and lit hours, and three planning
+layers (landmarks, excavation permits, waterlogging spots).
 
 Geometry is real, attributes are synthetic
 ------------------------------------------
@@ -14,17 +15,24 @@ Geometry is real, attributes are synthetic
       Inner Circle   R = 125.6 m      (rms 0.7 m, closed loop)
       Middle Circle  R ~ 235 m        (rms 0.5 m, open across Palika Park ~182-243 deg)
       Outer Circle   R ~ 309-325 m    (irregular -> radius profile sampled every 5 deg)
+      Radial Road 1  128 -> 321 m from the centre along bearing ~186 -> 184 deg
 * Blocks, radial roads, approach-road junctions and Rajiv Chowk metro gates are
   placed by their OSM bearings, so location labels match the real place.
-* Every attribute (status, tickets, contractors, history, energy) is MOCK data
-  generated from a fixed seed, so the output is reproducible.
+* Every attribute is MOCK data from a fixed seed, so the output is reproducible.
+  Landmarks, excavation permits and waterlogging spots are synthetic AND only
+  approximately placed: each carries `approximate: true`.
+* Sunset and sunrise come from the NOAA general solar position equations for the zone
+  centre (zenith 90.833 deg), so scheduled lamp hours follow the real sky.
 
 Outputs (relative to the project root)
 --------------------------------------
-  data/streetlights.geojson   RFC 7946 FeatureCollection of poles (QGIS / geojson.io)
-  data/feeder_panels.geojson  RFC 7946 FeatureCollection of feeder pillars
-  data/streetlights.js        all of the above + metadata as `window.SLGIS_DATA`,
-                              so index.html runs straight from file:// (no server)
+  data/streetlights.geojson        poles (RFC 7946 FeatureCollection, opens in QGIS)
+  data/feeder_panels.geojson       feeder pillars
+  data/landmarks.geojson           metro exits, bus stops, subways, crossings, ATMs, parking
+  data/excavation_permits.geojson  third-party digging (line geometry)
+  data/waterlogging_spots.geojson  monsoon hotspots
+  data/streetlights.js             all of the above, plus location-only tickets and metadata,
+                                   as `window.SLGIS_DATA` so index.html runs from file://
 
 Coordinate order: GeoJSON positions are ALWAYS [longitude, latitude].
 
@@ -32,19 +40,21 @@ Usage
 -----
   python tools/generate_data.py                       # snapshot 2026-10-13 18:00 IST
   python tools/generate_data.py --as-of 2026-11-20T18:00
+  python tools/validate_data.py                       # check the output
 """
 from __future__ import annotations
 
 import argparse
+import functools
 import json
 import math
 import random
-from datetime import datetime, timedelta, timezone
+from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 OUT_DIR = ROOT / "data"
-IST = timezone(timedelta(hours=5, minutes=30))
+IST = timezone(timedelta(hours=5, minutes=30))  # India has no daylight saving
 SEED = 2406
 DEFAULT_AS_OF = "2026-10-13T18:00"
 
@@ -82,6 +92,11 @@ OUTER_PROFILE = {
     295: 308.7, 300: 309.0, 305: 310.1, 310: 308.7, 315: 308.9, 320: 311.1, 325: 315.2,
     330: 319.9, 335: 320.8, 340: 321.4, 345: 320.6, 350: 320.3, 355: 320.2,
 }
+# Radial Road 1 on OSM: from the Inner Circle (128 m, 186.0 deg) to the Outer Circle (321 m, 184.1 deg).
+R1_INNER, R1_OUTER = (128.0, 186.0), (321.0, 184.1)
+# Pole radii along Radial Road 1. No pole was ever installed near 240 m (Palika Bazaar ramp), which
+# leaves one 70 m span: the demo for the "Coverage gaps" layer. No existing pole was moved or removed.
+R1_RADII = [145.0, 175.0, 205.0, 275.0, 305.0]
 PILOT_ZONE_RADIUS_M = 360.0
 
 # Radial roads cut the rings into sectors; CP blocks sit between them.
@@ -108,10 +123,18 @@ def destination(bearing_deg: float, radius_m: float) -> tuple[float, float]:
             CENTRE["lng"] + radius_m * math.sin(b) / M_PER_DEG_LNG)
 
 
-def point_geometry(lat: float, lng: float) -> dict:
-    """GeoJSON Point. RFC 7946 order is [longitude, latitude] - never the other way round."""
+def position(lat: float, lng: float) -> list[float]:
+    """One GeoJSON position. RFC 7946 order is [longitude, latitude] - never the other way round."""
     assert 28.60 < lat < 28.66 and 77.19 < lng < 77.25, f"({lat}, {lng}) outside pilot zone"
-    return {"type": "Point", "coordinates": [round(lng, 6), round(lat, 6)]}
+    return [round(lng, 6), round(lat, 6)]
+
+
+def point_geometry(lat: float, lng: float) -> dict:
+    return {"type": "Point", "coordinates": position(lat, lng)}
+
+
+def polar_point(bearing: float, radius: float) -> dict:
+    return point_geometry(*destination(bearing, radius))
 
 
 def profile_radius(profile: dict[int, float], bearing: float) -> float:
@@ -120,6 +143,15 @@ def profile_radius(profile: dict[int, float], bearing: float) -> float:
     hi = (lo + 5) % 360
     t = (b - lo) / 5
     return profile[lo] * (1 - t) + profile[hi] * t
+
+
+def outer_r(bearing: float) -> float:
+    return profile_radius(OUTER_PROFILE, bearing)
+
+
+def r1_bearing(radius: float) -> float:
+    t = (radius - R1_INNER[0]) / (R1_OUTER[0] - R1_INNER[0])
+    return R1_INNER[1] + t * (R1_OUTER[1] - R1_INNER[1])
 
 
 def angdiff(a: float, b: float) -> float:
@@ -141,79 +173,150 @@ def sector_blocks(bearing: float):
     return SECTOR_BLOCKS[current]
 
 
-def describe_location(ring: str, bearing: float) -> str:
+def describe_location(road: str, bearing: float, idx: int) -> str:
     inner, outer = sector_blocks(bearing)
-    if ring == "IC":
+    if road == "IC":
         text = f"Inner Circle, facing {inner}-Block" if inner else "Inner Circle, Palika Bazaar side"
-        road = nearest(RADIAL_ROADS, bearing, 4.5)
+        junction = nearest(RADIAL_ROADS, bearing, 4.5)
         gate = nearest(METRO_GATES, bearing, 6.0)
-        if road:
-            text += f" · {road} junction"
+        if junction:
+            text += f" · {junction} junction"
         elif gate:
             text += f" · near {gate}"
-    elif ring == "MC":
+    elif road == "MC":
         text = f"Middle Circle, between {inner}- & {outer}-Blocks"
-        road = nearest(RADIAL_ROADS, bearing, 4.0)
-        if road:
-            text += f" · {road} junction"
+        junction = nearest(RADIAL_ROADS, bearing, 4.0)
+        if junction:
+            text += f" · {junction} junction"
         elif angdiff(bearing, 359.8) <= 4:
             text += " · near PVR Plaza"
-    else:
+    elif road == "OC":
         text = f"Outer Circle, {outer}-Block frontage" if outer else "Outer Circle, Palika Park side"
-        road = nearest(APPROACH_ROADS, bearing, 3.3)
-        if road:
-            text += f" · {road} junction"
+        junction = nearest(APPROACH_ROADS, bearing, 3.3)
+        if junction:
+            text += f" · {junction} junction"
         elif angdiff(bearing, 197.5) <= 4:
             text += " · opp. Jeevan Bharti Building"
+    else:
+        text = "Radial Road 1, beside Palika Bazaar"
+        if idx == 0:
+            text += " · Inner Circle end"
+        elif idx == len(R1_RADII) - 1:
+            text += " · Outer Circle end"
     return text
 
 
 # ---------------------------------------------------------------------------
-# 2. Network design: rings -> poles -> feeder pillars -> circuits
+# 2. Sun: NOAA general solar position equations (sunrise / sunset at the zone centre)
 # ---------------------------------------------------------------------------
-RINGS = {
-    "IC": {"name": "Inner Circle", "contractor": "CTR-01", "offset_m": -3.0,
-           "bearings": [7.5 + 15 * i for i in range(24)]},
-    "MC": {"name": "Middle Circle", "contractor": "CTR-02", "offset_m": 0.0,
-           "bearings": [(246 + j * 292 / 33) % 360 for j in range(34)]},
-    "OC": {"name": "Outer Circle", "contractor": "CTR-03", "offset_m": 3.0,
-           "bearings": [3.2143 + k * 360 / 56 for k in range(56)]},
+@functools.lru_cache(maxsize=None)
+def sun_times(d: date) -> tuple[datetime, datetime]:
+    """(sunrise, sunset) in IST on calendar date `d`, apparent sun with refraction (zenith 90.833 deg)."""
+    leap = d.year % 4 == 0 and (d.year % 100 != 0 or d.year % 400 == 0)
+    g = 2 * math.pi / (366 if leap else 365) * (d.timetuple().tm_yday - 1)  # fractional year at noon
+    eqtime = 229.18 * (0.000075 + 0.001868 * math.cos(g) - 0.032077 * math.sin(g)
+                       - 0.014615 * math.cos(2 * g) - 0.040849 * math.sin(2 * g))  # minutes
+    decl = (0.006918 - 0.399912 * math.cos(g) + 0.070257 * math.sin(g) - 0.006758 * math.cos(2 * g)
+            + 0.000907 * math.sin(2 * g) - 0.002697 * math.cos(3 * g) + 0.00148 * math.sin(3 * g))
+    lat = math.radians(CENTRE["lat"])
+    hour_angle = math.degrees(math.acos(math.cos(math.radians(90.833)) / (math.cos(lat) * math.cos(decl))
+                                        - math.tan(lat) * math.tan(decl)))
+    midnight_utc = datetime(d.year, d.month, d.day, tzinfo=timezone.utc)
+    sunrise = midnight_utc + timedelta(minutes=720 - 4 * (CENTRE["lng"] + hour_angle) - eqtime)
+    sunset = midnight_utc + timedelta(minutes=720 - 4 * (CENTRE["lng"] - hour_angle) - eqtime)
+    return sunrise.astimezone(IST), sunset.astimezone(IST)
+
+
+def night_of(d: date) -> tuple[datetime, datetime]:
+    """The dusk-to-dawn interval that starts on the evening of `d`."""
+    return sun_times(d)[1], sun_times(d + timedelta(days=1))[0]
+
+
+def month_nights(y: int, m: int) -> list[tuple[datetime, datetime]]:
+    """Every night that starts in month (y, m)."""
+    d = date(y, m, 1)
+    out = []
+    while d.month == m:
+        out.append(night_of(d))
+        d += timedelta(days=1)
+    return out
+
+
+def hours(a: datetime, b: datetime) -> float:
+    return (b - a).total_seconds() / 3600
+
+
+def overlap_hours(a0: datetime, a1: datetime, b0: datetime, b1: datetime) -> float:
+    return max(0.0, hours(max(a0, b0), min(a1, b1)))
+
+
+def night_overlap(a0: datetime, a1: datetime, nights) -> float:
+    return sum(overlap_hours(a0, a1, n0, n1) for n0, n1 in nights)
+
+
+# ---------------------------------------------------------------------------
+# 3. Network design: roads -> poles -> feeder pillars -> circuits
+# ---------------------------------------------------------------------------
+ROADS = {
+    "IC": {"name": "Inner Circle", "contractor": "CTR-01"},
+    "MC": {"name": "Middle Circle", "contractor": "CTR-02"},
+    "OC": {"name": "Outer Circle", "contractor": "CTR-03"},
+    "R1": {"name": "Radial Road 1", "contractor": "CTR-01"},
 }
 
-# Each pillar sits mid-arc and feeds two radial circuits: C1 runs clockwise, C2 anticlockwise.
-# Circuit lists are pole indices in wiring order (seq 1 = nearest the pillar).
+
+def pole_positions() -> dict[str, list[dict]]:
+    """Every pole by road, in physical order along the road (uid numbering follows this order)."""
+    pos = {
+        "IC": [dict(bearing=7.5 + 15 * i, radius=INNER_RADIUS_M - 3.0) for i in range(24)],
+        "MC": [dict(bearing=b, radius=profile_radius(MIDDLE_PROFILE, b))
+               for b in ((246 + j * 292 / 33) % 360 for j in range(34))],
+        "OC": [dict(bearing=b, radius=outer_r(b) + 3.0) for b in (3.2143 + k * 360 / 56 for k in range(56))],
+        "R1": [dict(bearing=r1_bearing(r), radius=r) for r in R1_RADII],
+    }
+    for items in pos.values():
+        for it in items:
+            it["lat"], it["lng"] = destination(it["bearing"], it["radius"])
+    return pos
+
+
+def ring(road: str, indices) -> list[tuple[str, int]]:
+    return [(road, i) for i in indices]
+
+
+# Each pillar feeds radial circuits; seq 1 is the pole nearest the pillar (wiring order).
 PANELS = [
-    dict(id="FP-CP-01", ring="IC", name="Central Park North", bearing=0.0, radius=108.0,
+    dict(id="FP-CP-01", road="IC", name="Central Park North", bearing=0.0, radius=108.0,
          where="Central Park north lawn, opposite Radial Road 4",
-         C1=list(range(0, 6)), C2=list(range(23, 17, -1)),
+         circuits={"C1": ring("IC", range(0, 6)), "C2": ring("IC", range(23, 17, -1))},
          kva=6, controller="CCMS panel controller (GSM)", commissioned="2010-08-14", source_dt="DT-CP-01 (11 kV/433 V, 630 kVA)"),
-    dict(id="FP-CP-02", ring="IC", name="Central Park South", bearing=180.0, radius=108.0,
+    dict(id="FP-CP-02", road="IC", name="Central Park South", bearing=180.0, radius=108.0,
          where="Central Park south lawn, behind Palika Bazaar Gate 1",
-         C1=list(range(12, 18)), C2=list(range(11, 5, -1)),
+         circuits={"C1": ring("IC", range(12, 18)), "C2": ring("IC", range(11, 5, -1)), "C3": ring("R1", range(0, 5))},
          kva=6, controller="CCMS panel controller (GSM)", commissioned="2010-08-14", source_dt="DT-CP-01 (11 kV/433 V, 630 kVA)"),
-    dict(id="FP-CP-03", ring="MC", name="Middle Circle North-West", bearing=(246 + 8.5 * 292 / 33) % 360, radius=244.0,
+    dict(id="FP-CP-03", road="MC", name="Middle Circle North-West", bearing=(246 + 8.5 * 292 / 33) % 360, radius=244.0,
          where="Middle Circle footpath between B- and H-Blocks",
-         C1=list(range(9, 17)), C2=list(range(8, -1, -1)),
+         circuits={"C1": ring("MC", range(9, 17)), "C2": ring("MC", range(8, -1, -1))},
          kva=6, controller="Astronomical timer + contactor", commissioned="2010-09-02", source_dt="DT-CP-02 (11 kV/433 V, 630 kVA)"),
-    dict(id="FP-CP-04", ring="MC", name="Middle Circle East", bearing=(246 + 25.5 * 292 / 33) % 360, radius=244.0,
+    dict(id="FP-CP-04", road="MC", name="Middle Circle East", bearing=(246 + 25.5 * 292 / 33) % 360, radius=244.0,
          where="Middle Circle footpath between E- and M-Blocks",
-         C1=list(range(26, 34)), C2=list(range(25, 16, -1)),
+         circuits={"C1": ring("MC", range(26, 34)), "C2": ring("MC", range(25, 16, -1))},
          kva=6, controller="Astronomical timer + contactor", commissioned="2010-09-02", source_dt="DT-CP-03 (11 kV/433 V, 990 kVA)"),
-    dict(id="FP-CP-05", ring="OC", name="Outer Circle North", bearing=0.0, radius=None,
+    dict(id="FP-CP-05", road="OC", name="Outer Circle North", bearing=0.0, radius=None,
          where="Outer Circle footpath at State Entry Road junction",
-         C1=list(range(0, 7)), C2=list(range(55, 48, -1)),
+         circuits={"C1": ring("OC", range(0, 7)), "C2": ring("OC", range(55, 48, -1))},
          kva=10, controller="CCMS panel controller (GSM)", commissioned="2010-07-21", source_dt="DT-CP-02 (11 kV/433 V, 630 kVA)"),
-    dict(id="FP-CP-06", ring="OC", name="Outer Circle East", bearing=90.0, radius=None,
+    dict(id="FP-CP-06", road="OC", name="Outer Circle East", bearing=90.0, radius=None,
          where="Outer Circle footpath, M-Block frontage",
-         C1=list(range(14, 21)), C2=list(range(13, 6, -1)),
+         circuits={"C1": ring("OC", range(14, 21)), "C2": ring("OC", range(13, 6, -1))},
          kva=10, controller="CCMS panel controller (GSM)", commissioned="2010-07-21", source_dt="DT-CP-03 (11 kV/433 V, 990 kVA)"),
-    dict(id="FP-CP-07", ring="OC", name="Outer Circle South", bearing=180.0, radius=None,
+    dict(id="FP-CP-07", road="OC", name="Outer Circle South", bearing=180.0, radius=None,
          where="Outer Circle footpath at Janpath junction",
-         C1=list(range(28, 35)), C2=list(range(27, 20, -1)),
+         circuits={"C1": ring("OC", range(28, 35)), "C2": ring("OC", range(27, 20, -1))},
          kva=10, controller="CCMS panel controller (GSM)", commissioned="2010-07-21", source_dt="DT-CP-04 (11 kV/433 V, 990 kVA)"),
-    dict(id="FP-CP-08", ring="OC", name="Outer Circle West", bearing=270.0, radius=None,
+    dict(id="FP-CP-08", road="OC", name="Outer Circle West", bearing=270.0, radius=None,
          where="Outer Circle footpath, G-Block frontage",
-         C1=list(range(42, 49)), C2=list(range(41, 34, -1)),
+         circuits={"C1": ring("OC", range(42, 49)), "C2": ring("OC", range(41, 34, -1))},
          kva=10, controller="Astronomical timer + contactor", commissioned="2010-07-21", source_dt="DT-CP-04 (11 kV/433 V, 990 kVA)"),
 ]
 
@@ -231,51 +334,147 @@ CONTRACTORS = {
                "contract_ref": "AMC/SL/CP-OC/2025-28", "sla_hours": 48,
                "crews": ["R1 · Anil M.", "R2 · Deepak R.", "R3 · Farhan A."]},
 }
+# In-house teams the app routes tickets to (lamp tickets go to the AMC contractor's crews).
+TEAM_CREWS = {
+    "cable": ["EL-1 · Cable jointing", "EL-2 · Panel & supply"],
+    "emergency": ["EM-1 · Rapid response"],
+    "horticulture": ["HT-1 · Tree pruning", "EN-1 · Hoarding enforcement"],
+    "survey": ["SV-1 · Zonal survey"],
+}
 
-SLA_HOURS = {"Critical": 4, "High": 24, "Medium": 48, "Low": 72}
 TARIFF_INR_PER_KWH = 8.0
 SYSTEM_LOSS = {"LED": 1.06, "HPS": 1.15, "Metal Halide": 1.12}  # driver / ballast losses
-# Average dusk-to-dawn burning hours per night in Delhi, by calendar month.
-BURN_HOURS = {1: 13.4, 2: 12.6, 3: 12.0, 4: 11.1, 5: 10.5, 6: 10.0,
-              7: 10.4, 8: 11.0, 9: 11.6, 10: 12.5, 11: 13.3, 12: 13.6}
+# Fixture warranty in years. EXAMPLE values for the demo, not real supplier terms.
+WARRANTY_YEARS_EXAMPLE = {"LED": 5, "HPS": 1, "Metal Halide": 2}
 
 JUNCTION_MASTS = {18: "Barakhamba Road", 28: "Janpath"}  # Outer Circle pole index -> junction
 LEGACY_HPS_PANEL = "FP-CP-08"                            # west quadrant: retrofit pending
+WEAK_BATCH = "ARB-2203"                                  # LED driver batch with a high failure rate
+WEAK_BATCH_MC = range(15, 26)                            # Middle Circle poles fitted from that batch
 
-# Live situation at the snapshot. `ago` / `started_ago` are hours before --as-of.
+# ---------------------------------------------------------------------------
+# 4. Live situation at the snapshot
+#    `ago` = hours before --as-of the ticket was raised; `started_ago` / `closed_ago` likewise.
+#    `category` is one of the citizen report categories in config.js; the app derives the team,
+#    priority and SLA from it (priority and SLA are not stored here).
+# ---------------------------------------------------------------------------
 LIVE_TICKETS = [
     # Dark stretch: cable fault on FP-CP-07 / C1 - every pole downstream of #2 is out.
-    dict(poles=[("OC", k) for k in range(30, 35)], status="Open", priority="High",
+    dict(poles=ring("OC", range(30, 35)), status="Open", category="not_working",
          issue="No supply - poles dark (CCMS: circuit current drop)", source="CCMS auto-alert",
          ago=43.3, complaints=3, notes="Zero current reported downstream on circuit C1. Citizen complaints merged."),
-    dict(poles=[("OC", 38)], status="Open", priority="Medium", issue="Lamp burnt out", source="Night patrol", ago=22.9),
-    dict(poles=[("OC", 45)], status="Open", priority="Medium", issue="Lamp cycling on/off", source="Citizen app", ago=69.75, complaints=2),
-    dict(poles=[("OC", 2)], status="Open", priority="Medium", issue="LED driver failure", source="CCMS auto-alert", ago=11.5),
-    dict(poles=[("OC", 11)], status="Open", priority="Medium", issue="Lamp not glowing", source="Call centre", ago=20.2),
-    dict(poles=[("MC", 18)], status="Open", priority="Medium", issue="LED driver failure", source="Night patrol", ago=93.0),
-    dict(poles=[("MC", 19)], status="Open", priority="Medium", issue="LED driver failure", source="Citizen app", ago=45.5, complaints=1),
-    dict(poles=[("MC", 21)], status="Open", priority="Medium", issue="LED driver failure", source="Night patrol", ago=21.0),
-    dict(poles=[("MC", 5)], status="Open", priority="Medium", issue="Flickering", source="Citizen app", ago=10.25, complaints=1),
-    dict(poles=[("IC", 21), ("IC", 22)], status="Open", priority="High",
-         issue="Junction box vandalised - cable stolen", source="Night patrol", ago=18.8, complaints=1,
+    # Lost phases at FP-CP-03 / C2: poles on phases R and Y are dark, phase B still works.
+    # Reported three times; the app's circuit check collapses them into one cable & panel ticket.
+    dict(poles=ring("MC", [8, 7]), status="Open", category="not_working", issue="Lamps not glowing",
+         source="Night patrol", ago=20.5),
+    dict(poles=ring("MC", [5]), status="Open", category="not_working", issue="Light not working",
+         source="Citizen app", ago=3.0, complaints=1),
+    dict(poles=ring("MC", [4, 2, 1]), status="Open", category="not_working", issue="Street dark near A-Block",
+         source="Call centre", ago=1.5, complaints=1),
+    # Safety
+    dict(poles=ring("IC", [21, 22]), status="Open", category="exposed",
+         issue="Junction box open, cable stolen", source="Night patrol", ago=18.8, complaints=1,
          notes="Dark patch near Rajiv Chowk Metro Gate 1. Police complaint filed."),
-    dict(poles=[("IC", 9)], status="Open", priority="Medium", issue="Lamp not glowing", source="Citizen app", ago=45.5, complaints=2),
-    # Works in progress (pole status "Under Maintenance")
-    dict(poles=[("OC", 46)], status="In Progress", priority="Medium", issue="Ignitor failure", source="Night patrol", ago=22.0, started_ago=7.75),
-    dict(poles=[("OC", 52)], status="In Progress", priority="High", issue="Pole damaged by vehicle", source="Call centre",
-         ago=378.5, started_ago=356.0, notes="Pole made safe and isolated. Replacement pole on order."),
-    dict(poles=[("OC", 18)], status="In Progress", priority="Medium", issue="Ballast failure", source="CCMS auto-alert", ago=22.3, started_ago=7.0),
-    dict(poles=[("OC", 8)], status="In Progress", priority="Medium", issue="Surge protection device failure", source="CCMS auto-alert", ago=12.2, started_ago=5.5),
-    dict(poles=[("MC", 20)], status="In Progress", priority="Medium", issue="LED driver failure", source="Night patrol", ago=45.0, started_ago=8.3),
-    dict(poles=[("MC", 29)], status="In Progress", priority="Low", issue="Loose connection in junction box", source="Night patrol", ago=23.5, started_ago=4.0),
-    dict(poles=[("MC", 11)], status="In Progress", priority="Low", issue="Light blocked by tree canopy", source="Citizen app",
-         ago=70.0, started_ago=6.0, notes="Horticulture team pruning; luminaire to be re-aimed."),
-    dict(poles=[("IC", 14)], status="In Progress", priority="Medium", issue="Water ingress in luminaire", source="CCMS auto-alert", ago=44.0, started_ago=9.0),
-    dict(poles=[("IC", 3)], status="In Progress", priority="Low", issue="Loose connection in junction box", source="CCMS auto-alert", ago=21.0, started_ago=6.0),
+    dict(poles=ring("OC", [13]), status="Open", category="shock", issue="Sparking at pole base",
+         source="Call centre", ago=0.8, complaints=1),
+    # Lamp faults
+    dict(poles=ring("OC", [45]), status="Open", category="flickering", issue="Lamp cycling on/off", source="Citizen app",
+         ago=69.75, complaints=2),
+    dict(poles=ring("OC", [2]), status="Open", category="not_working", issue="LED driver failure", source="CCMS auto-alert", ago=11.5),
+    dict(poles=ring("OC", [11]), status="Open", category="not_working", issue="Lamp not glowing", source="Call centre", ago=20.2),
+    dict(poles=ring("MC", [18]), status="Open", category="not_working", issue="LED driver failure", source="Night patrol", ago=93.0),
+    dict(poles=ring("MC", [19]), status="Open", category="not_working", issue="LED driver failure", source="Citizen app",
+         ago=45.5, complaints=1),
+    dict(poles=ring("MC", [21]), status="Open", category="not_working", issue="LED driver failure", source="Night patrol", ago=21.0),
+    dict(poles=ring("IC", [9]), status="Open", category="not_working", issue="Lamp not glowing", source="Citizen app",
+         ago=45.5, complaints=2),
+    # Crew R2's work order: five dispatched jobs spread round the Outer Circle
+    dict(poles=ring("OC", [8]), status="In Progress", category="not_working", issue="Surge protection device failure",
+         source="CCMS auto-alert", ago=12.2, started_ago=5.5, crew="R2 · Deepak R."),
+    dict(poles=ring("OC", [18]), status="In Progress", category="not_working", issue="Ballast failure",
+         source="CCMS auto-alert", ago=22.3, started_ago=7.0, crew="R2 · Deepak R."),
+    dict(poles=ring("OC", [23]), status="In Progress", category="not_working", issue="Lamp not glowing",
+         source="CCMS auto-alert", ago=30.0, started_ago=2.0, crew="R2 · Deepak R."),
+    dict(poles=ring("OC", [38]), status="In Progress", category="not_working", issue="Lamp burnt out",
+         source="Night patrol", ago=22.9, started_ago=1.0, crew="R2 · Deepak R."),
+    dict(poles=ring("OC", [46]), status="In Progress", category="not_working", issue="Ignitor failure",
+         source="Night patrol", ago=22.0, started_ago=7.75, crew="R2 · Deepak R."),
+    # Other work in progress
+    dict(poles=ring("OC", [52]), status="In Progress", category="damaged", issue="Pole damaged by vehicle", source="Call centre",
+         ago=378.5, started_ago=356.0, crew="R3 · Farhan A.", notes="Pole made safe and isolated. Replacement pole on order."),
+    dict(poles=ring("MC", [20]), status="In Progress", category="not_working", issue="LED driver failure", source="Night patrol",
+         ago=45.0, started_ago=8.3, crew="J1 · Imran S."),
+    dict(poles=ring("IC", [14]), status="In Progress", category="not_working", issue="Water ingress in luminaire",
+         source="CCMS auto-alert", ago=44.0, started_ago=9.0, crew="P1 · Ramesh K."),
+    # Horticulture: the lamp works, a tree blocks it; the pole status does not change.
+    dict(poles=ring("MC", [11]), status="In Progress", category="blocked", issue="Light blocked by tree canopy",
+         source="Citizen app", ago=70.0, started_ago=6.0, crew="HT-1 · Tree pruning",
+         notes="Horticulture team pruning; luminaire to be re-aimed."),
+    # Repaired this afternoon, waiting for the after-dusk check (pole stays Under Maintenance until then)
+    dict(poles=ring("IC", [3]), status="Awaiting dusk check", category="not_working", issue="Loose connection in junction box",
+         source="CCMS auto-alert", ago=21.0, started_ago=6.0, closed_ago=2.5, crew="P2 · Sunil T.",
+         resolution="Re-terminated cables, replaced connector"),
+    dict(poles=ring("MC", [29]), status="Awaiting dusk check", category="not_working", issue="Loose connection in junction box",
+         source="Night patrol", ago=23.5, started_ago=4.0, closed_ago=2.0, crew="J2 · Harpreet S.",
+         resolution="Re-terminated cables, replaced connector"),
+]
+# A citizen ticket at a spot with no mapped pole (Palika Park walkway): bearing, radius from the centre.
+LOCATION_TICKETS = [
+    dict(bearing=200.0, radius=222.0, status="Open", category="not_working", issue="Walkway lights out, Palika Park",
+         source="Citizen app", ago=5.0, complaints=1),
 ]
 # Working lights with a stuck timer/photocell: lit, but burning through the day as well.
 # Nobody has reported them - the energy layer is how they get found.
 DAY_BURNERS = {("OC", 44): 56, ("MC", 27): 40}  # -> days since day-burning started
+
+# Planned power shutdowns per panel: (start, end) in hours relative to --as-of, circuits, reason.
+PLANNED_SHUTDOWNS = {
+    "FP-CP-05": [dict(start=-1.0, end=3.0, circuits=["C1", "C2"], reason="Feeder pillar replacement")],
+    "FP-CP-02": [dict(start=-61 * 24 + 4.0, end=-61 * 24 + 8.0, circuits=["C1", "C2"], reason="Cable jointing")],
+}
+# Temporary connections on street-light panels (festive lights, stalls): kW, days relative to --as-of.
+TEMP_CONNECTIONS = {
+    "FP-CP-07": [dict(purpose="Festive decorative lighting, Janpath market", kw=5.6, start=-3, end=26)],
+    "FP-CP-08": [dict(purpose="Temporary puja pandal supply", kw=3.6, start=-1, end=9)],
+    "FP-CP-02": [dict(purpose="Food stalls, Palika Park", kw=1.2, start=-2, end=12)],
+}
+# Metered energy above the lamps' own consumption: (first month index 0-5, extra share).
+METER_GAPS = {"FP-CP-03": (3, 0.15), "FP-CP-06": (0, 0.11)}
+
+# Approximate planning layers (synthetic; positions from the fitted road geometry).
+LANDMARKS = (
+    [("metro_exit", name.replace("Rajiv Chowk Metro Gate", "Rajiv Chowk metro exit"), b, 140.0) for name, b in METRO_GATES]
+    + [("bus_stop", "Bus stop · Janpath", 186.0, None), ("bus_stop", "Bus stop · Barakhamba Road", 120.5, None),
+       ("bus_stop", "Bus stop · M-Block", 88.0, None), ("bus_stop", "Bus stop · Baba Kharak Singh Marg", 250.0, None),
+       ("bus_stop", "Bus stop · Chelmsford Road", 330.5, None)]
+    + [("subway", "Subway · Janpath", 181.5, -6.0), ("subway", "Subway · Barakhamba Road", 116.5, -6.0),
+       ("subway", "Subway · Panchkuian Road", 300.5, -6.0)]
+    + [("crossing", "Crossing · Radial Road 1", 185.0, 126.0), ("crossing", "Crossing · Radial Road 3", 302.7, 126.0),
+       ("crossing", "Crossing · Radial Road 5", 32.0, 126.0), ("crossing", "Crossing · Sansad Marg", 218.8, 0.0),
+       ("crossing", "Crossing · State Entry Road", 2.8, 0.0), ("crossing", "Crossing · Kasturba Gandhi Marg", 158.6, 0.0)]
+    + [("atm", "ATM · A-Block", 272.5, 182.0), ("atm", "ATM · D-Block", 47.5, 196.0),
+       ("atm", "ATM · F-Block", 151.0, 180.0), ("atm", "ATM · H-Block", 334.5, 250.0)]
+    + [("parking", "Parking · Palika Bazaar", 206.0, 160.0), ("parking", "Parking · M-Block", 95.0, 262.0),
+       ("parking", "Parking · G-Block", 268.0, 262.0)]
+)  # radius None = bus bay outside the Outer Circle; a negative/zero radius is an offset from the Outer Circle
+WATERLOGGING = [
+    dict(id="WL-01", name="Outer Circle near Janpath", bearing=186.0, radius=332.0, radius_m=45),
+    dict(id="WL-02", name="Middle Circle near F-Block", bearing=150.0, radius=236.0, radius_m=40),
+    dict(id="WL-03", name="Inner Circle near metro exit 7", bearing=249.0, radius=124.0, radius_m=35),
+]
+PERMITS = [  # line along a road edge: (from bearing, to bearing, radius or None for "Outer Circle + 9 m")
+    dict(id="EXC-01", agency="City Water Utility", purpose="Water main replacement", start=-6, end=9,
+         bearings=(194.0, 214.0), radius=None, offset=9.0),
+    dict(id="EXC-02", agency="FibreLink Networks", purpose="Telecom duct laying", start=-40, end=-12,
+         bearings=(55.0, 80.0), radius=240.0, offset=0.0),
+    dict(id="EXC-03", agency="Urban Gas Distribution", purpose="Gas pipeline", start=4, end=20,
+         bearings=(260.0, 280.0), radius=131.0, offset=0.0),
+]
+# Citizen reports filed from "this device" earlier, so My reports has something to show (simulated).
+CITIZEN_SAMPLES = [
+    dict(id="CR-S01", pole=("IC", 9), category="not_working", ago=45.5, live=True),
+    dict(id="CR-S02", pole=("IC", 6), category="not_working", ago=50.0, live=False),  # fixed yesterday
+]
 
 ISSUES = {
     "LED": [("LED driver failure", "Replaced LED driver", (2600, 4200)),
@@ -297,10 +496,11 @@ ISSUES = {
             ("Cable theft", "Replaced stolen cable, secured junction box", (4500, 8000))],
 }
 MAJOR_ISSUES = {"Underground cable fault", "Pole damaged by vehicle", "Cable theft"}
+HISTORY_SLA_HOURS = {"High": 24, "Medium": 48, "Low": 72}  # targets recorded on past tickets
 
 
 # ---------------------------------------------------------------------------
-# 3. Helpers
+# 5. Helpers
 # ---------------------------------------------------------------------------
 def iso(t: datetime) -> str:
     return t.astimezone(IST).isoformat(timespec="minutes")
@@ -333,90 +533,118 @@ def month_bounds(y: int, m: int) -> tuple[datetime, datetime]:
     return start, end
 
 
-def overlap_hours(a0: datetime, a1: datetime, b0: datetime, b1: datetime) -> float:
-    return max(0.0, (min(a1, b1) - max(a0, b0)).total_seconds() / 3600)
-
-
-def fixture_spec(ring: str, idx: int, panel_id: str, bearing: float, rng: random.Random) -> dict:
-    if ring == "IC":
-        return dict(pole_type="Heritage cast-iron (decorative)", pole_height_m=6, arm_count=1,
+def fixture_spec(road: str, idx: int, panel_id: str, bearing: float, rng: random.Random) -> dict:
+    """Pole and luminaire. `make` names are fictional; warranty years are example values."""
+    if road == "IC":
+        spec = dict(pole_type="Heritage cast-iron (decorative)", pole_height_m=6, arm_count=1,
                     fixture_type="LED", wattage=60, cct_k=3000, ccms_node=True,
                     install_date="2010-08-%02d" % rng.randint(2, 28),
-                    fixture_installed=f"2023-0{rng.randint(2, 4)}-{rng.randint(1, 28):02d}", retrofit="heritage")
-    if ring == "MC":
+                    fixture_installed=f"2023-0{rng.randint(2, 4)}-{rng.randint(1, 28):02d}", retrofit="heritage",
+                    fixture_make="Lumetra", fixture_batch="LUM-2302")
+    elif road == "MC":
         at_junction = nearest(RADIAL_ROADS, bearing, 4.0) is not None
-        return dict(pole_type="Swaged tubular GI", pole_height_m=7, arm_count=1,
+        weak = idx in WEAK_BATCH_MC
+        spec = dict(pole_type="Swaged tubular GI", pole_height_m=7, arm_count=1,
                     fixture_type="LED", wattage=60 if at_junction else 45, cct_k=4000, ccms_node=False,
                     install_date="2010-09-%02d" % rng.randint(2, 28),
-                    fixture_installed=f"2022-0{rng.randint(3, 6)}-{rng.randint(1, 28):02d}", retrofit=None)
-    if idx in JUNCTION_MASTS:
-        return dict(pole_type="Junction mast (GI)", pole_height_m=12, arm_count=2,
+                    fixture_installed=f"2022-0{3 if weak else 6}-{rng.randint(1, 28):02d}", retrofit=None,
+                    fixture_make="Arcbeam", fixture_batch=WEAK_BATCH if weak else "ARB-2206")
+    elif road == "R1":
+        spec = dict(pole_type="Swaged tubular GI", pole_height_m=7, arm_count=1,
+                    fixture_type="LED", wattage=45, cct_k=4000, ccms_node=True,
+                    install_date="2024-03-%02d" % rng.randint(2, 28),
+                    fixture_installed="2024-03-%02d" % rng.randint(2, 28), retrofit=None,
+                    fixture_make="Arcbeam", fixture_batch="ARB-2403")
+    elif idx in JUNCTION_MASTS:
+        spec = dict(pole_type="Junction mast (GI)", pole_height_m=12, arm_count=2,
                     fixture_type="Metal Halide", wattage=250, cct_k=4200, ccms_node=True,
                     install_date="2010-07-%02d" % rng.randint(2, 28),
-                    fixture_installed=f"2016-1{rng.randint(0, 2)}-{rng.randint(1, 28):02d}", retrofit=None)
-    if panel_id == LEGACY_HPS_PANEL:
-        return dict(pole_type="Octagonal GI", pole_height_m=9, arm_count=1,
+                    fixture_installed=f"2016-1{rng.randint(0, 2)}-{rng.randint(1, 28):02d}", retrofit=None,
+                    fixture_make="Metalux", fixture_batch="MTX-1611")
+    elif panel_id == LEGACY_HPS_PANEL:
+        year = rng.randint(2013, 2015)
+        spec = dict(pole_type="Octagonal GI", pole_height_m=9, arm_count=1,
                     fixture_type="HPS", wattage=250, cct_k=2000, ccms_node=False,
                     install_date="2010-07-%02d" % rng.randint(2, 28),
-                    fixture_installed=f"201{rng.randint(3, 5)}-0{rng.randint(1, 9)}-{rng.randint(1, 28):02d}", retrofit=None)
-    year, month = rng.choice([(2023, rng.randint(7, 12)), (2024, rng.randint(1, 2))])
-    return dict(pole_type="Octagonal GI", pole_height_m=9, arm_count=1,
-                fixture_type="LED", wattage=120, cct_k=4000, ccms_node=True,
-                install_date="2010-07-%02d" % rng.randint(2, 28),
-                fixture_installed=f"{year}-{month:02d}-{rng.randint(1, 28):02d}", retrofit="phase1")
+                    fixture_installed=f"{year}-0{rng.randint(1, 9)}-{rng.randint(1, 28):02d}", retrofit=None,
+                    fixture_make="Sodiac", fixture_batch=f"SOD-{year}")
+    else:
+        year, month = rng.choice([(2023, rng.randint(7, 12)), (2024, rng.randint(1, 2))])
+        spec = dict(pole_type="Octagonal GI", pole_height_m=9, arm_count=1,
+                    fixture_type="LED", wattage=120, cct_k=4000, ccms_node=True,
+                    install_date="2010-07-%02d" % rng.randint(2, 28),
+                    fixture_installed=f"{year}-{month:02d}-{rng.randint(1, 28):02d}", retrofit="phase1",
+                    fixture_make="Lumetra", fixture_batch="LUM-2307" if year == 2023 else "LUM-2401")
+    spec["fixture_warranty_years"] = WARRANTY_YEARS_EXAMPLE[spec["fixture_type"]]
+    return spec
 
 
 # ---------------------------------------------------------------------------
-# 4. Build
+# 6. Build
 # ---------------------------------------------------------------------------
 def build(as_of: datetime) -> dict:
     rng = random.Random(SEED)
     window_start = as_of - timedelta(days=int(3.75 * 365))
     window_end = as_of - timedelta(days=12)
     energy_months = months_before(as_of, 6)
+    at = lambda h: as_of + timedelta(hours=h)  # noqa: E731  hours relative to the snapshot
 
     # --- wire every pole to its panel / circuit -------------------------------------------
-    wiring = {}  # (ring, idx) -> (panel_id, circuit, seq)
+    positions = pole_positions()
+    wiring = {}  # (road, idx) -> (panel_id, circuit, seq)
     for p in PANELS:
-        for circuit in ("C1", "C2"):
-            for seq, idx in enumerate(p[circuit], start=1):
-                wiring[(p["ring"], idx)] = (p["id"], circuit, seq)
-    for ring, spec in RINGS.items():
-        missing = [i for i in range(len(spec["bearings"])) if (ring, i) not in wiring]
-        assert not missing, f"{ring} poles not wired: {missing}"
+        for circuit, keys in p["circuits"].items():
+            for seq, key in enumerate(keys, start=1):
+                assert key not in wiring, f"{key} wired twice"
+                wiring[key] = (p["id"], circuit, seq)
+    for road, items in positions.items():
+        missing = [i for i in range(len(items)) if (road, i) not in wiring]
+        assert not missing, f"{road} poles not wired: {missing}"
 
-    poles = []  # working records, turned into GeoJSON features at the end
-    for ring, spec in RINGS.items():
-        for idx, bearing in enumerate(spec["bearings"]):
-            if ring == "IC":
-                radius = INNER_RADIUS_M
-            elif ring == "MC":
-                radius = profile_radius(MIDDLE_PROFILE, bearing)
-            else:
-                radius = profile_radius(OUTER_PROFILE, bearing)
-            lat, lng = destination(bearing, radius + spec["offset_m"])
-            panel_id, circuit, seq = wiring[(ring, idx)]
-            fx = fixture_spec(ring, idx, panel_id, bearing, rng)
-            poles.append(dict(key=(ring, idx), ring=ring, idx=idx, bearing=bearing, lat=lat, lng=lng,
+    # --- planning layers first: poles use them (waterlogging -> junction boxes) -----------------
+    waterlogging = []
+    for w in WATERLOGGING:
+        lat, lng = destination(w["bearing"], w["radius"])
+        waterlogging.append(dict(w, lat=lat, lng=lng))
+
+    def near_water(lat: float, lng: float) -> bool:
+        for w in waterlogging:
+            dy = (lat - w["lat"]) * M_PER_DEG_LAT
+            dx = (lng - w["lng"]) * M_PER_DEG_LNG
+            if math.hypot(dx, dy) <= w["radius_m"] + 15:
+                return True
+        return False
+
+    poles = []
+    for road, items in positions.items():
+        for idx, it in enumerate(items):
+            panel_id, circuit, seq = wiring[(road, idx)]
+            fx = fixture_spec(road, idx, panel_id, it["bearing"], rng)
+            poles.append(dict(key=(road, idx), road=road, idx=idx, bearing=it["bearing"], lat=it["lat"], lng=it["lng"],
                               panel_id=panel_id, circuit=circuit, seq=seq, fx=fx,
-                              contractor=CONTRACTORS[spec["contractor"]], events=[]))
+                              contractor=CONTRACTORS[ROADS[road]["contractor"]], events=[],
+                              wet=near_water(it["lat"], it["lng"])))
+    by_key = {p["key"]: p for p in poles}
 
     # --- repair history ----------------------------------------------------------------------
     all_tickets = []  # every ticket (history + live) for chronological ID assignment
+
+    def add_event(pole, **e):
+        pole["events"].append(e)
+
     for pole in poles:
         fx, ctr = pole["fx"], pole["contractor"]
         fitted = datetime.fromisoformat(fx["fixture_installed"]).replace(tzinfo=IST)
         if fx["retrofit"] and window_start < fitted < window_end:
             before = "CFL 2x36 W heritage lantern" if fx["retrofit"] == "heritage" else "HPS 250 W"
             when = fitted.replace(hour=rng.randint(10, 15), minute=rng.randrange(60))
-            hours = round(rng.uniform(2.5, 5.0), 1)
-            pole["events"].append(dict(
-                type="Retrofit", issue=f"LED retrofit ({before} → LED {fx['wattage']} W)",
-                action="Replaced luminaire with LED; CCMS node fitted", source="Scheduled (retrofit programme)",
-                raised=when, resolved=when + timedelta(hours=hours), downtime_h=hours, priority="Low",
-                crew=rng.choice(ctr["crews"]), contractor=ctr["name"],
-                cost_inr=rng.randint(7200, 8400) if fx["retrofit"] == "heritage" else rng.randint(9800, 11500)))
-        weights = {"LED": [0, 0, 0, 1, 1, 1, 1, 2, 2, 3], "HPS": [1, 2, 2, 3, 3, 3, 4, 4],
+            hrs = round(rng.uniform(2.5, 5.0), 1)
+            add_event(pole, type="Retrofit", issue=f"LED retrofit ({before} → LED {fx['wattage']} W)",
+                      action="Replaced luminaire with LED; CCMS node fitted", source="Scheduled (retrofit programme)",
+                      raised=when, resolved=when + timedelta(hours=hrs), downtime_h=hrs, priority="Low",
+                      crew=rng.choice(ctr["crews"]), contractor=ctr["name"],
+                      cost_inr=rng.randint(7200, 8400) if fx["retrofit"] == "heritage" else rng.randint(9800, 11500))
+        weights = {"LED": [0, 0, 0, 0, 0, 1, 1, 1, 2], "HPS": [1, 2, 2, 3, 3, 3, 4, 4],
                    "Metal Halide": [2, 2, 3]}[fx["fixture_type"]]
         first_ok = max(window_start, fitted + timedelta(days=30))
         for _ in range(rng.choice(weights)):
@@ -431,41 +659,72 @@ def build(as_of: datetime) -> dict:
             priority = "High" if major else ("Low" if "day burning" in issue else "Medium")
             sources = ["CCMS auto-alert", "CCMS auto-alert", "Night patrol", "Citizen app", "Call centre"] \
                 if fx["ccms_node"] else ["Night patrol", "Night patrol", "Citizen app", "Call centre"]
-            pole["events"].append(dict(
-                type="Corrective", issue=issue, action=action, source=rng.choice(sources),
-                raised=raised, resolved=raised + timedelta(hours=downtime), downtime_h=downtime,
-                priority=priority, crew=rng.choice(ctr["crews"]), contractor=ctr["name"],
-                cost_inr=rng.randint(*cost)))
+            add_event(pole, type="Corrective", issue=issue, action=action, source=rng.choice(sources),
+                      raised=raised, resolved=raised + timedelta(hours=downtime), downtime_h=downtime,
+                      priority=priority, crew=rng.choice(ctr["crews"]), contractor=ctr["name"],
+                      cost_inr=rng.randint(*cost))
         for _ in range(rng.choice([0, 1, 1, 2])):
             day = random_day(rng, max(window_start, fitted), window_end)
             when = day.replace(hour=rng.randint(10, 15), minute=rng.randrange(60))
-            hours = round(rng.uniform(0.8, 2.0), 1)
-            pole["events"].append(dict(
-                type="Preventive", issue="Annual preventive maintenance",
-                action="Cleaned luminaire, IR & earth-resistance test, tightened terminations",
-                source="Scheduled (AMC)", raised=when, resolved=when + timedelta(hours=hours),
-                downtime_h=hours, priority="Low", crew=rng.choice(ctr["crews"]),
-                contractor=ctr["name"], cost_inr=rng.randint(350, 450)))
+            hrs = round(rng.uniform(0.8, 2.0), 1)
+            add_event(pole, type="Preventive", issue="Annual preventive maintenance",
+                      action="Cleaned luminaire, IR & earth-resistance test, tightened terminations",
+                      source="Scheduled (AMC)", raised=when, resolved=when + timedelta(hours=hrs),
+                      downtime_h=hrs, priority="Low", crew=rng.choice(ctr["crews"]),
+                      contractor=ctr["name"], cost_inr=rng.randint(350, 450))
+
+    def seeded_failure(key, days_ago, hour, issue, action, cost, downtime, source="Night patrol"):
+        pole = by_key[key]
+        ctr = pole["contractor"]
+        raised = (as_of - timedelta(days=days_ago)).replace(hour=hour, minute=rng.randrange(60), second=0, microsecond=0)
+        add_event(pole, type="Corrective", issue=issue, action=action, source=source, raised=raised,
+                  resolved=raised + timedelta(hours=downtime), downtime_h=downtime, priority="Medium",
+                  crew=rng.choice(ctr["crews"]), contractor=ctr["name"], cost_inr=cost)
+
+    # Weak driver batch: extra driver failures on Middle Circle poles fitted from ARB-2203.
+    for j, days in [(15, 410), (15, 760), (16, 220), (16, 590), (17, 300), (18, 640), (19, 520), (20, 380),
+                    (21, 700), (22, 260), (22, 830), (23, 150), (23, 470), (24, 480), (25, 90), (25, 610)]:
+        seeded_failure(("MC", j), days, 21, "LED driver failure", "Replaced LED driver", 3300, 26.5)
+    # Chronic pole beside a waterlogging spot: the lamp keeps failing because water gets in.
+    for days, downtime in [(300, 31.0), (170, 22.5), (60, 38.0)]:
+        seeded_failure(("MC", 30), days, 22, "Water ingress in luminaire", "Resealed luminaire, replaced gasket", 1200, downtime)
+    # Repeat failure: an HPS lamp fails again 18 days after it was fixed.
+    seeded_failure(("OC", 43), 50, 21, "Lamp burnt out", "Replaced 250 W HPS lamp", 1150, 26.0)
+    seeded_failure(("OC", 43), 30, 20, "Ignitor failure", "Replaced ignitor", 560, 15.0)
+    # Fixed yesterday after a citizen report (the sample report in My reports asks "Fixed?")
+    pole = by_key[("IC", 6)]
+    raised = as_of - timedelta(hours=50)
+    add_event(pole, type="Corrective", issue="Lamp not glowing", action="Replaced LED driver", source="Citizen app",
+              raised=raised, resolved=as_of - timedelta(hours=26), downtime_h=24.0, priority="Medium",
+              crew=pole["contractor"]["crews"][0], contractor=pole["contractor"]["name"], cost_inr=3400,
+              verified_at=as_of - timedelta(hours=23, minutes=50), verified_by="CCMS", citizen_sample="CR-S02")
+    for pole in poles:
         all_tickets.extend(pole["events"])
 
     # --- live tickets (one ticket can cover several poles) -------------------------------------
-    by_key = {p["key"]: p for p in poles}
     live_tickets = []
     for spec in LIVE_TICKETS:
         first = by_key[spec["poles"][0]]
-        ctr = first["contractor"]
-        raised = as_of - timedelta(hours=spec["ago"])
-        ticket = dict(type="Corrective", status=spec["status"], priority=spec["priority"],
-                      issue=spec["issue"], source=spec["source"], raised=raised,
-                      sla_hours=SLA_HOURS[spec["priority"]], complaints=spec.get("complaints", 0),
-                      notes=spec.get("notes"), contractor=ctr["name"], crew=None, started=None,
-                      pole_keys=spec["poles"])
-        if spec["status"] == "In Progress":
-            ticket["crew"] = rng.choice(ctr["crews"])
-            ticket["started"] = as_of - timedelta(hours=spec["started_ago"])
+        ticket = dict(type="Corrective", status=spec["status"], category=spec["category"], issue=spec["issue"],
+                      source=spec["source"], raised=at(-spec["ago"]), complaints=spec.get("complaints", 0),
+                      notes=spec.get("notes"), crew=spec.get("crew"),
+                      started=at(-spec["started_ago"]) if "started_ago" in spec else None,
+                      closed=at(-spec["closed_ago"]) if "closed_ago" in spec else None,
+                      resolution=spec.get("resolution"), pole_keys=spec["poles"], contractor=first["contractor"]["name"])
         live_tickets.append(ticket)
         all_tickets.append(ticket)
-    live_by_pole = {key: t for t in live_tickets for key in t["pole_keys"]}
+    live_by_pole = {}
+    for t in live_tickets:
+        for key in t["pole_keys"]:
+            assert key not in live_by_pole, f"{key} has two live tickets"
+            live_by_pole[key] = t
+    location_tickets = []
+    for spec in LOCATION_TICKETS:
+        ticket = dict(type="Corrective", status=spec["status"], category=spec["category"], issue=spec["issue"],
+                      source=spec["source"], raised=at(-spec["ago"]), complaints=spec.get("complaints", 0),
+                      lat_lng=destination(spec["bearing"], spec["radius"]))
+        location_tickets.append(ticket)
+        all_tickets.append(ticket)
 
     # --- ticket numbers: TKT-<year>-<seq>, chronological per year ------------------------------
     counters = {}
@@ -474,61 +733,97 @@ def build(as_of: datetime) -> dict:
         counters[year] = counters.get(year, 100) + 1
         t["ticket_id"] = f"TKT-{year}-{counters[year]:04d}"
 
-    # --- energy: last 6 complete months --------------------------------------------------------
-    def monthly_energy(pole) -> list[dict]:
+    # --- shutdowns, temporary connections ------------------------------------------------------
+    shutdowns = {pid: [dict(s, start_t=at(s["start"]), end_t=at(s["end"])) for s in items]
+                 for pid, items in PLANNED_SHUTDOWNS.items()}
+
+    # --- energy and lit hours: last 6 complete months ----------------------------------------------
+    nights_by_month = {ym: month_nights(*ym) for ym in energy_months}
+
+    def monthly(pole) -> list[dict]:
         fx = pole["fx"]
         kw = fx["wattage"] * fx["arm_count"] * SYSTEM_LOSS[fx["fixture_type"]] / 1000
         live = live_by_pole.get(pole["key"])
         burn_since = DAY_BURNERS.get(pole["key"])
+        planned = [s for s in shutdowns.get(pole["panel_id"], []) if pole["circuit"] in s["circuits"]]
         series = []
         for (y, m) in energy_months:
             m0, m1 = month_bounds(y, m)
-            burn_h = BURN_HOURS[m]
-            kwh = kw * burn_h * (m1 - m0).days * rng.uniform(0.975, 1.025)
-            night_share = burn_h / 24
-            for e in pole["events"]:  # outages from the repair history
-                if e["type"] == "Corrective":
-                    kwh -= kw * night_share * overlap_hours(e["raised"], e["resolved"], m0, m1)
-            if live:  # current fault / works already under way in that month
-                kwh -= kw * night_share * overlap_hours(live["raised"], as_of, m0, m1)
-            if burn_since is not None:  # day burning adds the daylight hours
+            nights = nights_by_month[(y, m)]
+            # Planned shutdowns are not scheduled burning time, so they never count against uptime.
+            scheduled = sum(hours(a, b) for a, b in nights) - sum(night_overlap(s["start_t"], s["end_t"], nights) for s in planned)
+            outage = sum(night_overlap(e["raised"], e["resolved"], nights) for e in pole["events"] if e["type"] == "Corrective")
+            if live and live["category"] != "blocked":  # current fault already under way in that month
+                outage += night_overlap(live["raised"], live["closed"] or as_of, nights)
+            lit = max(0.0, scheduled - outage)
+            day_burn = 0.0
+            if burn_since is not None:  # stuck timer: also burning through daylight
                 start = as_of - timedelta(days=burn_since)
-                kwh += kw * (24 - burn_h) * overlap_hours(start, as_of, m0, m1) / 24
-            series.append({"month": f"{y}-{m:02d}", "kwh": round(max(kwh, 0.0), 1)})
+                day_burn = overlap_hours(start, as_of, m0, m1) - night_overlap(start, as_of, nights)
+            kwh = kw * (lit + day_burn) * rng.uniform(0.975, 1.025)
+            series.append({"month": f"{y}-{m:02d}", "kwh": round(kwh, 1),
+                           "scheduled_h": round(scheduled, 1), "lit_h": round(lit, 1)})
         return series
 
+    # --- earthing and junction boxes -----------------------------------------------------------------
+    def earthing(pole) -> str:
+        """Last earth-resistance test. Every annual PM visit includes one, so it is never older than the
+        latest PM; poles near waterlogging spots are more often overdue."""
+        pm = max((e["resolved"] for e in pole["events"] if e["type"] == "Preventive"), default=None)
+        if pm and pm > as_of - timedelta(days=365):
+            return pm.date().isoformat()
+        overdue = rng.random() < (0.6 if pole["wet"] else 0.22)
+        months = rng.uniform(13, 30) if overdue else rng.uniform(1, 11)
+        test = as_of - timedelta(days=round(30.4 * months))
+        return max(test, pm).date().isoformat() if pm else test.date().isoformat()
+
+    def junction_box(pole) -> str:
+        weights = [30, 40, 30] if pole["wet"] else [68, 24, 8]
+        return rng.choices(["Good", "Fair", "Poor"], weights=weights)[0]
+
     # --- features --------------------------------------------------------------------------------
+    def uid_of(key) -> str:
+        return f"SL-CP-{key[0]}-{key[1] + 1:03d}"
+
     features = []
     for pole in poles:
-        fx, ring = pole["fx"], pole["ring"]
+        fx, road = pole["fx"], pole["road"]
         live = live_by_pole.get(pole["key"])
         status = "Functional"
         ticket = None
         if live:
-            status = "Faulty" if live["status"] == "Open" else "Under Maintenance"
+            if live["category"] == "blocked":
+                status = "Functional"  # the lamp works; a tree or hoarding blocks it
+            elif live["status"] == "Open":
+                status = "Faulty"
+            else:
+                status = "Under Maintenance"  # in progress, or repaired and awaiting the dusk check
             ticket = {
-                "id": live["ticket_id"], "status": live["status"], "priority": live["priority"],
+                "id": live["ticket_id"], "status": live["status"], "category": live["category"],
                 "issue": live["issue"], "source": live["source"], "raised_at": iso(live["raised"]),
-                "sla_hours": live["sla_hours"], "sla_due": iso(live["raised"] + timedelta(hours=live["sla_hours"])),
                 "assigned_crew": live["crew"], "work_started_at": iso(live["started"]) if live["started"] else None,
+                "closed_at": iso(live["closed"]) if live["closed"] else None, "resolution": live["resolution"],
                 "complaints": live["complaints"], "notes": live["notes"],
-                "pole_uids": [f"SL-CP-{k[0]}-{k[1] + 1:03d}" for k in live["pole_keys"]],
+                "pole_uids": [uid_of(k) for k in live["pole_keys"]],
             }
         history = []
         for e in sorted(pole["events"], key=lambda e: e["raised"], reverse=True):
-            history.append({
+            item = {
                 "ticket_id": e["ticket_id"], "type": e["type"], "issue": e["issue"], "action": e["action"],
                 "source": e["source"], "priority": e["priority"], "raised_at": iso(e["raised"]),
                 "resolved_at": iso(e["resolved"]), "downtime_h": e["downtime_h"],
-                "sla_met": e["downtime_h"] <= SLA_HOURS[e["priority"]] if e["type"] == "Corrective" else True,
+                "sla_met": e["downtime_h"] <= HISTORY_SLA_HOURS[e["priority"]] if e["type"] == "Corrective" else True,
                 "crew": e["crew"], "contractor": e["contractor"], "cost_inr": e["cost_inr"], "status": "Closed",
-            })
-        energy = monthly_energy(pole)
+            }
+            if e.get("verified_at"):
+                item["verified_at"] = iso(e["verified_at"])
+                item["verified_by"] = e["verified_by"]
+            history.append(item)
+        series = monthly(pole)
         recent = [datetime.fromisoformat(h["resolved_at"]) for h in history]
         patrol = as_of - timedelta(days=rng.randint(3, 75), hours=rng.randint(0, 12))
         last_inspected = max(recent + [patrol]).date().isoformat()
-        uid = f"SL-CP-{ring}-{pole['idx'] + 1:03d}"
-        ctr = pole["contractor"]
+        uid = uid_of(pole["key"])
         features.append({
             "type": "Feature",
             "id": uid,
@@ -536,8 +831,8 @@ def build(as_of: datetime) -> dict:
             "properties": {
                 "uid": uid,
                 "status": status,
-                "road": RINGS[ring]["name"],
-                "location": describe_location(ring, pole["bearing"]),
+                "road": ROADS[road]["name"],
+                "location": describe_location(road, pole["bearing"], pole["idx"]),
                 "pole_type": fx["pole_type"],
                 "pole_height_m": fx["pole_height_m"],
                 "arm_count": fx["arm_count"],
@@ -547,68 +842,152 @@ def build(as_of: datetime) -> dict:
                 "ccms_node": fx["ccms_node"],
                 "install_date": fx["install_date"],
                 "fixture_installed": fx["fixture_installed"],
+                "fixture_make": fx["fixture_make"],
+                "fixture_batch": fx["fixture_batch"],
+                "fixture_warranty_years": fx["fixture_warranty_years"],
                 "last_inspected": last_inspected,
+                "last_earthing_check": earthing(pole),
+                "junction_box_condition": junction_box(pole),
                 "feeder_panel": pole["panel_id"],
                 "circuit": pole["circuit"],
                 "circuit_seq": pole["seq"],
                 "phase": "RYB"[(pole["seq"] - 1) % 3],
-                "energy_kwh": energy[-1]["kwh"],
-                "energy_month": energy[-1]["month"],
-                "energy_history": energy,
-                "contractor": {k: v for k, v in ctr.items() if k != "crews"},
+                "energy_kwh": series[-1]["kwh"],
+                "energy_month": series[-1]["month"],
+                "energy_history": series,
+                "contractor": {k: v for k, v in pole["contractor"].items() if k != "crews"},
                 "ticket": ticket,
                 "repair_history": history,
             },
         })
 
     # --- feeder panels -------------------------------------------------------------------------
+    kwh_by_panel_month = {}
+    for f in features:
+        p = f["properties"]
+        for i, row in enumerate(p["energy_history"]):
+            kwh_by_panel_month[(p["feeder_panel"], i)] = kwh_by_panel_month.get((p["feeder_panel"], i), 0.0) + row["kwh"]
     panel_features = []
     for p in PANELS:
-        radius = p["radius"] or profile_radius(OUTER_PROFILE, p["bearing"]) + 16
+        radius = p["radius"] or outer_r(p["bearing"]) + 16
         lat, lng = destination(p["bearing"], radius)
-        ring = p["ring"]
+        gap = METER_GAPS.get(p["id"])
+        metered = []
+        for i, (y, m) in enumerate(energy_months):
+            loss = rng.uniform(0.015, 0.03)  # cable losses between meter and lamps
+            extra = gap[1] if gap and i >= gap[0] else 0.0
+            metered.append({"month": f"{y}-{m:02d}", "kwh": round(kwh_by_panel_month[(p["id"], i)] * (1 + loss + extra), 1)})
         panel_features.append({
             "type": "Feature",
             "id": p["id"],
             "geometry": point_geometry(lat, lng),
             "properties": {
-                "panel_id": p["id"], "name": p["name"], "road": RINGS[ring]["name"], "location": p["where"],
+                "panel_id": p["id"], "name": p["name"], "road": ROADS[p["road"]]["name"], "location": p["where"],
                 "source_dt": p["source_dt"], "capacity_kva": p["kva"], "controller": p["controller"],
-                "commissioned": p["commissioned"], "circuits": ["C1", "C2"],
-                "contractor_id": RINGS[ring]["contractor"],
+                "commissioned": p["commissioned"], "circuits": list(p["circuits"]),
+                "contractor_id": ROADS[p["road"]]["contractor"],
+                "metered_kwh_history": metered,
+                "temp_connections": [{"purpose": c["purpose"], "kw": c["kw"], "from": iso(at(24 * c["start"])),
+                                      "to": iso(at(24 * c["end"]))} for c in TEMP_CONNECTIONS.get(p["id"], [])],
+                "planned_shutdowns": [{"start": iso(s["start_t"]), "end": iso(s["end_t"]), "circuits": s["circuits"],
+                                       "reason": s["reason"]} for s in shutdowns.get(p["id"], [])],
             },
         })
 
+    # --- planning layers (synthetic, approximate) -------------------------------------------------
+    landmark_features = []
+    counts = {}
+    codes = {"metro_exit": "MX", "bus_stop": "BS", "subway": "SW", "crossing": "PX", "atm": "ATM", "parking": "PK"}
+    for kind, name, bearing, radius in LANDMARKS:
+        if radius is None:
+            radius = outer_r(bearing) + 16      # bus bay outside the Outer Circle
+        elif radius <= 0:
+            radius = outer_r(bearing) - radius  # offset from the Outer Circle centreline
+        counts[kind] = counts.get(kind, 0) + 1
+        lid = f"LM-{codes[kind]}-{counts[kind]:02d}"
+        landmark_features.append({"type": "Feature", "id": lid, "geometry": polar_point(bearing, radius),
+                                  "properties": {"landmark_id": lid, "kind": kind, "name": name, "approximate": True}})
+    permit_features = []
+    for pm in PERMITS:
+        b0, b1 = pm["bearings"]
+        coords = []
+        steps = max(2, int(abs(b1 - b0) / 2.5) + 1)
+        for s in range(steps):
+            b = b0 + (b1 - b0) * s / (steps - 1)
+            r = pm["radius"] if pm["radius"] is not None else outer_r(b) + pm["offset"]
+            coords.append(position(*destination(b, r)))
+        permit_features.append({"type": "Feature", "id": pm["id"], "geometry": {"type": "LineString", "coordinates": coords},
+                                "properties": {"permit_id": pm["id"], "agency": pm["agency"], "purpose": pm["purpose"],
+                                               "start": iso(at(24 * pm["start"])), "end": iso(at(24 * pm["end"])),
+                                               "approximate": True}})
+    water_features = [{"type": "Feature", "id": w["id"], "geometry": point_geometry(w["lat"], w["lng"]),
+                       "properties": {"spot_id": w["id"], "name": w["name"], "radius_m": w["radius_m"], "approximate": True}}
+                      for w in waterlogging]
+    location_features = []
+    for t in location_tickets:
+        lat, lng = t["lat_lng"]
+        location_features.append({"type": "Feature", "id": t["ticket_id"], "geometry": point_geometry(lat, lng),
+                                  "properties": {"id": t["ticket_id"], "status": t["status"], "category": t["category"],
+                                                 "issue": t["issue"], "source": t["source"], "raised_at": iso(t["raised"]),
+                                                 "complaints": t["complaints"]}})
+
+    # --- citizen sample reports ("this device", simulated) -------------------------------------------
+    samples = []
+    for s in CITIZEN_SAMPLES:
+        uid = uid_of(s["pole"])
+        if s["live"]:
+            ticket_id = live_by_pole[s["pole"]]["ticket_id"]
+        else:
+            ticket_id = next(e["ticket_id"] for e in by_key[s["pole"]]["events"] if e.get("citizen_sample") == s["id"])
+        samples.append({"id": s["id"], "uid": uid, "ticket_id": ticket_id, "category": s["category"],
+                        "created_at": iso(at(-s["ago"])), "simulated": True})
+
     # --- pilot zone boundary (exterior ring anticlockwise per RFC 7946 right-hand rule) --------
-    ring_coords = []
-    for step in range(72, -1, -1):
-        lat, lng = destination(step * 5 % 360, PILOT_ZONE_RADIUS_M)
-        ring_coords.append([round(lng, 6), round(lat, 6)])
+    ring_coords = [position(*destination(step * 5 % 360, PILOT_ZONE_RADIUS_M)) for step in range(72, -1, -1)]
     zone = {"type": "Feature", "id": "ZONE-CP-PILOT",
             "geometry": {"type": "Polygon", "coordinates": [ring_coords]},
             "properties": {"name": "Connaught Place pilot zone", "authority": "NDMC area",
                            "radius_m": PILOT_ZONE_RADIUS_M}}
 
+    sunrise, sunset = sun_times(as_of.date())
     meta = {
         "title": "Street Light GIS — Connaught Place pilot (NDMC area)",
         "as_of": iso(as_of),
         "energy_month": "%d-%02d" % energy_months[-1],
+        "energy_months": ["%d-%02d" % ym for ym in energy_months],
         "crs": "EPSG:4326 (WGS 84). GeoJSON positions are [longitude, latitude].",
         "centre": CENTRE,
         "geometry_source": "Ring centrelines fitted to OpenStreetMap (© OpenStreetMap contributors, ODbL)",
         "attribute_source": "Synthetic mock data for demonstration (seed %d)" % SEED,
+        "solar_method": "NOAA general solar position equations, zenith 90.833° (refraction), zone centre",
+        "snapshot_sun": {"sunrise": iso(sunrise), "sunset": iso(sunset)},
+        "night_hours_by_month": {"%d-%02d" % ym: round(sum(hours(a, b) for a, b in nights_by_month[ym]), 1)
+                                 for ym in energy_months},
         "tariff_inr_per_kwh": TARIFF_INR_PER_KWH,
-        "sla_hours_by_priority": SLA_HOURS,
-        "energy_model": {"system_loss": SYSTEM_LOSS,
-                         "burn_hours_by_month": {str(k): v for k, v in BURN_HOURS.items()}},
+        "energy_model": {"system_loss": SYSTEM_LOSS},
         "contractors": CONTRACTORS,
+        "team_crews": TEAM_CREWS,
     }
     return {
         "meta": meta,
         "zone": zone,
         "streetlights": {"type": "FeatureCollection", "name": "streetlights", "features": features},
         "feederPanels": {"type": "FeatureCollection", "name": "feeder_panels", "features": panel_features},
+        "landmarks": {"type": "FeatureCollection", "name": "landmarks", "features": landmark_features},
+        "excavationPermits": {"type": "FeatureCollection", "name": "excavation_permits", "features": permit_features},
+        "waterloggingSpots": {"type": "FeatureCollection", "name": "waterlogging_spots", "features": water_features},
+        "locationTickets": {"type": "FeatureCollection", "name": "location_tickets", "features": location_features},
+        "citizenSamples": samples,
     }
+
+
+FILES = {  # data/<file> <- key in SLGIS_DATA
+    "streetlights.geojson": "streetlights",
+    "feeder_panels.geojson": "feederPanels",
+    "landmarks.geojson": "landmarks",
+    "excavation_permits.geojson": "excavationPermits",
+    "waterlogging_spots.geojson": "waterloggingSpots",
+}
 
 
 def main() -> None:
@@ -620,9 +999,9 @@ def main() -> None:
 
     OUT_DIR.mkdir(exist_ok=True)
     # newline="\n": identical bytes on every OS (Windows would otherwise write CRLF)
-    write = lambda name, text: (OUT_DIR / name).write_text(text, encoding="utf-8", newline="\n")
-    write("streetlights.geojson", json.dumps(data["streetlights"], indent=1) + "\n")
-    write("feeder_panels.geojson", json.dumps(data["feederPanels"], indent=1) + "\n")
+    write = lambda name, text: (OUT_DIR / name).write_text(text, encoding="utf-8", newline="\n")  # noqa: E731
+    for name, key in FILES.items():
+        write(name, json.dumps(data[key], indent=1) + "\n")
     banner = ("/* AUTO-GENERATED by tools/generate_data.py - do not edit by hand.\n"
               " * Mock data for the Street Light GIS MVP (Connaught Place pilot, NDMC area).\n"
               " * GeoJSON positions are [longitude, latitude] (RFC 7946); Leaflet converts them.\n */\n")
@@ -633,8 +1012,13 @@ def main() -> None:
     for f in feats:
         counts[f["properties"]["status"]] = counts.get(f["properties"]["status"], 0) + 1
     total_kwh = sum(f["properties"]["energy_kwh"] for f in feats)
-    print(f"as of {data['meta']['as_of']}: {len(feats)} poles {counts}, "
-          f"{len(data['feederPanels']['features'])} feeder panels, {total_kwh:,.0f} kWh in {data['meta']['energy_month']}")
+    sun = data["meta"]["snapshot_sun"]
+    print(f"as of {data['meta']['as_of']} (sunrise {sun['sunrise'][11:16]}, sunset {sun['sunset'][11:16]}): "
+          f"{len(feats)} poles {counts}, {len(data['feederPanels']['features'])} panels, "
+          f"{total_kwh:,.0f} kWh in {data['meta']['energy_month']}")
+    print(f"layers: {len(data['landmarks']['features'])} landmarks, {len(data['excavationPermits']['features'])} permits, "
+          f"{len(data['waterloggingSpots']['features'])} waterlogging spots, "
+          f"{len(data['locationTickets']['features'])} location ticket(s)")
     print(f"wrote {OUT_DIR / 'streetlights.js'}")
 
 

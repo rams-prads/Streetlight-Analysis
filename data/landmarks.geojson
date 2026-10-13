@@ -1,0 +1,482 @@
+{
+ "type": "FeatureCollection",
+ "name": "landmarks",
+ "features": [
+  {
+   "type": "Feature",
+   "id": "LM-MX-01",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     77.218754,
+     28.633735
+    ]
+   },
+   "properties": {
+    "landmark_id": "LM-MX-01",
+    "kind": "metro_exit",
+    "name": "Rajiv Chowk metro exit 1",
+    "approximate": true
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "LM-MX-02",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     77.219342,
+     28.634012
+    ]
+   },
+   "properties": {
+    "landmark_id": "LM-MX-02",
+    "kind": "metro_exit",
+    "name": "Rajiv Chowk metro exit 2",
+    "approximate": true
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "LM-MX-03",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     77.220757,
+     28.633647
+    ]
+   },
+   "properties": {
+    "landmark_id": "LM-MX-03",
+    "kind": "metro_exit",
+    "name": "Rajiv Chowk metro exit 3",
+    "approximate": true
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "LM-MX-04",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     77.220216,
+     28.63161
+    ]
+   },
+   "properties": {
+    "landmark_id": "LM-MX-04",
+    "kind": "metro_exit",
+    "name": "Rajiv Chowk metro exit 5",
+    "approximate": true
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "LM-MX-05",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     77.219239,
+     28.631596
+    ]
+   },
+   "properties": {
+    "landmark_id": "LM-MX-05",
+    "kind": "metro_exit",
+    "name": "Rajiv Chowk metro exit 6",
+    "approximate": true
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "LM-MX-06",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     77.218366,
+     28.632343
+    ]
+   },
+   "properties": {
+    "landmark_id": "LM-MX-06",
+    "kind": "metro_exit",
+    "name": "Rajiv Chowk metro exit 7",
+    "approximate": true
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "LM-MX-07",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     77.218282,
+     28.632931
+    ]
+   },
+   "properties": {
+    "landmark_id": "LM-MX-07",
+    "kind": "metro_exit",
+    "name": "Rajiv Chowk metro exit 8",
+    "approximate": true
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "LM-BS-01",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     77.219344,
+     28.629762
+    ]
+   },
+   "properties": {
+    "landmark_id": "LM-BS-01",
+    "kind": "bus_stop",
+    "name": "Bus stop \u00b7 Janpath",
+    "approximate": true
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "LM-BS-02",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     77.222647,
+     28.631261
+    ]
+   },
+   "properties": {
+    "landmark_id": "LM-BS-02",
+    "kind": "bus_stop",
+    "name": "Bus stop \u00b7 Barakhamba Road",
+    "approximate": true
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "LM-BS-03",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     77.223152,
+     28.632896
+    ]
+   },
+   "properties": {
+    "landmark_id": "LM-BS-03",
+    "kind": "bus_stop",
+    "name": "Bus stop \u00b7 M-Block",
+    "approximate": true
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "LM-BS-04",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     77.216471,
+     28.631752
+    ]
+   },
+   "properties": {
+    "landmark_id": "LM-BS-04",
+    "kind": "bus_stop",
+    "name": "Bus stop \u00b7 Baba Kharak Singh Marg",
+    "approximate": true
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "LM-BS-05",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     77.218013,
+     28.635429
+    ]
+   },
+   "properties": {
+    "landmark_id": "LM-BS-05",
+    "kind": "bus_stop",
+    "name": "Bus stop \u00b7 Chelmsford Road",
+    "approximate": true
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "LM-SW-01",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     77.219617,
+     28.629833
+    ]
+   },
+   "properties": {
+    "landmark_id": "LM-SW-01",
+    "kind": "subway",
+    "name": "Subway \u00b7 Janpath",
+    "approximate": true
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "LM-SW-02",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     77.222677,
+     28.631483
+    ]
+   },
+   "properties": {
+    "landmark_id": "LM-SW-02",
+    "kind": "subway",
+    "name": "Subway \u00b7 Barakhamba Road",
+    "approximate": true
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "LM-SW-03",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     77.216928,
+     28.634233
+    ]
+   },
+   "properties": {
+    "landmark_id": "LM-SW-03",
+    "kind": "subway",
+    "name": "Subway \u00b7 Panchkuian Road",
+    "approximate": true
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "LM-PX-01",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     77.219593,
+     28.631657
+    ]
+   },
+   "properties": {
+    "landmark_id": "LM-PX-01",
+    "kind": "crossing",
+    "name": "Crossing \u00b7 Radial Road 1",
+    "approximate": true
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "LM-PX-02",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     77.218621,
+     28.633404
+    ]
+   },
+   "properties": {
+    "landmark_id": "LM-PX-02",
+    "kind": "crossing",
+    "name": "Crossing \u00b7 Radial Road 3",
+    "approximate": true
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "LM-PX-03",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     77.220388,
+     28.633754
+    ]
+   },
+   "properties": {
+    "landmark_id": "LM-PX-03",
+    "kind": "crossing",
+    "name": "Crossing \u00b7 Radial Road 5",
+    "approximate": true
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "LM-PX-04",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     77.217656,
+     28.630542
+    ]
+   },
+   "properties": {
+    "landmark_id": "LM-PX-04",
+    "kind": "crossing",
+    "name": "Crossing \u00b7 Sansad Marg",
+    "approximate": true
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "LM-PX-05",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     77.219867,
+     28.63571
+    ]
+   },
+   "properties": {
+    "landmark_id": "LM-PX-05",
+    "kind": "crossing",
+    "name": "Crossing \u00b7 State Entry Road",
+    "approximate": true
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "LM-PX-06",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     77.220909,
+     28.630079
+    ]
+   },
+   "properties": {
+    "landmark_id": "LM-PX-06",
+    "kind": "crossing",
+    "name": "Crossing \u00b7 Kasturba Gandhi Marg",
+    "approximate": true
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "LM-ATM-01",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     77.217845,
+     28.632862
+    ]
+   },
+   "properties": {
+    "landmark_id": "LM-ATM-01",
+    "kind": "atm",
+    "name": "ATM \u00b7 A-Block",
+    "approximate": true
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "LM-ATM-02",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     77.221183,
+     28.633985
+    ]
+   },
+   "properties": {
+    "landmark_id": "LM-ATM-02",
+    "kind": "atm",
+    "name": "ATM \u00b7 D-Block",
+    "approximate": true
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "LM-ATM-03",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     77.220597,
+     28.63137
+    ]
+   },
+   "properties": {
+    "landmark_id": "LM-ATM-03",
+    "kind": "atm",
+    "name": "ATM \u00b7 F-Block",
+    "approximate": true
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "LM-ATM-04",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     77.218604,
+     28.634826
+    ]
+   },
+   "properties": {
+    "landmark_id": "LM-ATM-04",
+    "kind": "atm",
+    "name": "ATM \u00b7 H-Block",
+    "approximate": true
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "LM-PK-01",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     77.218988,
+     28.631492
+    ]
+   },
+   "properties": {
+    "landmark_id": "LM-PK-01",
+    "kind": "parking",
+    "name": "Parking \u00b7 Palika Bazaar",
+    "approximate": true
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "LM-PK-02",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     77.222374,
+     28.632584
+    ]
+   },
+   "properties": {
+    "landmark_id": "LM-PK-02",
+    "kind": "parking",
+    "name": "Parking \u00b7 M-Block",
+    "approximate": true
+   }
+  },
+  {
+   "type": "Feature",
+   "id": "LM-PK-03",
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     77.217027,
+     28.632707
+    ]
+   },
+   "properties": {
+    "landmark_id": "LM-PK-03",
+    "kind": "parking",
+    "name": "Parking \u00b7 G-Block",
+    "approximate": true
+   }
+  }
+ ]
+}

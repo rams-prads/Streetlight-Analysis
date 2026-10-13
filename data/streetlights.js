@@ -7,6 +7,14 @@ window.SLGIS_DATA = {
   "title": "Street Light GIS \u2014 Connaught Place pilot (NDMC area)",
   "as_of": "2026-10-13T18:00+05:30",
   "energy_month": "2026-09",
+  "energy_months": [
+   "2026-04",
+   "2026-05",
+   "2026-06",
+   "2026-07",
+   "2026-08",
+   "2026-09"
+  ],
   "crs": "EPSG:4326 (WGS 84). GeoJSON positions are [longitude, latitude].",
   "centre": {
    "lat": 28.63279,
@@ -14,32 +22,25 @@ window.SLGIS_DATA = {
   },
   "geometry_source": "Ring centrelines fitted to OpenStreetMap (\u00a9 OpenStreetMap contributors, ODbL)",
   "attribute_source": "Synthetic mock data for demonstration (seed 2406)",
-  "tariff_inr_per_kwh": 8.0,
-  "sla_hours_by_priority": {
-   "Critical": 4,
-   "High": 24,
-   "Medium": 48,
-   "Low": 72
+  "solar_method": "NOAA general solar position equations, zenith 90.833\u00b0 (refraction), zone centre",
+  "snapshot_sun": {
+   "sunrise": "2026-10-13T06:19+05:30",
+   "sunset": "2026-10-13T17:54+05:30"
   },
+  "night_hours_by_month": {
+   "2026-04": 334.4,
+   "2026-05": 323.4,
+   "2026-06": 302.0,
+   "2026-07": 317.2,
+   "2026-08": 336.1,
+   "2026-09": 349.6
+  },
+  "tariff_inr_per_kwh": 8.0,
   "energy_model": {
    "system_loss": {
     "LED": 1.06,
     "HPS": 1.15,
     "Metal Halide": 1.12
-   },
-   "burn_hours_by_month": {
-    "1": 13.4,
-    "2": 12.6,
-    "3": 12.0,
-    "4": 11.1,
-    "5": 10.5,
-    "6": 10.0,
-    "7": 10.4,
-    "8": 11.0,
-    "9": 11.6,
-    "10": 12.5,
-    "11": 13.3,
-    "12": 13.6
    }
   },
   "contractors": {
@@ -83,6 +84,22 @@ window.SLGIS_DATA = {
      "R3 \u00b7 Farhan A."
     ]
    }
+  },
+  "team_crews": {
+   "cable": [
+    "EL-1 \u00b7 Cable jointing",
+    "EL-2 \u00b7 Panel & supply"
+   ],
+   "emergency": [
+    "EM-1 \u00b7 Rapid response"
+   ],
+   "horticulture": [
+    "HT-1 \u00b7 Tree pruning",
+    "EN-1 \u00b7 Hoarding enforcement"
+   ],
+   "survey": [
+    "SV-1 \u00b7 Zonal survey"
+   ]
   }
  },
  "zone": {
@@ -421,37 +438,54 @@ window.SLGIS_DATA = {
      "ccms_node": true,
      "install_date": "2010-08-15",
      "fixture_installed": "2023-04-11",
-     "last_inspected": "2026-08-27",
+     "fixture_make": "Lumetra",
+     "fixture_batch": "LUM-2302",
+     "fixture_warranty_years": 5,
+     "last_inspected": "2026-09-20",
+     "last_earthing_check": "2026-05-14",
+     "junction_box_condition": "Good",
      "feeder_panel": "FP-CP-01",
      "circuit": "C1",
      "circuit_seq": 1,
      "phase": "R",
-     "energy_kwh": 22.2,
+     "energy_kwh": 22.7,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 21.1
+       "kwh": 21.8,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 20.3
+       "kwh": 20.2,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 18.8
+       "kwh": 18.9,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 20.7
+       "kwh": 20.0,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 21.8
+       "kwh": 21.1,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
       },
       {
        "month": "2026-09",
-       "kwh": 22.2
+       "kwh": 22.7,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -466,67 +500,35 @@ window.SLGIS_DATA = {
      "ticket": null,
      "repair_history": [
       {
-       "ticket_id": "TKT-2026-0139",
+       "ticket_id": "TKT-2025-0120",
        "type": "Preventive",
        "issue": "Annual preventive maintenance",
        "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
        "source": "Scheduled (AMC)",
        "priority": "Low",
-       "raised_at": "2026-07-25T10:25+05:30",
-       "resolved_at": "2026-07-25T11:55+05:30",
-       "downtime_h": 1.5,
+       "raised_at": "2025-04-17T10:42+05:30",
+       "resolved_at": "2025-04-17T11:42+05:30",
+       "downtime_h": 1.0,
        "sla_met": true,
-       "crew": "P1 \u00b7 Ramesh K.",
+       "crew": "P2 \u00b7 Sunil T.",
        "contractor": "Prakash Electro Services",
-       "cost_inr": 351,
+       "cost_inr": 410,
        "status": "Closed"
       },
       {
-       "ticket_id": "TKT-2026-0122",
-       "type": "Preventive",
-       "issue": "Annual preventive maintenance",
-       "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
-       "source": "Scheduled (AMC)",
-       "priority": "Low",
-       "raised_at": "2026-04-09T11:09+05:30",
-       "resolved_at": "2026-04-09T12:27+05:30",
-       "downtime_h": 1.3,
-       "sla_met": true,
-       "crew": "P1 \u00b7 Ramesh K.",
-       "contractor": "Prakash Electro Services",
-       "cost_inr": 355,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2024-0146",
-       "type": "Corrective",
-       "issue": "Loose connection in junction box",
-       "action": "Re-terminated cables, replaced connector",
-       "source": "CCMS auto-alert",
-       "priority": "Medium",
-       "raised_at": "2024-05-23T21:00+05:30",
-       "resolved_at": "2024-05-24T18:06+05:30",
-       "downtime_h": 21.1,
-       "sla_met": true,
-       "crew": "P1 \u00b7 Ramesh K.",
-       "contractor": "Prakash Electro Services",
-       "cost_inr": 548,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2023-0129",
+       "ticket_id": "TKT-2023-0130",
        "type": "Retrofit",
        "issue": "LED retrofit (CFL 2x36 W heritage lantern \u2192 LED 60 W)",
        "action": "Replaced luminaire with LED; CCMS node fitted",
        "source": "Scheduled (retrofit programme)",
        "priority": "Low",
-       "raised_at": "2023-04-11T13:21+05:30",
-       "resolved_at": "2023-04-11T16:39+05:30",
-       "downtime_h": 3.3,
+       "raised_at": "2023-04-11T14:12+05:30",
+       "resolved_at": "2023-04-11T16:48+05:30",
+       "downtime_h": 2.6,
        "sla_met": true,
        "crew": "P2 \u00b7 Sunil T.",
        "contractor": "Prakash Electro Services",
-       "cost_inr": 7653,
+       "cost_inr": 7554,
        "status": "Closed"
       }
      ]
@@ -556,37 +558,54 @@ window.SLGIS_DATA = {
      "ccms_node": true,
      "install_date": "2010-08-27",
      "fixture_installed": "2023-03-18",
-     "last_inspected": "2026-08-15",
+     "fixture_make": "Lumetra",
+     "fixture_batch": "LUM-2302",
+     "fixture_warranty_years": 5,
+     "last_inspected": "2026-09-01",
+     "last_earthing_check": "2026-07-24",
+     "junction_box_condition": "Good",
      "feeder_panel": "FP-CP-01",
      "circuit": "C1",
      "circuit_seq": 2,
      "phase": "Y",
-     "energy_kwh": 22.7,
+     "energy_kwh": 21.7,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 20.9
+       "kwh": 20.9,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 21.0
+       "kwh": 20.7,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 19.1
+       "kwh": 19.3,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 20.2
+       "kwh": 20.5,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 22.1
+       "kwh": 21.4,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
       },
       {
        "month": "2026-09",
-       "kwh": 22.7
+       "kwh": 21.7,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -601,51 +620,35 @@ window.SLGIS_DATA = {
      "ticket": null,
      "repair_history": [
       {
-       "ticket_id": "TKT-2025-0110",
+       "ticket_id": "TKT-2024-0172",
        "type": "Preventive",
        "issue": "Annual preventive maintenance",
        "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
        "source": "Scheduled (AMC)",
        "priority": "Low",
-       "raised_at": "2025-02-19T11:35+05:30",
-       "resolved_at": "2025-02-19T13:05+05:30",
-       "downtime_h": 1.5,
+       "raised_at": "2024-11-08T15:30+05:30",
+       "resolved_at": "2024-11-08T17:24+05:30",
+       "downtime_h": 1.9,
        "sla_met": true,
        "crew": "P2 \u00b7 Sunil T.",
        "contractor": "Prakash Electro Services",
-       "cost_inr": 444,
+       "cost_inr": 410,
        "status": "Closed"
       },
       {
-       "ticket_id": "TKT-2024-0194",
-       "type": "Corrective",
-       "issue": "Cable theft",
-       "action": "Replaced stolen cable, secured junction box",
-       "source": "CCMS auto-alert",
-       "priority": "High",
-       "raised_at": "2024-12-26T21:41+05:30",
-       "resolved_at": "2024-12-30T15:47+05:30",
-       "downtime_h": 90.1,
-       "sla_met": false,
-       "crew": "P2 \u00b7 Sunil T.",
-       "contractor": "Prakash Electro Services",
-       "cost_inr": 6354,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2023-0120",
+       "ticket_id": "TKT-2023-0123",
        "type": "Retrofit",
        "issue": "LED retrofit (CFL 2x36 W heritage lantern \u2192 LED 60 W)",
        "action": "Replaced luminaire with LED; CCMS node fitted",
        "source": "Scheduled (retrofit programme)",
        "priority": "Low",
-       "raised_at": "2023-03-18T10:07+05:30",
-       "resolved_at": "2023-03-18T14:13+05:30",
-       "downtime_h": 4.1,
+       "raised_at": "2023-03-18T13:36+05:30",
+       "resolved_at": "2023-03-18T16:12+05:30",
+       "downtime_h": 2.6,
        "sla_met": true,
-       "crew": "P1 \u00b7 Ramesh K.",
+       "crew": "P2 \u00b7 Sunil T.",
        "contractor": "Prakash Electro Services",
-       "cost_inr": 7871,
+       "cost_inr": 7750,
        "status": "Closed"
       }
      ]
@@ -675,37 +678,54 @@ window.SLGIS_DATA = {
      "ccms_node": true,
      "install_date": "2010-08-21",
      "fixture_installed": "2023-03-03",
-     "last_inspected": "2026-08-21",
+     "fixture_make": "Lumetra",
+     "fixture_batch": "LUM-2302",
+     "fixture_warranty_years": 5,
+     "last_inspected": "2026-09-28",
+     "last_earthing_check": "2026-08-19",
+     "junction_box_condition": "Fair",
      "feeder_panel": "FP-CP-01",
      "circuit": "C1",
      "circuit_seq": 3,
      "phase": "B",
-     "energy_kwh": 22.0,
+     "energy_kwh": 22.1,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 20.7
+       "kwh": 21.3,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 21.0
+       "kwh": 20.9,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 18.7
+       "kwh": 18.8,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 20.7
+       "kwh": 20.1,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 21.5
+       "kwh": 21.5,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
       },
       {
        "month": "2026-09",
-       "kwh": 22.0
+       "kwh": 22.1,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -720,83 +740,51 @@ window.SLGIS_DATA = {
      "ticket": null,
      "repair_history": [
       {
-       "ticket_id": "TKT-2025-0157",
+       "ticket_id": "TKT-2024-0127",
        "type": "Preventive",
        "issue": "Annual preventive maintenance",
        "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
        "source": "Scheduled (AMC)",
        "priority": "Low",
-       "raised_at": "2025-08-24T10:45+05:30",
-       "resolved_at": "2025-08-24T12:15+05:30",
-       "downtime_h": 1.5,
+       "raised_at": "2024-03-15T12:00+05:30",
+       "resolved_at": "2024-03-15T13:12+05:30",
+       "downtime_h": 1.2,
        "sla_met": true,
-       "crew": "P2 \u00b7 Sunil T.",
+       "crew": "P1 \u00b7 Ramesh K.",
        "contractor": "Prakash Electro Services",
-       "cost_inr": 417,
+       "cost_inr": 428,
        "status": "Closed"
       },
       {
-       "ticket_id": "TKT-2025-0140",
+       "ticket_id": "TKT-2023-0140",
        "type": "Preventive",
        "issue": "Annual preventive maintenance",
        "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
        "source": "Scheduled (AMC)",
        "priority": "Low",
-       "raised_at": "2025-06-15T12:08+05:30",
-       "resolved_at": "2025-06-15T13:38+05:30",
-       "downtime_h": 1.5,
+       "raised_at": "2023-05-16T13:38+05:30",
+       "resolved_at": "2023-05-16T15:02+05:30",
+       "downtime_h": 1.4,
        "sla_met": true,
-       "crew": "P2 \u00b7 Sunil T.",
-       "contractor": "Prakash Electro Services",
-       "cost_inr": 408,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2025-0127",
-       "type": "Corrective",
-       "issue": "LED driver failure",
-       "action": "Replaced LED driver",
-       "source": "Citizen app",
-       "priority": "Medium",
-       "raised_at": "2025-04-18T05:12+05:30",
-       "resolved_at": "2025-04-21T13:12+05:30",
-       "downtime_h": 80.0,
-       "sla_met": false,
        "crew": "P1 \u00b7 Ramesh K.",
        "contractor": "Prakash Electro Services",
-       "cost_inr": 4023,
+       "cost_inr": 401,
        "status": "Closed"
       },
       {
-       "ticket_id": "TKT-2025-0122",
-       "type": "Corrective",
-       "issue": "Underground cable fault",
-       "action": "Located fault, jointed cable (heat-shrink kit)",
-       "source": "CCMS auto-alert",
-       "priority": "High",
-       "raised_at": "2025-03-31T23:36+05:30",
-       "resolved_at": "2025-04-04T12:18+05:30",
-       "downtime_h": 84.7,
-       "sla_met": false,
-       "crew": "P1 \u00b7 Ramesh K.",
-       "contractor": "Prakash Electro Services",
-       "cost_inr": 4638,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2023-0110",
+       "ticket_id": "TKT-2023-0113",
        "type": "Retrofit",
        "issue": "LED retrofit (CFL 2x36 W heritage lantern \u2192 LED 60 W)",
        "action": "Replaced luminaire with LED; CCMS node fitted",
        "source": "Scheduled (retrofit programme)",
        "priority": "Low",
-       "raised_at": "2023-03-03T10:34+05:30",
-       "resolved_at": "2023-03-03T15:16+05:30",
-       "downtime_h": 4.7,
+       "raised_at": "2023-03-03T12:20+05:30",
+       "resolved_at": "2023-03-03T16:08+05:30",
+       "downtime_h": 3.8,
        "sla_met": true,
        "crew": "P2 \u00b7 Sunil T.",
        "contractor": "Prakash Electro Services",
-       "cost_inr": 8383,
+       "cost_inr": 7653,
        "status": "Closed"
       }
      ]
@@ -826,37 +814,54 @@ window.SLGIS_DATA = {
      "ccms_node": true,
      "install_date": "2010-08-17",
      "fixture_installed": "2023-03-21",
-     "last_inspected": "2026-09-20",
+     "fixture_make": "Lumetra",
+     "fixture_batch": "LUM-2302",
+     "fixture_warranty_years": 5,
+     "last_inspected": "2026-08-01",
+     "last_earthing_check": "2024-09-15",
+     "junction_box_condition": "Good",
      "feeder_panel": "FP-CP-01",
      "circuit": "C1",
      "circuit_seq": 4,
      "phase": "R",
-     "energy_kwh": 22.6,
+     "energy_kwh": 21.7,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 21.1
+       "kwh": 21.5,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 20.4
+       "kwh": 20.5,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 19.2
+       "kwh": 19.1,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 20.2
+       "kwh": 19.8,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 21.4
+       "kwh": 20.9,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
       },
       {
        "month": "2026-09",
-       "kwh": 22.6
+       "kwh": 21.7,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -869,16 +874,16 @@ window.SLGIS_DATA = {
       "sla_hours": 48
      },
      "ticket": {
-      "id": "TKT-2026-0165",
-      "status": "In Progress",
-      "priority": "Low",
+      "id": "TKT-2026-0169",
+      "status": "Awaiting dusk check",
+      "category": "not_working",
       "issue": "Loose connection in junction box",
       "source": "CCMS auto-alert",
       "raised_at": "2026-10-12T21:00+05:30",
-      "sla_hours": 72,
-      "sla_due": "2026-10-15T21:00+05:30",
       "assigned_crew": "P2 \u00b7 Sunil T.",
       "work_started_at": "2026-10-13T12:00+05:30",
+      "closed_at": "2026-10-13T15:30+05:30",
+      "resolution": "Re-terminated cables, replaced connector",
       "complaints": 0,
       "notes": null,
       "pole_uids": [
@@ -887,67 +892,51 @@ window.SLGIS_DATA = {
      },
      "repair_history": [
       {
-       "ticket_id": "TKT-2026-0127",
-       "type": "Corrective",
-       "issue": "Loose connection in junction box",
-       "action": "Re-terminated cables, replaced connector",
-       "source": "Call centre",
-       "priority": "Medium",
-       "raised_at": "2026-04-18T19:32+05:30",
-       "resolved_at": "2026-04-19T11:14+05:30",
-       "downtime_h": 15.7,
+       "ticket_id": "TKT-2024-0159",
+       "type": "Preventive",
+       "issue": "Annual preventive maintenance",
+       "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
+       "source": "Scheduled (AMC)",
+       "priority": "Low",
+       "raised_at": "2024-09-15T15:48+05:30",
+       "resolved_at": "2024-09-15T16:42+05:30",
+       "downtime_h": 0.9,
        "sla_met": true,
-       "crew": "P2 \u00b7 Sunil T.",
-       "contractor": "Prakash Electro Services",
-       "cost_inr": 548,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2025-0166",
-       "type": "Corrective",
-       "issue": "Flickering",
-       "action": "Replaced LED driver and module connector",
-       "source": "Night patrol",
-       "priority": "Medium",
-       "raised_at": "2025-09-25T22:45+05:30",
-       "resolved_at": "2025-09-26T04:57+05:30",
-       "downtime_h": 6.2,
-       "sla_met": true,
-       "crew": "P2 \u00b7 Sunil T.",
-       "contractor": "Prakash Electro Services",
-       "cost_inr": 3282,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2024-0124",
-       "type": "Corrective",
-       "issue": "Cable theft",
-       "action": "Replaced stolen cable, secured junction box",
-       "source": "CCMS auto-alert",
-       "priority": "High",
-       "raised_at": "2024-02-23T05:19+05:30",
-       "resolved_at": "2024-02-25T07:37+05:30",
-       "downtime_h": 50.3,
-       "sla_met": false,
        "crew": "P1 \u00b7 Ramesh K.",
        "contractor": "Prakash Electro Services",
-       "cost_inr": 6486,
+       "cost_inr": 434,
        "status": "Closed"
       },
       {
-       "ticket_id": "TKT-2023-0122",
+       "ticket_id": "TKT-2023-0153",
+       "type": "Corrective",
+       "issue": "Surge protection device failure",
+       "action": "Replaced 10 kV surge protection device",
+       "source": "CCMS auto-alert",
+       "priority": "Medium",
+       "raised_at": "2023-07-17T19:07+05:30",
+       "resolved_at": "2023-07-20T01:31+05:30",
+       "downtime_h": 54.4,
+       "sla_met": false,
+       "crew": "P2 \u00b7 Sunil T.",
+       "contractor": "Prakash Electro Services",
+       "cost_inr": 806,
+       "status": "Closed"
+      },
+      {
+       "ticket_id": "TKT-2023-0124",
        "type": "Retrofit",
        "issue": "LED retrofit (CFL 2x36 W heritage lantern \u2192 LED 60 W)",
        "action": "Replaced luminaire with LED; CCMS node fitted",
        "source": "Scheduled (retrofit programme)",
        "priority": "Low",
-       "raised_at": "2023-03-21T11:50+05:30",
-       "resolved_at": "2023-03-21T14:38+05:30",
-       "downtime_h": 2.8,
+       "raised_at": "2023-03-21T14:41+05:30",
+       "resolved_at": "2023-03-21T17:35+05:30",
+       "downtime_h": 2.9,
        "sla_met": true,
        "crew": "P1 \u00b7 Ramesh K.",
        "contractor": "Prakash Electro Services",
-       "cost_inr": 8201,
+       "cost_inr": 7516,
        "status": "Closed"
       }
      ]
@@ -977,37 +966,54 @@ window.SLGIS_DATA = {
      "ccms_node": true,
      "install_date": "2010-08-17",
      "fixture_installed": "2023-04-07",
-     "last_inspected": "2026-09-29",
+     "fixture_make": "Lumetra",
+     "fixture_batch": "LUM-2302",
+     "fixture_warranty_years": 5,
+     "last_inspected": "2026-08-29",
+     "last_earthing_check": "2026-04-14",
+     "junction_box_condition": "Fair",
      "feeder_panel": "FP-CP-01",
      "circuit": "C1",
      "circuit_seq": 5,
      "phase": "Y",
-     "energy_kwh": 21.7,
+     "energy_kwh": 22.2,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 20.9
+       "kwh": 21.3,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 20.4
+       "kwh": 20.2,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 19.3
+       "kwh": 19.6,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 20.1
+       "kwh": 20.3,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 22.0
+       "kwh": 21.6,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
       },
       {
        "month": "2026-09",
-       "kwh": 21.7
+       "kwh": 22.2,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -1022,83 +1028,83 @@ window.SLGIS_DATA = {
      "ticket": null,
      "repair_history": [
       {
-       "ticket_id": "TKT-2025-0143",
+       "ticket_id": "TKT-2024-0142",
        "type": "Corrective",
-       "issue": "LED driver failure",
-       "action": "Replaced LED driver",
-       "source": "CCMS auto-alert",
+       "issue": "Water ingress in luminaire",
+       "action": "Resealed luminaire, replaced gasket",
+       "source": "Citizen app",
        "priority": "Medium",
-       "raised_at": "2025-07-05T19:35+05:30",
-       "resolved_at": "2025-07-06T04:23+05:30",
-       "downtime_h": 8.8,
-       "sla_met": true,
-       "crew": "P2 \u00b7 Sunil T.",
+       "raised_at": "2024-05-30T06:20+05:30",
+       "resolved_at": "2024-06-01T11:32+05:30",
+       "downtime_h": 53.2,
+       "sla_met": false,
+       "crew": "P1 \u00b7 Ramesh K.",
        "contractor": "Prakash Electro Services",
-       "cost_inr": 3354,
+       "cost_inr": 1264,
        "status": "Closed"
       },
       {
-       "ticket_id": "TKT-2025-0101",
+       "ticket_id": "TKT-2023-0159",
        "type": "Preventive",
        "issue": "Annual preventive maintenance",
        "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
        "source": "Scheduled (AMC)",
        "priority": "Low",
-       "raised_at": "2025-01-01T14:49+05:30",
-       "resolved_at": "2025-01-01T15:49+05:30",
-       "downtime_h": 1.0,
+       "raised_at": "2023-07-26T15:36+05:30",
+       "resolved_at": "2023-07-26T17:18+05:30",
+       "downtime_h": 1.7,
        "sla_met": true,
        "crew": "P2 \u00b7 Sunil T.",
        "contractor": "Prakash Electro Services",
-       "cost_inr": 437,
+       "cost_inr": 388,
        "status": "Closed"
       },
       {
-       "ticket_id": "TKT-2024-0152",
+       "ticket_id": "TKT-2023-0154",
        "type": "Corrective",
-       "issue": "Flickering",
-       "action": "Replaced LED driver and module connector",
-       "source": "CCMS auto-alert",
+       "issue": "Loose connection in junction box",
+       "action": "Re-terminated cables, replaced connector",
+       "source": "Night patrol",
        "priority": "Medium",
-       "raised_at": "2024-06-11T21:39+05:30",
-       "resolved_at": "2024-06-12T08:39+05:30",
-       "downtime_h": 11.0,
+       "raised_at": "2023-07-17T23:55+05:30",
+       "resolved_at": "2023-07-19T16:01+05:30",
+       "downtime_h": 40.1,
        "sla_met": true,
        "crew": "P2 \u00b7 Sunil T.",
        "contractor": "Prakash Electro Services",
-       "cost_inr": 3817,
+       "cost_inr": 566,
        "status": "Closed"
       },
       {
-       "ticket_id": "TKT-2023-0161",
+       "ticket_id": "TKT-2023-0134",
        "type": "Preventive",
        "issue": "Annual preventive maintenance",
        "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
        "source": "Scheduled (AMC)",
        "priority": "Low",
-       "raised_at": "2023-09-02T12:55+05:30",
-       "resolved_at": "2023-09-02T13:55+05:30",
-       "downtime_h": 1.0,
+       "raised_at": "2023-04-19T15:04+05:30",
+       "resolved_at": "2023-04-19T16:58+05:30",
+       "downtime_h": 1.9,
        "sla_met": true,
        "crew": "P2 \u00b7 Sunil T.",
        "contractor": "Prakash Electro Services",
-       "cost_inr": 382,
+       "cost_inr": 406,
        "status": "Closed"
       },
       {
-       "ticket_id": "TKT-2023-0128",
+       "ticket_id": "TKT-2023-0129",
        "type": "Retrofit",
        "issue": "LED retrofit (CFL 2x36 W heritage lantern \u2192 LED 60 W)",
        "action": "Replaced luminaire with LED; CCMS node fitted",
        "source": "Scheduled (retrofit programme)",
        "priority": "Low",
-       "raised_at": "2023-04-07T11:37+05:30",
-       "resolved_at": "2023-04-07T14:07+05:30",
-       "downtime_h": 2.5,
+       "raised_at": "2023-04-07T15:23+05:30",
+       "resolved_at": "2023-04-07T18:59+05:30",
+       "downtime_h": 3.6,
        "sla_met": true,
        "crew": "P2 \u00b7 Sunil T.",
        "contractor": "Prakash Electro Services",
-       "cost_inr": 7871,
+       "cost_inr": 7484,
        "status": "Closed"
       }
      ]
@@ -1128,37 +1134,54 @@ window.SLGIS_DATA = {
      "ccms_node": true,
      "install_date": "2010-08-24",
      "fixture_installed": "2023-04-14",
-     "last_inspected": "2026-08-26",
+     "fixture_make": "Lumetra",
+     "fixture_batch": "LUM-2302",
+     "fixture_warranty_years": 5,
+     "last_inspected": "2026-09-05",
+     "last_earthing_check": "2026-02-20",
+     "junction_box_condition": "Good",
      "feeder_panel": "FP-CP-01",
      "circuit": "C1",
      "circuit_seq": 6,
      "phase": "B",
-     "energy_kwh": 22.4,
+     "energy_kwh": 21.7,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 21.0
+       "kwh": 21.5,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 20.3
+       "kwh": 20.3,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 19.0
+       "kwh": 19.5,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 20.2
+       "kwh": 19.8,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 22.0
+       "kwh": 21.0,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
       },
       {
        "month": "2026-09",
-       "kwh": 22.4
+       "kwh": 21.7,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -1173,35 +1196,19 @@ window.SLGIS_DATA = {
      "ticket": null,
      "repair_history": [
       {
-       "ticket_id": "TKT-2026-0117",
-       "type": "Preventive",
-       "issue": "Annual preventive maintenance",
-       "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
-       "source": "Scheduled (AMC)",
-       "priority": "Low",
-       "raised_at": "2026-03-20T13:54+05:30",
-       "resolved_at": "2026-03-20T15:42+05:30",
-       "downtime_h": 1.8,
-       "sla_met": true,
-       "crew": "P2 \u00b7 Sunil T.",
-       "contractor": "Prakash Electro Services",
-       "cost_inr": 382,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2023-0131",
+       "ticket_id": "TKT-2023-0133",
        "type": "Retrofit",
        "issue": "LED retrofit (CFL 2x36 W heritage lantern \u2192 LED 60 W)",
        "action": "Replaced luminaire with LED; CCMS node fitted",
        "source": "Scheduled (retrofit programme)",
        "priority": "Low",
-       "raised_at": "2023-04-14T11:56+05:30",
-       "resolved_at": "2023-04-14T14:50+05:30",
-       "downtime_h": 2.9,
+       "raised_at": "2023-04-14T11:36+05:30",
+       "resolved_at": "2023-04-14T16:00+05:30",
+       "downtime_h": 4.4,
        "sla_met": true,
-       "crew": "P1 \u00b7 Ramesh K.",
+       "crew": "P2 \u00b7 Sunil T.",
        "contractor": "Prakash Electro Services",
-       "cost_inr": 8046,
+       "cost_inr": 8131,
        "status": "Closed"
       }
      ]
@@ -1231,37 +1238,54 @@ window.SLGIS_DATA = {
      "ccms_node": true,
      "install_date": "2010-08-21",
      "fixture_installed": "2023-03-23",
-     "last_inspected": "2026-09-20",
+     "fixture_make": "Lumetra",
+     "fixture_batch": "LUM-2302",
+     "fixture_warranty_years": 5,
+     "last_inspected": "2026-10-12",
+     "last_earthing_check": "2026-02-17",
+     "junction_box_condition": "Fair",
      "feeder_panel": "FP-CP-02",
      "circuit": "C2",
      "circuit_seq": 6,
      "phase": "B",
-     "energy_kwh": 21.7,
+     "energy_kwh": 22.7,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 21.6
+       "kwh": 21.8,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 20.3
+       "kwh": 20.2,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 19.1
+       "kwh": 19.0,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 20.6
+       "kwh": 20.2,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 21.3
+       "kwh": 20.7,
+       "scheduled_h": 332.1,
+       "lit_h": 332.1
       },
       {
        "month": "2026-09",
-       "kwh": 21.7
+       "kwh": 22.7,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -1276,51 +1300,69 @@ window.SLGIS_DATA = {
      "ticket": null,
      "repair_history": [
       {
-       "ticket_id": "TKT-2024-0185",
+       "ticket_id": "TKT-2026-0157",
+       "type": "Corrective",
+       "issue": "Lamp not glowing",
+       "action": "Replaced LED driver",
+       "source": "Citizen app",
+       "priority": "Medium",
+       "raised_at": "2026-10-11T16:00+05:30",
+       "resolved_at": "2026-10-12T16:00+05:30",
+       "downtime_h": 24.0,
+       "sla_met": true,
+       "crew": "P1 \u00b7 Ramesh K.",
+       "contractor": "Prakash Electro Services",
+       "cost_inr": 3400,
+       "status": "Closed",
+       "verified_at": "2026-10-12T18:10+05:30",
+       "verified_by": "CCMS"
+      },
+      {
+       "ticket_id": "TKT-2025-0114",
+       "type": "Corrective",
+       "issue": "Surge protection device failure",
+       "action": "Replaced 10 kV surge protection device",
+       "source": "Night patrol",
+       "priority": "Medium",
+       "raised_at": "2025-03-17T21:53+05:30",
+       "resolved_at": "2025-03-18T18:35+05:30",
+       "downtime_h": 20.7,
+       "sla_met": true,
+       "crew": "P1 \u00b7 Ramesh K.",
+       "contractor": "Prakash Electro Services",
+       "cost_inr": 803,
+       "status": "Closed"
+      },
+      {
+       "ticket_id": "TKT-2023-0194",
        "type": "Preventive",
        "issue": "Annual preventive maintenance",
        "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
        "source": "Scheduled (AMC)",
        "priority": "Low",
-       "raised_at": "2024-10-30T13:21+05:30",
-       "resolved_at": "2024-10-30T15:03+05:30",
-       "downtime_h": 1.7,
+       "raised_at": "2023-12-28T10:38+05:30",
+       "resolved_at": "2023-12-28T12:14+05:30",
+       "downtime_h": 1.6,
        "sla_met": true,
        "crew": "P1 \u00b7 Ramesh K.",
        "contractor": "Prakash Electro Services",
-       "cost_inr": 371,
+       "cost_inr": 412,
        "status": "Closed"
       },
       {
-       "ticket_id": "TKT-2024-0183",
-       "type": "Preventive",
-       "issue": "Annual preventive maintenance",
-       "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
-       "source": "Scheduled (AMC)",
-       "priority": "Low",
-       "raised_at": "2024-10-21T12:33+05:30",
-       "resolved_at": "2024-10-21T13:57+05:30",
-       "downtime_h": 1.4,
-       "sla_met": true,
-       "crew": "P1 \u00b7 Ramesh K.",
-       "contractor": "Prakash Electro Services",
-       "cost_inr": 432,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2023-0123",
+       "ticket_id": "TKT-2023-0125",
        "type": "Retrofit",
        "issue": "LED retrofit (CFL 2x36 W heritage lantern \u2192 LED 60 W)",
        "action": "Replaced luminaire with LED; CCMS node fitted",
        "source": "Scheduled (retrofit programme)",
        "priority": "Low",
-       "raised_at": "2023-03-23T14:11+05:30",
-       "resolved_at": "2023-03-23T19:11+05:30",
-       "downtime_h": 5.0,
+       "raised_at": "2023-03-23T10:31+05:30",
+       "resolved_at": "2023-03-23T14:31+05:30",
+       "downtime_h": 4.0,
        "sla_met": true,
-       "crew": "P2 \u00b7 Sunil T.",
+       "crew": "P1 \u00b7 Ramesh K.",
        "contractor": "Prakash Electro Services",
-       "cost_inr": 8239,
+       "cost_inr": 8089,
        "status": "Closed"
       }
      ]
@@ -1350,7 +1392,12 @@ window.SLGIS_DATA = {
      "ccms_node": true,
      "install_date": "2010-08-02",
      "fixture_installed": "2023-03-05",
-     "last_inspected": "2026-09-14",
+     "fixture_make": "Lumetra",
+     "fixture_batch": "LUM-2302",
+     "fixture_warranty_years": 5,
+     "last_inspected": "2026-08-04",
+     "last_earthing_check": "2025-11-23",
+     "junction_box_condition": "Good",
      "feeder_panel": "FP-CP-02",
      "circuit": "C2",
      "circuit_seq": 5,
@@ -1360,27 +1407,39 @@ window.SLGIS_DATA = {
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 21.1
+       "kwh": 21.0,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 20.5
+       "kwh": 20.3,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 19.1
+       "kwh": 18.9,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 20.4
+       "kwh": 20.7,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 22.1
+       "kwh": 20.8,
+       "scheduled_h": 332.1,
+       "lit_h": 332.1
       },
       {
        "month": "2026-09",
-       "kwh": 22.7
+       "kwh": 22.7,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -1395,19 +1454,35 @@ window.SLGIS_DATA = {
      "ticket": null,
      "repair_history": [
       {
-       "ticket_id": "TKT-2023-0114",
+       "ticket_id": "TKT-2025-0167",
+       "type": "Preventive",
+       "issue": "Annual preventive maintenance",
+       "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
+       "source": "Scheduled (AMC)",
+       "priority": "Low",
+       "raised_at": "2025-11-23T10:54+05:30",
+       "resolved_at": "2025-11-23T12:42+05:30",
+       "downtime_h": 1.8,
+       "sla_met": true,
+       "crew": "P1 \u00b7 Ramesh K.",
+       "contractor": "Prakash Electro Services",
+       "cost_inr": 445,
+       "status": "Closed"
+      },
+      {
+       "ticket_id": "TKT-2023-0117",
        "type": "Retrofit",
        "issue": "LED retrofit (CFL 2x36 W heritage lantern \u2192 LED 60 W)",
        "action": "Replaced luminaire with LED; CCMS node fitted",
        "source": "Scheduled (retrofit programme)",
        "priority": "Low",
-       "raised_at": "2023-03-05T11:58+05:30",
-       "resolved_at": "2023-03-05T16:28+05:30",
-       "downtime_h": 4.5,
+       "raised_at": "2023-03-05T14:32+05:30",
+       "resolved_at": "2023-03-05T18:02+05:30",
+       "downtime_h": 3.5,
        "sla_met": true,
-       "crew": "P2 \u00b7 Sunil T.",
+       "crew": "P1 \u00b7 Ramesh K.",
        "contractor": "Prakash Electro Services",
-       "cost_inr": 7829,
+       "cost_inr": 8224,
        "status": "Closed"
       }
      ]
@@ -1437,37 +1512,54 @@ window.SLGIS_DATA = {
      "ccms_node": true,
      "install_date": "2010-08-21",
      "fixture_installed": "2023-02-16",
-     "last_inspected": "2026-09-30",
+     "fixture_make": "Lumetra",
+     "fixture_batch": "LUM-2302",
+     "fixture_warranty_years": 5,
+     "last_inspected": "2026-10-07",
+     "last_earthing_check": "2026-01-13",
+     "junction_box_condition": "Good",
      "feeder_panel": "FP-CP-02",
      "circuit": "C2",
      "circuit_seq": 4,
      "phase": "R",
-     "energy_kwh": 22.3,
+     "energy_kwh": 21.8,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 20.9
+       "kwh": 21.0,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 20.8
+       "kwh": 20.8,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 19.0
+       "kwh": 18.9,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 20.0
+       "kwh": 19.9,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 21.3
+       "kwh": 21.4,
+       "scheduled_h": 332.1,
+       "lit_h": 332.1
       },
       {
        "month": "2026-09",
-       "kwh": 22.3
+       "kwh": 21.8,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -1482,19 +1574,51 @@ window.SLGIS_DATA = {
      "ticket": null,
      "repair_history": [
       {
-       "ticket_id": "TKT-2023-0104",
+       "ticket_id": "TKT-2026-0103",
+       "type": "Preventive",
+       "issue": "Annual preventive maintenance",
+       "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
+       "source": "Scheduled (AMC)",
+       "priority": "Low",
+       "raised_at": "2026-01-13T15:51+05:30",
+       "resolved_at": "2026-01-13T17:21+05:30",
+       "downtime_h": 1.5,
+       "sla_met": true,
+       "crew": "P1 \u00b7 Ramesh K.",
+       "contractor": "Prakash Electro Services",
+       "cost_inr": 389,
+       "status": "Closed"
+      },
+      {
+       "ticket_id": "TKT-2023-0176",
+       "type": "Corrective",
+       "issue": "Cable theft",
+       "action": "Replaced stolen cable, secured junction box",
+       "source": "Call centre",
+       "priority": "High",
+       "raised_at": "2023-10-19T21:31+05:30",
+       "resolved_at": "2023-10-24T01:01+05:30",
+       "downtime_h": 99.5,
+       "sla_met": false,
+       "crew": "P2 \u00b7 Sunil T.",
+       "contractor": "Prakash Electro Services",
+       "cost_inr": 7885,
+       "status": "Closed"
+      },
+      {
+       "ticket_id": "TKT-2023-0108",
        "type": "Retrofit",
        "issue": "LED retrofit (CFL 2x36 W heritage lantern \u2192 LED 60 W)",
        "action": "Replaced luminaire with LED; CCMS node fitted",
        "source": "Scheduled (retrofit programme)",
        "priority": "Low",
-       "raised_at": "2023-02-16T12:24+05:30",
-       "resolved_at": "2023-02-16T15:24+05:30",
-       "downtime_h": 3.0,
+       "raised_at": "2023-02-16T12:58+05:30",
+       "resolved_at": "2023-02-16T16:16+05:30",
+       "downtime_h": 3.3,
        "sla_met": true,
        "crew": "P1 \u00b7 Ramesh K.",
        "contractor": "Prakash Electro Services",
-       "cost_inr": 7309,
+       "cost_inr": 7341,
        "status": "Closed"
       }
      ]
@@ -1524,37 +1648,54 @@ window.SLGIS_DATA = {
      "ccms_node": true,
      "install_date": "2010-08-07",
      "fixture_installed": "2023-02-17",
-     "last_inspected": "2026-10-07",
+     "fixture_make": "Lumetra",
+     "fixture_batch": "LUM-2302",
+     "fixture_warranty_years": 5,
+     "last_inspected": "2026-09-05",
+     "last_earthing_check": "2026-01-10",
+     "junction_box_condition": "Fair",
      "feeder_panel": "FP-CP-02",
      "circuit": "C2",
      "circuit_seq": 3,
      "phase": "B",
-     "energy_kwh": 21.7,
+     "energy_kwh": 22.6,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 20.8
+       "kwh": 21.8,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 20.7
+       "kwh": 20.4,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 18.9
+       "kwh": 18.2,
+       "scheduled_h": 302.0,
+       "lit_h": 281.9
       },
       {
        "month": "2026-07",
-       "kwh": 20.4
+       "kwh": 20.0,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 21.4
+       "kwh": 21.3,
+       "scheduled_h": 332.1,
+       "lit_h": 332.1
       },
       {
        "month": "2026-09",
-       "kwh": 21.7
+       "kwh": 22.6,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -1567,16 +1708,16 @@ window.SLGIS_DATA = {
       "sla_hours": 48
      },
      "ticket": {
-      "id": "TKT-2026-0156",
+      "id": "TKT-2026-0159",
       "status": "Open",
-      "priority": "Medium",
+      "category": "not_working",
       "issue": "Lamp not glowing",
       "source": "Citizen app",
       "raised_at": "2026-10-11T20:30+05:30",
-      "sla_hours": 48,
-      "sla_due": "2026-10-13T20:30+05:30",
       "assigned_crew": null,
       "work_started_at": null,
+      "closed_at": null,
+      "resolution": null,
       "complaints": 2,
       "notes": null,
       "pole_uids": [
@@ -1585,83 +1726,67 @@ window.SLGIS_DATA = {
      },
      "repair_history": [
       {
-       "ticket_id": "TKT-2025-0163",
+       "ticket_id": "TKT-2026-0134",
        "type": "Corrective",
-       "issue": "Surge protection device failure",
-       "action": "Replaced 10 kV surge protection device",
-       "source": "Citizen app",
+       "issue": "Water ingress in luminaire",
+       "action": "Resealed luminaire, replaced gasket",
+       "source": "CCMS auto-alert",
        "priority": "Medium",
-       "raised_at": "2025-09-16T21:36+05:30",
-       "resolved_at": "2025-09-17T14:54+05:30",
-       "downtime_h": 17.3,
-       "sla_met": true,
-       "crew": "P2 \u00b7 Sunil T.",
-       "contractor": "Prakash Electro Services",
-       "cost_inr": 943,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2025-0154",
-       "type": "Preventive",
-       "issue": "Annual preventive maintenance",
-       "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
-       "source": "Scheduled (AMC)",
-       "priority": "Low",
-       "raised_at": "2025-08-14T10:50+05:30",
-       "resolved_at": "2025-08-14T12:26+05:30",
-       "downtime_h": 1.6,
-       "sla_met": true,
-       "crew": "P2 \u00b7 Sunil T.",
-       "contractor": "Prakash Electro Services",
-       "cost_inr": 424,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2023-0195",
-       "type": "Corrective",
-       "issue": "Surge protection device failure",
-       "action": "Replaced 10 kV surge protection device",
-       "source": "Night patrol",
-       "priority": "Medium",
-       "raised_at": "2023-12-02T23:10+05:30",
-       "resolved_at": "2023-12-05T04:46+05:30",
-       "downtime_h": 53.6,
+       "raised_at": "2026-06-11T06:12+05:30",
+       "resolved_at": "2026-06-13T12:30+05:30",
+       "downtime_h": 54.3,
        "sla_met": false,
        "crew": "P2 \u00b7 Sunil T.",
        "contractor": "Prakash Electro Services",
-       "cost_inr": 727,
+       "cost_inr": 1040,
        "status": "Closed"
       },
       {
-       "ticket_id": "TKT-2023-0164",
+       "ticket_id": "TKT-2024-0150",
        "type": "Preventive",
        "issue": "Annual preventive maintenance",
        "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
        "source": "Scheduled (AMC)",
        "priority": "Low",
-       "raised_at": "2023-09-10T12:38+05:30",
-       "resolved_at": "2023-09-10T14:20+05:30",
-       "downtime_h": 1.7,
+       "raised_at": "2024-07-25T11:56+05:30",
+       "resolved_at": "2024-07-25T12:56+05:30",
+       "downtime_h": 1.0,
        "sla_met": true,
        "crew": "P1 \u00b7 Ramesh K.",
        "contractor": "Prakash Electro Services",
-       "cost_inr": 387,
+       "cost_inr": 402,
        "status": "Closed"
       },
       {
-       "ticket_id": "TKT-2023-0105",
+       "ticket_id": "TKT-2023-0132",
+       "type": "Preventive",
+       "issue": "Annual preventive maintenance",
+       "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
+       "source": "Scheduled (AMC)",
+       "priority": "Low",
+       "raised_at": "2023-04-13T15:43+05:30",
+       "resolved_at": "2023-04-13T16:49+05:30",
+       "downtime_h": 1.1,
+       "sla_met": true,
+       "crew": "P2 \u00b7 Sunil T.",
+       "contractor": "Prakash Electro Services",
+       "cost_inr": 449,
+       "status": "Closed"
+      },
+      {
+       "ticket_id": "TKT-2023-0109",
        "type": "Retrofit",
        "issue": "LED retrofit (CFL 2x36 W heritage lantern \u2192 LED 60 W)",
        "action": "Replaced luminaire with LED; CCMS node fitted",
        "source": "Scheduled (retrofit programme)",
        "priority": "Low",
-       "raised_at": "2023-02-17T13:03+05:30",
-       "resolved_at": "2023-02-17T15:39+05:30",
-       "downtime_h": 2.6,
+       "raised_at": "2023-02-17T14:06+05:30",
+       "resolved_at": "2023-02-17T19:06+05:30",
+       "downtime_h": 5.0,
        "sla_met": true,
-       "crew": "P2 \u00b7 Sunil T.",
+       "crew": "P1 \u00b7 Ramesh K.",
        "contractor": "Prakash Electro Services",
-       "cost_inr": 8218,
+       "cost_inr": 8390,
        "status": "Closed"
       }
      ]
@@ -1691,37 +1816,54 @@ window.SLGIS_DATA = {
      "ccms_node": true,
      "install_date": "2010-08-11",
      "fixture_installed": "2023-02-09",
-     "last_inspected": "2026-09-28",
+     "fixture_make": "Lumetra",
+     "fixture_batch": "LUM-2302",
+     "fixture_warranty_years": 5,
+     "last_inspected": "2026-08-08",
+     "last_earthing_check": "2026-08-06",
+     "junction_box_condition": "Good",
      "feeder_panel": "FP-CP-02",
      "circuit": "C2",
      "circuit_seq": 2,
      "phase": "Y",
-     "energy_kwh": 22.1,
+     "energy_kwh": 22.3,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 21.5
+       "kwh": 21.6,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 21.1
+       "kwh": 21.1,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 19.5
+       "kwh": 19.6,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 20.7
+       "kwh": 19.8,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 21.8
+       "kwh": 21.6,
+       "scheduled_h": 332.1,
+       "lit_h": 332.1
       },
       {
        "month": "2026-09",
-       "kwh": 22.1
+       "kwh": 22.3,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -1736,83 +1878,67 @@ window.SLGIS_DATA = {
      "ticket": null,
      "repair_history": [
       {
-       "ticket_id": "TKT-2026-0129",
-       "type": "Preventive",
-       "issue": "Annual preventive maintenance",
-       "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
-       "source": "Scheduled (AMC)",
-       "priority": "Low",
-       "raised_at": "2026-05-02T10:50+05:30",
-       "resolved_at": "2026-05-02T11:44+05:30",
-       "downtime_h": 0.9,
-       "sla_met": true,
-       "crew": "P2 \u00b7 Sunil T.",
-       "contractor": "Prakash Electro Services",
-       "cost_inr": 376,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2026-0105",
-       "type": "Corrective",
-       "issue": "Loose connection in junction box",
-       "action": "Re-terminated cables, replaced connector",
-       "source": "Night patrol",
-       "priority": "Medium",
-       "raised_at": "2026-01-22T22:22+05:30",
-       "resolved_at": "2026-01-23T18:52+05:30",
-       "downtime_h": 20.5,
-       "sla_met": true,
-       "crew": "P1 \u00b7 Ramesh K.",
-       "contractor": "Prakash Electro Services",
-       "cost_inr": 431,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2025-0151",
+       "ticket_id": "TKT-2026-0110",
        "type": "Corrective",
        "issue": "Water ingress in luminaire",
        "action": "Resealed luminaire, replaced gasket",
-       "source": "Citizen app",
+       "source": "CCMS auto-alert",
        "priority": "Medium",
-       "raised_at": "2025-08-03T21:19+05:30",
-       "resolved_at": "2025-08-04T04:25+05:30",
-       "downtime_h": 7.1,
-       "sla_met": true,
-       "crew": "P1 \u00b7 Ramesh K.",
+       "raised_at": "2026-02-11T23:54+05:30",
+       "resolved_at": "2026-02-14T17:42+05:30",
+       "downtime_h": 65.8,
+       "sla_met": false,
+       "crew": "P2 \u00b7 Sunil T.",
        "contractor": "Prakash Electro Services",
-       "cost_inr": 1350,
+       "cost_inr": 1214,
        "status": "Closed"
       },
       {
-       "ticket_id": "TKT-2023-0147",
+       "ticket_id": "TKT-2024-0167",
+       "type": "Corrective",
+       "issue": "Timer/photocell fault (day burning)",
+       "action": "Replaced timer contactor",
+       "source": "Call centre",
+       "priority": "Low",
+       "raised_at": "2024-10-18T22:21+05:30",
+       "resolved_at": "2024-10-21T16:09+05:30",
+       "downtime_h": 65.8,
+       "sla_met": true,
+       "crew": "P1 \u00b7 Ramesh K.",
+       "contractor": "Prakash Electro Services",
+       "cost_inr": 1369,
+       "status": "Closed"
+      },
+      {
+       "ticket_id": "TKT-2023-0119",
        "type": "Preventive",
        "issue": "Annual preventive maintenance",
        "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
        "source": "Scheduled (AMC)",
        "priority": "Low",
-       "raised_at": "2023-07-21T13:49+05:30",
-       "resolved_at": "2023-07-21T14:55+05:30",
-       "downtime_h": 1.1,
+       "raised_at": "2023-03-11T12:24+05:30",
+       "resolved_at": "2023-03-11T13:24+05:30",
+       "downtime_h": 1.0,
        "sla_met": true,
-       "crew": "P2 \u00b7 Sunil T.",
+       "crew": "P1 \u00b7 Ramesh K.",
        "contractor": "Prakash Electro Services",
-       "cost_inr": 383,
+       "cost_inr": 356,
        "status": "Closed"
       },
       {
-       "ticket_id": "TKT-2023-0103",
+       "ticket_id": "TKT-2023-0105",
        "type": "Retrofit",
        "issue": "LED retrofit (CFL 2x36 W heritage lantern \u2192 LED 60 W)",
        "action": "Replaced luminaire with LED; CCMS node fitted",
        "source": "Scheduled (retrofit programme)",
        "priority": "Low",
-       "raised_at": "2023-02-09T15:29+05:30",
-       "resolved_at": "2023-02-09T19:05+05:30",
-       "downtime_h": 3.6,
+       "raised_at": "2023-02-09T12:16+05:30",
+       "resolved_at": "2023-02-09T16:16+05:30",
+       "downtime_h": 4.0,
        "sla_met": true,
        "crew": "P2 \u00b7 Sunil T.",
        "contractor": "Prakash Electro Services",
-       "cost_inr": 7742,
+       "cost_inr": 7751,
        "status": "Closed"
       }
      ]
@@ -1842,37 +1968,54 @@ window.SLGIS_DATA = {
      "ccms_node": true,
      "install_date": "2010-08-12",
      "fixture_installed": "2023-02-03",
-     "last_inspected": "2026-09-01",
+     "fixture_make": "Lumetra",
+     "fixture_batch": "LUM-2302",
+     "fixture_warranty_years": 5,
+     "last_inspected": "2026-08-07",
+     "last_earthing_check": "2026-03-31",
+     "junction_box_condition": "Good",
      "feeder_panel": "FP-CP-02",
      "circuit": "C2",
      "circuit_seq": 1,
      "phase": "R",
-     "energy_kwh": 22.3,
+     "energy_kwh": 22.4,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 20.7
+       "kwh": 21.7,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 20.6
+       "kwh": 20.4,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 19.3
+       "kwh": 19.2,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 20.9
+       "kwh": 20.3,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 21.3
+       "kwh": 21.3,
+       "scheduled_h": 332.1,
+       "lit_h": 332.1
       },
       {
        "month": "2026-09",
-       "kwh": 22.3
+       "kwh": 22.4,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -1887,35 +2030,51 @@ window.SLGIS_DATA = {
      "ticket": null,
      "repair_history": [
       {
-       "ticket_id": "TKT-2023-0187",
-       "type": "Corrective",
-       "issue": "LED driver failure",
-       "action": "Replaced LED driver",
-       "source": "CCMS auto-alert",
-       "priority": "Medium",
-       "raised_at": "2023-11-17T20:44+05:30",
-       "resolved_at": "2023-11-18T03:32+05:30",
-       "downtime_h": 6.8,
+       "ticket_id": "TKT-2026-0114",
+       "type": "Preventive",
+       "issue": "Annual preventive maintenance",
+       "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
+       "source": "Scheduled (AMC)",
+       "priority": "Low",
+       "raised_at": "2026-03-31T12:05+05:30",
+       "resolved_at": "2026-03-31T13:23+05:30",
+       "downtime_h": 1.3,
        "sla_met": true,
        "crew": "P2 \u00b7 Sunil T.",
        "contractor": "Prakash Electro Services",
-       "cost_inr": 4010,
+       "cost_inr": 423,
        "status": "Closed"
       },
       {
-       "ticket_id": "TKT-2023-0102",
+       "ticket_id": "TKT-2025-0165",
+       "type": "Preventive",
+       "issue": "Annual preventive maintenance",
+       "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
+       "source": "Scheduled (AMC)",
+       "priority": "Low",
+       "raised_at": "2025-11-17T13:03+05:30",
+       "resolved_at": "2025-11-17T14:51+05:30",
+       "downtime_h": 1.8,
+       "sla_met": true,
+       "crew": "P2 \u00b7 Sunil T.",
+       "contractor": "Prakash Electro Services",
+       "cost_inr": 390,
+       "status": "Closed"
+      },
+      {
+       "ticket_id": "TKT-2023-0103",
        "type": "Retrofit",
        "issue": "LED retrofit (CFL 2x36 W heritage lantern \u2192 LED 60 W)",
        "action": "Replaced luminaire with LED; CCMS node fitted",
        "source": "Scheduled (retrofit programme)",
        "priority": "Low",
-       "raised_at": "2023-02-03T11:19+05:30",
-       "resolved_at": "2023-02-03T16:07+05:30",
+       "raised_at": "2023-02-03T10:01+05:30",
+       "resolved_at": "2023-02-03T14:49+05:30",
        "downtime_h": 4.8,
        "sla_met": true,
-       "crew": "P2 \u00b7 Sunil T.",
+       "crew": "P1 \u00b7 Ramesh K.",
        "contractor": "Prakash Electro Services",
-       "cost_inr": 7735,
+       "cost_inr": 7253,
        "status": "Closed"
       }
      ]
@@ -1945,37 +2104,54 @@ window.SLGIS_DATA = {
      "ccms_node": true,
      "install_date": "2010-08-22",
      "fixture_installed": "2023-04-13",
-     "last_inspected": "2026-08-28",
+     "fixture_make": "Lumetra",
+     "fixture_batch": "LUM-2302",
+     "fixture_warranty_years": 5,
+     "last_inspected": "2026-09-11",
+     "last_earthing_check": "2026-04-28",
+     "junction_box_condition": "Good",
      "feeder_panel": "FP-CP-02",
      "circuit": "C1",
      "circuit_seq": 1,
      "phase": "R",
-     "energy_kwh": 22.4,
+     "energy_kwh": 22.5,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 21.0
+       "kwh": 21.3,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 20.4
+       "kwh": 20.2,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 19.0
+       "kwh": 18.9,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 20.7
+       "kwh": 20.5,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 22.1
+       "kwh": 21.2,
+       "scheduled_h": 332.1,
+       "lit_h": 332.1
       },
       {
        "month": "2026-09",
-       "kwh": 22.4
+       "kwh": 22.5,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -1990,67 +2166,51 @@ window.SLGIS_DATA = {
      "ticket": null,
      "repair_history": [
       {
-       "ticket_id": "TKT-2025-0113",
+       "ticket_id": "TKT-2025-0160",
        "type": "Corrective",
-       "issue": "Surge protection device failure",
-       "action": "Replaced 10 kV surge protection device",
+       "issue": "Water ingress in luminaire",
+       "action": "Resealed luminaire, replaced gasket",
        "source": "Call centre",
        "priority": "Medium",
-       "raised_at": "2025-03-04T23:22+05:30",
-       "resolved_at": "2025-03-05T09:28+05:30",
-       "downtime_h": 10.1,
+       "raised_at": "2025-10-22T20:51+05:30",
+       "resolved_at": "2025-10-24T04:09+05:30",
+       "downtime_h": 31.3,
        "sla_met": true,
        "crew": "P1 \u00b7 Ramesh K.",
        "contractor": "Prakash Electro Services",
-       "cost_inr": 876,
+       "cost_inr": 1200,
        "status": "Closed"
       },
       {
-       "ticket_id": "TKT-2024-0142",
-       "type": "Preventive",
-       "issue": "Annual preventive maintenance",
-       "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
-       "source": "Scheduled (AMC)",
-       "priority": "Low",
-       "raised_at": "2024-05-11T13:37+05:30",
-       "resolved_at": "2024-05-11T14:49+05:30",
-       "downtime_h": 1.2,
-       "sla_met": true,
-       "crew": "P1 \u00b7 Ramesh K.",
-       "contractor": "Prakash Electro Services",
-       "cost_inr": 446,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2023-0142",
+       "ticket_id": "TKT-2024-0170",
        "type": "Corrective",
-       "issue": "Surge protection device failure",
-       "action": "Replaced 10 kV surge protection device",
-       "source": "Night patrol",
+       "issue": "Flickering",
+       "action": "Replaced LED driver and module connector",
+       "source": "CCMS auto-alert",
        "priority": "Medium",
-       "raised_at": "2023-06-22T20:05+05:30",
-       "resolved_at": "2023-06-23T22:47+05:30",
-       "downtime_h": 26.7,
-       "sla_met": true,
-       "crew": "P1 \u00b7 Ramesh K.",
+       "raised_at": "2024-11-01T23:57+05:30",
+       "resolved_at": "2024-11-04T05:21+05:30",
+       "downtime_h": 53.4,
+       "sla_met": false,
+       "crew": "P2 \u00b7 Sunil T.",
        "contractor": "Prakash Electro Services",
-       "cost_inr": 790,
+       "cost_inr": 3342,
        "status": "Closed"
       },
       {
-       "ticket_id": "TKT-2023-0130",
+       "ticket_id": "TKT-2023-0131",
        "type": "Retrofit",
        "issue": "LED retrofit (CFL 2x36 W heritage lantern \u2192 LED 60 W)",
        "action": "Replaced luminaire with LED; CCMS node fitted",
        "source": "Scheduled (retrofit programme)",
        "priority": "Low",
-       "raised_at": "2023-04-13T14:51+05:30",
-       "resolved_at": "2023-04-13T19:03+05:30",
-       "downtime_h": 4.2,
+       "raised_at": "2023-04-13T13:57+05:30",
+       "resolved_at": "2023-04-13T18:33+05:30",
+       "downtime_h": 4.6,
        "sla_met": true,
-       "crew": "P2 \u00b7 Sunil T.",
+       "crew": "P1 \u00b7 Ramesh K.",
        "contractor": "Prakash Electro Services",
-       "cost_inr": 7392,
+       "cost_inr": 7540,
        "status": "Closed"
       }
      ]
@@ -2080,7 +2240,12 @@ window.SLGIS_DATA = {
      "ccms_node": true,
      "install_date": "2010-08-03",
      "fixture_installed": "2023-03-04",
-     "last_inspected": "2026-08-23",
+     "fixture_make": "Lumetra",
+     "fixture_batch": "LUM-2302",
+     "fixture_warranty_years": 5,
+     "last_inspected": "2026-10-06",
+     "last_earthing_check": "2025-12-05",
+     "junction_box_condition": "Good",
      "feeder_panel": "FP-CP-02",
      "circuit": "C1",
      "circuit_seq": 2,
@@ -2090,27 +2255,39 @@ window.SLGIS_DATA = {
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 21.5
+       "kwh": 21.1,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 20.4
+       "kwh": 20.5,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 19.0
+       "kwh": 18.9,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 20.9
+       "kwh": 19.7,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 22.1
+       "kwh": 20.9,
+       "scheduled_h": 332.1,
+       "lit_h": 332.1
       },
       {
        "month": "2026-09",
-       "kwh": 21.9
+       "kwh": 21.9,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -2125,51 +2302,35 @@ window.SLGIS_DATA = {
      "ticket": null,
      "repair_history": [
       {
-       "ticket_id": "TKT-2026-0114",
+       "ticket_id": "TKT-2025-0105",
        "type": "Preventive",
        "issue": "Annual preventive maintenance",
        "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
        "source": "Scheduled (AMC)",
        "priority": "Low",
-       "raised_at": "2026-03-01T10:21+05:30",
-       "resolved_at": "2026-03-01T11:45+05:30",
-       "downtime_h": 1.4,
-       "sla_met": true,
-       "crew": "P1 \u00b7 Ramesh K.",
-       "contractor": "Prakash Electro Services",
-       "cost_inr": 429,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2023-0141",
-       "type": "Preventive",
-       "issue": "Annual preventive maintenance",
-       "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
-       "source": "Scheduled (AMC)",
-       "priority": "Low",
-       "raised_at": "2023-06-08T14:48+05:30",
-       "resolved_at": "2023-06-08T16:30+05:30",
-       "downtime_h": 1.7,
+       "raised_at": "2025-01-17T10:16+05:30",
+       "resolved_at": "2025-01-17T11:28+05:30",
+       "downtime_h": 1.2,
        "sla_met": true,
        "crew": "P2 \u00b7 Sunil T.",
        "contractor": "Prakash Electro Services",
-       "cost_inr": 397,
+       "cost_inr": 404,
        "status": "Closed"
       },
       {
-       "ticket_id": "TKT-2023-0112",
+       "ticket_id": "TKT-2023-0114",
        "type": "Retrofit",
        "issue": "LED retrofit (CFL 2x36 W heritage lantern \u2192 LED 60 W)",
        "action": "Replaced luminaire with LED; CCMS node fitted",
        "source": "Scheduled (retrofit programme)",
        "priority": "Low",
-       "raised_at": "2023-03-04T10:00+05:30",
-       "resolved_at": "2023-03-04T14:30+05:30",
-       "downtime_h": 4.5,
+       "raised_at": "2023-03-04T13:32+05:30",
+       "resolved_at": "2023-03-04T17:14+05:30",
+       "downtime_h": 3.7,
        "sla_met": true,
        "crew": "P2 \u00b7 Sunil T.",
        "contractor": "Prakash Electro Services",
-       "cost_inr": 8257,
+       "cost_inr": 7906,
        "status": "Closed"
       }
      ]
@@ -2199,37 +2360,54 @@ window.SLGIS_DATA = {
      "ccms_node": true,
      "install_date": "2010-08-18",
      "fixture_installed": "2023-02-25",
-     "last_inspected": "2026-08-24",
+     "fixture_make": "Lumetra",
+     "fixture_batch": "LUM-2302",
+     "fixture_warranty_years": 5,
+     "last_inspected": "2026-09-03",
+     "last_earthing_check": "2026-02-19",
+     "junction_box_condition": "Fair",
      "feeder_panel": "FP-CP-02",
      "circuit": "C1",
      "circuit_seq": 3,
      "phase": "B",
-     "energy_kwh": 22.5,
+     "energy_kwh": 22.3,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 20.9
+       "kwh": 21.4,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 20.5
+       "kwh": 21.0,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 18.7
+       "kwh": 18.9,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 20.5
+       "kwh": 20.1,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 22.0
+       "kwh": 20.6,
+       "scheduled_h": 332.1,
+       "lit_h": 332.1
       },
       {
        "month": "2026-09",
-       "kwh": 22.5
+       "kwh": 22.3,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -2242,16 +2420,16 @@ window.SLGIS_DATA = {
       "sla_hours": 48
      },
      "ticket": {
-      "id": "TKT-2026-0158",
+      "id": "TKT-2026-0161",
       "status": "In Progress",
-      "priority": "Medium",
+      "category": "not_working",
       "issue": "Water ingress in luminaire",
       "source": "CCMS auto-alert",
       "raised_at": "2026-10-11T22:00+05:30",
-      "sla_hours": 48,
-      "sla_due": "2026-10-13T22:00+05:30",
-      "assigned_crew": "P2 \u00b7 Sunil T.",
+      "assigned_crew": "P1 \u00b7 Ramesh K.",
       "work_started_at": "2026-10-13T09:00+05:30",
+      "closed_at": null,
+      "resolution": null,
       "complaints": 0,
       "notes": null,
       "pole_uids": [
@@ -2260,51 +2438,51 @@ window.SLGIS_DATA = {
      },
      "repair_history": [
       {
-       "ticket_id": "TKT-2025-0169",
-       "type": "Corrective",
-       "issue": "Pole damaged by vehicle",
-       "action": "Replaced pole, re-grouted foundation",
-       "source": "CCMS auto-alert",
-       "priority": "High",
-       "raised_at": "2025-10-19T21:07+05:30",
-       "resolved_at": "2025-10-23T07:13+05:30",
-       "downtime_h": 82.1,
-       "sla_met": false,
-       "crew": "P2 \u00b7 Sunil T.",
-       "contractor": "Prakash Electro Services",
-       "cost_inr": 23637,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2024-0143",
+       "ticket_id": "TKT-2026-0112",
        "type": "Preventive",
        "issue": "Annual preventive maintenance",
        "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
        "source": "Scheduled (AMC)",
        "priority": "Low",
-       "raised_at": "2024-05-13T14:09+05:30",
-       "resolved_at": "2024-05-13T15:45+05:30",
-       "downtime_h": 1.6,
+       "raised_at": "2026-02-19T13:36+05:30",
+       "resolved_at": "2026-02-19T14:30+05:30",
+       "downtime_h": 0.9,
        "sla_met": true,
        "crew": "P1 \u00b7 Ramesh K.",
        "contractor": "Prakash Electro Services",
-       "cost_inr": 373,
+       "cost_inr": 420,
        "status": "Closed"
       },
       {
-       "ticket_id": "TKT-2023-0108",
+       "ticket_id": "TKT-2025-0139",
+       "type": "Preventive",
+       "issue": "Annual preventive maintenance",
+       "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
+       "source": "Scheduled (AMC)",
+       "priority": "Low",
+       "raised_at": "2025-06-23T11:53+05:30",
+       "resolved_at": "2025-06-23T12:47+05:30",
+       "downtime_h": 0.9,
+       "sla_met": true,
+       "crew": "P2 \u00b7 Sunil T.",
+       "contractor": "Prakash Electro Services",
+       "cost_inr": 448,
+       "status": "Closed"
+      },
+      {
+       "ticket_id": "TKT-2023-0112",
        "type": "Retrofit",
        "issue": "LED retrofit (CFL 2x36 W heritage lantern \u2192 LED 60 W)",
        "action": "Replaced luminaire with LED; CCMS node fitted",
        "source": "Scheduled (retrofit programme)",
        "priority": "Low",
-       "raised_at": "2023-02-25T13:54+05:30",
-       "resolved_at": "2023-02-25T16:48+05:30",
-       "downtime_h": 2.9,
+       "raised_at": "2023-02-25T12:19+05:30",
+       "resolved_at": "2023-02-25T14:49+05:30",
+       "downtime_h": 2.5,
        "sla_met": true,
-       "crew": "P1 \u00b7 Ramesh K.",
+       "crew": "P2 \u00b7 Sunil T.",
        "contractor": "Prakash Electro Services",
-       "cost_inr": 7903,
+       "cost_inr": 8234,
        "status": "Closed"
       }
      ]
@@ -2334,37 +2512,54 @@ window.SLGIS_DATA = {
      "ccms_node": true,
      "install_date": "2010-08-16",
      "fixture_installed": "2023-03-12",
-     "last_inspected": "2026-08-26",
+     "fixture_make": "Lumetra",
+     "fixture_batch": "LUM-2302",
+     "fixture_warranty_years": 5,
+     "last_inspected": "2026-09-12",
+     "last_earthing_check": "2025-01-09",
+     "junction_box_condition": "Good",
      "feeder_panel": "FP-CP-02",
      "circuit": "C1",
      "circuit_seq": 4,
      "phase": "R",
-     "energy_kwh": 21.8,
+     "energy_kwh": 21.9,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 21.4
+       "kwh": 20.8,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 20.2
+       "kwh": 20.8,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 19.4
+       "kwh": 19.5,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 20.5
+       "kwh": 20.1,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 21.8
+       "kwh": 20.9,
+       "scheduled_h": 332.1,
+       "lit_h": 332.1
       },
       {
        "month": "2026-09",
-       "kwh": 21.8
+       "kwh": 21.9,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -2379,51 +2574,35 @@ window.SLGIS_DATA = {
      "ticket": null,
      "repair_history": [
       {
-       "ticket_id": "TKT-2025-0173",
-       "type": "Corrective",
-       "issue": "Pole damaged by vehicle",
-       "action": "Replaced pole, re-grouted foundation",
-       "source": "CCMS auto-alert",
-       "priority": "High",
-       "raised_at": "2025-11-05T05:30+05:30",
-       "resolved_at": "2025-11-09T11:36+05:30",
-       "downtime_h": 102.1,
-       "sla_met": false,
-       "crew": "P1 \u00b7 Ramesh K.",
-       "contractor": "Prakash Electro Services",
-       "cost_inr": 20580,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2024-0130",
+       "ticket_id": "TKT-2024-0154",
        "type": "Preventive",
        "issue": "Annual preventive maintenance",
        "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
        "source": "Scheduled (AMC)",
        "priority": "Low",
-       "raised_at": "2024-03-02T11:42+05:30",
-       "resolved_at": "2024-03-02T13:36+05:30",
-       "downtime_h": 1.9,
+       "raised_at": "2024-08-28T12:14+05:30",
+       "resolved_at": "2024-08-28T13:26+05:30",
+       "downtime_h": 1.2,
        "sla_met": true,
-       "crew": "P2 \u00b7 Sunil T.",
+       "crew": "P1 \u00b7 Ramesh K.",
        "contractor": "Prakash Electro Services",
-       "cost_inr": 384,
+       "cost_inr": 374,
        "status": "Closed"
       },
       {
-       "ticket_id": "TKT-2023-0117",
+       "ticket_id": "TKT-2023-0121",
        "type": "Retrofit",
        "issue": "LED retrofit (CFL 2x36 W heritage lantern \u2192 LED 60 W)",
        "action": "Replaced luminaire with LED; CCMS node fitted",
        "source": "Scheduled (retrofit programme)",
        "priority": "Low",
-       "raised_at": "2023-03-12T11:10+05:30",
-       "resolved_at": "2023-03-12T14:28+05:30",
-       "downtime_h": 3.3,
+       "raised_at": "2023-03-12T12:42+05:30",
+       "resolved_at": "2023-03-12T16:18+05:30",
+       "downtime_h": 3.6,
        "sla_met": true,
        "crew": "P2 \u00b7 Sunil T.",
        "contractor": "Prakash Electro Services",
-       "cost_inr": 7845,
+       "cost_inr": 7535,
        "status": "Closed"
       }
      ]
@@ -2453,37 +2632,54 @@ window.SLGIS_DATA = {
      "ccms_node": true,
      "install_date": "2010-08-20",
      "fixture_installed": "2023-04-21",
-     "last_inspected": "2026-08-14",
+     "fixture_make": "Lumetra",
+     "fixture_batch": "LUM-2302",
+     "fixture_warranty_years": 5,
+     "last_inspected": "2026-08-05",
+     "last_earthing_check": "2026-08-13",
+     "junction_box_condition": "Fair",
      "feeder_panel": "FP-CP-02",
      "circuit": "C1",
      "circuit_seq": 5,
      "phase": "Y",
-     "energy_kwh": 21.9,
+     "energy_kwh": 22.7,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 20.7
+       "kwh": 21.2,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 20.9
+       "kwh": 20.5,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 18.8
+       "kwh": 18.9,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 20.2
+       "kwh": 19.7,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 22.2
+       "kwh": 20.8,
+       "scheduled_h": 332.1,
+       "lit_h": 332.1
       },
       {
        "month": "2026-09",
-       "kwh": 21.9
+       "kwh": 22.7,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -2498,99 +2694,35 @@ window.SLGIS_DATA = {
      "ticket": null,
      "repair_history": [
       {
-       "ticket_id": "TKT-2025-0138",
-       "type": "Corrective",
-       "issue": "Cable theft",
-       "action": "Replaced stolen cable, secured junction box",
-       "source": "Night patrol",
-       "priority": "High",
-       "raised_at": "2025-06-14T20:28+05:30",
-       "resolved_at": "2025-06-17T14:22+05:30",
-       "downtime_h": 65.9,
-       "sla_met": false,
-       "crew": "P1 \u00b7 Ramesh K.",
-       "contractor": "Prakash Electro Services",
-       "cost_inr": 4956,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2024-0164",
+       "ticket_id": "TKT-2023-0181",
        "type": "Preventive",
        "issue": "Annual preventive maintenance",
        "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
        "source": "Scheduled (AMC)",
        "priority": "Low",
-       "raised_at": "2024-08-07T12:13+05:30",
-       "resolved_at": "2024-08-07T13:55+05:30",
-       "downtime_h": 1.7,
-       "sla_met": true,
-       "crew": "P2 \u00b7 Sunil T.",
-       "contractor": "Prakash Electro Services",
-       "cost_inr": 430,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2024-0110",
-       "type": "Corrective",
-       "issue": "Cable theft",
-       "action": "Replaced stolen cable, secured junction box",
-       "source": "CCMS auto-alert",
-       "priority": "High",
-       "raised_at": "2024-01-20T21:54+05:30",
-       "resolved_at": "2024-01-24T12:18+05:30",
-       "downtime_h": 86.4,
-       "sla_met": false,
-       "crew": "P2 \u00b7 Sunil T.",
-       "contractor": "Prakash Electro Services",
-       "cost_inr": 4730,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2023-0185",
-       "type": "Preventive",
-       "issue": "Annual preventive maintenance",
-       "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
-       "source": "Scheduled (AMC)",
-       "priority": "Low",
-       "raised_at": "2023-11-11T11:25+05:30",
-       "resolved_at": "2023-11-11T12:55+05:30",
-       "downtime_h": 1.5,
+       "raised_at": "2023-10-30T14:41+05:30",
+       "resolved_at": "2023-10-30T15:35+05:30",
+       "downtime_h": 0.9,
        "sla_met": true,
        "crew": "P1 \u00b7 Ramesh K.",
        "contractor": "Prakash Electro Services",
-       "cost_inr": 374,
+       "cost_inr": 352,
        "status": "Closed"
       },
       {
-       "ticket_id": "TKT-2023-0144",
-       "type": "Corrective",
-       "issue": "Surge protection device failure",
-       "action": "Replaced 10 kV surge protection device",
-       "source": "Night patrol",
-       "priority": "Medium",
-       "raised_at": "2023-07-02T06:18+05:30",
-       "resolved_at": "2023-07-02T21:48+05:30",
-       "downtime_h": 15.5,
-       "sla_met": true,
-       "crew": "P2 \u00b7 Sunil T.",
-       "contractor": "Prakash Electro Services",
-       "cost_inr": 891,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2023-0132",
+       "ticket_id": "TKT-2023-0135",
        "type": "Retrofit",
        "issue": "LED retrofit (CFL 2x36 W heritage lantern \u2192 LED 60 W)",
        "action": "Replaced luminaire with LED; CCMS node fitted",
        "source": "Scheduled (retrofit programme)",
        "priority": "Low",
-       "raised_at": "2023-04-21T11:06+05:30",
-       "resolved_at": "2023-04-21T14:48+05:30",
-       "downtime_h": 3.7,
+       "raised_at": "2023-04-21T15:00+05:30",
+       "resolved_at": "2023-04-21T18:36+05:30",
+       "downtime_h": 3.6,
        "sla_met": true,
-       "crew": "P2 \u00b7 Sunil T.",
+       "crew": "P1 \u00b7 Ramesh K.",
        "contractor": "Prakash Electro Services",
-       "cost_inr": 7774,
+       "cost_inr": 7876,
        "status": "Closed"
       }
      ]
@@ -2620,37 +2752,54 @@ window.SLGIS_DATA = {
      "ccms_node": true,
      "install_date": "2010-08-11",
      "fixture_installed": "2023-04-02",
-     "last_inspected": "2026-08-20",
+     "fixture_make": "Lumetra",
+     "fixture_batch": "LUM-2302",
+     "fixture_warranty_years": 5,
+     "last_inspected": "2026-08-04",
+     "last_earthing_check": "2025-09-24",
+     "junction_box_condition": "Poor",
      "feeder_panel": "FP-CP-02",
      "circuit": "C1",
      "circuit_seq": 6,
      "phase": "B",
-     "energy_kwh": 21.6,
+     "energy_kwh": 22.0,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 21.5
+       "kwh": 21.3,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 20.5
+       "kwh": 20.8,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 19.5
+       "kwh": 18.9,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 20.3
+       "kwh": 20.4,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 22.0
+       "kwh": 21.0,
+       "scheduled_h": 332.1,
+       "lit_h": 332.1
       },
       {
        "month": "2026-09",
-       "kwh": 21.6
+       "kwh": 22.0,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -2665,35 +2814,35 @@ window.SLGIS_DATA = {
      "ticket": null,
      "repair_history": [
       {
-       "ticket_id": "TKT-2024-0147",
+       "ticket_id": "TKT-2025-0156",
        "type": "Preventive",
        "issue": "Annual preventive maintenance",
        "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
        "source": "Scheduled (AMC)",
        "priority": "Low",
-       "raised_at": "2024-05-25T14:21+05:30",
-       "resolved_at": "2024-05-25T16:09+05:30",
-       "downtime_h": 1.8,
+       "raised_at": "2025-09-24T15:11+05:30",
+       "resolved_at": "2025-09-24T16:53+05:30",
+       "downtime_h": 1.7,
        "sla_met": true,
        "crew": "P2 \u00b7 Sunil T.",
        "contractor": "Prakash Electro Services",
-       "cost_inr": 427,
+       "cost_inr": 358,
        "status": "Closed"
       },
       {
-       "ticket_id": "TKT-2023-0125",
+       "ticket_id": "TKT-2023-0128",
        "type": "Retrofit",
        "issue": "LED retrofit (CFL 2x36 W heritage lantern \u2192 LED 60 W)",
        "action": "Replaced luminaire with LED; CCMS node fitted",
        "source": "Scheduled (retrofit programme)",
        "priority": "Low",
-       "raised_at": "2023-04-02T12:47+05:30",
-       "resolved_at": "2023-04-02T15:53+05:30",
-       "downtime_h": 3.1,
+       "raised_at": "2023-04-02T11:05+05:30",
+       "resolved_at": "2023-04-02T15:41+05:30",
+       "downtime_h": 4.6,
        "sla_met": true,
-       "crew": "P2 \u00b7 Sunil T.",
+       "crew": "P1 \u00b7 Ramesh K.",
        "contractor": "Prakash Electro Services",
-       "cost_inr": 8021,
+       "cost_inr": 7817,
        "status": "Closed"
       }
      ]
@@ -2723,37 +2872,54 @@ window.SLGIS_DATA = {
      "ccms_node": true,
      "install_date": "2010-08-27",
      "fixture_installed": "2023-03-11",
-     "last_inspected": "2026-09-08",
+     "fixture_make": "Lumetra",
+     "fixture_batch": "LUM-2302",
+     "fixture_warranty_years": 5,
+     "last_inspected": "2026-09-20",
+     "last_earthing_check": "2025-11-22",
+     "junction_box_condition": "Fair",
      "feeder_panel": "FP-CP-01",
      "circuit": "C2",
      "circuit_seq": 6,
      "phase": "B",
-     "energy_kwh": 21.7,
+     "energy_kwh": 22.1,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 21.6
+       "kwh": 21.7,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 20.7
+       "kwh": 20.5,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 19.0
+       "kwh": 18.8,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 20.4
+       "kwh": 20.5,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 21.9
+       "kwh": 21.1,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
       },
       {
        "month": "2026-09",
-       "kwh": 21.7
+       "kwh": 22.1,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -2768,67 +2934,35 @@ window.SLGIS_DATA = {
      "ticket": null,
      "repair_history": [
       {
-       "ticket_id": "TKT-2026-0110",
-       "type": "Corrective",
-       "issue": "Loose connection in junction box",
-       "action": "Re-terminated cables, replaced connector",
-       "source": "Citizen app",
-       "priority": "Medium",
-       "raised_at": "2026-02-05T20:45+05:30",
-       "resolved_at": "2026-02-07T11:09+05:30",
-       "downtime_h": 38.4,
-       "sla_met": true,
-       "crew": "P2 \u00b7 Sunil T.",
-       "contractor": "Prakash Electro Services",
-       "cost_inr": 526,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2023-0180",
+       "ticket_id": "TKT-2025-0150",
        "type": "Preventive",
        "issue": "Annual preventive maintenance",
        "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
        "source": "Scheduled (AMC)",
        "priority": "Low",
-       "raised_at": "2023-10-15T15:12+05:30",
-       "resolved_at": "2023-10-15T17:00+05:30",
-       "downtime_h": 1.8,
+       "raised_at": "2025-08-08T14:19+05:30",
+       "resolved_at": "2025-08-08T15:49+05:30",
+       "downtime_h": 1.5,
        "sla_met": true,
-       "crew": "P2 \u00b7 Sunil T.",
+       "crew": "P1 \u00b7 Ramesh K.",
        "contractor": "Prakash Electro Services",
-       "cost_inr": 376,
+       "cost_inr": 351,
        "status": "Closed"
       },
       {
-       "ticket_id": "TKT-2023-0152",
-       "type": "Corrective",
-       "issue": "LED driver failure",
-       "action": "Replaced LED driver",
-       "source": "Night patrol",
-       "priority": "Medium",
-       "raised_at": "2023-08-08T20:20+05:30",
-       "resolved_at": "2023-08-10T03:26+05:30",
-       "downtime_h": 31.1,
-       "sla_met": true,
-       "crew": "P2 \u00b7 Sunil T.",
-       "contractor": "Prakash Electro Services",
-       "cost_inr": 3262,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2023-0116",
+       "ticket_id": "TKT-2023-0120",
        "type": "Retrofit",
        "issue": "LED retrofit (CFL 2x36 W heritage lantern \u2192 LED 60 W)",
        "action": "Replaced luminaire with LED; CCMS node fitted",
        "source": "Scheduled (retrofit programme)",
        "priority": "Low",
-       "raised_at": "2023-03-11T10:18+05:30",
-       "resolved_at": "2023-03-11T14:00+05:30",
-       "downtime_h": 3.7,
+       "raised_at": "2023-03-11T15:02+05:30",
+       "resolved_at": "2023-03-11T20:02+05:30",
+       "downtime_h": 5.0,
        "sla_met": true,
-       "crew": "P2 \u00b7 Sunil T.",
+       "crew": "P1 \u00b7 Ramesh K.",
        "contractor": "Prakash Electro Services",
-       "cost_inr": 7343,
+       "cost_inr": 8104,
        "status": "Closed"
       }
      ]
@@ -2858,37 +2992,54 @@ window.SLGIS_DATA = {
      "ccms_node": true,
      "install_date": "2010-08-26",
      "fixture_installed": "2023-04-23",
-     "last_inspected": "2026-09-20",
+     "fixture_make": "Lumetra",
+     "fixture_batch": "LUM-2302",
+     "fixture_warranty_years": 5,
+     "last_inspected": "2026-08-11",
+     "last_earthing_check": "2026-04-20",
+     "junction_box_condition": "Poor",
      "feeder_panel": "FP-CP-01",
      "circuit": "C2",
      "circuit_seq": 5,
      "phase": "Y",
-     "energy_kwh": 22.4,
+     "energy_kwh": 21.7,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 21.1
+       "kwh": 20.8,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 20.7
+       "kwh": 20.5,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 19.5
+       "kwh": 18.9,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 20.4
+       "kwh": 20.4,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 21.4
+       "kwh": 21.4,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
       },
       {
        "month": "2026-09",
-       "kwh": 22.4
+       "kwh": 21.7,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -2903,51 +3054,51 @@ window.SLGIS_DATA = {
      "ticket": null,
      "repair_history": [
       {
-       "ticket_id": "TKT-2025-0174",
-       "type": "Corrective",
-       "issue": "Loose connection in junction box",
-       "action": "Re-terminated cables, replaced connector",
-       "source": "Citizen app",
-       "priority": "Medium",
-       "raised_at": "2025-11-06T05:24+05:30",
-       "resolved_at": "2025-11-06T12:42+05:30",
-       "downtime_h": 7.3,
+       "ticket_id": "TKT-2026-0122",
+       "type": "Preventive",
+       "issue": "Annual preventive maintenance",
+       "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
+       "source": "Scheduled (AMC)",
+       "priority": "Low",
+       "raised_at": "2026-04-20T10:21+05:30",
+       "resolved_at": "2026-04-20T11:45+05:30",
+       "downtime_h": 1.4,
        "sla_met": true,
-       "crew": "P2 \u00b7 Sunil T.",
+       "crew": "P1 \u00b7 Ramesh K.",
        "contractor": "Prakash Electro Services",
-       "cost_inr": 512,
+       "cost_inr": 429,
        "status": "Closed"
       },
       {
-       "ticket_id": "TKT-2023-0163",
-       "type": "Corrective",
-       "issue": "LED driver failure",
-       "action": "Replaced LED driver",
-       "source": "Night patrol",
-       "priority": "Medium",
-       "raised_at": "2023-09-06T20:49+05:30",
-       "resolved_at": "2023-09-07T05:13+05:30",
-       "downtime_h": 8.4,
+       "ticket_id": "TKT-2023-0160",
+       "type": "Preventive",
+       "issue": "Annual preventive maintenance",
+       "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
+       "source": "Scheduled (AMC)",
+       "priority": "Low",
+       "raised_at": "2023-07-28T14:48+05:30",
+       "resolved_at": "2023-07-28T16:30+05:30",
+       "downtime_h": 1.7,
        "sla_met": true,
        "crew": "P2 \u00b7 Sunil T.",
        "contractor": "Prakash Electro Services",
-       "cost_inr": 2734,
+       "cost_inr": 397,
        "status": "Closed"
       },
       {
-       "ticket_id": "TKT-2023-0134",
+       "ticket_id": "TKT-2023-0136",
        "type": "Retrofit",
        "issue": "LED retrofit (CFL 2x36 W heritage lantern \u2192 LED 60 W)",
        "action": "Replaced luminaire with LED; CCMS node fitted",
        "source": "Scheduled (retrofit programme)",
        "priority": "Low",
-       "raised_at": "2023-04-23T12:00+05:30",
-       "resolved_at": "2023-04-23T14:36+05:30",
-       "downtime_h": 2.6,
+       "raised_at": "2023-04-23T10:50+05:30",
+       "resolved_at": "2023-04-23T15:26+05:30",
+       "downtime_h": 4.6,
        "sla_met": true,
        "crew": "P2 \u00b7 Sunil T.",
        "contractor": "Prakash Electro Services",
-       "cost_inr": 8028,
+       "cost_inr": 8257,
        "status": "Closed"
       }
      ]
@@ -2977,37 +3128,54 @@ window.SLGIS_DATA = {
      "ccms_node": true,
      "install_date": "2010-08-25",
      "fixture_installed": "2023-03-04",
-     "last_inspected": "2026-08-26",
+     "fixture_make": "Lumetra",
+     "fixture_batch": "LUM-2302",
+     "fixture_warranty_years": 5,
+     "last_inspected": "2026-10-03",
+     "last_earthing_check": "2026-02-01",
+     "junction_box_condition": "Good",
      "feeder_panel": "FP-CP-01",
      "circuit": "C2",
      "circuit_seq": 4,
      "phase": "R",
-     "energy_kwh": 22.4,
+     "energy_kwh": 22.7,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 21.3
+       "kwh": 21.2,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 20.6
+       "kwh": 20.8,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 18.6
+       "kwh": 18.7,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 20.6
+       "kwh": 19.8,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 21.7
+       "kwh": 20.9,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
       },
       {
        "month": "2026-09",
-       "kwh": 22.4
+       "kwh": 22.7,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -3022,51 +3190,51 @@ window.SLGIS_DATA = {
      "ticket": null,
      "repair_history": [
       {
-       "ticket_id": "TKT-2023-0196",
+       "ticket_id": "TKT-2025-0162",
        "type": "Corrective",
-       "issue": "Loose connection in junction box",
-       "action": "Re-terminated cables, replaced connector",
-       "source": "Citizen app",
-       "priority": "Medium",
-       "raised_at": "2023-12-03T06:07+05:30",
-       "resolved_at": "2023-12-03T23:37+05:30",
-       "downtime_h": 17.5,
-       "sla_met": true,
-       "crew": "P1 \u00b7 Ramesh K.",
+       "issue": "Pole damaged by vehicle",
+       "action": "Replaced pole, re-grouted foundation",
+       "source": "CCMS auto-alert",
+       "priority": "High",
+       "raised_at": "2025-10-26T21:07+05:30",
+       "resolved_at": "2025-10-30T07:13+05:30",
+       "downtime_h": 82.1,
+       "sla_met": false,
+       "crew": "P2 \u00b7 Sunil T.",
        "contractor": "Prakash Electro Services",
-       "cost_inr": 375,
+       "cost_inr": 23637,
        "status": "Closed"
       },
       {
-       "ticket_id": "TKT-2023-0124",
+       "ticket_id": "TKT-2024-0141",
        "type": "Preventive",
        "issue": "Annual preventive maintenance",
        "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
        "source": "Scheduled (AMC)",
        "priority": "Low",
-       "raised_at": "2023-03-27T10:21+05:30",
-       "resolved_at": "2023-03-27T11:45+05:30",
-       "downtime_h": 1.4,
+       "raised_at": "2024-05-20T14:09+05:30",
+       "resolved_at": "2024-05-20T15:45+05:30",
+       "downtime_h": 1.6,
        "sla_met": true,
-       "crew": "P2 \u00b7 Sunil T.",
+       "crew": "P1 \u00b7 Ramesh K.",
        "contractor": "Prakash Electro Services",
-       "cost_inr": 445,
+       "cost_inr": 373,
        "status": "Closed"
       },
       {
-       "ticket_id": "TKT-2023-0113",
+       "ticket_id": "TKT-2023-0115",
        "type": "Retrofit",
        "issue": "LED retrofit (CFL 2x36 W heritage lantern \u2192 LED 60 W)",
        "action": "Replaced luminaire with LED; CCMS node fitted",
        "source": "Scheduled (retrofit programme)",
        "priority": "Low",
-       "raised_at": "2023-03-04T10:35+05:30",
-       "resolved_at": "2023-03-04T13:59+05:30",
-       "downtime_h": 3.4,
+       "raised_at": "2023-03-04T13:54+05:30",
+       "resolved_at": "2023-03-04T16:48+05:30",
+       "downtime_h": 2.9,
        "sla_met": true,
-       "crew": "P2 \u00b7 Sunil T.",
+       "crew": "P1 \u00b7 Ramesh K.",
        "contractor": "Prakash Electro Services",
-       "cost_inr": 7201,
+       "cost_inr": 7903,
        "status": "Closed"
       }
      ]
@@ -3096,37 +3264,54 @@ window.SLGIS_DATA = {
      "ccms_node": true,
      "install_date": "2010-08-26",
      "fixture_installed": "2023-02-18",
-     "last_inspected": "2026-09-03",
+     "fixture_make": "Lumetra",
+     "fixture_batch": "LUM-2302",
+     "fixture_warranty_years": 5,
+     "last_inspected": "2026-09-21",
+     "last_earthing_check": "2026-02-03",
+     "junction_box_condition": "Good",
      "feeder_panel": "FP-CP-01",
      "circuit": "C2",
      "circuit_seq": 3,
      "phase": "B",
-     "energy_kwh": 21.8,
+     "energy_kwh": 22.4,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 21.2
+       "kwh": 21.7,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 21.2
+       "kwh": 20.4,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 19.3
+       "kwh": 18.9,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 20.8
+       "kwh": 19.7,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 21.4
+       "kwh": 21.2,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
       },
       {
        "month": "2026-09",
-       "kwh": 21.8
+       "kwh": 22.4,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -3139,16 +3324,16 @@ window.SLGIS_DATA = {
       "sla_hours": 48
      },
      "ticket": {
-      "id": "TKT-2026-0167",
+      "id": "TKT-2026-0172",
       "status": "Open",
-      "priority": "High",
-      "issue": "Junction box vandalised - cable stolen",
+      "category": "exposed",
+      "issue": "Junction box open, cable stolen",
       "source": "Night patrol",
       "raised_at": "2026-10-12T23:12+05:30",
-      "sla_hours": 24,
-      "sla_due": "2026-10-13T23:12+05:30",
       "assigned_crew": null,
       "work_started_at": null,
+      "closed_at": null,
+      "resolution": null,
       "complaints": 1,
       "notes": "Dark patch near Rajiv Chowk Metro Gate 1. Police complaint filed.",
       "pole_uids": [
@@ -3158,99 +3343,51 @@ window.SLGIS_DATA = {
      },
      "repair_history": [
       {
-       "ticket_id": "TKT-2025-0184",
-       "type": "Preventive",
-       "issue": "Annual preventive maintenance",
-       "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
-       "source": "Scheduled (AMC)",
-       "priority": "Low",
-       "raised_at": "2025-12-15T10:05+05:30",
-       "resolved_at": "2025-12-15T11:35+05:30",
-       "downtime_h": 1.5,
-       "sla_met": true,
-       "crew": "P1 \u00b7 Ramesh K.",
-       "contractor": "Prakash Electro Services",
-       "cost_inr": 429,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2024-0173",
+       "ticket_id": "TKT-2025-0159",
        "type": "Corrective",
-       "issue": "LED driver failure",
-       "action": "Replaced LED driver",
+       "issue": "Pole damaged by vehicle",
+       "action": "Replaced pole, re-grouted foundation",
        "source": "CCMS auto-alert",
-       "priority": "Medium",
-       "raised_at": "2024-09-02T20:46+05:30",
-       "resolved_at": "2024-09-03T08:04+05:30",
-       "downtime_h": 11.3,
-       "sla_met": true,
-       "crew": "P1 \u00b7 Ramesh K.",
-       "contractor": "Prakash Electro Services",
-       "cost_inr": 2613,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2024-0135",
-       "type": "Corrective",
-       "issue": "Flickering",
-       "action": "Replaced LED driver and module connector",
-       "source": "CCMS auto-alert",
-       "priority": "Medium",
-       "raised_at": "2024-03-28T23:19+05:30",
-       "resolved_at": "2024-03-29T17:37+05:30",
-       "downtime_h": 18.3,
-       "sla_met": true,
-       "crew": "P2 \u00b7 Sunil T.",
-       "contractor": "Prakash Electro Services",
-       "cost_inr": 2840,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2024-0125",
-       "type": "Preventive",
-       "issue": "Annual preventive maintenance",
-       "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
-       "source": "Scheduled (AMC)",
-       "priority": "Low",
-       "raised_at": "2024-02-23T15:31+05:30",
-       "resolved_at": "2024-02-23T16:31+05:30",
-       "downtime_h": 1.0,
-       "sla_met": true,
-       "crew": "P2 \u00b7 Sunil T.",
-       "contractor": "Prakash Electro Services",
-       "cost_inr": 371,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2023-0170",
-       "type": "Corrective",
-       "issue": "Underground cable fault",
-       "action": "Located fault, jointed cable (heat-shrink kit)",
-       "source": "Call centre",
        "priority": "High",
-       "raised_at": "2023-09-14T20:13+05:30",
-       "resolved_at": "2023-09-19T08:55+05:30",
-       "downtime_h": 108.7,
+       "raised_at": "2025-10-14T05:30+05:30",
+       "resolved_at": "2025-10-18T11:36+05:30",
+       "downtime_h": 102.1,
        "sla_met": false,
-       "crew": "P2 \u00b7 Sunil T.",
+       "crew": "P1 \u00b7 Ramesh K.",
        "contractor": "Prakash Electro Services",
-       "cost_inr": 4535,
+       "cost_inr": 20580,
        "status": "Closed"
       },
       {
-       "ticket_id": "TKT-2023-0106",
+       "ticket_id": "TKT-2024-0117",
+       "type": "Preventive",
+       "issue": "Annual preventive maintenance",
+       "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
+       "source": "Scheduled (AMC)",
+       "priority": "Low",
+       "raised_at": "2024-02-09T11:42+05:30",
+       "resolved_at": "2024-02-09T13:36+05:30",
+       "downtime_h": 1.9,
+       "sla_met": true,
+       "crew": "P2 \u00b7 Sunil T.",
+       "contractor": "Prakash Electro Services",
+       "cost_inr": 384,
+       "status": "Closed"
+      },
+      {
+       "ticket_id": "TKT-2023-0110",
        "type": "Retrofit",
        "issue": "LED retrofit (CFL 2x36 W heritage lantern \u2192 LED 60 W)",
        "action": "Replaced luminaire with LED; CCMS node fitted",
        "source": "Scheduled (retrofit programme)",
        "priority": "Low",
-       "raised_at": "2023-02-18T14:46+05:30",
-       "resolved_at": "2023-02-18T18:46+05:30",
-       "downtime_h": 4.0,
+       "raised_at": "2023-02-18T11:10+05:30",
+       "resolved_at": "2023-02-18T14:28+05:30",
+       "downtime_h": 3.3,
        "sla_met": true,
-       "crew": "P1 \u00b7 Ramesh K.",
+       "crew": "P2 \u00b7 Sunil T.",
        "contractor": "Prakash Electro Services",
-       "cost_inr": 7360,
+       "cost_inr": 7845,
        "status": "Closed"
       }
      ]
@@ -3280,37 +3417,54 @@ window.SLGIS_DATA = {
      "ccms_node": true,
      "install_date": "2010-08-27",
      "fixture_installed": "2023-03-13",
-     "last_inspected": "2026-09-06",
+     "fixture_make": "Lumetra",
+     "fixture_batch": "LUM-2302",
+     "fixture_warranty_years": 5,
+     "last_inspected": "2026-08-04",
+     "last_earthing_check": "2026-06-14",
+     "junction_box_condition": "Poor",
      "feeder_panel": "FP-CP-01",
      "circuit": "C2",
      "circuit_seq": 2,
      "phase": "Y",
-     "energy_kwh": 22.4,
+     "energy_kwh": 22.3,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 21.1
+       "kwh": 21.2,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 21.0
+       "kwh": 21.0,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 19.0
+       "kwh": 18.9,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 20.7
+       "kwh": 20.3,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 21.9
+       "kwh": 21.5,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
       },
       {
        "month": "2026-09",
-       "kwh": 22.4
+       "kwh": 22.3,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -3323,16 +3477,16 @@ window.SLGIS_DATA = {
       "sla_hours": 48
      },
      "ticket": {
-      "id": "TKT-2026-0167",
+      "id": "TKT-2026-0172",
       "status": "Open",
-      "priority": "High",
-      "issue": "Junction box vandalised - cable stolen",
+      "category": "exposed",
+      "issue": "Junction box open, cable stolen",
       "source": "Night patrol",
       "raised_at": "2026-10-12T23:12+05:30",
-      "sla_hours": 24,
-      "sla_due": "2026-10-13T23:12+05:30",
       "assigned_crew": null,
       "work_started_at": null,
+      "closed_at": null,
+      "resolution": null,
       "complaints": 1,
       "notes": "Dark patch near Rajiv Chowk Metro Gate 1. Police complaint filed.",
       "pole_uids": [
@@ -3342,19 +3496,19 @@ window.SLGIS_DATA = {
      },
      "repair_history": [
       {
-       "ticket_id": "TKT-2023-0119",
+       "ticket_id": "TKT-2023-0122",
        "type": "Retrofit",
        "issue": "LED retrofit (CFL 2x36 W heritage lantern \u2192 LED 60 W)",
        "action": "Replaced luminaire with LED; CCMS node fitted",
        "source": "Scheduled (retrofit programme)",
        "priority": "Low",
-       "raised_at": "2023-03-13T14:19+05:30",
-       "resolved_at": "2023-03-13T17:13+05:30",
-       "downtime_h": 2.9,
+       "raised_at": "2023-03-13T11:06+05:30",
+       "resolved_at": "2023-03-13T14:48+05:30",
+       "downtime_h": 3.7,
        "sla_met": true,
        "crew": "P2 \u00b7 Sunil T.",
        "contractor": "Prakash Electro Services",
-       "cost_inr": 8169,
+       "cost_inr": 7774,
        "status": "Closed"
       }
      ]
@@ -3384,37 +3538,54 @@ window.SLGIS_DATA = {
      "ccms_node": true,
      "install_date": "2010-08-13",
      "fixture_installed": "2023-03-08",
-     "last_inspected": "2026-08-11",
+     "fixture_make": "Lumetra",
+     "fixture_batch": "LUM-2302",
+     "fixture_warranty_years": 5,
+     "last_inspected": "2026-09-05",
+     "last_earthing_check": "2026-08-02",
+     "junction_box_condition": "Good",
      "feeder_panel": "FP-CP-01",
      "circuit": "C2",
      "circuit_seq": 1,
      "phase": "R",
-     "energy_kwh": 22.6,
+     "energy_kwh": 22.0,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 21.6
+       "kwh": 20.9,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 20.7
+       "kwh": 20.9,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 19.4
+       "kwh": 19.6,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 20.2
+       "kwh": 20.1,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 22.0
+       "kwh": 20.9,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
       },
       {
        "month": "2026-09",
-       "kwh": 22.6
+       "kwh": 22.0,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -3429,35 +3600,35 @@ window.SLGIS_DATA = {
      "ticket": null,
      "repair_history": [
       {
-       "ticket_id": "TKT-2023-0138",
-       "type": "Preventive",
-       "issue": "Annual preventive maintenance",
-       "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
-       "source": "Scheduled (AMC)",
-       "priority": "Low",
-       "raised_at": "2023-05-20T10:19+05:30",
-       "resolved_at": "2023-05-20T12:07+05:30",
-       "downtime_h": 1.8,
-       "sla_met": true,
+       "ticket_id": "TKT-2025-0124",
+       "type": "Corrective",
+       "issue": "Cable theft",
+       "action": "Replaced stolen cable, secured junction box",
+       "source": "Night patrol",
+       "priority": "High",
+       "raised_at": "2025-05-01T20:28+05:30",
+       "resolved_at": "2025-05-04T14:22+05:30",
+       "downtime_h": 65.9,
+       "sla_met": false,
        "crew": "P1 \u00b7 Ramesh K.",
        "contractor": "Prakash Electro Services",
-       "cost_inr": 392,
+       "cost_inr": 4956,
        "status": "Closed"
       },
       {
-       "ticket_id": "TKT-2023-0115",
+       "ticket_id": "TKT-2023-0118",
        "type": "Retrofit",
        "issue": "LED retrofit (CFL 2x36 W heritage lantern \u2192 LED 60 W)",
        "action": "Replaced luminaire with LED; CCMS node fitted",
        "source": "Scheduled (retrofit programme)",
        "priority": "Low",
-       "raised_at": "2023-03-08T12:53+05:30",
-       "resolved_at": "2023-03-08T17:41+05:30",
-       "downtime_h": 4.8,
+       "raised_at": "2023-03-08T12:54+05:30",
+       "resolved_at": "2023-03-08T17:12+05:30",
+       "downtime_h": 4.3,
        "sla_met": true,
        "crew": "P1 \u00b7 Ramesh K.",
        "contractor": "Prakash Electro Services",
-       "cost_inr": 8105,
+       "cost_inr": 8359,
        "status": "Closed"
       }
      ]
@@ -3486,38 +3657,55 @@ window.SLGIS_DATA = {
      "cct_k": 4000,
      "ccms_node": false,
      "install_date": "2010-09-15",
-     "fixture_installed": "2022-04-21",
-     "last_inspected": "2026-08-06",
+     "fixture_installed": "2022-06-06",
+     "fixture_make": "Arcbeam",
+     "fixture_batch": "ARB-2206",
+     "fixture_warranty_years": 5,
+     "last_inspected": "2026-08-19",
+     "last_earthing_check": "2025-09-02",
+     "junction_box_condition": "Good",
      "feeder_panel": "FP-CP-03",
      "circuit": "C2",
      "circuit_seq": 9,
      "phase": "B",
-     "energy_kwh": 21.8,
+     "energy_kwh": 21.7,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 21.5
+       "kwh": 21.1,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 20.5
+       "kwh": 20.5,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 18.8
+       "kwh": 18.8,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 21.0
+       "kwh": 20.2,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 21.2
+       "kwh": 21.2,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
       },
       {
        "month": "2026-09",
-       "kwh": 21.8
+       "kwh": 21.7,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -3532,19 +3720,19 @@ window.SLGIS_DATA = {
      "ticket": null,
      "repair_history": [
       {
-       "ticket_id": "TKT-2025-0108",
-       "type": "Corrective",
-       "issue": "Loose connection in junction box",
-       "action": "Re-terminated cables, replaced connector",
-       "source": "Citizen app",
-       "priority": "Medium",
-       "raised_at": "2025-02-07T05:13+05:30",
-       "resolved_at": "2025-02-08T09:07+05:30",
-       "downtime_h": 27.9,
+       "ticket_id": "TKT-2023-0111",
+       "type": "Preventive",
+       "issue": "Annual preventive maintenance",
+       "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
+       "source": "Scheduled (AMC)",
+       "priority": "Low",
+       "raised_at": "2023-02-25T12:14+05:30",
+       "resolved_at": "2023-02-25T13:38+05:30",
+       "downtime_h": 1.4,
        "sla_met": true,
        "crew": "J2 \u00b7 Harpreet S.",
        "contractor": "Jyoti Lighting Co.",
-       "cost_inr": 344,
+       "cost_inr": 449,
        "status": "Closed"
       }
      ]
@@ -3562,7 +3750,7 @@ window.SLGIS_DATA = {
     },
     "properties": {
      "uid": "SL-CP-MC-002",
-     "status": "Functional",
+     "status": "Faulty",
      "road": "Middle Circle",
      "location": "Middle Circle, between A- & G-Blocks",
      "pole_type": "Swaged tubular GI",
@@ -3572,39 +3760,56 @@ window.SLGIS_DATA = {
      "wattage": 45,
      "cct_k": 4000,
      "ccms_node": false,
-     "install_date": "2010-09-26",
-     "fixture_installed": "2022-03-23",
-     "last_inspected": "2026-08-26",
+     "install_date": "2010-09-22",
+     "fixture_installed": "2022-06-25",
+     "fixture_make": "Arcbeam",
+     "fixture_batch": "ARB-2206",
+     "fixture_warranty_years": 5,
+     "last_inspected": "2026-09-02",
+     "last_earthing_check": "2026-06-15",
+     "junction_box_condition": "Good",
      "feeder_panel": "FP-CP-03",
      "circuit": "C2",
      "circuit_seq": 8,
      "phase": "Y",
-     "energy_kwh": 16.7,
+     "energy_kwh": 16.6,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 15.6
+       "kwh": 16.0,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 15.2
+       "kwh": 15.4,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 14.3
+       "kwh": 14.3,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 15.5
+       "kwh": 15.0,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 16.2
+       "kwh": 16.2,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
       },
       {
        "month": "2026-09",
-       "kwh": 16.7
+       "kwh": 16.6,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -3616,54 +3821,72 @@ window.SLGIS_DATA = {
       "contract_ref": "AMC/SL/CP-MC/2025-28",
       "sla_hours": 48
      },
-     "ticket": null,
+     "ticket": {
+      "id": "TKT-2026-0177",
+      "status": "Open",
+      "category": "not_working",
+      "issue": "Street dark near A-Block",
+      "source": "Call centre",
+      "raised_at": "2026-10-13T16:30+05:30",
+      "assigned_crew": null,
+      "work_started_at": null,
+      "closed_at": null,
+      "resolution": null,
+      "complaints": 1,
+      "notes": null,
+      "pole_uids": [
+       "SL-CP-MC-005",
+       "SL-CP-MC-003",
+       "SL-CP-MC-002"
+      ]
+     },
      "repair_history": [
       {
-       "ticket_id": "TKT-2025-0150",
-       "type": "Corrective",
-       "issue": "LED driver failure",
-       "action": "Replaced LED driver",
-       "source": "Call centre",
-       "priority": "Medium",
-       "raised_at": "2025-08-03T20:52+05:30",
-       "resolved_at": "2025-08-05T19:22+05:30",
-       "downtime_h": 46.5,
-       "sla_met": true,
-       "crew": "J2 \u00b7 Harpreet S.",
-       "contractor": "Jyoti Lighting Co.",
-       "cost_inr": 4160,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2025-0148",
-       "type": "Corrective",
-       "issue": "LED driver failure",
-       "action": "Replaced LED driver",
-       "source": "Citizen app",
-       "priority": "Medium",
-       "raised_at": "2025-07-24T23:11+05:30",
-       "resolved_at": "2025-07-25T20:17+05:30",
-       "downtime_h": 21.1,
-       "sla_met": true,
-       "crew": "J2 \u00b7 Harpreet S.",
-       "contractor": "Jyoti Lighting Co.",
-       "cost_inr": 4133,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2025-0130",
+       "ticket_id": "TKT-2026-0135",
        "type": "Preventive",
        "issue": "Annual preventive maintenance",
        "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
        "source": "Scheduled (AMC)",
        "priority": "Low",
-       "raised_at": "2025-04-30T15:48+05:30",
-       "resolved_at": "2025-04-30T16:54+05:30",
-       "downtime_h": 1.1,
+       "raised_at": "2026-06-15T12:52+05:30",
+       "resolved_at": "2026-06-15T14:28+05:30",
+       "downtime_h": 1.6,
        "sla_met": true,
        "crew": "J1 \u00b7 Imran S.",
        "contractor": "Jyoti Lighting Co.",
-       "cost_inr": 426,
+       "cost_inr": 387,
+       "status": "Closed"
+      },
+      {
+       "ticket_id": "TKT-2025-0119",
+       "type": "Preventive",
+       "issue": "Annual preventive maintenance",
+       "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
+       "source": "Scheduled (AMC)",
+       "priority": "Low",
+       "raised_at": "2025-04-14T15:02+05:30",
+       "resolved_at": "2025-04-14T16:32+05:30",
+       "downtime_h": 1.5,
+       "sla_met": true,
+       "crew": "J1 \u00b7 Imran S.",
+       "contractor": "Jyoti Lighting Co.",
+       "cost_inr": 376,
+       "status": "Closed"
+      },
+      {
+       "ticket_id": "TKT-2023-0186",
+       "type": "Corrective",
+       "issue": "LED driver failure",
+       "action": "Replaced LED driver",
+       "source": "Night patrol",
+       "priority": "Medium",
+       "raised_at": "2023-11-25T22:38+05:30",
+       "resolved_at": "2023-11-26T07:14+05:30",
+       "downtime_h": 8.6,
+       "sla_met": true,
+       "crew": "J2 \u00b7 Harpreet S.",
+       "contractor": "Jyoti Lighting Co.",
+       "cost_inr": 3021,
        "status": "Closed"
       }
      ]
@@ -3681,7 +3904,7 @@ window.SLGIS_DATA = {
     },
     "properties": {
      "uid": "SL-CP-MC-003",
-     "status": "Functional",
+     "status": "Faulty",
      "road": "Middle Circle",
      "location": "Middle Circle, between A- & G-Blocks",
      "pole_type": "Swaged tubular GI",
@@ -3691,39 +3914,56 @@ window.SLGIS_DATA = {
      "wattage": 45,
      "cct_k": 4000,
      "ccms_node": false,
-     "install_date": "2010-09-20",
-     "fixture_installed": "2022-05-20",
-     "last_inspected": "2026-09-29",
+     "install_date": "2010-09-05",
+     "fixture_installed": "2022-06-23",
+     "fixture_make": "Arcbeam",
+     "fixture_batch": "ARB-2206",
+     "fixture_warranty_years": 5,
+     "last_inspected": "2026-10-05",
+     "last_earthing_check": "2026-08-11",
+     "junction_box_condition": "Fair",
      "feeder_panel": "FP-CP-03",
      "circuit": "C2",
      "circuit_seq": 7,
      "phase": "R",
-     "energy_kwh": 16.2,
+     "energy_kwh": 16.7,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 16.1
+       "kwh": 16.3,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 15.6
+       "kwh": 15.2,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 14.4
+       "kwh": 14.6,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 15.0
+       "kwh": 15.4,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 16.6
+       "kwh": 16.0,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
       },
       {
        "month": "2026-09",
-       "kwh": 16.2
+       "kwh": 16.7,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -3735,54 +3975,88 @@ window.SLGIS_DATA = {
       "contract_ref": "AMC/SL/CP-MC/2025-28",
       "sla_hours": 48
      },
-     "ticket": null,
+     "ticket": {
+      "id": "TKT-2026-0177",
+      "status": "Open",
+      "category": "not_working",
+      "issue": "Street dark near A-Block",
+      "source": "Call centre",
+      "raised_at": "2026-10-13T16:30+05:30",
+      "assigned_crew": null,
+      "work_started_at": null,
+      "closed_at": null,
+      "resolution": null,
+      "complaints": 1,
+      "notes": null,
+      "pole_uids": [
+       "SL-CP-MC-005",
+       "SL-CP-MC-003",
+       "SL-CP-MC-002"
+      ]
+     },
      "repair_history": [
       {
-       "ticket_id": "TKT-2026-0138",
-       "type": "Corrective",
-       "issue": "Surge protection device failure",
-       "action": "Replaced 10 kV surge protection device",
-       "source": "Night patrol",
-       "priority": "Medium",
-       "raised_at": "2026-07-24T06:02+05:30",
-       "resolved_at": "2026-07-24T15:50+05:30",
-       "downtime_h": 9.8,
-       "sla_met": true,
-       "crew": "J2 \u00b7 Harpreet S.",
-       "contractor": "Jyoti Lighting Co.",
-       "cost_inr": 718,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2025-0183",
-       "type": "Corrective",
-       "issue": "Surge protection device failure",
-       "action": "Replaced 10 kV surge protection device",
-       "source": "Night patrol",
-       "priority": "Medium",
-       "raised_at": "2025-12-13T21:15+05:30",
-       "resolved_at": "2025-12-14T15:33+05:30",
-       "downtime_h": 18.3,
-       "sla_met": true,
-       "crew": "J2 \u00b7 Harpreet S.",
-       "contractor": "Jyoti Lighting Co.",
-       "cost_inr": 947,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2024-0140",
+       "ticket_id": "TKT-2026-0141",
        "type": "Preventive",
        "issue": "Annual preventive maintenance",
        "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
        "source": "Scheduled (AMC)",
        "priority": "Low",
-       "raised_at": "2024-04-12T15:58+05:30",
-       "resolved_at": "2024-04-12T17:40+05:30",
-       "downtime_h": 1.7,
+       "raised_at": "2026-08-11T13:28+05:30",
+       "resolved_at": "2026-08-11T14:28+05:30",
+       "downtime_h": 1.0,
        "sla_met": true,
        "crew": "J1 \u00b7 Imran S.",
        "contractor": "Jyoti Lighting Co.",
-       "cost_inr": 429,
+       "cost_inr": 357,
+       "status": "Closed"
+      },
+      {
+       "ticket_id": "TKT-2026-0109",
+       "type": "Corrective",
+       "issue": "Surge protection device failure",
+       "action": "Replaced 10 kV surge protection device",
+       "source": "Call centre",
+       "priority": "Medium",
+       "raised_at": "2026-02-08T06:51+05:30",
+       "resolved_at": "2026-02-10T05:15+05:30",
+       "downtime_h": 46.4,
+       "sla_met": true,
+       "crew": "J1 \u00b7 Imran S.",
+       "contractor": "Jyoti Lighting Co.",
+       "cost_inr": 797,
+       "status": "Closed"
+      },
+      {
+       "ticket_id": "TKT-2024-0134",
+       "type": "Preventive",
+       "issue": "Annual preventive maintenance",
+       "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
+       "source": "Scheduled (AMC)",
+       "priority": "Low",
+       "raised_at": "2024-04-20T12:29+05:30",
+       "resolved_at": "2024-04-20T13:17+05:30",
+       "downtime_h": 0.8,
+       "sla_met": true,
+       "crew": "J2 \u00b7 Harpreet S.",
+       "contractor": "Jyoti Lighting Co.",
+       "cost_inr": 447,
+       "status": "Closed"
+      },
+      {
+       "ticket_id": "TKT-2023-0143",
+       "type": "Corrective",
+       "issue": "Water ingress in luminaire",
+       "action": "Resealed luminaire, replaced gasket",
+       "source": "Night patrol",
+       "priority": "Medium",
+       "raised_at": "2023-06-06T06:28+05:30",
+       "resolved_at": "2023-06-07T21:58+05:30",
+       "downtime_h": 39.5,
+       "sla_met": true,
+       "crew": "J1 \u00b7 Imran S.",
+       "contractor": "Jyoti Lighting Co.",
+       "cost_inr": 1319,
        "status": "Closed"
       }
      ]
@@ -3810,39 +4084,56 @@ window.SLGIS_DATA = {
      "wattage": 45,
      "cct_k": 4000,
      "ccms_node": false,
-     "install_date": "2010-09-08",
-     "fixture_installed": "2022-05-20",
-     "last_inspected": "2026-10-07",
+     "install_date": "2010-09-20",
+     "fixture_installed": "2022-06-24",
+     "fixture_make": "Arcbeam",
+     "fixture_batch": "ARB-2206",
+     "fixture_warranty_years": 5,
+     "last_inspected": "2026-08-28",
+     "last_earthing_check": "2026-02-14",
+     "junction_box_condition": "Good",
      "feeder_panel": "FP-CP-03",
      "circuit": "C2",
      "circuit_seq": 6,
      "phase": "B",
-     "energy_kwh": 16.3,
+     "energy_kwh": 16.9,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 16.3
+       "kwh": 16.0,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 15.6
+       "kwh": 15.5,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 14.4
+       "kwh": 14.4,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 15.1
+       "kwh": 15.0,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 16.2
+       "kwh": 16.1,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
       },
       {
        "month": "2026-09",
-       "kwh": 16.3
+       "kwh": 16.9,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -3857,51 +4148,35 @@ window.SLGIS_DATA = {
      "ticket": null,
      "repair_history": [
       {
-       "ticket_id": "TKT-2025-0105",
-       "type": "Corrective",
-       "issue": "Underground cable fault",
-       "action": "Located fault, jointed cable (heat-shrink kit)",
-       "source": "Night patrol",
-       "priority": "High",
-       "raised_at": "2025-01-17T05:16+05:30",
-       "resolved_at": "2025-01-19T17:46+05:30",
-       "downtime_h": 60.5,
-       "sla_met": false,
-       "crew": "J1 \u00b7 Imran S.",
-       "contractor": "Jyoti Lighting Co.",
-       "cost_inr": 4279,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2025-0103",
+       "ticket_id": "TKT-2025-0131",
        "type": "Preventive",
        "issue": "Annual preventive maintenance",
        "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
        "source": "Scheduled (AMC)",
        "priority": "Low",
-       "raised_at": "2025-01-15T14:43+05:30",
-       "resolved_at": "2025-01-15T15:37+05:30",
-       "downtime_h": 0.9,
-       "sla_met": true,
-       "crew": "J1 \u00b7 Imran S.",
-       "contractor": "Jyoti Lighting Co.",
-       "cost_inr": 447,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2023-0121",
-       "type": "Corrective",
-       "issue": "Surge protection device failure",
-       "action": "Replaced 10 kV surge protection device",
-       "source": "Night patrol",
-       "priority": "Medium",
-       "raised_at": "2023-03-20T19:23+05:30",
-       "resolved_at": "2023-03-21T15:35+05:30",
-       "downtime_h": 20.2,
+       "raised_at": "2025-05-29T13:33+05:30",
+       "resolved_at": "2025-05-29T14:33+05:30",
+       "downtime_h": 1.0,
        "sla_met": true,
        "crew": "J2 \u00b7 Harpreet S.",
        "contractor": "Jyoti Lighting Co.",
-       "cost_inr": 858,
+       "cost_inr": 442,
+       "status": "Closed"
+      },
+      {
+       "ticket_id": "TKT-2024-0116",
+       "type": "Corrective",
+       "issue": "LED driver failure",
+       "action": "Replaced LED driver",
+       "source": "Citizen app",
+       "priority": "Medium",
+       "raised_at": "2024-02-07T06:19+05:30",
+       "resolved_at": "2024-02-08T16:19+05:30",
+       "downtime_h": 34.0,
+       "sla_met": true,
+       "crew": "J1 \u00b7 Imran S.",
+       "contractor": "Jyoti Lighting Co.",
+       "cost_inr": 2692,
        "status": "Closed"
       }
      ]
@@ -3919,7 +4194,7 @@ window.SLGIS_DATA = {
     },
     "properties": {
      "uid": "SL-CP-MC-005",
-     "status": "Functional",
+     "status": "Faulty",
      "road": "Middle Circle",
      "location": "Middle Circle, between A- & G-Blocks",
      "pole_type": "Swaged tubular GI",
@@ -3929,39 +4204,56 @@ window.SLGIS_DATA = {
      "wattage": 45,
      "cct_k": 4000,
      "ccms_node": false,
-     "install_date": "2010-09-06",
-     "fixture_installed": "2022-04-15",
-     "last_inspected": "2026-08-06",
+     "install_date": "2010-09-10",
+     "fixture_installed": "2022-06-20",
+     "fixture_make": "Arcbeam",
+     "fixture_batch": "ARB-2206",
+     "fixture_warranty_years": 5,
+     "last_inspected": "2026-09-30",
+     "last_earthing_check": "2026-09-06",
+     "junction_box_condition": "Fair",
      "feeder_panel": "FP-CP-03",
      "circuit": "C2",
      "circuit_seq": 5,
      "phase": "Y",
-     "energy_kwh": 17.0,
+     "energy_kwh": 16.8,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 16.0
+       "kwh": 16.0,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 14.2
+       "kwh": 15.5,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 14.3
+       "kwh": 14.3,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 15.6
+       "kwh": 14.9,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 16.3
+       "kwh": 16.2,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
       },
       {
        "month": "2026-09",
-       "kwh": 17.0
+       "kwh": 16.8,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -3973,54 +4265,40 @@ window.SLGIS_DATA = {
       "contract_ref": "AMC/SL/CP-MC/2025-28",
       "sla_hours": 48
      },
-     "ticket": null,
+     "ticket": {
+      "id": "TKT-2026-0177",
+      "status": "Open",
+      "category": "not_working",
+      "issue": "Street dark near A-Block",
+      "source": "Call centre",
+      "raised_at": "2026-10-13T16:30+05:30",
+      "assigned_crew": null,
+      "work_started_at": null,
+      "closed_at": null,
+      "resolution": null,
+      "complaints": 1,
+      "notes": null,
+      "pole_uids": [
+       "SL-CP-MC-005",
+       "SL-CP-MC-003",
+       "SL-CP-MC-002"
+      ]
+     },
      "repair_history": [
       {
-       "ticket_id": "TKT-2026-0135",
-       "type": "Corrective",
-       "issue": "Loose connection in junction box",
-       "action": "Re-terminated cables, replaced connector",
-       "source": "Night patrol",
-       "priority": "Medium",
-       "raised_at": "2026-05-27T20:55+05:30",
-       "resolved_at": "2026-05-30T01:31+05:30",
-       "downtime_h": 52.6,
-       "sla_met": false,
-       "crew": "J1 \u00b7 Imran S.",
-       "contractor": "Jyoti Lighting Co.",
-       "cost_inr": 445,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2025-0129",
-       "type": "Corrective",
-       "issue": "LED driver failure",
-       "action": "Replaced LED driver",
-       "source": "Night patrol",
-       "priority": "Medium",
-       "raised_at": "2025-04-29T21:30+05:30",
-       "resolved_at": "2025-04-30T11:42+05:30",
-       "downtime_h": 14.2,
-       "sla_met": true,
-       "crew": "J2 \u00b7 Harpreet S.",
-       "contractor": "Jyoti Lighting Co.",
-       "cost_inr": 2717,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2024-0187",
+       "ticket_id": "TKT-2023-0138",
        "type": "Corrective",
        "issue": "Timer/photocell fault (day burning)",
        "action": "Replaced timer contactor",
-       "source": "Night patrol",
+       "source": "Call centre",
        "priority": "Low",
-       "raised_at": "2024-11-15T20:53+05:30",
-       "resolved_at": "2024-11-16T12:41+05:30",
-       "downtime_h": 15.8,
+       "raised_at": "2023-05-06T23:45+05:30",
+       "resolved_at": "2023-05-09T05:03+05:30",
+       "downtime_h": 53.3,
        "sla_met": true,
-       "crew": "J2 \u00b7 Harpreet S.",
+       "crew": "J1 \u00b7 Imran S.",
        "contractor": "Jyoti Lighting Co.",
-       "cost_inr": 1316,
+       "cost_inr": 1323,
        "status": "Closed"
       }
      ]
@@ -4048,39 +4326,56 @@ window.SLGIS_DATA = {
      "wattage": 45,
      "cct_k": 4000,
      "ccms_node": false,
-     "install_date": "2010-09-09",
-     "fixture_installed": "2022-03-23",
-     "last_inspected": "2026-09-25",
+     "install_date": "2010-09-08",
+     "fixture_installed": "2022-06-24",
+     "fixture_make": "Arcbeam",
+     "fixture_batch": "ARB-2206",
+     "fixture_warranty_years": 5,
+     "last_inspected": "2026-08-31",
+     "last_earthing_check": "2025-12-30",
+     "junction_box_condition": "Fair",
      "feeder_panel": "FP-CP-03",
      "circuit": "C2",
      "circuit_seq": 4,
      "phase": "R",
-     "energy_kwh": 16.3,
+     "energy_kwh": 16.9,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 16.1
+       "kwh": 15.6,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 15.4
+       "kwh": 15.3,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 14.3
+       "kwh": 14.7,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 15.1
+       "kwh": 14.8,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 16.5
+       "kwh": 15.7,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
       },
       {
        "month": "2026-09",
-       "kwh": 16.3
+       "kwh": 16.9,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -4093,16 +4388,16 @@ window.SLGIS_DATA = {
       "sla_hours": 48
      },
      "ticket": {
-      "id": "TKT-2026-0170",
+      "id": "TKT-2026-0176",
       "status": "Open",
-      "priority": "Medium",
-      "issue": "Flickering",
+      "category": "not_working",
+      "issue": "Light not working",
       "source": "Citizen app",
-      "raised_at": "2026-10-13T07:45+05:30",
-      "sla_hours": 48,
-      "sla_due": "2026-10-15T07:45+05:30",
+      "raised_at": "2026-10-13T15:00+05:30",
       "assigned_crew": null,
       "work_started_at": null,
+      "closed_at": null,
+      "resolution": null,
       "complaints": 1,
       "notes": null,
       "pole_uids": [
@@ -4111,51 +4406,19 @@ window.SLGIS_DATA = {
      },
      "repair_history": [
       {
-       "ticket_id": "TKT-2026-0140",
+       "ticket_id": "TKT-2023-0164",
        "type": "Preventive",
        "issue": "Annual preventive maintenance",
        "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
        "source": "Scheduled (AMC)",
        "priority": "Low",
-       "raised_at": "2026-07-26T12:44+05:30",
-       "resolved_at": "2026-07-26T13:50+05:30",
-       "downtime_h": 1.1,
+       "raised_at": "2023-08-19T11:40+05:30",
+       "resolved_at": "2023-08-19T13:28+05:30",
+       "downtime_h": 1.8,
        "sla_met": true,
        "crew": "J2 \u00b7 Harpreet S.",
        "contractor": "Jyoti Lighting Co.",
-       "cost_inr": 413,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2024-0156",
-       "type": "Preventive",
-       "issue": "Annual preventive maintenance",
-       "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
-       "source": "Scheduled (AMC)",
-       "priority": "Low",
-       "raised_at": "2024-07-03T11:16+05:30",
-       "resolved_at": "2024-07-03T12:16+05:30",
-       "downtime_h": 1.0,
-       "sla_met": true,
-       "crew": "J2 \u00b7 Harpreet S.",
-       "contractor": "Jyoti Lighting Co.",
-       "cost_inr": 395,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2023-0169",
-       "type": "Corrective",
-       "issue": "Loose connection in junction box",
-       "action": "Re-terminated cables, replaced connector",
-       "source": "Citizen app",
-       "priority": "Medium",
-       "raised_at": "2023-09-12T22:35+05:30",
-       "resolved_at": "2023-09-14T01:29+05:30",
-       "downtime_h": 26.9,
-       "sla_met": true,
-       "crew": "J1 \u00b7 Imran S.",
-       "contractor": "Jyoti Lighting Co.",
-       "cost_inr": 492,
+       "cost_inr": 388,
        "status": "Closed"
       }
      ]
@@ -4183,39 +4446,56 @@ window.SLGIS_DATA = {
      "wattage": 60,
      "cct_k": 4000,
      "ccms_node": false,
-     "install_date": "2010-09-19",
-     "fixture_installed": "2022-05-25",
-     "last_inspected": "2026-08-29",
+     "install_date": "2010-09-26",
+     "fixture_installed": "2022-06-26",
+     "fixture_make": "Arcbeam",
+     "fixture_batch": "ARB-2206",
+     "fixture_warranty_years": 5,
+     "last_inspected": "2026-09-05",
+     "last_earthing_check": "2026-04-29",
+     "junction_box_condition": "Good",
      "feeder_panel": "FP-CP-03",
      "circuit": "C2",
      "circuit_seq": 3,
      "phase": "B",
-     "energy_kwh": 22.5,
+     "energy_kwh": 22.6,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 20.9
+       "kwh": 21.1,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 20.6
+       "kwh": 20.6,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 18.9
+       "kwh": 19.7,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 20.7
+       "kwh": 19.8,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 21.7
+       "kwh": 21.1,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
       },
       {
        "month": "2026-09",
-       "kwh": 22.5
+       "kwh": 22.6,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -4228,40 +4508,7 @@ window.SLGIS_DATA = {
       "sla_hours": 48
      },
      "ticket": null,
-     "repair_history": [
-      {
-       "ticket_id": "TKT-2025-0104",
-       "type": "Corrective",
-       "issue": "Underground cable fault",
-       "action": "Located fault, jointed cable (heat-shrink kit)",
-       "source": "Citizen app",
-       "priority": "High",
-       "raised_at": "2025-01-16T20:35+05:30",
-       "resolved_at": "2025-01-19T23:05+05:30",
-       "downtime_h": 74.5,
-       "sla_met": false,
-       "crew": "J2 \u00b7 Harpreet S.",
-       "contractor": "Jyoti Lighting Co.",
-       "cost_inr": 4259,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2023-0198",
-       "type": "Preventive",
-       "issue": "Annual preventive maintenance",
-       "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
-       "source": "Scheduled (AMC)",
-       "priority": "Low",
-       "raised_at": "2023-12-11T13:18+05:30",
-       "resolved_at": "2023-12-11T14:24+05:30",
-       "downtime_h": 1.1,
-       "sla_met": true,
-       "crew": "J1 \u00b7 Imran S.",
-       "contractor": "Jyoti Lighting Co.",
-       "cost_inr": 412,
-       "status": "Closed"
-      }
-     ]
+     "repair_history": []
     }
    },
    {
@@ -4276,7 +4523,7 @@ window.SLGIS_DATA = {
     },
     "properties": {
      "uid": "SL-CP-MC-008",
-     "status": "Functional",
+     "status": "Faulty",
      "road": "Middle Circle",
      "location": "Middle Circle, between B- & H-Blocks",
      "pole_type": "Swaged tubular GI",
@@ -4286,39 +4533,56 @@ window.SLGIS_DATA = {
      "wattage": 45,
      "cct_k": 4000,
      "ccms_node": false,
-     "install_date": "2010-09-06",
-     "fixture_installed": "2022-04-23",
-     "last_inspected": "2026-10-07",
+     "install_date": "2010-09-12",
+     "fixture_installed": "2022-06-20",
+     "fixture_make": "Arcbeam",
+     "fixture_batch": "ARB-2206",
+     "fixture_warranty_years": 5,
+     "last_inspected": "2026-08-19",
+     "last_earthing_check": "2026-01-23",
+     "junction_box_condition": "Fair",
      "feeder_panel": "FP-CP-03",
      "circuit": "C2",
      "circuit_seq": 2,
      "phase": "Y",
-     "energy_kwh": 16.9,
+     "energy_kwh": 16.7,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 15.7
+       "kwh": 16.1,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 15.8
+       "kwh": 15.5,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 14.6
+       "kwh": 14.2,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 15.0
+       "kwh": 15.3,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 16.1
+       "kwh": 16.4,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
       },
       {
        "month": "2026-09",
-       "kwh": 16.9
+       "kwh": 16.7,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -4330,22 +4594,39 @@ window.SLGIS_DATA = {
       "contract_ref": "AMC/SL/CP-MC/2025-28",
       "sla_hours": 48
      },
-     "ticket": null,
+     "ticket": {
+      "id": "TKT-2026-0170",
+      "status": "Open",
+      "category": "not_working",
+      "issue": "Lamps not glowing",
+      "source": "Night patrol",
+      "raised_at": "2026-10-12T21:30+05:30",
+      "assigned_crew": null,
+      "work_started_at": null,
+      "closed_at": null,
+      "resolution": null,
+      "complaints": 0,
+      "notes": null,
+      "pole_uids": [
+       "SL-CP-MC-009",
+       "SL-CP-MC-008"
+      ]
+     },
      "repair_history": [
       {
-       "ticket_id": "TKT-2024-0159",
-       "type": "Corrective",
-       "issue": "Timer/photocell fault (day burning)",
-       "action": "Replaced timer contactor",
-       "source": "Call centre",
+       "ticket_id": "TKT-2025-0135",
+       "type": "Preventive",
+       "issue": "Annual preventive maintenance",
+       "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
+       "source": "Scheduled (AMC)",
        "priority": "Low",
-       "raised_at": "2024-07-15T19:20+05:30",
-       "resolved_at": "2024-07-16T23:08+05:30",
-       "downtime_h": 27.8,
+       "raised_at": "2025-06-04T13:00+05:30",
+       "resolved_at": "2025-06-04T14:18+05:30",
+       "downtime_h": 1.3,
        "sla_met": true,
        "crew": "J2 \u00b7 Harpreet S.",
        "contractor": "Jyoti Lighting Co.",
-       "cost_inr": 1612,
+       "cost_inr": 403,
        "status": "Closed"
       }
      ]
@@ -4363,7 +4644,7 @@ window.SLGIS_DATA = {
     },
     "properties": {
      "uid": "SL-CP-MC-009",
-     "status": "Functional",
+     "status": "Faulty",
      "road": "Middle Circle",
      "location": "Middle Circle, between B- & H-Blocks",
      "pole_type": "Swaged tubular GI",
@@ -4373,39 +4654,56 @@ window.SLGIS_DATA = {
      "wattage": 45,
      "cct_k": 4000,
      "ccms_node": false,
-     "install_date": "2010-09-22",
-     "fixture_installed": "2022-04-16",
-     "last_inspected": "2026-08-30",
+     "install_date": "2010-09-06",
+     "fixture_installed": "2022-06-27",
+     "fixture_make": "Arcbeam",
+     "fixture_batch": "ARB-2206",
+     "fixture_warranty_years": 5,
+     "last_inspected": "2026-10-09",
+     "last_earthing_check": "2026-09-10",
+     "junction_box_condition": "Fair",
      "feeder_panel": "FP-CP-03",
      "circuit": "C2",
      "circuit_seq": 1,
      "phase": "R",
-     "energy_kwh": 16.7,
+     "energy_kwh": 16.4,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 15.7
+       "kwh": 15.7,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 15.8
+       "kwh": 15.6,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 14.5
+       "kwh": 14.6,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 15.7
+       "kwh": 15.3,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 16.3
+       "kwh": 16.0,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
       },
       {
        "month": "2026-09",
-       "kwh": 16.7
+       "kwh": 16.4,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -4417,25 +4715,25 @@ window.SLGIS_DATA = {
       "contract_ref": "AMC/SL/CP-MC/2025-28",
       "sla_hours": 48
      },
-     "ticket": null,
-     "repair_history": [
-      {
-       "ticket_id": "TKT-2024-0189",
-       "type": "Corrective",
-       "issue": "Water ingress in luminaire",
-       "action": "Resealed luminaire, replaced gasket",
-       "source": "Night patrol",
-       "priority": "Medium",
-       "raised_at": "2024-11-29T19:21+05:30",
-       "resolved_at": "2024-12-01T15:39+05:30",
-       "downtime_h": 44.3,
-       "sla_met": true,
-       "crew": "J1 \u00b7 Imran S.",
-       "contractor": "Jyoti Lighting Co.",
-       "cost_inr": 1289,
-       "status": "Closed"
-      }
-     ]
+     "ticket": {
+      "id": "TKT-2026-0170",
+      "status": "Open",
+      "category": "not_working",
+      "issue": "Lamps not glowing",
+      "source": "Night patrol",
+      "raised_at": "2026-10-12T21:30+05:30",
+      "assigned_crew": null,
+      "work_started_at": null,
+      "closed_at": null,
+      "resolution": null,
+      "complaints": 0,
+      "notes": null,
+      "pole_uids": [
+       "SL-CP-MC-009",
+       "SL-CP-MC-008"
+      ]
+     },
+     "repair_history": []
     }
    },
    {
@@ -4460,39 +4758,56 @@ window.SLGIS_DATA = {
      "wattage": 45,
      "cct_k": 4000,
      "ccms_node": false,
-     "install_date": "2010-09-22",
-     "fixture_installed": "2022-04-15",
-     "last_inspected": "2026-10-10",
+     "install_date": "2010-09-07",
+     "fixture_installed": "2022-06-15",
+     "fixture_make": "Arcbeam",
+     "fixture_batch": "ARB-2206",
+     "fixture_warranty_years": 5,
+     "last_inspected": "2026-09-30",
+     "last_earthing_check": "2026-05-28",
+     "junction_box_condition": "Good",
      "feeder_panel": "FP-CP-03",
      "circuit": "C1",
      "circuit_seq": 1,
      "phase": "R",
-     "energy_kwh": 16.9,
+     "energy_kwh": 16.4,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 16.3
+       "kwh": 15.8,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 15.7
+       "kwh": 15.8,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 14.3
+       "kwh": 14.4,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 15.4
+       "kwh": 14.8,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 16.2
+       "kwh": 16.4,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
       },
       {
        "month": "2026-09",
-       "kwh": 16.9
+       "kwh": 16.4,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -4507,83 +4822,19 @@ window.SLGIS_DATA = {
      "ticket": null,
      "repair_history": [
       {
-       "ticket_id": "TKT-2026-0124",
+       "ticket_id": "TKT-2026-0129",
        "type": "Preventive",
        "issue": "Annual preventive maintenance",
        "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
        "source": "Scheduled (AMC)",
        "priority": "Low",
-       "raised_at": "2026-04-15T13:49+05:30",
-       "resolved_at": "2026-04-15T15:25+05:30",
-       "downtime_h": 1.6,
+       "raised_at": "2026-05-28T13:13+05:30",
+       "resolved_at": "2026-05-28T14:55+05:30",
+       "downtime_h": 1.7,
        "sla_met": true,
        "crew": "J1 \u00b7 Imran S.",
        "contractor": "Jyoti Lighting Co.",
-       "cost_inr": 393,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2026-0109",
-       "type": "Corrective",
-       "issue": "Water ingress in luminaire",
-       "action": "Resealed luminaire, replaced gasket",
-       "source": "Call centre",
-       "priority": "Medium",
-       "raised_at": "2026-02-03T23:35+05:30",
-       "resolved_at": "2026-02-05T16:29+05:30",
-       "downtime_h": 40.9,
-       "sla_met": true,
-       "crew": "J2 \u00b7 Harpreet S.",
-       "contractor": "Jyoti Lighting Co.",
-       "cost_inr": 1285,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2025-0135",
-       "type": "Corrective",
-       "issue": "MCB tripped at feeder pillar",
-       "action": "Reset MCB, insulation-resistance test of circuit",
-       "source": "Call centre",
-       "priority": "Medium",
-       "raised_at": "2025-06-01T20:11+05:30",
-       "resolved_at": "2025-06-03T04:17+05:30",
-       "downtime_h": 32.1,
-       "sla_met": true,
-       "crew": "J2 \u00b7 Harpreet S.",
-       "contractor": "Jyoti Lighting Co.",
-       "cost_inr": 332,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2024-0158",
-       "type": "Preventive",
-       "issue": "Annual preventive maintenance",
-       "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
-       "source": "Scheduled (AMC)",
-       "priority": "Low",
-       "raised_at": "2024-07-09T14:13+05:30",
-       "resolved_at": "2024-07-09T15:19+05:30",
-       "downtime_h": 1.1,
-       "sla_met": true,
-       "crew": "J1 \u00b7 Imran S.",
-       "contractor": "Jyoti Lighting Co.",
-       "cost_inr": 355,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2023-0172",
-       "type": "Corrective",
-       "issue": "Water ingress in luminaire",
-       "action": "Resealed luminaire, replaced gasket",
-       "source": "Night patrol",
-       "priority": "Medium",
-       "raised_at": "2023-09-15T21:19+05:30",
-       "resolved_at": "2023-09-16T03:37+05:30",
-       "downtime_h": 6.3,
-       "sla_met": true,
-       "crew": "J2 \u00b7 Harpreet S.",
-       "contractor": "Jyoti Lighting Co.",
-       "cost_inr": 1200,
+       "cost_inr": 391,
        "status": "Closed"
       }
      ]
@@ -4611,39 +4862,56 @@ window.SLGIS_DATA = {
      "wattage": 45,
      "cct_k": 4000,
      "ccms_node": false,
-     "install_date": "2010-09-22",
-     "fixture_installed": "2022-04-22",
-     "last_inspected": "2026-08-02",
+     "install_date": "2010-09-09",
+     "fixture_installed": "2022-06-20",
+     "fixture_make": "Arcbeam",
+     "fixture_batch": "ARB-2206",
+     "fixture_warranty_years": 5,
+     "last_inspected": "2026-10-08",
+     "last_earthing_check": "2026-03-11",
+     "junction_box_condition": "Good",
      "feeder_panel": "FP-CP-03",
      "circuit": "C1",
      "circuit_seq": 2,
      "phase": "Y",
-     "energy_kwh": 16.8,
+     "energy_kwh": 16.5,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 15.9
+       "kwh": 16.2,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 15.3
+       "kwh": 15.2,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 14.0
+       "kwh": 14.6,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 15.4
+       "kwh": 15.4,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 16.7
+       "kwh": 15.9,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
       },
       {
        "month": "2026-09",
-       "kwh": 16.8
+       "kwh": 16.5,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -4656,40 +4924,7 @@ window.SLGIS_DATA = {
       "sla_hours": 48
      },
      "ticket": null,
-     "repair_history": [
-      {
-       "ticket_id": "TKT-2025-0121",
-       "type": "Preventive",
-       "issue": "Annual preventive maintenance",
-       "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
-       "source": "Scheduled (AMC)",
-       "priority": "Low",
-       "raised_at": "2025-03-28T15:54+05:30",
-       "resolved_at": "2025-03-28T17:42+05:30",
-       "downtime_h": 1.8,
-       "sla_met": true,
-       "crew": "J1 \u00b7 Imran S.",
-       "contractor": "Jyoti Lighting Co.",
-       "cost_inr": 427,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2024-0115",
-       "type": "Preventive",
-       "issue": "Annual preventive maintenance",
-       "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
-       "source": "Scheduled (AMC)",
-       "priority": "Low",
-       "raised_at": "2024-01-27T15:17+05:30",
-       "resolved_at": "2024-01-27T16:11+05:30",
-       "downtime_h": 0.9,
-       "sla_met": true,
-       "crew": "J2 \u00b7 Harpreet S.",
-       "contractor": "Jyoti Lighting Co.",
-       "cost_inr": 447,
-       "status": "Closed"
-      }
-     ]
+     "repair_history": []
     }
    },
    {
@@ -4704,7 +4939,7 @@ window.SLGIS_DATA = {
     },
     "properties": {
      "uid": "SL-CP-MC-012",
-     "status": "Under Maintenance",
+     "status": "Functional",
      "road": "Middle Circle",
      "location": "Middle Circle, between B- & H-Blocks",
      "pole_type": "Swaged tubular GI",
@@ -4714,39 +4949,56 @@ window.SLGIS_DATA = {
      "wattage": 45,
      "cct_k": 4000,
      "ccms_node": false,
-     "install_date": "2010-09-21",
-     "fixture_installed": "2022-04-19",
-     "last_inspected": "2026-08-02",
+     "install_date": "2010-09-05",
+     "fixture_installed": "2022-06-23",
+     "fixture_make": "Arcbeam",
+     "fixture_batch": "ARB-2206",
+     "fixture_warranty_years": 5,
+     "last_inspected": "2026-08-19",
+     "last_earthing_check": "2026-03-12",
+     "junction_box_condition": "Good",
      "feeder_panel": "FP-CP-03",
      "circuit": "C1",
      "circuit_seq": 3,
      "phase": "B",
-     "energy_kwh": 16.7,
+     "energy_kwh": 16.5,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 16.0
+       "kwh": 15.0,
+       "scheduled_h": 334.4,
+       "lit_h": 314.1
       },
       {
        "month": "2026-05",
-       "kwh": 15.3
+       "kwh": 15.5,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 14.5
+       "kwh": 14.2,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 15.1
+       "kwh": 14.9,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 15.9
+       "kwh": 16.2,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
       },
       {
        "month": "2026-09",
-       "kwh": 16.7
+       "kwh": 16.5,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -4759,16 +5011,16 @@ window.SLGIS_DATA = {
       "sla_hours": 48
      },
      "ticket": {
-      "id": "TKT-2026-0153",
+      "id": "TKT-2026-0155",
       "status": "In Progress",
-      "priority": "Low",
+      "category": "blocked",
       "issue": "Light blocked by tree canopy",
       "source": "Citizen app",
       "raised_at": "2026-10-10T20:00+05:30",
-      "sla_hours": 72,
-      "sla_due": "2026-10-13T20:00+05:30",
-      "assigned_crew": "J1 \u00b7 Imran S.",
+      "assigned_crew": "HT-1 \u00b7 Tree pruning",
       "work_started_at": "2026-10-13T12:00+05:30",
+      "closed_at": null,
+      "resolution": null,
       "complaints": 0,
       "notes": "Horticulture team pruning; luminaire to be re-aimed.",
       "pole_uids": [
@@ -4777,51 +5029,19 @@ window.SLGIS_DATA = {
      },
      "repair_history": [
       {
-       "ticket_id": "TKT-2024-0151",
+       "ticket_id": "TKT-2026-0119",
        "type": "Corrective",
-       "issue": "Loose connection in junction box",
-       "action": "Re-terminated cables, replaced connector",
+       "issue": "Water ingress in luminaire",
+       "action": "Resealed luminaire, replaced gasket",
        "source": "Night patrol",
        "priority": "Medium",
-       "raised_at": "2024-06-05T20:34+05:30",
-       "resolved_at": "2024-06-08T12:04+05:30",
-       "downtime_h": 63.5,
-       "sla_met": false,
-       "crew": "J1 \u00b7 Imran S.",
-       "contractor": "Jyoti Lighting Co.",
-       "cost_inr": 397,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2023-0139",
-       "type": "Corrective",
-       "issue": "Water ingress in luminaire",
-       "action": "Resealed luminaire, replaced gasket",
-       "source": "Citizen app",
-       "priority": "Medium",
-       "raised_at": "2023-05-24T21:44+05:30",
-       "resolved_at": "2023-05-28T07:26+05:30",
-       "downtime_h": 81.7,
-       "sla_met": false,
-       "crew": "J1 \u00b7 Imran S.",
-       "contractor": "Jyoti Lighting Co.",
-       "cost_inr": 1055,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2023-0109",
-       "type": "Corrective",
-       "issue": "Water ingress in luminaire",
-       "action": "Resealed luminaire, replaced gasket",
-       "source": "Citizen app",
-       "priority": "Medium",
-       "raised_at": "2023-02-25T19:02+05:30",
-       "resolved_at": "2023-02-26T14:56+05:30",
-       "downtime_h": 19.9,
+       "raised_at": "2026-04-13T05:39+05:30",
+       "resolved_at": "2026-04-15T03:33+05:30",
+       "downtime_h": 45.9,
        "sla_met": true,
        "crew": "J1 \u00b7 Imran S.",
        "contractor": "Jyoti Lighting Co.",
-       "cost_inr": 1395,
+       "cost_inr": 963,
        "status": "Closed"
       }
      ]
@@ -4849,39 +5069,56 @@ window.SLGIS_DATA = {
      "wattage": 45,
      "cct_k": 4000,
      "ccms_node": false,
-     "install_date": "2010-09-23",
-     "fixture_installed": "2022-04-16",
-     "last_inspected": "2026-08-27",
+     "install_date": "2010-09-19",
+     "fixture_installed": "2022-06-21",
+     "fixture_make": "Arcbeam",
+     "fixture_batch": "ARB-2206",
+     "fixture_warranty_years": 5,
+     "last_inspected": "2026-09-25",
+     "last_earthing_check": "2026-09-04",
+     "junction_box_condition": "Fair",
      "feeder_panel": "FP-CP-03",
      "circuit": "C1",
      "circuit_seq": 4,
      "phase": "R",
-     "energy_kwh": 16.5,
+     "energy_kwh": 16.9,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 15.7
+       "kwh": 16.1,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 15.1
+       "kwh": 15.6,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 14.2
+       "kwh": 14.3,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 15.7
+       "kwh": 15.1,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 16.2
+       "kwh": 16.0,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
       },
       {
        "month": "2026-09",
-       "kwh": 16.5
+       "kwh": 16.9,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -4896,51 +5133,19 @@ window.SLGIS_DATA = {
      "ticket": null,
      "repair_history": [
       {
-       "ticket_id": "TKT-2024-0161",
-       "type": "Corrective",
-       "issue": "Water ingress in luminaire",
-       "action": "Resealed luminaire, replaced gasket",
-       "source": "Night patrol",
-       "priority": "Medium",
-       "raised_at": "2024-07-21T20:45+05:30",
-       "resolved_at": "2024-07-22T22:51+05:30",
-       "downtime_h": 26.1,
+       "ticket_id": "TKT-2026-0148",
+       "type": "Preventive",
+       "issue": "Annual preventive maintenance",
+       "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
+       "source": "Scheduled (AMC)",
+       "priority": "Low",
+       "raised_at": "2026-09-04T14:40+05:30",
+       "resolved_at": "2026-09-04T15:58+05:30",
+       "downtime_h": 1.3,
        "sla_met": true,
        "crew": "J2 \u00b7 Harpreet S.",
        "contractor": "Jyoti Lighting Co.",
-       "cost_inr": 1223,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2023-0127",
-       "type": "Corrective",
-       "issue": "Timer/photocell fault (day burning)",
-       "action": "Replaced timer contactor",
-       "source": "Night patrol",
-       "priority": "Low",
-       "raised_at": "2023-04-05T20:32+05:30",
-       "resolved_at": "2023-04-06T06:32+05:30",
-       "downtime_h": 10.0,
-       "sla_met": true,
-       "crew": "J1 \u00b7 Imran S.",
-       "contractor": "Jyoti Lighting Co.",
-       "cost_inr": 1711,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2023-0111",
-       "type": "Corrective",
-       "issue": "Loose connection in junction box",
-       "action": "Re-terminated cables, replaced connector",
-       "source": "Night patrol",
-       "priority": "Medium",
-       "raised_at": "2023-03-03T21:00+05:30",
-       "resolved_at": "2023-03-04T07:00+05:30",
-       "downtime_h": 10.0,
-       "sla_met": true,
-       "crew": "J1 \u00b7 Imran S.",
-       "contractor": "Jyoti Lighting Co.",
-       "cost_inr": 527,
+       "cost_inr": 391,
        "status": "Closed"
       }
      ]
@@ -4968,39 +5173,56 @@ window.SLGIS_DATA = {
      "wattage": 60,
      "cct_k": 4000,
      "ccms_node": false,
-     "install_date": "2010-09-25",
-     "fixture_installed": "2022-04-09",
-     "last_inspected": "2026-09-30",
+     "install_date": "2010-09-11",
+     "fixture_installed": "2022-06-25",
+     "fixture_make": "Arcbeam",
+     "fixture_batch": "ARB-2206",
+     "fixture_warranty_years": 5,
+     "last_inspected": "2026-09-12",
+     "last_earthing_check": "2026-05-20",
+     "junction_box_condition": "Fair",
      "feeder_panel": "FP-CP-03",
      "circuit": "C1",
      "circuit_seq": 5,
      "phase": "Y",
-     "energy_kwh": 21.6,
+     "energy_kwh": 22.5,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 21.3
+       "kwh": 21.1,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 20.5
+       "kwh": 20.9,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 19.2
+       "kwh": 19.5,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 20.0
+       "kwh": 20.6,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 21.8
+       "kwh": 21.3,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
       },
       {
        "month": "2026-09",
-       "kwh": 21.6
+       "kwh": 22.5,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -5015,35 +5237,19 @@ window.SLGIS_DATA = {
      "ticket": null,
      "repair_history": [
       {
-       "ticket_id": "TKT-2026-0101",
+       "ticket_id": "TKT-2024-0157",
        "type": "Preventive",
        "issue": "Annual preventive maintenance",
        "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
        "source": "Scheduled (AMC)",
        "priority": "Low",
-       "raised_at": "2026-01-14T14:47+05:30",
-       "resolved_at": "2026-01-14T15:35+05:30",
-       "downtime_h": 0.8,
+       "raised_at": "2024-09-07T13:42+05:30",
+       "resolved_at": "2024-09-07T14:36+05:30",
+       "downtime_h": 0.9,
        "sla_met": true,
        "crew": "J2 \u00b7 Harpreet S.",
        "contractor": "Jyoti Lighting Co.",
-       "cost_inr": 360,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2023-0153",
-       "type": "Corrective",
-       "issue": "LED driver failure",
-       "action": "Replaced LED driver",
-       "source": "Night patrol",
-       "priority": "Medium",
-       "raised_at": "2023-08-12T05:10+05:30",
-       "resolved_at": "2023-08-12T17:04+05:30",
-       "downtime_h": 11.9,
-       "sla_met": true,
-       "crew": "J1 \u00b7 Imran S.",
-       "contractor": "Jyoti Lighting Co.",
-       "cost_inr": 3841,
+       "cost_inr": 352,
        "status": "Closed"
       }
      ]
@@ -5071,39 +5277,56 @@ window.SLGIS_DATA = {
      "wattage": 45,
      "cct_k": 4000,
      "ccms_node": false,
-     "install_date": "2010-09-19",
-     "fixture_installed": "2022-05-04",
-     "last_inspected": "2026-08-13",
+     "install_date": "2010-09-06",
+     "fixture_installed": "2022-06-07",
+     "fixture_make": "Arcbeam",
+     "fixture_batch": "ARB-2206",
+     "fixture_warranty_years": 5,
+     "last_inspected": "2026-08-23",
+     "last_earthing_check": "2025-11-10",
+     "junction_box_condition": "Good",
      "feeder_panel": "FP-CP-03",
      "circuit": "C1",
      "circuit_seq": 6,
      "phase": "B",
-     "energy_kwh": 16.6,
+     "energy_kwh": 16.3,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 16.2
+       "kwh": 15.7,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 15.2
+       "kwh": 15.7,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 14.4
+       "kwh": 14.7,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 15.7
+       "kwh": 15.0,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 16.3
+       "kwh": 16.2,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
       },
       {
        "month": "2026-09",
-       "kwh": 16.6
+       "kwh": 16.3,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -5118,35 +5341,51 @@ window.SLGIS_DATA = {
      "ticket": null,
      "repair_history": [
       {
-       "ticket_id": "TKT-2026-0128",
-       "type": "Corrective",
-       "issue": "Flickering",
-       "action": "Replaced LED driver and module connector",
-       "source": "Call centre",
-       "priority": "Medium",
-       "raised_at": "2026-05-01T23:00+05:30",
-       "resolved_at": "2026-05-02T21:24+05:30",
-       "downtime_h": 22.4,
-       "sla_met": true,
-       "crew": "J2 \u00b7 Harpreet S.",
-       "contractor": "Jyoti Lighting Co.",
-       "cost_inr": 4253,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2023-0157",
+       "ticket_id": "TKT-2025-0163",
        "type": "Preventive",
        "issue": "Annual preventive maintenance",
        "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
        "source": "Scheduled (AMC)",
        "priority": "Low",
-       "raised_at": "2023-08-21T10:02+05:30",
-       "resolved_at": "2023-08-21T10:56+05:30",
-       "downtime_h": 0.9,
+       "raised_at": "2025-11-10T10:05+05:30",
+       "resolved_at": "2025-11-10T11:35+05:30",
+       "downtime_h": 1.5,
+       "sla_met": true,
+       "crew": "J1 \u00b7 Imran S.",
+       "contractor": "Jyoti Lighting Co.",
+       "cost_inr": 429,
+       "status": "Closed"
+      },
+      {
+       "ticket_id": "TKT-2024-0145",
+       "type": "Corrective",
+       "issue": "LED driver failure",
+       "action": "Replaced LED driver",
+       "source": "Night patrol",
+       "priority": "Medium",
+       "raised_at": "2024-06-29T20:46+05:30",
+       "resolved_at": "2024-06-30T08:04+05:30",
+       "downtime_h": 11.3,
+       "sla_met": true,
+       "crew": "J1 \u00b7 Imran S.",
+       "contractor": "Jyoti Lighting Co.",
+       "cost_inr": 2613,
+       "status": "Closed"
+      },
+      {
+       "ticket_id": "TKT-2024-0108",
+       "type": "Preventive",
+       "issue": "Annual preventive maintenance",
+       "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
+       "source": "Scheduled (AMC)",
+       "priority": "Low",
+       "raised_at": "2024-01-19T15:31+05:30",
+       "resolved_at": "2024-01-19T16:31+05:30",
+       "downtime_h": 1.0,
        "sla_met": true,
        "crew": "J2 \u00b7 Harpreet S.",
        "contractor": "Jyoti Lighting Co.",
-       "cost_inr": 395,
+       "cost_inr": 371,
        "status": "Closed"
       }
      ]
@@ -5175,38 +5414,55 @@ window.SLGIS_DATA = {
      "cct_k": 4000,
      "ccms_node": false,
      "install_date": "2010-09-24",
-     "fixture_installed": "2022-04-10",
-     "last_inspected": "2026-09-09",
+     "fixture_installed": "2022-03-21",
+     "fixture_make": "Arcbeam",
+     "fixture_batch": "ARB-2203",
+     "fixture_warranty_years": 5,
+     "last_inspected": "2026-08-28",
+     "last_earthing_check": "2024-05-27",
+     "junction_box_condition": "Good",
      "feeder_panel": "FP-CP-03",
      "circuit": "C1",
      "circuit_seq": 7,
      "phase": "R",
-     "energy_kwh": 16.3,
+     "energy_kwh": 17.1,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 15.6
+       "kwh": 15.8,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 15.2
+       "kwh": 15.1,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 14.0
+       "kwh": 14.4,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 15.6
+       "kwh": 15.0,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 16.6
+       "kwh": 15.8,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
       },
       {
        "month": "2026-09",
-       "kwh": 16.3
+       "kwh": 17.1,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -5221,35 +5477,51 @@ window.SLGIS_DATA = {
      "ticket": null,
      "repair_history": [
       {
-       "ticket_id": "TKT-2024-0170",
+       "ticket_id": "TKT-2025-0153",
        "type": "Corrective",
-       "issue": "Surge protection device failure",
-       "action": "Replaced 10 kV surge protection device",
+       "issue": "LED driver failure",
+       "action": "Replaced LED driver",
        "source": "Night patrol",
        "priority": "Medium",
-       "raised_at": "2024-08-24T21:20+05:30",
-       "resolved_at": "2024-08-26T19:56+05:30",
-       "downtime_h": 46.6,
+       "raised_at": "2025-08-29T21:28+05:30",
+       "resolved_at": "2025-08-30T23:58+05:30",
+       "downtime_h": 26.5,
        "sla_met": true,
-       "crew": "J1 \u00b7 Imran S.",
+       "crew": "J2 \u00b7 Harpreet S.",
        "contractor": "Jyoti Lighting Co.",
-       "cost_inr": 755,
+       "cost_inr": 3300,
        "status": "Closed"
       },
       {
-       "ticket_id": "TKT-2024-0111",
+       "ticket_id": "TKT-2024-0158",
+       "type": "Corrective",
+       "issue": "LED driver failure",
+       "action": "Replaced LED driver",
+       "source": "Night patrol",
+       "priority": "Medium",
+       "raised_at": "2024-09-13T21:48+05:30",
+       "resolved_at": "2024-09-15T00:18+05:30",
+       "downtime_h": 26.5,
+       "sla_met": true,
+       "crew": "J2 \u00b7 Harpreet S.",
+       "contractor": "Jyoti Lighting Co.",
+       "cost_inr": 3300,
+       "status": "Closed"
+      },
+      {
+       "ticket_id": "TKT-2024-0128",
        "type": "Preventive",
        "issue": "Annual preventive maintenance",
        "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
        "source": "Scheduled (AMC)",
        "priority": "Low",
-       "raised_at": "2024-01-21T11:58+05:30",
-       "resolved_at": "2024-01-21T12:46+05:30",
-       "downtime_h": 0.8,
+       "raised_at": "2024-03-16T12:30+05:30",
+       "resolved_at": "2024-03-16T13:30+05:30",
+       "downtime_h": 1.0,
        "sla_met": true,
        "crew": "J2 \u00b7 Harpreet S.",
        "contractor": "Jyoti Lighting Co.",
-       "cost_inr": 405,
+       "cost_inr": 381,
        "status": "Closed"
       }
      ]
@@ -5277,39 +5549,56 @@ window.SLGIS_DATA = {
      "wattage": 45,
      "cct_k": 4000,
      "ccms_node": false,
-     "install_date": "2010-09-02",
-     "fixture_installed": "2022-05-17",
-     "last_inspected": "2026-09-21",
+     "install_date": "2010-09-09",
+     "fixture_installed": "2022-03-16",
+     "fixture_make": "Arcbeam",
+     "fixture_batch": "ARB-2203",
+     "fixture_warranty_years": 5,
+     "last_inspected": "2026-10-01",
+     "last_earthing_check": "2025-12-19",
+     "junction_box_condition": "Poor",
      "feeder_panel": "FP-CP-03",
      "circuit": "C1",
      "circuit_seq": 8,
      "phase": "Y",
-     "energy_kwh": 16.6,
+     "energy_kwh": 16.4,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 15.6
+       "kwh": 15.8,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 15.5
+       "kwh": 15.2,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 14.3
+       "kwh": 14.3,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 15.7
+       "kwh": 15.4,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 16.1
+       "kwh": 16.4,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
       },
       {
        "month": "2026-09",
-       "kwh": 16.6
+       "kwh": 16.4,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -5322,7 +5611,72 @@ window.SLGIS_DATA = {
       "sla_hours": 48
      },
      "ticket": null,
-     "repair_history": []
+     "repair_history": [
+      {
+       "ticket_id": "TKT-2026-0113",
+       "type": "Corrective",
+       "issue": "LED driver failure",
+       "action": "Replaced LED driver",
+       "source": "Night patrol",
+       "priority": "Medium",
+       "raised_at": "2026-03-07T21:33+05:30",
+       "resolved_at": "2026-03-09T00:03+05:30",
+       "downtime_h": 26.5,
+       "sla_met": true,
+       "crew": "J1 \u00b7 Imran S.",
+       "contractor": "Jyoti Lighting Co.",
+       "cost_inr": 3300,
+       "status": "Closed"
+      },
+      {
+       "ticket_id": "TKT-2025-0115",
+       "type": "Preventive",
+       "issue": "Annual preventive maintenance",
+       "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
+       "source": "Scheduled (AMC)",
+       "priority": "Low",
+       "raised_at": "2025-03-21T12:45+05:30",
+       "resolved_at": "2025-03-21T13:51+05:30",
+       "downtime_h": 1.1,
+       "sla_met": true,
+       "crew": "J2 \u00b7 Harpreet S.",
+       "contractor": "Jyoti Lighting Co.",
+       "cost_inr": 430,
+       "status": "Closed"
+      },
+      {
+       "ticket_id": "TKT-2025-0111",
+       "type": "Corrective",
+       "issue": "LED driver failure",
+       "action": "Replaced LED driver",
+       "source": "Night patrol",
+       "priority": "Medium",
+       "raised_at": "2025-03-02T21:47+05:30",
+       "resolved_at": "2025-03-04T00:17+05:30",
+       "downtime_h": 26.5,
+       "sla_met": true,
+       "crew": "J1 \u00b7 Imran S.",
+       "contractor": "Jyoti Lighting Co.",
+       "cost_inr": 3300,
+       "status": "Closed"
+      },
+      {
+       "ticket_id": "TKT-2023-0126",
+       "type": "Corrective",
+       "issue": "Surge protection device failure",
+       "action": "Replaced 10 kV surge protection device",
+       "source": "Night patrol",
+       "priority": "Medium",
+       "raised_at": "2023-03-28T19:19+05:30",
+       "resolved_at": "2023-04-01T05:01+05:30",
+       "downtime_h": 81.7,
+       "sla_met": false,
+       "crew": "J2 \u00b7 Harpreet S.",
+       "contractor": "Jyoti Lighting Co.",
+       "cost_inr": 867,
+       "status": "Closed"
+      }
+     ]
     }
    },
    {
@@ -5347,39 +5701,56 @@ window.SLGIS_DATA = {
      "wattage": 45,
      "cct_k": 4000,
      "ccms_node": false,
-     "install_date": "2010-09-17",
-     "fixture_installed": "2022-05-27",
-     "last_inspected": "2026-09-26",
+     "install_date": "2010-09-22",
+     "fixture_installed": "2022-03-28",
+     "fixture_make": "Arcbeam",
+     "fixture_batch": "ARB-2203",
+     "fixture_warranty_years": 5,
+     "last_inspected": "2026-09-28",
+     "last_earthing_check": "2026-04-04",
+     "junction_box_condition": "Good",
      "feeder_panel": "FP-CP-04",
      "circuit": "C2",
      "circuit_seq": 9,
      "phase": "B",
-     "energy_kwh": 16.9,
+     "energy_kwh": 16.5,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 15.9
+       "kwh": 15.6,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 15.6
+       "kwh": 15.5,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 14.5
+       "kwh": 14.3,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 15.3
+       "kwh": 15.1,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 16.2
+       "kwh": 15.7,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
       },
       {
        "month": "2026-09",
-       "kwh": 16.9
+       "kwh": 16.5,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -5394,51 +5765,51 @@ window.SLGIS_DATA = {
      "ticket": null,
      "repair_history": [
       {
-       "ticket_id": "TKT-2026-0126",
+       "ticket_id": "TKT-2025-0172",
+       "type": "Corrective",
+       "issue": "LED driver failure",
+       "action": "Replaced LED driver",
+       "source": "Night patrol",
+       "priority": "Medium",
+       "raised_at": "2025-12-17T21:54+05:30",
+       "resolved_at": "2025-12-19T00:24+05:30",
+       "downtime_h": 26.5,
+       "sla_met": true,
+       "crew": "J1 \u00b7 Imran S.",
+       "contractor": "Jyoti Lighting Co.",
+       "cost_inr": 3300,
+       "status": "Closed"
+      },
+      {
+       "ticket_id": "TKT-2024-0169",
        "type": "Preventive",
        "issue": "Annual preventive maintenance",
        "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
        "source": "Scheduled (AMC)",
        "priority": "Low",
-       "raised_at": "2026-04-18T11:44+05:30",
-       "resolved_at": "2026-04-18T13:26+05:30",
+       "raised_at": "2024-10-31T13:50+05:30",
+       "resolved_at": "2024-10-31T15:32+05:30",
        "downtime_h": 1.7,
        "sla_met": true,
        "crew": "J1 \u00b7 Imran S.",
        "contractor": "Jyoti Lighting Co.",
-       "cost_inr": 423,
+       "cost_inr": 441,
        "status": "Closed"
       },
       {
-       "ticket_id": "TKT-2026-0112",
-       "type": "Preventive",
-       "issue": "Annual preventive maintenance",
-       "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
-       "source": "Scheduled (AMC)",
+       "ticket_id": "TKT-2023-0150",
+       "type": "Corrective",
+       "issue": "Timer/photocell fault (day burning)",
+       "action": "Replaced timer contactor",
+       "source": "Call centre",
        "priority": "Low",
-       "raised_at": "2026-02-17T15:36+05:30",
-       "resolved_at": "2026-02-17T17:00+05:30",
-       "downtime_h": 1.4,
+       "raised_at": "2023-07-10T19:29+05:30",
+       "resolved_at": "2023-07-11T10:47+05:30",
+       "downtime_h": 15.3,
        "sla_met": true,
        "crew": "J1 \u00b7 Imran S.",
        "contractor": "Jyoti Lighting Co.",
-       "cost_inr": 386,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2024-0175",
-       "type": "Corrective",
-       "issue": "Water ingress in luminaire",
-       "action": "Resealed luminaire, replaced gasket",
-       "source": "Citizen app",
-       "priority": "Medium",
-       "raised_at": "2024-09-08T21:57+05:30",
-       "resolved_at": "2024-09-09T15:27+05:30",
-       "downtime_h": 17.5,
-       "sla_met": true,
-       "crew": "J2 \u00b7 Harpreet S.",
-       "contractor": "Jyoti Lighting Co.",
-       "cost_inr": 1317,
+       "cost_inr": 1583,
        "status": "Closed"
       }
      ]
@@ -5466,39 +5837,56 @@ window.SLGIS_DATA = {
      "wattage": 45,
      "cct_k": 4000,
      "ccms_node": false,
-     "install_date": "2010-09-26",
-     "fixture_installed": "2022-06-18",
-     "last_inspected": "2026-09-09",
+     "install_date": "2010-09-09",
+     "fixture_installed": "2022-03-15",
+     "fixture_make": "Arcbeam",
+     "fixture_batch": "ARB-2203",
+     "fixture_warranty_years": 5,
+     "last_inspected": "2026-08-15",
+     "last_earthing_check": "2025-02-26",
+     "junction_box_condition": "Good",
      "feeder_panel": "FP-CP-04",
      "circuit": "C2",
      "circuit_seq": 8,
      "phase": "Y",
-     "energy_kwh": 16.7,
+     "energy_kwh": 17.1,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 16.2
+       "kwh": 15.7,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 15.2
+       "kwh": 15.7,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 14.1
+       "kwh": 14.4,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 15.6
+       "kwh": 14.9,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 16.1
+       "kwh": 16.4,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
       },
       {
        "month": "2026-09",
-       "kwh": 16.7
+       "kwh": 17.1,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -5511,16 +5899,16 @@ window.SLGIS_DATA = {
       "sla_hours": 48
      },
      "ticket": {
-      "id": "TKT-2026-0152",
+      "id": "TKT-2026-0154",
       "status": "Open",
-      "priority": "Medium",
+      "category": "not_working",
       "issue": "LED driver failure",
       "source": "Night patrol",
       "raised_at": "2026-10-09T21:00+05:30",
-      "sla_hours": 48,
-      "sla_due": "2026-10-11T21:00+05:30",
       "assigned_crew": null,
       "work_started_at": null,
+      "closed_at": null,
+      "resolution": null,
       "complaints": 0,
       "notes": null,
       "pole_uids": [
@@ -5529,19 +5917,51 @@ window.SLGIS_DATA = {
      },
      "repair_history": [
       {
-       "ticket_id": "TKT-2025-0171",
+       "ticket_id": "TKT-2025-0121",
+       "type": "Corrective",
+       "issue": "Flickering",
+       "action": "Replaced LED driver and module connector",
+       "source": "Night patrol",
+       "priority": "Medium",
+       "raised_at": "2025-04-17T22:48+05:30",
+       "resolved_at": "2025-04-18T20:00+05:30",
+       "downtime_h": 21.2,
+       "sla_met": true,
+       "crew": "J1 \u00b7 Imran S.",
+       "contractor": "Jyoti Lighting Co.",
+       "cost_inr": 4025,
+       "status": "Closed"
+      },
+      {
+       "ticket_id": "TKT-2025-0110",
        "type": "Preventive",
        "issue": "Annual preventive maintenance",
        "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
        "source": "Scheduled (AMC)",
        "priority": "Low",
-       "raised_at": "2025-11-01T11:43+05:30",
-       "resolved_at": "2025-11-01T13:43+05:30",
+       "raised_at": "2025-02-26T11:49+05:30",
+       "resolved_at": "2025-02-26T13:49+05:30",
        "downtime_h": 2.0,
+       "sla_met": true,
+       "crew": "J1 \u00b7 Imran S.",
+       "contractor": "Jyoti Lighting Co.",
+       "cost_inr": 361,
+       "status": "Closed"
+      },
+      {
+       "ticket_id": "TKT-2025-0104",
+       "type": "Corrective",
+       "issue": "LED driver failure",
+       "action": "Replaced LED driver",
+       "source": "Night patrol",
+       "priority": "Medium",
+       "raised_at": "2025-01-11T21:48+05:30",
+       "resolved_at": "2025-01-13T00:18+05:30",
+       "downtime_h": 26.5,
        "sla_met": true,
        "crew": "J2 \u00b7 Harpreet S.",
        "contractor": "Jyoti Lighting Co.",
-       "cost_inr": 405,
+       "cost_inr": 3300,
        "status": "Closed"
       }
      ]
@@ -5569,9 +5989,14 @@ window.SLGIS_DATA = {
      "wattage": 45,
      "cct_k": 4000,
      "ccms_node": false,
-     "install_date": "2010-09-02",
-     "fixture_installed": "2022-06-05",
-     "last_inspected": "2026-10-06",
+     "install_date": "2010-09-22",
+     "fixture_installed": "2022-03-07",
+     "fixture_make": "Arcbeam",
+     "fixture_batch": "ARB-2203",
+     "fixture_warranty_years": 5,
+     "last_inspected": "2026-08-14",
+     "last_earthing_check": "2026-02-14",
+     "junction_box_condition": "Fair",
      "feeder_panel": "FP-CP-04",
      "circuit": "C2",
      "circuit_seq": 7,
@@ -5581,27 +6006,39 @@ window.SLGIS_DATA = {
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 15.8
+       "kwh": 16.1,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 15.8
+       "kwh": 15.3,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 14.2
+       "kwh": 14.3,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 15.3
+       "kwh": 15.3,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 16.7
+       "kwh": 15.8,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
       },
       {
        "month": "2026-09",
-       "kwh": 16.9
+       "kwh": 16.9,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -5614,16 +6051,16 @@ window.SLGIS_DATA = {
       "sla_hours": 48
      },
      "ticket": {
-      "id": "TKT-2026-0155",
+      "id": "TKT-2026-0158",
       "status": "Open",
-      "priority": "Medium",
+      "category": "not_working",
       "issue": "LED driver failure",
       "source": "Citizen app",
       "raised_at": "2026-10-11T20:30+05:30",
-      "sla_hours": 48,
-      "sla_due": "2026-10-13T20:30+05:30",
       "assigned_crew": null,
       "work_started_at": null,
+      "closed_at": null,
+      "resolution": null,
       "complaints": 1,
       "notes": null,
       "pole_uids": [
@@ -5632,35 +6069,83 @@ window.SLGIS_DATA = {
      },
      "repair_history": [
       {
-       "ticket_id": "TKT-2025-0109",
+       "ticket_id": "TKT-2026-0111",
        "type": "Preventive",
        "issue": "Annual preventive maintenance",
        "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
        "source": "Scheduled (AMC)",
        "priority": "Low",
-       "raised_at": "2025-02-12T12:06+05:30",
-       "resolved_at": "2025-02-12T13:06+05:30",
-       "downtime_h": 1.0,
+       "raised_at": "2026-02-14T11:02+05:30",
+       "resolved_at": "2026-02-14T11:56+05:30",
+       "downtime_h": 0.9,
        "sla_met": true,
-       "crew": "J1 \u00b7 Imran S.",
+       "crew": "J2 \u00b7 Harpreet S.",
        "contractor": "Jyoti Lighting Co.",
-       "cost_inr": 438,
+       "cost_inr": 397,
        "status": "Closed"
       },
       {
-       "ticket_id": "TKT-2024-0120",
+       "ticket_id": "TKT-2025-0127",
        "type": "Corrective",
-       "issue": "Surge protection device failure",
-       "action": "Replaced 10 kV surge protection device",
+       "issue": "LED driver failure",
+       "action": "Replaced LED driver",
+       "source": "Night patrol",
+       "priority": "Medium",
+       "raised_at": "2025-05-11T21:19+05:30",
+       "resolved_at": "2025-05-12T23:49+05:30",
+       "downtime_h": 26.5,
+       "sla_met": true,
+       "crew": "J2 \u00b7 Harpreet S.",
+       "contractor": "Jyoti Lighting Co.",
+       "cost_inr": 3300,
+       "status": "Closed"
+      },
+      {
+       "ticket_id": "TKT-2023-0172",
+       "type": "Corrective",
+       "issue": "Flickering",
+       "action": "Replaced LED driver and module connector",
        "source": "Citizen app",
        "priority": "Medium",
-       "raised_at": "2024-02-08T23:00+05:30",
-       "resolved_at": "2024-02-11T05:42+05:30",
-       "downtime_h": 54.7,
-       "sla_met": false,
+       "raised_at": "2023-09-30T21:08+05:30",
+       "resolved_at": "2023-10-01T04:14+05:30",
+       "downtime_h": 7.1,
+       "sla_met": true,
        "crew": "J1 \u00b7 Imran S.",
        "contractor": "Jyoti Lighting Co.",
-       "cost_inr": 903,
+       "cost_inr": 3318,
+       "status": "Closed"
+      },
+      {
+       "ticket_id": "TKT-2023-0141",
+       "type": "Preventive",
+       "issue": "Annual preventive maintenance",
+       "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
+       "source": "Scheduled (AMC)",
+       "priority": "Low",
+       "raised_at": "2023-06-02T10:23+05:30",
+       "resolved_at": "2023-06-02T11:59+05:30",
+       "downtime_h": 1.6,
+       "sla_met": true,
+       "crew": "J1 \u00b7 Imran S.",
+       "contractor": "Jyoti Lighting Co.",
+       "cost_inr": 395,
+       "status": "Closed"
+      },
+      {
+       "ticket_id": "TKT-2023-0107",
+       "type": "Corrective",
+       "issue": "Flickering",
+       "action": "Replaced LED driver and module connector",
+       "source": "Night patrol",
+       "priority": "Medium",
+       "raised_at": "2023-02-15T22:37+05:30",
+       "resolved_at": "2023-02-17T13:25+05:30",
+       "downtime_h": 38.8,
+       "sla_met": true,
+       "crew": "J1 \u00b7 Imran S.",
+       "contractor": "Jyoti Lighting Co.",
+       "cost_inr": 4075,
        "status": "Closed"
       }
      ]
@@ -5688,39 +6173,56 @@ window.SLGIS_DATA = {
      "wattage": 60,
      "cct_k": 4000,
      "ccms_node": false,
-     "install_date": "2010-09-24",
-     "fixture_installed": "2022-04-19",
-     "last_inspected": "2026-09-28",
+     "install_date": "2010-09-23",
+     "fixture_installed": "2022-03-28",
+     "fixture_make": "Arcbeam",
+     "fixture_batch": "ARB-2203",
+     "fixture_warranty_years": 5,
+     "last_inspected": "2026-09-23",
+     "last_earthing_check": "2026-08-17",
+     "junction_box_condition": "Good",
      "feeder_panel": "FP-CP-04",
      "circuit": "C2",
      "circuit_seq": 6,
      "phase": "B",
-     "energy_kwh": 22.5,
+     "energy_kwh": 21.9,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 20.8
+       "kwh": 20.8,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 20.5
+       "kwh": 20.7,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 19.3
+       "kwh": 19.3,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 20.7
+       "kwh": 19.8,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 21.9
+       "kwh": 21.1,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
       },
       {
        "month": "2026-09",
-       "kwh": 22.5
+       "kwh": 21.9,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -5733,23 +6235,72 @@ window.SLGIS_DATA = {
       "sla_hours": 48
      },
      "ticket": {
-      "id": "TKT-2026-0157",
+      "id": "TKT-2026-0160",
       "status": "In Progress",
-      "priority": "Medium",
+      "category": "not_working",
       "issue": "LED driver failure",
       "source": "Night patrol",
       "raised_at": "2026-10-11T21:00+05:30",
-      "sla_hours": 48,
-      "sla_due": "2026-10-13T21:00+05:30",
-      "assigned_crew": "J2 \u00b7 Harpreet S.",
+      "assigned_crew": "J1 \u00b7 Imran S.",
       "work_started_at": "2026-10-13T09:42+05:30",
+      "closed_at": null,
+      "resolution": null,
       "complaints": 0,
       "notes": null,
       "pole_uids": [
        "SL-CP-MC-021"
       ]
      },
-     "repair_history": []
+     "repair_history": [
+      {
+       "ticket_id": "TKT-2025-0157",
+       "type": "Corrective",
+       "issue": "LED driver failure",
+       "action": "Replaced LED driver",
+       "source": "Night patrol",
+       "priority": "Medium",
+       "raised_at": "2025-09-28T21:43+05:30",
+       "resolved_at": "2025-09-30T00:13+05:30",
+       "downtime_h": 26.5,
+       "sla_met": true,
+       "crew": "J2 \u00b7 Harpreet S.",
+       "contractor": "Jyoti Lighting Co.",
+       "cost_inr": 3300,
+       "status": "Closed"
+      },
+      {
+       "ticket_id": "TKT-2025-0107",
+       "type": "Preventive",
+       "issue": "Annual preventive maintenance",
+       "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
+       "source": "Scheduled (AMC)",
+       "priority": "Low",
+       "raised_at": "2025-01-21T11:50+05:30",
+       "resolved_at": "2025-01-21T13:32+05:30",
+       "downtime_h": 1.7,
+       "sla_met": true,
+       "crew": "J1 \u00b7 Imran S.",
+       "contractor": "Jyoti Lighting Co.",
+       "cost_inr": 374,
+       "status": "Closed"
+      },
+      {
+       "ticket_id": "TKT-2023-0184",
+       "type": "Preventive",
+       "issue": "Annual preventive maintenance",
+       "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
+       "source": "Scheduled (AMC)",
+       "priority": "Low",
+       "raised_at": "2023-11-21T12:38+05:30",
+       "resolved_at": "2023-11-21T14:14+05:30",
+       "downtime_h": 1.6,
+       "sla_met": true,
+       "crew": "J2 \u00b7 Harpreet S.",
+       "contractor": "Jyoti Lighting Co.",
+       "cost_inr": 377,
+       "status": "Closed"
+      }
+     ]
     }
    },
    {
@@ -5775,8 +6326,13 @@ window.SLGIS_DATA = {
      "cct_k": 4000,
      "ccms_node": false,
      "install_date": "2010-09-21",
-     "fixture_installed": "2022-04-21",
-     "last_inspected": "2026-10-09",
+     "fixture_installed": "2022-03-27",
+     "fixture_make": "Arcbeam",
+     "fixture_batch": "ARB-2203",
+     "fixture_warranty_years": 5,
+     "last_inspected": "2026-09-11",
+     "last_earthing_check": "2026-04-01",
+     "junction_box_condition": "Good",
      "feeder_panel": "FP-CP-04",
      "circuit": "C2",
      "circuit_seq": 5,
@@ -5786,27 +6342,39 @@ window.SLGIS_DATA = {
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 16.1
+       "kwh": 16.2,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 15.2
+       "kwh": 13.9,
+       "scheduled_h": 323.4,
+       "lit_h": 292.6
       },
       {
        "month": "2026-06",
-       "kwh": 14.6
+       "kwh": 14.6,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 15.7
+       "kwh": 15.4,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 16.1
+       "kwh": 15.9,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
       },
       {
        "month": "2026-09",
-       "kwh": 16.5
+       "kwh": 16.5,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -5819,16 +6387,16 @@ window.SLGIS_DATA = {
       "sla_hours": 48
      },
      "ticket": {
-      "id": "TKT-2026-0164",
+      "id": "TKT-2026-0168",
       "status": "Open",
-      "priority": "Medium",
+      "category": "not_working",
       "issue": "LED driver failure",
       "source": "Night patrol",
       "raised_at": "2026-10-12T21:00+05:30",
-      "sla_hours": 48,
-      "sla_due": "2026-10-14T21:00+05:30",
       "assigned_crew": null,
       "work_started_at": null,
+      "closed_at": null,
+      "resolution": null,
       "complaints": 0,
       "notes": null,
       "pole_uids": [
@@ -5837,51 +6405,51 @@ window.SLGIS_DATA = {
      },
      "repair_history": [
       {
-       "ticket_id": "TKT-2025-0107",
+       "ticket_id": "TKT-2026-0127",
+       "type": "Corrective",
+       "issue": "Surge protection device failure",
+       "action": "Replaced 10 kV surge protection device",
+       "source": "Night patrol",
+       "priority": "Medium",
+       "raised_at": "2026-05-23T05:36+05:30",
+       "resolved_at": "2026-05-26T14:48+05:30",
+       "downtime_h": 81.2,
+       "sla_met": false,
+       "crew": "J2 \u00b7 Harpreet S.",
+       "contractor": "Jyoti Lighting Co.",
+       "cost_inr": 708,
+       "status": "Closed"
+      },
+      {
+       "ticket_id": "TKT-2024-0173",
+       "type": "Corrective",
+       "issue": "LED driver failure",
+       "action": "Replaced LED driver",
+       "source": "Night patrol",
+       "priority": "Medium",
+       "raised_at": "2024-11-12T21:48+05:30",
+       "resolved_at": "2024-11-14T00:18+05:30",
+       "downtime_h": 26.5,
+       "sla_met": true,
+       "crew": "J2 \u00b7 Harpreet S.",
+       "contractor": "Jyoti Lighting Co.",
+       "cost_inr": 3300,
+       "status": "Closed"
+      },
+      {
+       "ticket_id": "TKT-2023-0162",
        "type": "Preventive",
        "issue": "Annual preventive maintenance",
        "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
        "source": "Scheduled (AMC)",
        "priority": "Low",
-       "raised_at": "2025-01-25T10:00+05:30",
-       "resolved_at": "2025-01-25T11:48+05:30",
-       "downtime_h": 1.8,
+       "raised_at": "2023-08-10T13:38+05:30",
+       "resolved_at": "2023-08-10T14:44+05:30",
+       "downtime_h": 1.1,
        "sla_met": true,
        "crew": "J1 \u00b7 Imran S.",
        "contractor": "Jyoti Lighting Co.",
-       "cost_inr": 357,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2024-0148",
-       "type": "Corrective",
-       "issue": "Flickering",
-       "action": "Replaced LED driver and module connector",
-       "source": "Night patrol",
-       "priority": "Medium",
-       "raised_at": "2024-05-31T19:22+05:30",
-       "resolved_at": "2024-06-02T02:22+05:30",
-       "downtime_h": 31.0,
-       "sla_met": true,
-       "crew": "J2 \u00b7 Harpreet S.",
-       "contractor": "Jyoti Lighting Co.",
-       "cost_inr": 3656,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2023-0126",
-       "type": "Corrective",
-       "issue": "Water ingress in luminaire",
-       "action": "Resealed luminaire, replaced gasket",
-       "source": "Night patrol",
-       "priority": "Medium",
-       "raised_at": "2023-04-05T19:08+05:30",
-       "resolved_at": "2023-04-08T00:14+05:30",
-       "downtime_h": 53.1,
-       "sla_met": false,
-       "crew": "J2 \u00b7 Harpreet S.",
-       "contractor": "Jyoti Lighting Co.",
-       "cost_inr": 905,
+       "cost_inr": 350,
        "status": "Closed"
       }
      ]
@@ -5909,39 +6477,56 @@ window.SLGIS_DATA = {
      "wattage": 45,
      "cct_k": 4000,
      "ccms_node": false,
-     "install_date": "2010-09-25",
-     "fixture_installed": "2022-03-11",
-     "last_inspected": "2026-09-29",
+     "install_date": "2010-09-07",
+     "fixture_installed": "2022-03-19",
+     "fixture_make": "Arcbeam",
+     "fixture_batch": "ARB-2203",
+     "fixture_warranty_years": 5,
+     "last_inspected": "2026-10-09",
+     "last_earthing_check": "2026-04-15",
+     "junction_box_condition": "Fair",
      "feeder_panel": "FP-CP-04",
      "circuit": "C2",
      "circuit_seq": 4,
      "phase": "R",
-     "energy_kwh": 16.6,
+     "energy_kwh": 16.4,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 16.0
+       "kwh": 15.7,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 15.3
+       "kwh": 15.8,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 14.3
+       "kwh": 14.2,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 15.4
+       "kwh": 15.0,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 15.9
+       "kwh": 16.1,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
       },
       {
        "month": "2026-09",
-       "kwh": 16.6
+       "kwh": 16.4,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -5956,19 +6541,35 @@ window.SLGIS_DATA = {
      "ticket": null,
      "repair_history": [
       {
-       "ticket_id": "TKT-2023-0165",
+       "ticket_id": "TKT-2026-0105",
        "type": "Corrective",
-       "issue": "Pole damaged by vehicle",
-       "action": "Replaced pole, re-grouted foundation",
+       "issue": "LED driver failure",
+       "action": "Replaced LED driver",
        "source": "Night patrol",
-       "priority": "High",
-       "raised_at": "2023-09-10T23:19+05:30",
-       "resolved_at": "2023-09-14T13:43+05:30",
-       "downtime_h": 86.4,
-       "sla_met": false,
+       "priority": "Medium",
+       "raised_at": "2026-01-26T21:49+05:30",
+       "resolved_at": "2026-01-28T00:19+05:30",
+       "downtime_h": 26.5,
+       "sla_met": true,
        "crew": "J2 \u00b7 Harpreet S.",
        "contractor": "Jyoti Lighting Co.",
-       "cost_inr": 22838,
+       "cost_inr": 3300,
+       "status": "Closed"
+      },
+      {
+       "ticket_id": "TKT-2024-0147",
+       "type": "Corrective",
+       "issue": "LED driver failure",
+       "action": "Replaced LED driver",
+       "source": "Night patrol",
+       "priority": "Medium",
+       "raised_at": "2024-07-05T21:33+05:30",
+       "resolved_at": "2024-07-07T00:03+05:30",
+       "downtime_h": 26.5,
+       "sla_met": true,
+       "crew": "J1 \u00b7 Imran S.",
+       "contractor": "Jyoti Lighting Co.",
+       "cost_inr": 3300,
        "status": "Closed"
       }
      ]
@@ -5996,39 +6597,56 @@ window.SLGIS_DATA = {
      "wattage": 45,
      "cct_k": 4000,
      "ccms_node": false,
-     "install_date": "2010-09-07",
-     "fixture_installed": "2022-04-11",
-     "last_inspected": "2026-09-30",
+     "install_date": "2010-09-23",
+     "fixture_installed": "2022-03-05",
+     "fixture_make": "Arcbeam",
+     "fixture_batch": "ARB-2203",
+     "fixture_warranty_years": 5,
+     "last_inspected": "2026-10-10",
+     "last_earthing_check": "2026-05-31",
+     "junction_box_condition": "Good",
      "feeder_panel": "FP-CP-04",
      "circuit": "C2",
      "circuit_seq": 3,
      "phase": "B",
-     "energy_kwh": 16.7,
+     "energy_kwh": 16.3,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 15.9
+       "kwh": 15.8,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 15.4
+       "kwh": 15.0,
+       "scheduled_h": 323.4,
+       "lit_h": 310.5
       },
       {
        "month": "2026-06",
-       "kwh": 14.6
+       "kwh": 14.7,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 15.6
+       "kwh": 14.9,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 16.6
+       "kwh": 16.1,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
       },
       {
        "month": "2026-09",
-       "kwh": 16.7
+       "kwh": 16.3,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -6043,19 +6661,51 @@ window.SLGIS_DATA = {
      "ticket": null,
      "repair_history": [
       {
-       "ticket_id": "TKT-2023-0194",
-       "type": "Corrective",
-       "issue": "Flickering",
-       "action": "Replaced LED driver and module connector",
-       "source": "Night patrol",
-       "priority": "Medium",
-       "raised_at": "2023-12-01T22:04+05:30",
-       "resolved_at": "2023-12-02T16:16+05:30",
-       "downtime_h": 18.2,
+       "ticket_id": "TKT-2026-0130",
+       "type": "Preventive",
+       "issue": "Annual preventive maintenance",
+       "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
+       "source": "Scheduled (AMC)",
+       "priority": "Low",
+       "raised_at": "2026-05-31T10:26+05:30",
+       "resolved_at": "2026-05-31T12:26+05:30",
+       "downtime_h": 2.0,
        "sla_met": true,
        "crew": "J2 \u00b7 Harpreet S.",
        "contractor": "Jyoti Lighting Co.",
-       "cost_inr": 4293,
+       "cost_inr": 410,
+       "status": "Closed"
+      },
+      {
+       "ticket_id": "TKT-2026-0125",
+       "type": "Corrective",
+       "issue": "LED driver failure",
+       "action": "Replaced LED driver",
+       "source": "Night patrol",
+       "priority": "Medium",
+       "raised_at": "2026-05-16T21:34+05:30",
+       "resolved_at": "2026-05-18T00:04+05:30",
+       "downtime_h": 26.5,
+       "sla_met": true,
+       "crew": "J2 \u00b7 Harpreet S.",
+       "contractor": "Jyoti Lighting Co.",
+       "cost_inr": 3300,
+       "status": "Closed"
+      },
+      {
+       "ticket_id": "TKT-2025-0141",
+       "type": "Corrective",
+       "issue": "LED driver failure",
+       "action": "Replaced LED driver",
+       "source": "Night patrol",
+       "priority": "Medium",
+       "raised_at": "2025-06-30T21:15+05:30",
+       "resolved_at": "2025-07-01T23:45+05:30",
+       "downtime_h": 26.5,
+       "sla_met": true,
+       "crew": "J1 \u00b7 Imran S.",
+       "contractor": "Jyoti Lighting Co.",
+       "cost_inr": 3300,
        "status": "Closed"
       }
      ]
@@ -6083,9 +6733,14 @@ window.SLGIS_DATA = {
      "wattage": 45,
      "cct_k": 4000,
      "ccms_node": false,
-     "install_date": "2010-09-14",
-     "fixture_installed": "2022-05-06",
-     "last_inspected": "2026-07-31",
+     "install_date": "2010-09-17",
+     "fixture_installed": "2022-03-24",
+     "fixture_make": "Arcbeam",
+     "fixture_batch": "ARB-2203",
+     "fixture_warranty_years": 5,
+     "last_inspected": "2026-10-07",
+     "last_earthing_check": "2026-05-06",
+     "junction_box_condition": "Good",
      "feeder_panel": "FP-CP-04",
      "circuit": "C2",
      "circuit_seq": 2,
@@ -6095,27 +6750,39 @@ window.SLGIS_DATA = {
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 15.7
+       "kwh": 16.1,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 15.6
+       "kwh": 15.6,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 14.5
+       "kwh": 14.1,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 15.6
+       "kwh": 14.9,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 16.3
+       "kwh": 16.1,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
       },
       {
        "month": "2026-09",
-       "kwh": 16.8
+       "kwh": 16.8,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -6130,67 +6797,19 @@ window.SLGIS_DATA = {
      "ticket": null,
      "repair_history": [
       {
-       "ticket_id": "TKT-2025-0155",
+       "ticket_id": "TKT-2025-0138",
        "type": "Corrective",
-       "issue": "MCB tripped at feeder pillar",
-       "action": "Reset MCB, insulation-resistance test of circuit",
-       "source": "Call centre",
-       "priority": "Medium",
-       "raised_at": "2025-08-19T21:15+05:30",
-       "resolved_at": "2025-08-23T04:39+05:30",
-       "downtime_h": 79.4,
-       "sla_met": false,
-       "crew": "J2 \u00b7 Harpreet S.",
-       "contractor": "Jyoti Lighting Co.",
-       "cost_inr": 224,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2025-0134",
-       "type": "Corrective",
-       "issue": "Surge protection device failure",
-       "action": "Replaced 10 kV surge protection device",
-       "source": "Citizen app",
-       "priority": "Medium",
-       "raised_at": "2025-05-29T21:16+05:30",
-       "resolved_at": "2025-05-31T18:52+05:30",
-       "downtime_h": 45.6,
-       "sla_met": true,
-       "crew": "J2 \u00b7 Harpreet S.",
-       "contractor": "Jyoti Lighting Co.",
-       "cost_inr": 820,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2025-0114",
-       "type": "Preventive",
-       "issue": "Annual preventive maintenance",
-       "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
-       "source": "Scheduled (AMC)",
-       "priority": "Low",
-       "raised_at": "2025-03-05T14:51+05:30",
-       "resolved_at": "2025-03-05T16:21+05:30",
-       "downtime_h": 1.5,
-       "sla_met": true,
-       "crew": "J2 \u00b7 Harpreet S.",
-       "contractor": "Jyoti Lighting Co.",
-       "cost_inr": 364,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2023-0135",
-       "type": "Corrective",
-       "issue": "Water ingress in luminaire",
-       "action": "Resealed luminaire, replaced gasket",
+       "issue": "LED driver failure",
+       "action": "Replaced LED driver",
        "source": "Night patrol",
        "priority": "Medium",
-       "raised_at": "2023-05-01T06:23+05:30",
-       "resolved_at": "2023-05-03T12:41+05:30",
-       "downtime_h": 54.3,
-       "sla_met": false,
+       "raised_at": "2025-06-20T21:28+05:30",
+       "resolved_at": "2025-06-21T23:58+05:30",
+       "downtime_h": 26.5,
+       "sla_met": true,
        "crew": "J2 \u00b7 Harpreet S.",
        "contractor": "Jyoti Lighting Co.",
-       "cost_inr": 1473,
+       "cost_inr": 3300,
        "status": "Closed"
       }
      ]
@@ -6218,39 +6837,56 @@ window.SLGIS_DATA = {
      "wattage": 45,
      "cct_k": 4000,
      "ccms_node": false,
-     "install_date": "2010-09-05",
-     "fixture_installed": "2022-03-20",
-     "last_inspected": "2026-08-05",
+     "install_date": "2010-09-08",
+     "fixture_installed": "2022-03-09",
+     "fixture_make": "Arcbeam",
+     "fixture_batch": "ARB-2203",
+     "fixture_warranty_years": 5,
+     "last_inspected": "2026-08-07",
+     "last_earthing_check": "2025-08-08",
+     "junction_box_condition": "Good",
      "feeder_panel": "FP-CP-04",
      "circuit": "C2",
      "circuit_seq": 1,
      "phase": "R",
-     "energy_kwh": 16.5,
+     "energy_kwh": 16.7,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 15.6
+       "kwh": 16.3,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 15.6
+       "kwh": 15.7,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 14.0
+       "kwh": 14.7,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 15.1
+       "kwh": 14.9,
+       "scheduled_h": 317.2,
+       "lit_h": 304.5
       },
       {
        "month": "2026-08",
-       "kwh": 16.2
+       "kwh": 16.2,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
       },
       {
        "month": "2026-09",
-       "kwh": 16.5
+       "kwh": 16.7,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -6263,7 +6899,72 @@ window.SLGIS_DATA = {
       "sla_hours": 48
      },
      "ticket": null,
-     "repair_history": []
+     "repair_history": [
+      {
+       "ticket_id": "TKT-2026-0137",
+       "type": "Corrective",
+       "issue": "LED driver failure",
+       "action": "Replaced LED driver",
+       "source": "Night patrol",
+       "priority": "Medium",
+       "raised_at": "2026-07-15T21:20+05:30",
+       "resolved_at": "2026-07-16T23:50+05:30",
+       "downtime_h": 26.5,
+       "sla_met": true,
+       "crew": "J2 \u00b7 Harpreet S.",
+       "contractor": "Jyoti Lighting Co.",
+       "cost_inr": 3300,
+       "status": "Closed"
+      },
+      {
+       "ticket_id": "TKT-2025-0112",
+       "type": "Preventive",
+       "issue": "Annual preventive maintenance",
+       "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
+       "source": "Scheduled (AMC)",
+       "priority": "Low",
+       "raised_at": "2025-03-12T10:30+05:30",
+       "resolved_at": "2025-03-12T12:00+05:30",
+       "downtime_h": 1.5,
+       "sla_met": true,
+       "crew": "J2 \u00b7 Harpreet S.",
+       "contractor": "Jyoti Lighting Co.",
+       "cost_inr": 387,
+       "status": "Closed"
+      },
+      {
+       "ticket_id": "TKT-2025-0108",
+       "type": "Corrective",
+       "issue": "LED driver failure",
+       "action": "Replaced LED driver",
+       "source": "Night patrol",
+       "priority": "Medium",
+       "raised_at": "2025-02-10T21:29+05:30",
+       "resolved_at": "2025-02-11T23:59+05:30",
+       "downtime_h": 26.5,
+       "sla_met": true,
+       "crew": "J1 \u00b7 Imran S.",
+       "contractor": "Jyoti Lighting Co.",
+       "cost_inr": 3300,
+       "status": "Closed"
+      },
+      {
+       "ticket_id": "TKT-2023-0139",
+       "type": "Preventive",
+       "issue": "Annual preventive maintenance",
+       "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
+       "source": "Scheduled (AMC)",
+       "priority": "Low",
+       "raised_at": "2023-05-11T14:44+05:30",
+       "resolved_at": "2023-05-11T15:32+05:30",
+       "downtime_h": 0.8,
+       "sla_met": true,
+       "crew": "J2 \u00b7 Harpreet S.",
+       "contractor": "Jyoti Lighting Co.",
+       "cost_inr": 364,
+       "status": "Closed"
+      }
+     ]
     }
    },
    {
@@ -6288,39 +6989,56 @@ window.SLGIS_DATA = {
      "wattage": 45,
      "cct_k": 4000,
      "ccms_node": false,
-     "install_date": "2010-09-20",
-     "fixture_installed": "2022-04-26",
-     "last_inspected": "2026-09-11",
+     "install_date": "2010-09-19",
+     "fixture_installed": "2022-06-12",
+     "fixture_make": "Arcbeam",
+     "fixture_batch": "ARB-2206",
+     "fixture_warranty_years": 5,
+     "last_inspected": "2026-08-31",
+     "last_earthing_check": "2026-04-27",
+     "junction_box_condition": "Good",
      "feeder_panel": "FP-CP-04",
      "circuit": "C1",
      "circuit_seq": 1,
      "phase": "R",
-     "energy_kwh": 16.2,
+     "energy_kwh": 17.0,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 15.9
+       "kwh": 16.1,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 15.6
+       "kwh": 15.7,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 14.2
+       "kwh": 14.1,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 15.7
+       "kwh": 15.3,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 16.4
+       "kwh": 16.3,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
       },
       {
        "month": "2026-09",
-       "kwh": 16.2
+       "kwh": 17.0,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -6335,67 +7053,35 @@ window.SLGIS_DATA = {
      "ticket": null,
      "repair_history": [
       {
-       "ticket_id": "TKT-2026-0145",
-       "type": "Corrective",
-       "issue": "Loose connection in junction box",
-       "action": "Re-terminated cables, replaced connector",
-       "source": "Call centre",
-       "priority": "Medium",
-       "raised_at": "2026-09-09T23:16+05:30",
-       "resolved_at": "2026-09-11T02:04+05:30",
-       "downtime_h": 26.8,
-       "sla_met": true,
-       "crew": "J1 \u00b7 Imran S.",
-       "contractor": "Jyoti Lighting Co.",
-       "cost_inr": 355,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2025-0177",
-       "type": "Corrective",
-       "issue": "Loose connection in junction box",
-       "action": "Re-terminated cables, replaced connector",
-       "source": "Night patrol",
-       "priority": "Medium",
-       "raised_at": "2025-11-24T20:04+05:30",
-       "resolved_at": "2025-11-27T01:04+05:30",
-       "downtime_h": 53.0,
-       "sla_met": false,
-       "crew": "J1 \u00b7 Imran S.",
-       "contractor": "Jyoti Lighting Co.",
-       "cost_inr": 553,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2025-0162",
+       "ticket_id": "TKT-2025-0146",
        "type": "Preventive",
        "issue": "Annual preventive maintenance",
        "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
        "source": "Scheduled (AMC)",
        "priority": "Low",
-       "raised_at": "2025-09-13T14:58+05:30",
-       "resolved_at": "2025-09-13T16:46+05:30",
-       "downtime_h": 1.8,
+       "raised_at": "2025-07-19T12:15+05:30",
+       "resolved_at": "2025-07-19T13:21+05:30",
+       "downtime_h": 1.1,
        "sla_met": true,
-       "crew": "J2 \u00b7 Harpreet S.",
+       "crew": "J1 \u00b7 Imran S.",
        "contractor": "Jyoti Lighting Co.",
-       "cost_inr": 427,
+       "cost_inr": 440,
        "status": "Closed"
       },
       {
-       "ticket_id": "TKT-2024-0137",
-       "type": "Corrective",
-       "issue": "MCB tripped at feeder pillar",
-       "action": "Reset MCB, insulation-resistance test of circuit",
-       "source": "Night patrol",
-       "priority": "Medium",
-       "raised_at": "2024-04-02T06:11+05:30",
-       "resolved_at": "2024-04-03T02:05+05:30",
-       "downtime_h": 19.9,
+       "ticket_id": "TKT-2024-0174",
+       "type": "Preventive",
+       "issue": "Annual preventive maintenance",
+       "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
+       "source": "Scheduled (AMC)",
+       "priority": "Low",
+       "raised_at": "2024-11-13T12:40+05:30",
+       "resolved_at": "2024-11-13T13:52+05:30",
+       "downtime_h": 1.2,
        "sla_met": true,
        "crew": "J2 \u00b7 Harpreet S.",
        "contractor": "Jyoti Lighting Co.",
-       "cost_inr": 367,
+       "cost_inr": 392,
        "status": "Closed"
       }
      ]
@@ -6423,39 +7109,56 @@ window.SLGIS_DATA = {
      "wattage": 60,
      "cct_k": 4000,
      "ccms_node": false,
-     "install_date": "2010-09-06",
-     "fixture_installed": "2022-04-08",
-     "last_inspected": "2026-09-09",
+     "install_date": "2010-09-05",
+     "fixture_installed": "2022-06-23",
+     "fixture_make": "Arcbeam",
+     "fixture_batch": "ARB-2206",
+     "fixture_warranty_years": 5,
+     "last_inspected": "2026-09-16",
+     "last_earthing_check": "2026-05-21",
+     "junction_box_condition": "Good",
      "feeder_panel": "FP-CP-04",
      "circuit": "C1",
      "circuit_seq": 2,
      "phase": "Y",
-     "energy_kwh": 43.9,
+     "energy_kwh": 42.0,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 21.6
+       "kwh": 20.8,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 20.7
+       "kwh": 20.3,
+       "scheduled_h": 323.4,
+       "lit_h": 323.1
       },
       {
        "month": "2026-06",
-       "kwh": 19.1
+       "kwh": 17.6,
+       "scheduled_h": 302.0,
+       "lit_h": 279.8
       },
       {
        "month": "2026-07",
-       "kwh": 20.1
+       "kwh": 19.8,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 21.4
+       "kwh": 21.8,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
       },
       {
        "month": "2026-09",
-       "kwh": 43.9
+       "kwh": 42.0,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -6470,19 +7173,51 @@ window.SLGIS_DATA = {
      "ticket": null,
      "repair_history": [
       {
-       "ticket_id": "TKT-2024-0186",
+       "ticket_id": "TKT-2026-0131",
        "type": "Corrective",
-       "issue": "Water ingress in luminaire",
-       "action": "Resealed luminaire, replaced gasket",
+       "issue": "Loose connection in junction box",
+       "action": "Re-terminated cables, replaced connector",
        "source": "Night patrol",
        "priority": "Medium",
-       "raised_at": "2024-11-06T20:53+05:30",
-       "resolved_at": "2024-11-07T14:11+05:30",
-       "downtime_h": 17.3,
-       "sla_met": true,
+       "raised_at": "2026-06-01T05:04+05:30",
+       "resolved_at": "2026-06-03T21:10+05:30",
+       "downtime_h": 64.1,
+       "sla_met": false,
        "crew": "J2 \u00b7 Harpreet S.",
        "contractor": "Jyoti Lighting Co.",
-       "cost_inr": 1096,
+       "cost_inr": 599,
+       "status": "Closed"
+      },
+      {
+       "ticket_id": "TKT-2024-0155",
+       "type": "Preventive",
+       "issue": "Annual preventive maintenance",
+       "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
+       "source": "Scheduled (AMC)",
+       "priority": "Low",
+       "raised_at": "2024-09-03T11:18+05:30",
+       "resolved_at": "2024-09-03T12:54+05:30",
+       "downtime_h": 1.6,
+       "sla_met": true,
+       "crew": "J1 \u00b7 Imran S.",
+       "contractor": "Jyoti Lighting Co.",
+       "cost_inr": 412,
+       "status": "Closed"
+      },
+      {
+       "ticket_id": "TKT-2024-0112",
+       "type": "Preventive",
+       "issue": "Annual preventive maintenance",
+       "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
+       "source": "Scheduled (AMC)",
+       "priority": "Low",
+       "raised_at": "2024-01-28T14:40+05:30",
+       "resolved_at": "2024-01-28T16:34+05:30",
+       "downtime_h": 1.9,
+       "sla_met": true,
+       "crew": "J1 \u00b7 Imran S.",
+       "contractor": "Jyoti Lighting Co.",
+       "cost_inr": 406,
        "status": "Closed"
       }
      ]
@@ -6510,9 +7245,14 @@ window.SLGIS_DATA = {
      "wattage": 45,
      "cct_k": 4000,
      "ccms_node": false,
-     "install_date": "2010-09-14",
-     "fixture_installed": "2022-06-14",
-     "last_inspected": "2026-10-08",
+     "install_date": "2010-09-23",
+     "fixture_installed": "2022-06-22",
+     "fixture_make": "Arcbeam",
+     "fixture_batch": "ARB-2206",
+     "fixture_warranty_years": 5,
+     "last_inspected": "2026-10-09",
+     "last_earthing_check": "2026-03-11",
+     "junction_box_condition": "Good",
      "feeder_panel": "FP-CP-04",
      "circuit": "C1",
      "circuit_seq": 3,
@@ -6522,27 +7262,39 @@ window.SLGIS_DATA = {
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 16.2
+       "kwh": 15.8,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 15.6
+       "kwh": 15.1,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 14.4
+       "kwh": 14.4,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 15.3
+       "kwh": 15.4,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 15.9
+       "kwh": 16.3,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
       },
       {
        "month": "2026-09",
-       "kwh": 16.6
+       "kwh": 16.6,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -6557,19 +7309,19 @@ window.SLGIS_DATA = {
      "ticket": null,
      "repair_history": [
       {
-       "ticket_id": "TKT-2025-0152",
-       "type": "Preventive",
-       "issue": "Annual preventive maintenance",
-       "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
-       "source": "Scheduled (AMC)",
+       "ticket_id": "TKT-2024-0148",
+       "type": "Corrective",
+       "issue": "Timer/photocell fault (day burning)",
+       "action": "Replaced timer contactor",
+       "source": "Call centre",
        "priority": "Low",
-       "raised_at": "2025-08-13T10:36+05:30",
-       "resolved_at": "2025-08-13T12:18+05:30",
-       "downtime_h": 1.7,
+       "raised_at": "2024-07-15T19:20+05:30",
+       "resolved_at": "2024-07-16T23:08+05:30",
+       "downtime_h": 27.8,
        "sla_met": true,
-       "crew": "J1 \u00b7 Imran S.",
+       "crew": "J2 \u00b7 Harpreet S.",
        "contractor": "Jyoti Lighting Co.",
-       "cost_inr": 378,
+       "cost_inr": 1612,
        "status": "Closed"
       }
      ]
@@ -6597,39 +7349,56 @@ window.SLGIS_DATA = {
      "wattage": 45,
      "cct_k": 4000,
      "ccms_node": false,
-     "install_date": "2010-09-03",
-     "fixture_installed": "2022-04-11",
-     "last_inspected": "2026-08-29",
+     "install_date": "2010-09-09",
+     "fixture_installed": "2022-06-10",
+     "fixture_make": "Arcbeam",
+     "fixture_batch": "ARB-2206",
+     "fixture_warranty_years": 5,
+     "last_inspected": "2026-09-04",
+     "last_earthing_check": "2024-11-23",
+     "junction_box_condition": "Good",
      "feeder_panel": "FP-CP-04",
      "circuit": "C1",
      "circuit_seq": 4,
      "phase": "R",
-     "energy_kwh": 16.3,
+     "energy_kwh": 17.0,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 16.0
+       "kwh": 15.8,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 15.5
+       "kwh": 15.1,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 14.5
+       "kwh": 14.5,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 15.5
+       "kwh": 14.9,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 16.5
+       "kwh": 15.8,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
       },
       {
        "month": "2026-09",
-       "kwh": 16.3
+       "kwh": 17.0,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -6642,16 +7411,16 @@ window.SLGIS_DATA = {
       "sla_hours": 48
      },
      "ticket": {
-      "id": "TKT-2026-0160",
-      "status": "In Progress",
-      "priority": "Low",
+      "id": "TKT-2026-0164",
+      "status": "Awaiting dusk check",
+      "category": "not_working",
       "issue": "Loose connection in junction box",
       "source": "Night patrol",
       "raised_at": "2026-10-12T18:30+05:30",
-      "sla_hours": 72,
-      "sla_due": "2026-10-15T18:30+05:30",
       "assigned_crew": "J2 \u00b7 Harpreet S.",
       "work_started_at": "2026-10-13T14:00+05:30",
+      "closed_at": "2026-10-13T16:00+05:30",
+      "resolution": "Re-terminated cables, replaced connector",
       "complaints": 0,
       "notes": null,
       "pole_uids": [
@@ -6660,19 +7429,19 @@ window.SLGIS_DATA = {
      },
      "repair_history": [
       {
-       "ticket_id": "TKT-2024-0157",
-       "type": "Corrective",
-       "issue": "Water ingress in luminaire",
-       "action": "Resealed luminaire, replaced gasket",
-       "source": "Call centre",
-       "priority": "Medium",
-       "raised_at": "2024-07-08T05:54+05:30",
-       "resolved_at": "2024-07-08T23:24+05:30",
-       "downtime_h": 17.5,
+       "ticket_id": "TKT-2024-0176",
+       "type": "Preventive",
+       "issue": "Annual preventive maintenance",
+       "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
+       "source": "Scheduled (AMC)",
+       "priority": "Low",
+       "raised_at": "2024-11-23T15:21+05:30",
+       "resolved_at": "2024-11-23T16:15+05:30",
+       "downtime_h": 0.9,
        "sla_met": true,
-       "crew": "J2 \u00b7 Harpreet S.",
+       "crew": "J1 \u00b7 Imran S.",
        "contractor": "Jyoti Lighting Co.",
-       "cost_inr": 1223,
+       "cost_inr": 378,
        "status": "Closed"
       }
      ]
@@ -6700,39 +7469,56 @@ window.SLGIS_DATA = {
      "wattage": 45,
      "cct_k": 4000,
      "ccms_node": false,
-     "install_date": "2010-09-27",
-     "fixture_installed": "2022-06-19",
-     "last_inspected": "2026-09-09",
+     "install_date": "2010-09-02",
+     "fixture_installed": "2022-06-25",
+     "fixture_make": "Arcbeam",
+     "fixture_batch": "ARB-2206",
+     "fixture_warranty_years": 5,
+     "last_inspected": "2026-08-16",
+     "last_earthing_check": "2025-01-03",
+     "junction_box_condition": "Poor",
      "feeder_panel": "FP-CP-04",
      "circuit": "C1",
      "circuit_seq": 5,
      "phase": "Y",
-     "energy_kwh": 16.9,
+     "energy_kwh": 17.0,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 15.4
+       "kwh": 15.8,
+       "scheduled_h": 334.4,
+       "lit_h": 325.1
       },
       {
        "month": "2026-05",
-       "kwh": 15.4
+       "kwh": 15.3,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 14.6
+       "kwh": 14.6,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 15.3
+       "kwh": 14.8,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 16.3
+       "kwh": 15.1,
+       "scheduled_h": 336.1,
+       "lit_h": 317.6
       },
       {
        "month": "2026-09",
-       "kwh": 16.9
+       "kwh": 17.0,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -6747,51 +7533,83 @@ window.SLGIS_DATA = {
      "ticket": null,
      "repair_history": [
       {
-       "ticket_id": "TKT-2026-0120",
+       "ticket_id": "TKT-2026-0142",
        "type": "Corrective",
-       "issue": "Surge protection device failure",
-       "action": "Replaced 10 kV surge protection device",
-       "source": "Citizen app",
+       "issue": "Water ingress in luminaire",
+       "action": "Resealed luminaire, replaced gasket",
+       "source": "Night patrol",
        "priority": "Medium",
-       "raised_at": "2026-03-31T19:49+05:30",
-       "resolved_at": "2026-04-01T16:13+05:30",
-       "downtime_h": 20.4,
+       "raised_at": "2026-08-14T22:07+05:30",
+       "resolved_at": "2026-08-16T12:07+05:30",
+       "downtime_h": 38.0,
        "sla_met": true,
        "crew": "J2 \u00b7 Harpreet S.",
        "contractor": "Jyoti Lighting Co.",
-       "cost_inr": 757,
+       "cost_inr": 1200,
        "status": "Closed"
       },
       {
-       "ticket_id": "TKT-2025-0167",
+       "ticket_id": "TKT-2026-0124",
+       "type": "Corrective",
+       "issue": "Water ingress in luminaire",
+       "action": "Resealed luminaire, replaced gasket",
+       "source": "Night patrol",
+       "priority": "Medium",
+       "raised_at": "2026-04-26T22:52+05:30",
+       "resolved_at": "2026-04-27T21:22+05:30",
+       "downtime_h": 22.5,
+       "sla_met": true,
+       "crew": "J2 \u00b7 Harpreet S.",
+       "contractor": "Jyoti Lighting Co.",
+       "cost_inr": 1200,
+       "status": "Closed"
+      },
+      {
+       "ticket_id": "TKT-2025-0173",
+       "type": "Corrective",
+       "issue": "Water ingress in luminaire",
+       "action": "Resealed luminaire, replaced gasket",
+       "source": "Night patrol",
+       "priority": "Medium",
+       "raised_at": "2025-12-17T22:26+05:30",
+       "resolved_at": "2025-12-19T05:26+05:30",
+       "downtime_h": 31.0,
+       "sla_met": true,
+       "crew": "J2 \u00b7 Harpreet S.",
+       "contractor": "Jyoti Lighting Co.",
+       "cost_inr": 1200,
+       "status": "Closed"
+      },
+      {
+       "ticket_id": "TKT-2024-0103",
        "type": "Preventive",
        "issue": "Annual preventive maintenance",
        "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
        "source": "Scheduled (AMC)",
        "priority": "Low",
-       "raised_at": "2025-09-29T13:22+05:30",
-       "resolved_at": "2025-09-29T15:10+05:30",
-       "downtime_h": 1.8,
+       "raised_at": "2024-01-07T13:23+05:30",
+       "resolved_at": "2024-01-07T15:05+05:30",
+       "downtime_h": 1.7,
        "sla_met": true,
        "crew": "J2 \u00b7 Harpreet S.",
        "contractor": "Jyoti Lighting Co.",
-       "cost_inr": 376,
+       "cost_inr": 416,
        "status": "Closed"
       },
       {
-       "ticket_id": "TKT-2023-0137",
+       "ticket_id": "TKT-2023-0156",
        "type": "Preventive",
        "issue": "Annual preventive maintenance",
        "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
        "source": "Scheduled (AMC)",
        "priority": "Low",
-       "raised_at": "2023-05-17T10:14+05:30",
-       "resolved_at": "2023-05-17T11:26+05:30",
-       "downtime_h": 1.2,
+       "raised_at": "2023-07-24T14:21+05:30",
+       "resolved_at": "2023-07-24T15:27+05:30",
+       "downtime_h": 1.1,
        "sla_met": true,
-       "crew": "J1 \u00b7 Imran S.",
+       "crew": "J2 \u00b7 Harpreet S.",
        "contractor": "Jyoti Lighting Co.",
-       "cost_inr": 443,
+       "cost_inr": 375,
        "status": "Closed"
       }
      ]
@@ -6819,39 +7637,56 @@ window.SLGIS_DATA = {
      "wattage": 45,
      "cct_k": 4000,
      "ccms_node": false,
-     "install_date": "2010-09-04",
-     "fixture_installed": "2022-06-11",
-     "last_inspected": "2026-08-11",
+     "install_date": "2010-09-11",
+     "fixture_installed": "2022-06-17",
+     "fixture_make": "Arcbeam",
+     "fixture_batch": "ARB-2206",
+     "fixture_warranty_years": 5,
+     "last_inspected": "2026-09-20",
+     "last_earthing_check": "2025-03-03",
+     "junction_box_condition": "Good",
      "feeder_panel": "FP-CP-04",
      "circuit": "C1",
      "circuit_seq": 6,
      "phase": "B",
-     "energy_kwh": 16.6,
+     "energy_kwh": 16.8,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 16.2
+       "kwh": 16.1,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 15.5
+       "kwh": 15.5,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 14.6
+       "kwh": 14.7,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 15.7
+       "kwh": 15.0,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 16.0
+       "kwh": 16.1,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
       },
       {
        "month": "2026-09",
-       "kwh": 16.6
+       "kwh": 16.8,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -6866,19 +7701,19 @@ window.SLGIS_DATA = {
      "ticket": null,
      "repair_history": [
       {
-       "ticket_id": "TKT-2025-0179",
+       "ticket_id": "TKT-2024-0180",
        "type": "Preventive",
        "issue": "Annual preventive maintenance",
        "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
        "source": "Scheduled (AMC)",
        "priority": "Low",
-       "raised_at": "2025-11-29T13:37+05:30",
-       "resolved_at": "2025-11-29T15:07+05:30",
-       "downtime_h": 1.5,
+       "raised_at": "2024-12-09T10:20+05:30",
+       "resolved_at": "2024-12-09T11:32+05:30",
+       "downtime_h": 1.2,
        "sla_met": true,
        "crew": "J2 \u00b7 Harpreet S.",
        "contractor": "Jyoti Lighting Co.",
-       "cost_inr": 400,
+       "cost_inr": 368,
        "status": "Closed"
       }
      ]
@@ -6906,39 +7741,56 @@ window.SLGIS_DATA = {
      "wattage": 45,
      "cct_k": 4000,
      "ccms_node": false,
-     "install_date": "2010-09-07",
-     "fixture_installed": "2022-06-01",
-     "last_inspected": "2026-09-18",
+     "install_date": "2010-09-17",
+     "fixture_installed": "2022-06-12",
+     "fixture_make": "Arcbeam",
+     "fixture_batch": "ARB-2206",
+     "fixture_warranty_years": 5,
+     "last_inspected": "2026-08-09",
+     "last_earthing_check": "2026-04-23",
+     "junction_box_condition": "Good",
      "feeder_panel": "FP-CP-04",
      "circuit": "C1",
      "circuit_seq": 7,
      "phase": "R",
-     "energy_kwh": 16.8,
+     "energy_kwh": 17.1,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 15.8
+       "kwh": 16.0,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 15.4
+       "kwh": 15.4,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 14.6
+       "kwh": 14.6,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 15.2
+       "kwh": 15.4,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 16.1
+       "kwh": 16.0,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
       },
       {
        "month": "2026-09",
-       "kwh": 16.8
+       "kwh": 17.1,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -6953,51 +7805,35 @@ window.SLGIS_DATA = {
      "ticket": null,
      "repair_history": [
       {
-       "ticket_id": "TKT-2025-0175",
+       "ticket_id": "TKT-2025-0109",
        "type": "Preventive",
        "issue": "Annual preventive maintenance",
        "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
        "source": "Scheduled (AMC)",
        "priority": "Low",
-       "raised_at": "2025-11-11T15:46+05:30",
-       "resolved_at": "2025-11-11T16:58+05:30",
-       "downtime_h": 1.2,
+       "raised_at": "2025-02-22T13:55+05:30",
+       "resolved_at": "2025-02-22T15:25+05:30",
+       "downtime_h": 1.5,
        "sla_met": true,
        "crew": "J1 \u00b7 Imran S.",
        "contractor": "Jyoti Lighting Co.",
-       "cost_inr": 442,
+       "cost_inr": 393,
        "status": "Closed"
       },
       {
-       "ticket_id": "TKT-2024-0176",
+       "ticket_id": "TKT-2024-0156",
        "type": "Preventive",
        "issue": "Annual preventive maintenance",
        "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
        "source": "Scheduled (AMC)",
        "priority": "Low",
-       "raised_at": "2024-09-17T15:02+05:30",
-       "resolved_at": "2024-09-17T15:50+05:30",
-       "downtime_h": 0.8,
+       "raised_at": "2024-09-05T13:43+05:30",
+       "resolved_at": "2024-09-05T15:19+05:30",
+       "downtime_h": 1.6,
        "sla_met": true,
-       "crew": "J1 \u00b7 Imran S.",
+       "crew": "J2 \u00b7 Harpreet S.",
        "contractor": "Jyoti Lighting Co.",
-       "cost_inr": 350,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2024-0162",
-       "type": "Corrective",
-       "issue": "Pole damaged by vehicle",
-       "action": "Replaced pole, re-grouted foundation",
-       "source": "Night patrol",
-       "priority": "High",
-       "raised_at": "2024-07-29T05:39+05:30",
-       "resolved_at": "2024-08-01T16:51+05:30",
-       "downtime_h": 83.2,
-       "sla_met": false,
-       "crew": "J1 \u00b7 Imran S.",
-       "contractor": "Jyoti Lighting Co.",
-       "cost_inr": 25556,
+       "cost_inr": 400,
        "status": "Closed"
       }
      ]
@@ -7025,39 +7861,56 @@ window.SLGIS_DATA = {
      "wattage": 45,
      "cct_k": 4000,
      "ccms_node": false,
-     "install_date": "2010-09-17",
-     "fixture_installed": "2022-05-16",
-     "last_inspected": "2026-08-03",
+     "install_date": "2010-09-28",
+     "fixture_installed": "2022-06-25",
+     "fixture_make": "Arcbeam",
+     "fixture_batch": "ARB-2206",
+     "fixture_warranty_years": 5,
+     "last_inspected": "2026-09-06",
+     "last_earthing_check": "2026-04-08",
+     "junction_box_condition": "Fair",
      "feeder_panel": "FP-CP-04",
      "circuit": "C1",
      "circuit_seq": 8,
      "phase": "Y",
-     "energy_kwh": 16.4,
+     "energy_kwh": 16.8,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 15.6
+       "kwh": 15.8,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 15.4
+       "kwh": 15.4,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 14.4
+       "kwh": 14.6,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 15.1
+       "kwh": 15.1,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 16.3
+       "kwh": 16.2,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
       },
       {
        "month": "2026-09",
-       "kwh": 16.4
+       "kwh": 16.8,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -7072,51 +7925,19 @@ window.SLGIS_DATA = {
      "ticket": null,
      "repair_history": [
       {
-       "ticket_id": "TKT-2025-0181",
-       "type": "Corrective",
-       "issue": "Loose connection in junction box",
-       "action": "Re-terminated cables, replaced connector",
-       "source": "Night patrol",
-       "priority": "Medium",
-       "raised_at": "2025-12-03T23:54+05:30",
-       "resolved_at": "2025-12-04T08:48+05:30",
-       "downtime_h": 8.9,
-       "sla_met": true,
-       "crew": "J1 \u00b7 Imran S.",
-       "contractor": "Jyoti Lighting Co.",
-       "cost_inr": 389,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2025-0124",
-       "type": "Corrective",
-       "issue": "Water ingress in luminaire",
-       "action": "Resealed luminaire, replaced gasket",
-       "source": "Night patrol",
-       "priority": "Medium",
-       "raised_at": "2025-04-13T21:54+05:30",
-       "resolved_at": "2025-04-15T06:54+05:30",
-       "downtime_h": 33.0,
-       "sla_met": true,
-       "crew": "J1 \u00b7 Imran S.",
-       "contractor": "Jyoti Lighting Co.",
-       "cost_inr": 1412,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2023-0149",
+       "ticket_id": "TKT-2024-0149",
        "type": "Preventive",
        "issue": "Annual preventive maintenance",
        "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
        "source": "Scheduled (AMC)",
        "priority": "Low",
-       "raised_at": "2023-07-25T11:16+05:30",
-       "resolved_at": "2023-07-25T13:16+05:30",
-       "downtime_h": 2.0,
+       "raised_at": "2024-07-25T11:02+05:30",
+       "resolved_at": "2024-07-25T11:56+05:30",
+       "downtime_h": 0.9,
        "sla_met": true,
        "crew": "J2 \u00b7 Harpreet S.",
        "contractor": "Jyoti Lighting Co.",
-       "cost_inr": 412,
+       "cost_inr": 437,
        "status": "Closed"
       }
      ]
@@ -7144,39 +7965,56 @@ window.SLGIS_DATA = {
      "wattage": 120,
      "cct_k": 4000,
      "ccms_node": true,
-     "install_date": "2010-07-25",
-     "fixture_installed": "2024-01-08",
-     "last_inspected": "2026-10-04",
+     "install_date": "2010-07-15",
+     "fixture_installed": "2023-11-05",
+     "fixture_make": "Lumetra",
+     "fixture_batch": "LUM-2307",
+     "fixture_warranty_years": 5,
+     "last_inspected": "2026-10-06",
+     "last_earthing_check": "2026-06-11",
+     "junction_box_condition": "Good",
      "feeder_panel": "FP-CP-05",
      "circuit": "C1",
      "circuit_seq": 1,
      "phase": "R",
-     "energy_kwh": 44.7,
+     "energy_kwh": 44.4,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 42.3
+       "kwh": 41.9,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 42.2
+       "kwh": 41.7,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 37.2
+       "kwh": 39.2,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 39.6
+       "kwh": 40.9,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 43.1
+       "kwh": 43.1,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
       },
       {
        "month": "2026-09",
-       "kwh": 44.7
+       "kwh": 44.4,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -7191,83 +8029,35 @@ window.SLGIS_DATA = {
      "ticket": null,
      "repair_history": [
       {
-       "ticket_id": "TKT-2026-0141",
-       "type": "Corrective",
-       "issue": "Flickering",
-       "action": "Replaced LED driver and module connector",
-       "source": "Call centre",
-       "priority": "Medium",
-       "raised_at": "2026-07-26T20:20+05:30",
-       "resolved_at": "2026-07-27T14:26+05:30",
-       "downtime_h": 18.1,
-       "sla_met": true,
-       "crew": "R2 \u00b7 Deepak R.",
-       "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 3735,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2026-0118",
+       "ticket_id": "TKT-2024-0165",
        "type": "Preventive",
        "issue": "Annual preventive maintenance",
        "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
        "source": "Scheduled (AMC)",
        "priority": "Low",
-       "raised_at": "2026-03-20T14:45+05:30",
-       "resolved_at": "2026-03-20T16:27+05:30",
-       "downtime_h": 1.7,
-       "sla_met": true,
-       "crew": "R2 \u00b7 Deepak R.",
-       "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 353,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2026-0106",
-       "type": "Corrective",
-       "issue": "Flickering",
-       "action": "Replaced LED driver and module connector",
-       "source": "Citizen app",
-       "priority": "Medium",
-       "raised_at": "2026-01-25T22:12+05:30",
-       "resolved_at": "2026-01-27T21:06+05:30",
-       "downtime_h": 46.9,
-       "sla_met": true,
-       "crew": "R2 \u00b7 Deepak R.",
-       "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 3069,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2024-0134",
-       "type": "Preventive",
-       "issue": "Annual preventive maintenance",
-       "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
-       "source": "Scheduled (AMC)",
-       "priority": "Low",
-       "raised_at": "2024-03-20T12:20+05:30",
-       "resolved_at": "2024-03-20T14:08+05:30",
-       "downtime_h": 1.8,
+       "raised_at": "2024-10-11T12:22+05:30",
+       "resolved_at": "2024-10-11T13:16+05:30",
+       "downtime_h": 0.9,
        "sla_met": true,
        "crew": "R3 \u00b7 Farhan A.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 392,
+       "cost_inr": 438,
        "status": "Closed"
       },
       {
-       "ticket_id": "TKT-2024-0105",
+       "ticket_id": "TKT-2023-0182",
        "type": "Retrofit",
        "issue": "LED retrofit (HPS 250 W \u2192 LED 120 W)",
        "action": "Replaced luminaire with LED; CCMS node fitted",
        "source": "Scheduled (retrofit programme)",
        "priority": "Low",
-       "raised_at": "2024-01-08T13:14+05:30",
-       "resolved_at": "2024-01-08T15:50+05:30",
-       "downtime_h": 2.6,
+       "raised_at": "2023-11-05T10:08+05:30",
+       "resolved_at": "2023-11-05T14:08+05:30",
+       "downtime_h": 4.0,
        "sla_met": true,
        "crew": "R3 \u00b7 Farhan A.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 11238,
+       "cost_inr": 10354,
        "status": "Closed"
       }
      ]
@@ -7296,38 +8086,55 @@ window.SLGIS_DATA = {
      "cct_k": 4000,
      "ccms_node": true,
      "install_date": "2010-07-22",
-     "fixture_installed": "2023-10-23",
-     "last_inspected": "2026-08-17",
+     "fixture_installed": "2023-12-24",
+     "fixture_make": "Lumetra",
+     "fixture_batch": "LUM-2307",
+     "fixture_warranty_years": 5,
+     "last_inspected": "2026-08-08",
+     "last_earthing_check": "2026-05-04",
+     "junction_box_condition": "Good",
      "feeder_panel": "FP-CP-05",
      "circuit": "C1",
      "circuit_seq": 2,
      "phase": "Y",
-     "energy_kwh": 43.7,
+     "energy_kwh": 43.5,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 42.7
+       "kwh": 42.5,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 41.2
+       "kwh": 40.7,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 38.4
+       "kwh": 38.2,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 40.6
+       "kwh": 41.1,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 44.2
+       "kwh": 42.0,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
       },
       {
        "month": "2026-09",
-       "kwh": 43.7
+       "kwh": 43.5,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -7342,51 +8149,35 @@ window.SLGIS_DATA = {
      "ticket": null,
      "repair_history": [
       {
-       "ticket_id": "TKT-2025-0187",
+       "ticket_id": "TKT-2024-0120",
        "type": "Corrective",
-       "issue": "Pole damaged by vehicle",
-       "action": "Replaced pole, re-grouted foundation",
-       "source": "CCMS auto-alert",
-       "priority": "High",
-       "raised_at": "2025-12-22T05:52+05:30",
-       "resolved_at": "2025-12-23T12:16+05:30",
-       "downtime_h": 30.4,
-       "sla_met": false,
-       "crew": "R3 \u00b7 Farhan A.",
-       "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 25567,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2025-0116",
-       "type": "Preventive",
-       "issue": "Annual preventive maintenance",
-       "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
-       "source": "Scheduled (AMC)",
-       "priority": "Low",
-       "raised_at": "2025-03-09T12:33+05:30",
-       "resolved_at": "2025-03-09T14:15+05:30",
-       "downtime_h": 1.7,
+       "issue": "Water ingress in luminaire",
+       "action": "Resealed luminaire, replaced gasket",
+       "source": "Night patrol",
+       "priority": "Medium",
+       "raised_at": "2024-02-13T19:02+05:30",
+       "resolved_at": "2024-02-14T14:56+05:30",
+       "downtime_h": 19.9,
        "sla_met": true,
-       "crew": "R2 \u00b7 Deepak R.",
+       "crew": "R1 \u00b7 Anil M.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 388,
+       "cost_inr": 1395,
        "status": "Closed"
       },
       {
-       "ticket_id": "TKT-2023-0181",
+       "ticket_id": "TKT-2023-0193",
        "type": "Retrofit",
        "issue": "LED retrofit (HPS 250 W \u2192 LED 120 W)",
        "action": "Replaced luminaire with LED; CCMS node fitted",
        "source": "Scheduled (retrofit programme)",
        "priority": "Low",
-       "raised_at": "2023-10-23T13:14+05:30",
-       "resolved_at": "2023-10-23T17:20+05:30",
-       "downtime_h": 4.1,
+       "raised_at": "2023-12-24T12:52+05:30",
+       "resolved_at": "2023-12-24T17:04+05:30",
+       "downtime_h": 4.2,
        "sla_met": true,
-       "crew": "R2 \u00b7 Deepak R.",
+       "crew": "R3 \u00b7 Farhan A.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 11065,
+       "cost_inr": 10110,
        "status": "Closed"
       }
      ]
@@ -7414,39 +8205,56 @@ window.SLGIS_DATA = {
      "wattage": 120,
      "cct_k": 4000,
      "ccms_node": true,
-     "install_date": "2010-07-20",
-     "fixture_installed": "2023-12-18",
-     "last_inspected": "2026-09-23",
+     "install_date": "2010-07-07",
+     "fixture_installed": "2023-07-11",
+     "fixture_make": "Lumetra",
+     "fixture_batch": "LUM-2307",
+     "fixture_warranty_years": 5,
+     "last_inspected": "2026-10-03",
+     "last_earthing_check": "2026-06-07",
+     "junction_box_condition": "Fair",
      "feeder_panel": "FP-CP-05",
      "circuit": "C1",
      "circuit_seq": 3,
      "phase": "B",
-     "energy_kwh": 43.5,
+     "energy_kwh": 45.3,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 41.9
+       "kwh": 42.2,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 40.4
+       "kwh": 41.8,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 38.0
+       "kwh": 38.5,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 40.8
+       "kwh": 40.6,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 43.1
+       "kwh": 42.2,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
       },
       {
        "month": "2026-09",
-       "kwh": 43.5
+       "kwh": 45.3,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -7459,16 +8267,16 @@ window.SLGIS_DATA = {
       "sla_hours": 48
      },
      "ticket": {
-      "id": "TKT-2026-0169",
+      "id": "TKT-2026-0174",
       "status": "Open",
-      "priority": "Medium",
+      "category": "not_working",
       "issue": "LED driver failure",
       "source": "CCMS auto-alert",
       "raised_at": "2026-10-13T06:30+05:30",
-      "sla_hours": 48,
-      "sla_due": "2026-10-15T06:30+05:30",
       "assigned_crew": null,
       "work_started_at": null,
+      "closed_at": null,
+      "resolution": null,
       "complaints": 0,
       "notes": null,
       "pole_uids": [
@@ -7477,19 +8285,35 @@ window.SLGIS_DATA = {
      },
      "repair_history": [
       {
-       "ticket_id": "TKT-2023-0199",
+       "ticket_id": "TKT-2026-0133",
+       "type": "Preventive",
+       "issue": "Annual preventive maintenance",
+       "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
+       "source": "Scheduled (AMC)",
+       "priority": "Low",
+       "raised_at": "2026-06-07T15:02+05:30",
+       "resolved_at": "2026-06-07T15:50+05:30",
+       "downtime_h": 0.8,
+       "sla_met": true,
+       "crew": "R1 \u00b7 Anil M.",
+       "contractor": "Roshni Infra Maintenance",
+       "cost_inr": 422,
+       "status": "Closed"
+      },
+      {
+       "ticket_id": "TKT-2023-0151",
        "type": "Retrofit",
        "issue": "LED retrofit (HPS 250 W \u2192 LED 120 W)",
        "action": "Replaced luminaire with LED; CCMS node fitted",
        "source": "Scheduled (retrofit programme)",
        "priority": "Low",
-       "raised_at": "2023-12-18T14:46+05:30",
-       "resolved_at": "2023-12-18T17:22+05:30",
-       "downtime_h": 2.6,
+       "raised_at": "2023-07-11T10:26+05:30",
+       "resolved_at": "2023-07-11T13:32+05:30",
+       "downtime_h": 3.1,
        "sla_met": true,
        "crew": "R3 \u00b7 Farhan A.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 11435,
+       "cost_inr": 11283,
        "status": "Closed"
       }
      ]
@@ -7517,39 +8341,56 @@ window.SLGIS_DATA = {
      "wattage": 120,
      "cct_k": 4000,
      "ccms_node": true,
-     "install_date": "2010-07-17",
-     "fixture_installed": "2024-01-07",
-     "last_inspected": "2026-08-21",
+     "install_date": "2010-07-05",
+     "fixture_installed": "2023-10-25",
+     "fixture_make": "Lumetra",
+     "fixture_batch": "LUM-2307",
+     "fixture_warranty_years": 5,
+     "last_inspected": "2026-08-13",
+     "last_earthing_check": "2025-06-15",
+     "junction_box_condition": "Good",
      "feeder_panel": "FP-CP-05",
      "circuit": "C1",
      "circuit_seq": 4,
      "phase": "R",
-     "energy_kwh": 44.2,
+     "energy_kwh": 44.5,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 41.8
+       "kwh": 41.9,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 41.1
+       "kwh": 41.8,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 37.8
+       "kwh": 37.6,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 41.2
+       "kwh": 39.8,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 43.0
+       "kwh": 42.6,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
       },
       {
        "month": "2026-09",
-       "kwh": 44.2
+       "kwh": 44.5,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -7564,51 +8405,19 @@ window.SLGIS_DATA = {
      "ticket": null,
      "repair_history": [
       {
-       "ticket_id": "TKT-2025-0117",
-       "type": "Preventive",
-       "issue": "Annual preventive maintenance",
-       "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
-       "source": "Scheduled (AMC)",
-       "priority": "Low",
-       "raised_at": "2025-03-09T12:39+05:30",
-       "resolved_at": "2025-03-09T13:39+05:30",
-       "downtime_h": 1.0,
-       "sla_met": true,
-       "crew": "R3 \u00b7 Farhan A.",
-       "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 439,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2024-0195",
-       "type": "Preventive",
-       "issue": "Annual preventive maintenance",
-       "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
-       "source": "Scheduled (AMC)",
-       "priority": "Low",
-       "raised_at": "2024-12-27T15:35+05:30",
-       "resolved_at": "2024-12-27T16:35+05:30",
-       "downtime_h": 1.0,
-       "sla_met": true,
-       "crew": "R3 \u00b7 Farhan A.",
-       "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 379,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2024-0104",
+       "ticket_id": "TKT-2023-0180",
        "type": "Retrofit",
        "issue": "LED retrofit (HPS 250 W \u2192 LED 120 W)",
        "action": "Replaced luminaire with LED; CCMS node fitted",
        "source": "Scheduled (retrofit programme)",
        "priority": "Low",
-       "raised_at": "2024-01-07T10:32+05:30",
-       "resolved_at": "2024-01-07T15:20+05:30",
-       "downtime_h": 4.8,
+       "raised_at": "2023-10-25T10:36+05:30",
+       "resolved_at": "2023-10-25T15:06+05:30",
+       "downtime_h": 4.5,
        "sla_met": true,
-       "crew": "R1 \u00b7 Anil M.",
+       "crew": "R2 \u00b7 Deepak R.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 10108,
+       "cost_inr": 9881,
        "status": "Closed"
       }
      ]
@@ -7636,39 +8445,56 @@ window.SLGIS_DATA = {
      "wattage": 120,
      "cct_k": 4000,
      "ccms_node": true,
-     "install_date": "2010-07-04",
-     "fixture_installed": "2023-09-23",
-     "last_inspected": "2026-08-07",
+     "install_date": "2010-07-27",
+     "fixture_installed": "2023-12-05",
+     "fixture_make": "Lumetra",
+     "fixture_batch": "LUM-2307",
+     "fixture_warranty_years": 5,
+     "last_inspected": "2026-09-23",
+     "last_earthing_check": "2026-07-18",
+     "junction_box_condition": "Fair",
      "feeder_panel": "FP-CP-05",
      "circuit": "C1",
      "circuit_seq": 5,
      "phase": "Y",
-     "energy_kwh": 44.6,
+     "energy_kwh": 44.3,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 41.6
+       "kwh": 42.3,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 41.5
+       "kwh": 40.2,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 39.0
+       "kwh": 39.1,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 41.9
+       "kwh": 41.0,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 43.4
+       "kwh": 43.5,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
       },
       {
        "month": "2026-09",
-       "kwh": 44.6
+       "kwh": 44.3,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -7683,51 +8509,35 @@ window.SLGIS_DATA = {
      "ticket": null,
      "repair_history": [
       {
-       "ticket_id": "TKT-2025-0160",
-       "type": "Corrective",
-       "issue": "Surge protection device failure",
-       "action": "Replaced 10 kV surge protection device",
-       "source": "Citizen app",
-       "priority": "Medium",
-       "raised_at": "2025-09-04T20:16+05:30",
-       "resolved_at": "2025-09-05T23:22+05:30",
-       "downtime_h": 27.1,
+       "ticket_id": "TKT-2025-0137",
+       "type": "Preventive",
+       "issue": "Annual preventive maintenance",
+       "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
+       "source": "Scheduled (AMC)",
+       "priority": "Low",
+       "raised_at": "2025-06-11T11:45+05:30",
+       "resolved_at": "2025-06-11T13:03+05:30",
+       "downtime_h": 1.3,
        "sla_met": true,
-       "crew": "R3 \u00b7 Farhan A.",
-       "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 811,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2024-0136",
-       "type": "Corrective",
-       "issue": "LED driver failure",
-       "action": "Replaced LED driver",
-       "source": "Citizen app",
-       "priority": "Medium",
-       "raised_at": "2024-03-31T21:12+05:30",
-       "resolved_at": "2024-04-03T02:48+05:30",
-       "downtime_h": 53.6,
-       "sla_met": false,
        "crew": "R1 \u00b7 Anil M.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 3014,
+       "cost_inr": 414,
        "status": "Closed"
       },
       {
-       "ticket_id": "TKT-2023-0175",
+       "ticket_id": "TKT-2023-0189",
        "type": "Retrofit",
        "issue": "LED retrofit (HPS 250 W \u2192 LED 120 W)",
        "action": "Replaced luminaire with LED; CCMS node fitted",
        "source": "Scheduled (retrofit programme)",
        "priority": "Low",
-       "raised_at": "2023-09-23T12:52+05:30",
-       "resolved_at": "2023-09-23T17:16+05:30",
-       "downtime_h": 4.4,
+       "raised_at": "2023-12-05T15:44+05:30",
+       "resolved_at": "2023-12-05T18:20+05:30",
+       "downtime_h": 2.6,
        "sla_met": true,
-       "crew": "R3 \u00b7 Farhan A.",
+       "crew": "R2 \u00b7 Deepak R.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 10092,
+       "cost_inr": 11036,
        "status": "Closed"
       }
      ]
@@ -7755,39 +8565,56 @@ window.SLGIS_DATA = {
      "wattage": 120,
      "cct_k": 4000,
      "ccms_node": true,
-     "install_date": "2010-07-18",
-     "fixture_installed": "2023-07-26",
-     "last_inspected": "2026-09-27",
+     "install_date": "2010-07-14",
+     "fixture_installed": "2023-12-17",
+     "fixture_make": "Lumetra",
+     "fixture_batch": "LUM-2307",
+     "fixture_warranty_years": 5,
+     "last_inspected": "2026-08-08",
+     "last_earthing_check": "2026-02-02",
+     "junction_box_condition": "Good",
      "feeder_panel": "FP-CP-05",
      "circuit": "C1",
      "circuit_seq": 6,
      "phase": "B",
-     "energy_kwh": 44.3,
+     "energy_kwh": 44.6,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 43.0
+       "kwh": 41.7,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 39.7
+       "kwh": 40.7,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 38.0
+       "kwh": 38.2,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 41.5
+       "kwh": 40.0,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 43.0
+       "kwh": 43.1,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
       },
       {
        "month": "2026-09",
-       "kwh": 44.3
+       "kwh": 44.6,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -7802,67 +8629,67 @@ window.SLGIS_DATA = {
      "ticket": null,
      "repair_history": [
       {
-       "ticket_id": "TKT-2026-0133",
-       "type": "Corrective",
-       "issue": "Water ingress in luminaire",
-       "action": "Resealed luminaire, replaced gasket",
-       "source": "CCMS auto-alert",
-       "priority": "Medium",
-       "raised_at": "2026-05-13T23:20+05:30",
-       "resolved_at": "2026-05-14T14:56+05:30",
-       "downtime_h": 15.6,
-       "sla_met": true,
-       "crew": "R2 \u00b7 Deepak R.",
-       "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 1083,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2026-0130",
+       "ticket_id": "TKT-2026-0107",
        "type": "Preventive",
        "issue": "Annual preventive maintenance",
        "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
        "source": "Scheduled (AMC)",
        "priority": "Low",
-       "raised_at": "2026-05-05T12:03+05:30",
-       "resolved_at": "2026-05-05T13:39+05:30",
-       "downtime_h": 1.6,
+       "raised_at": "2026-02-02T10:20+05:30",
+       "resolved_at": "2026-02-02T11:26+05:30",
+       "downtime_h": 1.1,
        "sla_met": true,
        "crew": "R1 \u00b7 Anil M.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 381,
+       "cost_inr": 363,
        "status": "Closed"
       },
       {
-       "ticket_id": "TKT-2024-0154",
-       "type": "Corrective",
-       "issue": "LED driver failure",
-       "action": "Replaced LED driver",
-       "source": "Citizen app",
-       "priority": "Medium",
-       "raised_at": "2024-06-21T19:31+05:30",
-       "resolved_at": "2024-06-23T11:19+05:30",
-       "downtime_h": 39.8,
+       "ticket_id": "TKT-2025-0166",
+       "type": "Preventive",
+       "issue": "Annual preventive maintenance",
+       "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
+       "source": "Scheduled (AMC)",
+       "priority": "Low",
+       "raised_at": "2025-11-18T11:08+05:30",
+       "resolved_at": "2025-11-18T12:20+05:30",
+       "downtime_h": 1.2,
        "sla_met": true,
        "crew": "R3 \u00b7 Farhan A.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 3861,
+       "cost_inr": 418,
        "status": "Closed"
       },
       {
-       "ticket_id": "TKT-2023-0151",
+       "ticket_id": "TKT-2025-0103",
+       "type": "Corrective",
+       "issue": "Underground cable fault",
+       "action": "Located fault, jointed cable (heat-shrink kit)",
+       "source": "CCMS auto-alert",
+       "priority": "High",
+       "raised_at": "2025-01-10T19:05+05:30",
+       "resolved_at": "2025-01-14T06:53+05:30",
+       "downtime_h": 83.8,
+       "sla_met": false,
+       "crew": "R1 \u00b7 Anil M.",
+       "contractor": "Roshni Infra Maintenance",
+       "cost_inr": 6045,
+       "status": "Closed"
+      },
+      {
+       "ticket_id": "TKT-2023-0191",
        "type": "Retrofit",
        "issue": "LED retrofit (HPS 250 W \u2192 LED 120 W)",
        "action": "Replaced luminaire with LED; CCMS node fitted",
        "source": "Scheduled (retrofit programme)",
        "priority": "Low",
-       "raised_at": "2023-07-26T15:30+05:30",
-       "resolved_at": "2023-07-26T19:06+05:30",
-       "downtime_h": 3.6,
+       "raised_at": "2023-12-17T15:54+05:30",
+       "resolved_at": "2023-12-17T19:00+05:30",
+       "downtime_h": 3.1,
        "sla_met": true,
-       "crew": "R1 \u00b7 Anil M.",
+       "crew": "R3 \u00b7 Farhan A.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 11234,
+       "cost_inr": 10061,
        "status": "Closed"
       }
      ]
@@ -7890,39 +8717,56 @@ window.SLGIS_DATA = {
      "wattage": 120,
      "cct_k": 4000,
      "ccms_node": true,
-     "install_date": "2010-07-11",
-     "fixture_installed": "2023-11-28",
-     "last_inspected": "2026-10-01",
+     "install_date": "2010-07-27",
+     "fixture_installed": "2023-10-08",
+     "fixture_make": "Lumetra",
+     "fixture_batch": "LUM-2307",
+     "fixture_warranty_years": 5,
+     "last_inspected": "2026-10-07",
+     "last_earthing_check": "2025-12-18",
+     "junction_box_condition": "Fair",
      "feeder_panel": "FP-CP-05",
      "circuit": "C1",
      "circuit_seq": 7,
      "phase": "R",
-     "energy_kwh": 43.2,
+     "energy_kwh": 45.3,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 43.2
+       "kwh": 42.1,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 41.5
+       "kwh": 42.0,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 38.8
+       "kwh": 35.9,
+       "scheduled_h": 302.0,
+       "lit_h": 277.0
       },
       {
        "month": "2026-07",
-       "kwh": 41.9
+       "kwh": 39.4,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 43.3
+       "kwh": 42.3,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
       },
       {
        "month": "2026-09",
-       "kwh": 43.2
+       "kwh": 45.3,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -7937,67 +8781,51 @@ window.SLGIS_DATA = {
      "ticket": null,
      "repair_history": [
       {
-       "ticket_id": "TKT-2025-0149",
-       "type": "Preventive",
-       "issue": "Annual preventive maintenance",
-       "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
-       "source": "Scheduled (AMC)",
-       "priority": "Low",
-       "raised_at": "2025-07-25T14:40+05:30",
-       "resolved_at": "2025-07-25T15:28+05:30",
-       "downtime_h": 0.8,
-       "sla_met": true,
-       "crew": "R1 \u00b7 Anil M.",
-       "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 353,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2024-0181",
+       "ticket_id": "TKT-2026-0132",
        "type": "Corrective",
-       "issue": "Underground cable fault",
-       "action": "Located fault, jointed cable (heat-shrink kit)",
-       "source": "CCMS auto-alert",
-       "priority": "High",
-       "raised_at": "2024-10-20T21:35+05:30",
-       "resolved_at": "2024-10-25T08:05+05:30",
-       "downtime_h": 106.5,
+       "issue": "Surge protection device failure",
+       "action": "Replaced 10 kV surge protection device",
+       "source": "Call centre",
+       "priority": "Medium",
+       "raised_at": "2026-06-01T19:18+05:30",
+       "resolved_at": "2026-06-04T00:06+05:30",
+       "downtime_h": 52.8,
        "sla_met": false,
        "crew": "R3 \u00b7 Farhan A.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 5736,
+       "cost_inr": 655,
        "status": "Closed"
       },
       {
-       "ticket_id": "TKT-2024-0169",
+       "ticket_id": "TKT-2026-0106",
        "type": "Corrective",
-       "issue": "Loose connection in junction box",
-       "action": "Re-terminated cables, replaced connector",
+       "issue": "Pole damaged by vehicle",
+       "action": "Replaced pole, re-grouted foundation",
        "source": "CCMS auto-alert",
-       "priority": "Medium",
-       "raised_at": "2024-08-23T06:59+05:30",
-       "resolved_at": "2024-08-24T11:41+05:30",
-       "downtime_h": 28.7,
-       "sla_met": true,
+       "priority": "High",
+       "raised_at": "2026-01-28T06:29+05:30",
+       "resolved_at": "2026-01-31T21:17+05:30",
+       "downtime_h": 86.8,
+       "sla_met": false,
        "crew": "R1 \u00b7 Anil M.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 594,
+       "cost_inr": 18016,
        "status": "Closed"
       },
       {
-       "ticket_id": "TKT-2023-0192",
+       "ticket_id": "TKT-2023-0174",
        "type": "Retrofit",
        "issue": "LED retrofit (HPS 250 W \u2192 LED 120 W)",
        "action": "Replaced luminaire with LED; CCMS node fitted",
        "source": "Scheduled (retrofit programme)",
        "priority": "Low",
-       "raised_at": "2023-11-28T10:01+05:30",
-       "resolved_at": "2023-11-28T14:31+05:30",
-       "downtime_h": 4.5,
+       "raised_at": "2023-10-08T10:13+05:30",
+       "resolved_at": "2023-10-08T14:13+05:30",
+       "downtime_h": 4.0,
        "sla_met": true,
-       "crew": "R3 \u00b7 Farhan A.",
+       "crew": "R2 \u00b7 Deepak R.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 11432,
+       "cost_inr": 10896,
        "status": "Closed"
       }
      ]
@@ -8025,39 +8853,56 @@ window.SLGIS_DATA = {
      "wattage": 120,
      "cct_k": 4000,
      "ccms_node": true,
-     "install_date": "2010-07-02",
-     "fixture_installed": "2024-01-27",
-     "last_inspected": "2026-08-14",
+     "install_date": "2010-07-14",
+     "fixture_installed": "2023-09-11",
+     "fixture_make": "Lumetra",
+     "fixture_batch": "LUM-2307",
+     "fixture_warranty_years": 5,
+     "last_inspected": "2026-08-12",
+     "last_earthing_check": "2026-05-10",
+     "junction_box_condition": "Fair",
      "feeder_panel": "FP-CP-06",
      "circuit": "C2",
      "circuit_seq": 7,
      "phase": "R",
-     "energy_kwh": 44.8,
+     "energy_kwh": 45.0,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 43.3
+       "kwh": 43.4,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 41.5
+       "kwh": 41.2,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 38.1
+       "kwh": 38.7,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 40.1
+       "kwh": 40.0,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 43.3
+       "kwh": 43.8,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
       },
       {
        "month": "2026-09",
-       "kwh": 44.8
+       "kwh": 45.0,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -8072,35 +8917,51 @@ window.SLGIS_DATA = {
      "ticket": null,
      "repair_history": [
       {
-       "ticket_id": "TKT-2025-0165",
+       "ticket_id": "TKT-2025-0130",
+       "type": "Corrective",
+       "issue": "Surge protection device failure",
+       "action": "Replaced 10 kV surge protection device",
+       "source": "CCMS auto-alert",
+       "priority": "Medium",
+       "raised_at": "2025-05-21T21:20+05:30",
+       "resolved_at": "2025-05-23T19:56+05:30",
+       "downtime_h": 46.6,
+       "sla_met": true,
+       "crew": "R1 \u00b7 Anil M.",
+       "contractor": "Roshni Infra Maintenance",
+       "cost_inr": 755,
+       "status": "Closed"
+      },
+      {
+       "ticket_id": "TKT-2024-0161",
        "type": "Preventive",
        "issue": "Annual preventive maintenance",
        "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
        "source": "Scheduled (AMC)",
        "priority": "Low",
-       "raised_at": "2025-09-17T13:49+05:30",
-       "resolved_at": "2025-09-17T15:49+05:30",
-       "downtime_h": 2.0,
+       "raised_at": "2024-09-17T11:58+05:30",
+       "resolved_at": "2024-09-17T12:46+05:30",
+       "downtime_h": 0.8,
        "sla_met": true,
-       "crew": "R1 \u00b7 Anil M.",
+       "crew": "R2 \u00b7 Deepak R.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 389,
+       "cost_inr": 405,
        "status": "Closed"
       },
       {
-       "ticket_id": "TKT-2024-0114",
+       "ticket_id": "TKT-2023-0168",
        "type": "Retrofit",
        "issue": "LED retrofit (HPS 250 W \u2192 LED 120 W)",
        "action": "Replaced luminaire with LED; CCMS node fitted",
        "source": "Scheduled (retrofit programme)",
        "priority": "Low",
-       "raised_at": "2024-01-27T15:08+05:30",
-       "resolved_at": "2024-01-27T18:02+05:30",
-       "downtime_h": 2.9,
+       "raised_at": "2023-09-11T10:48+05:30",
+       "resolved_at": "2023-09-11T15:30+05:30",
+       "downtime_h": 4.7,
        "sla_met": true,
        "crew": "R2 \u00b7 Deepak R.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 10390,
+       "cost_inr": 10520,
        "status": "Closed"
       }
      ]
@@ -8128,39 +8989,56 @@ window.SLGIS_DATA = {
      "wattage": 120,
      "cct_k": 4000,
      "ccms_node": true,
-     "install_date": "2010-07-27",
-     "fixture_installed": "2024-02-25",
-     "last_inspected": "2026-09-13",
+     "install_date": "2010-07-17",
+     "fixture_installed": "2023-08-10",
+     "fixture_make": "Lumetra",
+     "fixture_batch": "LUM-2307",
+     "fixture_warranty_years": 5,
+     "last_inspected": "2026-08-15",
+     "last_earthing_check": "2026-07-16",
+     "junction_box_condition": "Good",
      "feeder_panel": "FP-CP-06",
      "circuit": "C2",
      "circuit_seq": 6,
      "phase": "B",
-     "energy_kwh": 43.2,
+     "energy_kwh": 44.4,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 42.9
+       "kwh": 43.3,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 42.2
+       "kwh": 40.1,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 39.1
+       "kwh": 38.6,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 41.6
+       "kwh": 39.8,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 42.3
+       "kwh": 41.8,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
       },
       {
        "month": "2026-09",
-       "kwh": 43.2
+       "kwh": 44.4,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -8173,16 +9051,16 @@ window.SLGIS_DATA = {
       "sla_hours": 48
      },
      "ticket": {
-      "id": "TKT-2026-0168",
+      "id": "TKT-2026-0173",
       "status": "In Progress",
-      "priority": "Medium",
+      "category": "not_working",
       "issue": "Surge protection device failure",
       "source": "CCMS auto-alert",
       "raised_at": "2026-10-13T05:48+05:30",
-      "sla_hours": 48,
-      "sla_due": "2026-10-15T05:48+05:30",
-      "assigned_crew": "R1 \u00b7 Anil M.",
+      "assigned_crew": "R2 \u00b7 Deepak R.",
       "work_started_at": "2026-10-13T12:30+05:30",
+      "closed_at": null,
+      "resolution": null,
       "complaints": 0,
       "notes": null,
       "pole_uids": [
@@ -8191,51 +9069,67 @@ window.SLGIS_DATA = {
      },
      "repair_history": [
       {
-       "ticket_id": "TKT-2026-0146",
-       "type": "Corrective",
-       "issue": "Surge protection device failure",
-       "action": "Replaced 10 kV surge protection device",
-       "source": "CCMS auto-alert",
-       "priority": "Medium",
-       "raised_at": "2026-09-12T20:24+05:30",
-       "resolved_at": "2026-09-13T03:36+05:30",
-       "downtime_h": 7.2,
-       "sla_met": true,
-       "crew": "R3 \u00b7 Farhan A.",
-       "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 885,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2024-0138",
+       "ticket_id": "TKT-2026-0138",
        "type": "Preventive",
        "issue": "Annual preventive maintenance",
        "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
        "source": "Scheduled (AMC)",
        "priority": "Low",
-       "raised_at": "2024-04-03T15:19+05:30",
-       "resolved_at": "2024-04-03T16:43+05:30",
-       "downtime_h": 1.4,
+       "raised_at": "2026-07-16T13:35+05:30",
+       "resolved_at": "2026-07-16T15:17+05:30",
+       "downtime_h": 1.7,
        "sla_met": true,
-       "crew": "R3 \u00b7 Farhan A.",
+       "crew": "R2 \u00b7 Deepak R.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 420,
+       "cost_inr": 441,
        "status": "Closed"
       },
       {
-       "ticket_id": "TKT-2024-0127",
+       "ticket_id": "TKT-2025-0126",
+       "type": "Corrective",
+       "issue": "Water ingress in luminaire",
+       "action": "Resealed luminaire, replaced gasket",
+       "source": "Call centre",
+       "priority": "Medium",
+       "raised_at": "2025-05-04T21:57+05:30",
+       "resolved_at": "2025-05-05T15:27+05:30",
+       "downtime_h": 17.5,
+       "sla_met": true,
+       "crew": "R2 \u00b7 Deepak R.",
+       "contractor": "Roshni Infra Maintenance",
+       "cost_inr": 1200,
+       "status": "Closed"
+      },
+      {
+       "ticket_id": "TKT-2023-0167",
+       "type": "Preventive",
+       "issue": "Annual preventive maintenance",
+       "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
+       "source": "Scheduled (AMC)",
+       "priority": "Low",
+       "raised_at": "2023-09-06T12:37+05:30",
+       "resolved_at": "2023-09-06T13:37+05:30",
+       "downtime_h": 1.0,
+       "sla_met": true,
+       "crew": "R1 \u00b7 Anil M.",
+       "contractor": "Roshni Infra Maintenance",
+       "cost_inr": 444,
+       "status": "Closed"
+      },
+      {
+       "ticket_id": "TKT-2023-0161",
        "type": "Retrofit",
        "issue": "LED retrofit (HPS 250 W \u2192 LED 120 W)",
        "action": "Replaced luminaire with LED; CCMS node fitted",
        "source": "Scheduled (retrofit programme)",
        "priority": "Low",
-       "raised_at": "2024-02-25T13:43+05:30",
-       "resolved_at": "2024-02-25T18:25+05:30",
-       "downtime_h": 4.7,
+       "raised_at": "2023-08-10T10:57+05:30",
+       "resolved_at": "2023-08-10T13:45+05:30",
+       "downtime_h": 2.8,
        "sla_met": true,
-       "crew": "R1 \u00b7 Anil M.",
+       "crew": "R3 \u00b7 Farhan A.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 10185,
+       "cost_inr": 11105,
        "status": "Closed"
       }
      ]
@@ -8263,39 +9157,56 @@ window.SLGIS_DATA = {
      "wattage": 120,
      "cct_k": 4000,
      "ccms_node": true,
-     "install_date": "2010-07-04",
-     "fixture_installed": "2024-02-05",
-     "last_inspected": "2026-09-16",
+     "install_date": "2010-07-13",
+     "fixture_installed": "2023-10-24",
+     "fixture_make": "Lumetra",
+     "fixture_batch": "LUM-2307",
+     "fixture_warranty_years": 5,
+     "last_inspected": "2026-09-14",
+     "last_earthing_check": "2026-04-03",
+     "junction_box_condition": "Good",
      "feeder_panel": "FP-CP-06",
      "circuit": "C2",
      "circuit_seq": 5,
      "phase": "Y",
-     "energy_kwh": 44.9,
+     "energy_kwh": 43.5,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 43.2
+       "kwh": 43.4,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 41.5
+       "kwh": 41.5,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 37.9
+       "kwh": 37.8,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 41.9
+       "kwh": 40.8,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 42.7
+       "kwh": 42.0,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
       },
       {
        "month": "2026-09",
-       "kwh": 44.9
+       "kwh": 43.5,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -8310,51 +9221,51 @@ window.SLGIS_DATA = {
      "ticket": null,
      "repair_history": [
       {
-       "ticket_id": "TKT-2025-0182",
+       "ticket_id": "TKT-2026-0117",
        "type": "Preventive",
        "issue": "Annual preventive maintenance",
        "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
        "source": "Scheduled (AMC)",
        "priority": "Low",
-       "raised_at": "2025-12-06T12:33+05:30",
-       "resolved_at": "2025-12-06T14:33+05:30",
-       "downtime_h": 2.0,
+       "raised_at": "2026-04-03T12:31+05:30",
+       "resolved_at": "2026-04-03T14:07+05:30",
+       "downtime_h": 1.6,
        "sla_met": true,
-       "crew": "R3 \u00b7 Farhan A.",
+       "crew": "R1 \u00b7 Anil M.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 350,
+       "cost_inr": 422,
        "status": "Closed"
       },
       {
-       "ticket_id": "TKT-2025-0172",
+       "ticket_id": "TKT-2024-0166",
        "type": "Preventive",
        "issue": "Annual preventive maintenance",
        "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
        "source": "Scheduled (AMC)",
        "priority": "Low",
-       "raised_at": "2025-11-01T13:57+05:30",
-       "resolved_at": "2025-11-01T14:57+05:30",
-       "downtime_h": 1.0,
+       "raised_at": "2024-10-14T15:49+05:30",
+       "resolved_at": "2024-10-14T17:25+05:30",
+       "downtime_h": 1.6,
        "sla_met": true,
        "crew": "R3 \u00b7 Farhan A.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 378,
+       "cost_inr": 407,
        "status": "Closed"
       },
       {
-       "ticket_id": "TKT-2024-0118",
+       "ticket_id": "TKT-2023-0178",
        "type": "Retrofit",
        "issue": "LED retrofit (HPS 250 W \u2192 LED 120 W)",
        "action": "Replaced luminaire with LED; CCMS node fitted",
        "source": "Scheduled (retrofit programme)",
        "priority": "Low",
-       "raised_at": "2024-02-05T14:51+05:30",
-       "resolved_at": "2024-02-05T17:21+05:30",
-       "downtime_h": 2.5,
+       "raised_at": "2023-10-24T11:36+05:30",
+       "resolved_at": "2023-10-24T14:24+05:30",
+       "downtime_h": 2.8,
        "sla_met": true,
-       "crew": "R1 \u00b7 Anil M.",
+       "crew": "R3 \u00b7 Farhan A.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 11423,
+       "cost_inr": 11242,
        "status": "Closed"
       }
      ]
@@ -8382,39 +9293,56 @@ window.SLGIS_DATA = {
      "wattage": 120,
      "cct_k": 4000,
      "ccms_node": true,
-     "install_date": "2010-07-24",
-     "fixture_installed": "2023-12-01",
-     "last_inspected": "2026-09-15",
+     "install_date": "2010-07-23",
+     "fixture_installed": "2024-02-06",
+     "fixture_make": "Lumetra",
+     "fixture_batch": "LUM-2401",
+     "fixture_warranty_years": 5,
+     "last_inspected": "2026-08-27",
+     "last_earthing_check": "2026-06-05",
+     "junction_box_condition": "Good",
      "feeder_panel": "FP-CP-06",
      "circuit": "C2",
      "circuit_seq": 4,
      "phase": "R",
-     "energy_kwh": 43.7,
+     "energy_kwh": 44.9,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 43.4
+       "kwh": 43.4,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 42.3
+       "kwh": 41.6,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 37.3
+       "kwh": 38.6,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 41.3
+       "kwh": 40.4,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 43.1
+       "kwh": 42.5,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
       },
       {
        "month": "2026-09",
-       "kwh": 43.7
+       "kwh": 44.9,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -8429,19 +9357,35 @@ window.SLGIS_DATA = {
      "ticket": null,
      "repair_history": [
       {
-       "ticket_id": "TKT-2023-0193",
+       "ticket_id": "TKT-2025-0102",
+       "type": "Corrective",
+       "issue": "Pole damaged by vehicle",
+       "action": "Replaced pole, re-grouted foundation",
+       "source": "Call centre",
+       "priority": "High",
+       "raised_at": "2025-01-07T19:10+05:30",
+       "resolved_at": "2025-01-12T04:04+05:30",
+       "downtime_h": 104.9,
+       "sla_met": false,
+       "crew": "R3 \u00b7 Farhan A.",
+       "contractor": "Roshni Infra Maintenance",
+       "cost_inr": 24501,
+       "status": "Closed"
+      },
+      {
+       "ticket_id": "TKT-2024-0115",
        "type": "Retrofit",
        "issue": "LED retrofit (HPS 250 W \u2192 LED 120 W)",
        "action": "Replaced luminaire with LED; CCMS node fitted",
        "source": "Scheduled (retrofit programme)",
        "priority": "Low",
-       "raised_at": "2023-12-01T10:34+05:30",
-       "resolved_at": "2023-12-01T14:46+05:30",
-       "downtime_h": 4.2,
+       "raised_at": "2024-02-06T10:42+05:30",
+       "resolved_at": "2024-02-06T15:24+05:30",
+       "downtime_h": 4.7,
        "sla_met": true,
-       "crew": "R3 \u00b7 Farhan A.",
+       "crew": "R2 \u00b7 Deepak R.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 11203,
+       "cost_inr": 10057,
        "status": "Closed"
       }
      ]
@@ -8469,39 +9413,56 @@ window.SLGIS_DATA = {
      "wattage": 120,
      "cct_k": 4000,
      "ccms_node": true,
-     "install_date": "2010-07-03",
-     "fixture_installed": "2024-01-27",
-     "last_inspected": "2026-09-11",
+     "install_date": "2010-07-20",
+     "fixture_installed": "2023-12-18",
+     "fixture_make": "Lumetra",
+     "fixture_batch": "LUM-2307",
+     "fixture_warranty_years": 5,
+     "last_inspected": "2026-07-30",
+     "last_earthing_check": "2026-04-06",
+     "junction_box_condition": "Good",
      "feeder_panel": "FP-CP-06",
      "circuit": "C2",
      "circuit_seq": 3,
      "phase": "B",
-     "energy_kwh": 43.8,
+     "energy_kwh": 44.3,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 42.7
+       "kwh": 41.5,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 42.3
+       "kwh": 41.3,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 37.3
+       "kwh": 37.5,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 41.6
+       "kwh": 41.2,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 43.0
+       "kwh": 41.9,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
       },
       {
        "month": "2026-09",
-       "kwh": 43.8
+       "kwh": 44.3,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -8514,16 +9475,16 @@ window.SLGIS_DATA = {
       "sla_hours": 48
      },
      "ticket": {
-      "id": "TKT-2026-0166",
+      "id": "TKT-2026-0171",
       "status": "Open",
-      "priority": "Medium",
+      "category": "not_working",
       "issue": "Lamp not glowing",
       "source": "Call centre",
       "raised_at": "2026-10-12T21:48+05:30",
-      "sla_hours": 48,
-      "sla_due": "2026-10-14T21:48+05:30",
       "assigned_crew": null,
       "work_started_at": null,
+      "closed_at": null,
+      "resolution": null,
       "complaints": 0,
       "notes": null,
       "pole_uids": [
@@ -8532,35 +9493,51 @@ window.SLGIS_DATA = {
      },
      "repair_history": [
       {
-       "ticket_id": "TKT-2025-0123",
-       "type": "Preventive",
-       "issue": "Annual preventive maintenance",
-       "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
-       "source": "Scheduled (AMC)",
-       "priority": "Low",
-       "raised_at": "2025-04-10T10:26+05:30",
-       "resolved_at": "2025-04-10T11:44+05:30",
-       "downtime_h": 1.3,
+       "ticket_id": "TKT-2024-0164",
+       "type": "Corrective",
+       "issue": "Flickering",
+       "action": "Replaced LED driver and module connector",
+       "source": "CCMS auto-alert",
+       "priority": "Medium",
+       "raised_at": "2024-09-24T19:22+05:30",
+       "resolved_at": "2024-09-26T02:22+05:30",
+       "downtime_h": 31.0,
        "sla_met": true,
        "crew": "R2 \u00b7 Deepak R.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 388,
+       "cost_inr": 3656,
        "status": "Closed"
       },
       {
-       "ticket_id": "TKT-2024-0116",
+       "ticket_id": "TKT-2024-0126",
+       "type": "Corrective",
+       "issue": "Water ingress in luminaire",
+       "action": "Resealed luminaire, replaced gasket",
+       "source": "CCMS auto-alert",
+       "priority": "Medium",
+       "raised_at": "2024-02-26T19:08+05:30",
+       "resolved_at": "2024-02-29T00:14+05:30",
+       "downtime_h": 53.1,
+       "sla_met": false,
+       "crew": "R3 \u00b7 Farhan A.",
+       "contractor": "Roshni Infra Maintenance",
+       "cost_inr": 1356,
+       "status": "Closed"
+      },
+      {
+       "ticket_id": "TKT-2023-0192",
        "type": "Retrofit",
        "issue": "LED retrofit (HPS 250 W \u2192 LED 120 W)",
        "action": "Replaced luminaire with LED; CCMS node fitted",
        "source": "Scheduled (retrofit programme)",
        "priority": "Low",
-       "raised_at": "2024-01-27T15:37+05:30",
-       "resolved_at": "2024-01-27T18:19+05:30",
-       "downtime_h": 2.7,
+       "raised_at": "2023-12-18T15:03+05:30",
+       "resolved_at": "2023-12-18T19:27+05:30",
+       "downtime_h": 4.4,
        "sla_met": true,
-       "crew": "R3 \u00b7 Farhan A.",
+       "crew": "R1 \u00b7 Anil M.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 9942,
+       "cost_inr": 11218,
        "status": "Closed"
       }
      ]
@@ -8588,39 +9565,56 @@ window.SLGIS_DATA = {
      "wattage": 120,
      "cct_k": 4000,
      "ccms_node": true,
-     "install_date": "2010-07-18",
-     "fixture_installed": "2024-01-27",
-     "last_inspected": "2026-09-25",
+     "install_date": "2010-07-17",
+     "fixture_installed": "2024-01-07",
+     "fixture_make": "Lumetra",
+     "fixture_batch": "LUM-2401",
+     "fixture_warranty_years": 5,
+     "last_inspected": "2026-09-09",
+     "last_earthing_check": "2025-02-03",
+     "junction_box_condition": "Good",
      "feeder_panel": "FP-CP-06",
      "circuit": "C2",
      "circuit_seq": 2,
      "phase": "Y",
-     "energy_kwh": 44.9,
+     "energy_kwh": 45.2,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 41.4
+       "kwh": 42.4,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 41.9
+       "kwh": 41.9,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 37.5
+       "kwh": 38.3,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 40.3
+       "kwh": 39.6,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 42.5
+       "kwh": 43.1,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
       },
       {
        "month": "2026-09",
-       "kwh": 44.9
+       "kwh": 45.2,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -8635,35 +9629,19 @@ window.SLGIS_DATA = {
      "ticket": null,
      "repair_history": [
       {
-       "ticket_id": "TKT-2025-0185",
-       "type": "Preventive",
-       "issue": "Annual preventive maintenance",
-       "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
-       "source": "Scheduled (AMC)",
-       "priority": "Low",
-       "raised_at": "2025-12-16T13:30+05:30",
-       "resolved_at": "2025-12-16T14:54+05:30",
-       "downtime_h": 1.4,
-       "sla_met": true,
-       "crew": "R2 \u00b7 Deepak R.",
-       "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 431,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2024-0113",
+       "ticket_id": "TKT-2024-0104",
        "type": "Retrofit",
        "issue": "LED retrofit (HPS 250 W \u2192 LED 120 W)",
        "action": "Replaced luminaire with LED; CCMS node fitted",
        "source": "Scheduled (retrofit programme)",
        "priority": "Low",
-       "raised_at": "2024-01-27T14:33+05:30",
-       "resolved_at": "2024-01-27T19:15+05:30",
-       "downtime_h": 4.7,
+       "raised_at": "2024-01-07T14:39+05:30",
+       "resolved_at": "2024-01-07T17:45+05:30",
+       "downtime_h": 3.1,
        "sla_met": true,
-       "crew": "R3 \u00b7 Farhan A.",
+       "crew": "R1 \u00b7 Anil M.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 11471,
+       "cost_inr": 9825,
        "status": "Closed"
       }
      ]
@@ -8681,7 +9659,7 @@ window.SLGIS_DATA = {
     },
     "properties": {
      "uid": "SL-CP-OC-014",
-     "status": "Functional",
+     "status": "Faulty",
      "road": "Outer Circle",
      "location": "Outer Circle, M-Block frontage",
      "pole_type": "Octagonal GI",
@@ -8691,39 +9669,56 @@ window.SLGIS_DATA = {
      "wattage": 120,
      "cct_k": 4000,
      "ccms_node": true,
-     "install_date": "2010-07-08",
-     "fixture_installed": "2023-09-18",
-     "last_inspected": "2026-08-18",
+     "install_date": "2010-07-04",
+     "fixture_installed": "2023-09-23",
+     "fixture_make": "Lumetra",
+     "fixture_batch": "LUM-2307",
+     "fixture_warranty_years": 5,
+     "last_inspected": "2026-08-22",
+     "last_earthing_check": "2026-01-09",
+     "junction_box_condition": "Fair",
      "feeder_panel": "FP-CP-06",
      "circuit": "C2",
      "circuit_seq": 1,
      "phase": "R",
-     "energy_kwh": 43.5,
+     "energy_kwh": 44.6,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 42.0
+       "kwh": 43.4,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 40.4
+       "kwh": 40.7,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 38.6
+       "kwh": 38.4,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 41.0
+       "kwh": 39.7,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 44.3
+       "kwh": 42.7,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
       },
       {
        "month": "2026-09",
-       "kwh": 43.5
+       "kwh": 44.6,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -8735,54 +9730,38 @@ window.SLGIS_DATA = {
       "contract_ref": "AMC/SL/CP-OC/2025-28",
       "sla_hours": 48
      },
-     "ticket": null,
+     "ticket": {
+      "id": "TKT-2026-0178",
+      "status": "Open",
+      "category": "shock",
+      "issue": "Sparking at pole base",
+      "source": "Call centre",
+      "raised_at": "2026-10-13T17:12+05:30",
+      "assigned_crew": null,
+      "work_started_at": null,
+      "closed_at": null,
+      "resolution": null,
+      "complaints": 1,
+      "notes": null,
+      "pole_uids": [
+       "SL-CP-OC-014"
+      ]
+     },
      "repair_history": [
       {
-       "ticket_id": "TKT-2025-0176",
-       "type": "Corrective",
-       "issue": "Water ingress in luminaire",
-       "action": "Resealed luminaire, replaced gasket",
-       "source": "CCMS auto-alert",
-       "priority": "Medium",
-       "raised_at": "2025-11-19T22:03+05:30",
-       "resolved_at": "2025-11-20T06:45+05:30",
-       "downtime_h": 8.7,
-       "sla_met": true,
-       "crew": "R2 \u00b7 Deepak R.",
-       "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 955,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2024-0165",
-       "type": "Preventive",
-       "issue": "Annual preventive maintenance",
-       "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
-       "source": "Scheduled (AMC)",
-       "priority": "Low",
-       "raised_at": "2024-08-11T13:44+05:30",
-       "resolved_at": "2024-08-11T15:14+05:30",
-       "downtime_h": 1.5,
-       "sla_met": true,
-       "crew": "R3 \u00b7 Farhan A.",
-       "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 393,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2023-0173",
+       "ticket_id": "TKT-2023-0170",
        "type": "Retrofit",
        "issue": "LED retrofit (HPS 250 W \u2192 LED 120 W)",
        "action": "Replaced luminaire with LED; CCMS node fitted",
        "source": "Scheduled (retrofit programme)",
        "priority": "Low",
-       "raised_at": "2023-09-18T11:34+05:30",
-       "resolved_at": "2023-09-18T14:16+05:30",
-       "downtime_h": 2.7,
+       "raised_at": "2023-09-23T13:38+05:30",
+       "resolved_at": "2023-09-23T17:02+05:30",
+       "downtime_h": 3.4,
        "sla_met": true,
-       "crew": "R2 \u00b7 Deepak R.",
+       "crew": "R1 \u00b7 Anil M.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 10271,
+       "cost_inr": 10971,
        "status": "Closed"
       }
      ]
@@ -8810,39 +9789,56 @@ window.SLGIS_DATA = {
      "wattage": 120,
      "cct_k": 4000,
      "ccms_node": true,
-     "install_date": "2010-07-22",
-     "fixture_installed": "2023-10-14",
-     "last_inspected": "2026-09-24",
+     "install_date": "2010-07-18",
+     "fixture_installed": "2023-07-26",
+     "fixture_make": "Lumetra",
+     "fixture_batch": "LUM-2307",
+     "fixture_warranty_years": 5,
+     "last_inspected": "2026-09-30",
+     "last_earthing_check": "2026-05-08",
+     "junction_box_condition": "Good",
      "feeder_panel": "FP-CP-06",
      "circuit": "C1",
      "circuit_seq": 1,
      "phase": "R",
-     "energy_kwh": 44.9,
+     "energy_kwh": 44.7,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 42.6
+       "kwh": 42.5,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 40.5
+       "kwh": 42.0,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 37.9
+       "kwh": 37.8,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 41.2
+       "kwh": 41.0,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 42.7
+       "kwh": 43.8,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
       },
       {
        "month": "2026-09",
-       "kwh": 44.9
+       "kwh": 44.7,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -8857,51 +9853,35 @@ window.SLGIS_DATA = {
      "ticket": null,
      "repair_history": [
       {
-       "ticket_id": "TKT-2026-0125",
+       "ticket_id": "TKT-2025-0158",
        "type": "Preventive",
        "issue": "Annual preventive maintenance",
        "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
        "source": "Scheduled (AMC)",
        "priority": "Low",
-       "raised_at": "2026-04-16T14:27+05:30",
-       "resolved_at": "2026-04-16T15:45+05:30",
+       "raised_at": "2025-09-30T10:18+05:30",
+       "resolved_at": "2025-09-30T11:36+05:30",
        "downtime_h": 1.3,
        "sla_met": true,
-       "crew": "R2 \u00b7 Deepak R.",
+       "crew": "R1 \u00b7 Anil M.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 437,
+       "cost_inr": 400,
        "status": "Closed"
       },
       {
-       "ticket_id": "TKT-2026-0107",
-       "type": "Corrective",
-       "issue": "Underground cable fault",
-       "action": "Located fault, jointed cable (heat-shrink kit)",
-       "source": "Citizen app",
-       "priority": "High",
-       "raised_at": "2026-01-30T05:03+05:30",
-       "resolved_at": "2026-02-03T09:51+05:30",
-       "downtime_h": 100.8,
-       "sla_met": false,
-       "crew": "R2 \u00b7 Deepak R.",
-       "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 6004,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2023-0178",
+       "ticket_id": "TKT-2023-0158",
        "type": "Retrofit",
        "issue": "LED retrofit (HPS 250 W \u2192 LED 120 W)",
        "action": "Replaced luminaire with LED; CCMS node fitted",
        "source": "Scheduled (retrofit programme)",
        "priority": "Low",
-       "raised_at": "2023-10-14T12:31+05:30",
-       "resolved_at": "2023-10-14T15:37+05:30",
-       "downtime_h": 3.1,
+       "raised_at": "2023-07-26T15:16+05:30",
+       "resolved_at": "2023-07-26T19:16+05:30",
+       "downtime_h": 4.0,
        "sla_met": true,
-       "crew": "R1 \u00b7 Anil M.",
+       "crew": "R3 \u00b7 Farhan A.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 11222,
+       "cost_inr": 10604,
        "status": "Closed"
       }
      ]
@@ -8929,39 +9909,56 @@ window.SLGIS_DATA = {
      "wattage": 120,
      "cct_k": 4000,
      "ccms_node": true,
-     "install_date": "2010-07-02",
-     "fixture_installed": "2024-01-24",
-     "last_inspected": "2026-08-19",
+     "install_date": "2010-07-11",
+     "fixture_installed": "2023-11-28",
+     "fixture_make": "Lumetra",
+     "fixture_batch": "LUM-2307",
+     "fixture_warranty_years": 5,
+     "last_inspected": "2026-09-01",
+     "last_earthing_check": "2026-04-12",
+     "junction_box_condition": "Fair",
      "feeder_panel": "FP-CP-06",
      "circuit": "C1",
      "circuit_seq": 2,
      "phase": "Y",
-     "energy_kwh": 43.4,
+     "energy_kwh": 44.0,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 43.2
+       "kwh": 43.5,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 42.3
+       "kwh": 40.7,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 38.0
+       "kwh": 37.6,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 40.0
+       "kwh": 39.5,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 44.4
+       "kwh": 42.8,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
       },
       {
        "month": "2026-09",
-       "kwh": 43.4
+       "kwh": 44.0,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -8976,35 +9973,35 @@ window.SLGIS_DATA = {
      "ticket": null,
      "repair_history": [
       {
-       "ticket_id": "TKT-2025-0178",
+       "ticket_id": "TKT-2026-0118",
        "type": "Preventive",
        "issue": "Annual preventive maintenance",
        "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
        "source": "Scheduled (AMC)",
        "priority": "Low",
-       "raised_at": "2025-11-28T12:32+05:30",
-       "resolved_at": "2025-11-28T13:20+05:30",
-       "downtime_h": 0.8,
+       "raised_at": "2026-04-12T12:16+05:30",
+       "resolved_at": "2026-04-12T13:46+05:30",
+       "downtime_h": 1.5,
        "sla_met": true,
-       "crew": "R2 \u00b7 Deepak R.",
+       "crew": "R1 \u00b7 Anil M.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 359,
+       "cost_inr": 433,
        "status": "Closed"
       },
       {
-       "ticket_id": "TKT-2024-0112",
+       "ticket_id": "TKT-2023-0188",
        "type": "Retrofit",
        "issue": "LED retrofit (HPS 250 W \u2192 LED 120 W)",
        "action": "Replaced luminaire with LED; CCMS node fitted",
        "source": "Scheduled (retrofit programme)",
        "priority": "Low",
-       "raised_at": "2024-01-24T13:21+05:30",
-       "resolved_at": "2024-01-24T18:21+05:30",
-       "downtime_h": 5.0,
+       "raised_at": "2023-11-28T15:02+05:30",
+       "resolved_at": "2023-11-28T19:38+05:30",
+       "downtime_h": 4.6,
        "sla_met": true,
-       "crew": "R1 \u00b7 Anil M.",
+       "crew": "R3 \u00b7 Farhan A.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 10634,
+       "cost_inr": 10955,
        "status": "Closed"
       }
      ]
@@ -9033,38 +10030,55 @@ window.SLGIS_DATA = {
      "cct_k": 4000,
      "ccms_node": true,
      "install_date": "2010-07-02",
-     "fixture_installed": "2024-01-17",
+     "fixture_installed": "2024-01-27",
+     "fixture_make": "Lumetra",
+     "fixture_batch": "LUM-2401",
+     "fixture_warranty_years": 5,
      "last_inspected": "2026-09-16",
+     "last_earthing_check": "2026-03-14",
+     "junction_box_condition": "Good",
      "feeder_panel": "FP-CP-06",
      "circuit": "C1",
      "circuit_seq": 3,
      "phase": "B",
-     "energy_kwh": 44.3,
+     "energy_kwh": 43.7,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 41.9
+       "kwh": 40.5,
+       "scheduled_h": 334.4,
+       "lit_h": 321.0
       },
       {
        "month": "2026-05",
-       "kwh": 41.0
+       "kwh": 42.0,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 38.7
+       "kwh": 38.6,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 40.0
+       "kwh": 41.2,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 44.4
+       "kwh": 41.9,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
       },
       {
        "month": "2026-09",
-       "kwh": 44.3
+       "kwh": 43.7,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -9079,83 +10093,51 @@ window.SLGIS_DATA = {
      "ticket": null,
      "repair_history": [
       {
-       "ticket_id": "TKT-2024-0179",
+       "ticket_id": "TKT-2026-0120",
        "type": "Corrective",
        "issue": "Surge protection device failure",
        "action": "Replaced 10 kV surge protection device",
-       "source": "Call centre",
+       "source": "Night patrol",
        "priority": "Medium",
-       "raised_at": "2024-10-03T19:57+05:30",
-       "resolved_at": "2024-10-04T12:33+05:30",
-       "downtime_h": 16.6,
+       "raised_at": "2026-04-16T22:58+05:30",
+       "resolved_at": "2026-04-18T01:16+05:30",
+       "downtime_h": 26.3,
        "sla_met": true,
-       "crew": "R2 \u00b7 Deepak R.",
+       "crew": "R1 \u00b7 Anil M.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 822,
+       "cost_inr": 835,
        "status": "Closed"
       },
       {
-       "ticket_id": "TKT-2024-0172",
+       "ticket_id": "TKT-2025-0106",
        "type": "Preventive",
        "issue": "Annual preventive maintenance",
        "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
        "source": "Scheduled (AMC)",
        "priority": "Low",
-       "raised_at": "2024-08-28T13:40+05:30",
-       "resolved_at": "2024-08-28T14:40+05:30",
-       "downtime_h": 1.0,
+       "raised_at": "2025-01-17T15:35+05:30",
+       "resolved_at": "2025-01-17T16:41+05:30",
+       "downtime_h": 1.1,
        "sla_met": true,
-       "crew": "R1 \u00b7 Anil M.",
+       "crew": "R3 \u00b7 Farhan A.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 384,
+       "cost_inr": 422,
        "status": "Closed"
       },
       {
-       "ticket_id": "TKT-2024-0141",
-       "type": "Corrective",
-       "issue": "LED driver failure",
-       "action": "Replaced LED driver",
-       "source": "Night patrol",
-       "priority": "Medium",
-       "raised_at": "2024-05-04T22:02+05:30",
-       "resolved_at": "2024-05-05T16:32+05:30",
-       "downtime_h": 18.5,
-       "sla_met": true,
-       "crew": "R1 \u00b7 Anil M.",
-       "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 3079,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2024-0129",
-       "type": "Corrective",
-       "issue": "Flickering",
-       "action": "Replaced LED driver and module connector",
-       "source": "CCMS auto-alert",
-       "priority": "Medium",
-       "raised_at": "2024-02-28T19:09+05:30",
-       "resolved_at": "2024-02-29T00:45+05:30",
-       "downtime_h": 5.6,
-       "sla_met": true,
-       "crew": "R1 \u00b7 Anil M.",
-       "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 3288,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2024-0108",
+       "ticket_id": "TKT-2024-0111",
        "type": "Retrofit",
        "issue": "LED retrofit (HPS 250 W \u2192 LED 120 W)",
        "action": "Replaced luminaire with LED; CCMS node fitted",
        "source": "Scheduled (retrofit programme)",
        "priority": "Low",
-       "raised_at": "2024-01-17T14:48+05:30",
-       "resolved_at": "2024-01-17T19:06+05:30",
-       "downtime_h": 4.3,
+       "raised_at": "2024-01-27T14:16+05:30",
+       "resolved_at": "2024-01-27T17:58+05:30",
+       "downtime_h": 3.7,
        "sla_met": true,
        "crew": "R2 \u00b7 Deepak R.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 9851,
+       "cost_inr": 10126,
        "status": "Closed"
       }
      ]
@@ -9183,39 +10165,56 @@ window.SLGIS_DATA = {
      "wattage": 120,
      "cct_k": 4000,
      "ccms_node": true,
-     "install_date": "2010-07-06",
-     "fixture_installed": "2023-07-25",
-     "last_inspected": "2026-08-24",
+     "install_date": "2010-07-27",
+     "fixture_installed": "2024-02-25",
+     "fixture_make": "Lumetra",
+     "fixture_batch": "LUM-2401",
+     "fixture_warranty_years": 5,
+     "last_inspected": "2026-09-29",
+     "last_earthing_check": "2026-09-15",
+     "junction_box_condition": "Good",
      "feeder_panel": "FP-CP-06",
      "circuit": "C1",
      "circuit_seq": 4,
      "phase": "R",
-     "energy_kwh": 44.8,
+     "energy_kwh": 44.7,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 42.8
+       "kwh": 42.9,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 41.4
+       "kwh": 40.3,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 38.7
+       "kwh": 39.3,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 41.0
+       "kwh": 40.5,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 42.8
+       "kwh": 42.7,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
       },
       {
        "month": "2026-09",
-       "kwh": 44.8
+       "kwh": 44.7,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -9230,35 +10229,35 @@ window.SLGIS_DATA = {
      "ticket": null,
      "repair_history": [
       {
-       "ticket_id": "TKT-2023-0158",
+       "ticket_id": "TKT-2026-0150",
        "type": "Preventive",
        "issue": "Annual preventive maintenance",
        "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
        "source": "Scheduled (AMC)",
        "priority": "Low",
-       "raised_at": "2023-08-25T13:17+05:30",
-       "resolved_at": "2023-08-25T14:41+05:30",
-       "downtime_h": 1.4,
+       "raised_at": "2026-09-15T13:41+05:30",
+       "resolved_at": "2026-09-15T15:35+05:30",
+       "downtime_h": 1.9,
        "sla_met": true,
-       "crew": "R3 \u00b7 Farhan A.",
+       "crew": "R2 \u00b7 Deepak R.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 431,
+       "cost_inr": 400,
        "status": "Closed"
       },
       {
-       "ticket_id": "TKT-2023-0148",
+       "ticket_id": "TKT-2024-0125",
        "type": "Retrofit",
        "issue": "LED retrofit (HPS 250 W \u2192 LED 120 W)",
        "action": "Replaced luminaire with LED; CCMS node fitted",
        "source": "Scheduled (retrofit programme)",
        "priority": "Low",
-       "raised_at": "2023-07-25T10:31+05:30",
-       "resolved_at": "2023-07-25T14:07+05:30",
-       "downtime_h": 3.6,
+       "raised_at": "2024-02-25T12:24+05:30",
+       "resolved_at": "2024-02-25T15:12+05:30",
+       "downtime_h": 2.8,
        "sla_met": true,
-       "crew": "R2 \u00b7 Deepak R.",
+       "crew": "R1 \u00b7 Anil M.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 10759,
+       "cost_inr": 10947,
        "status": "Closed"
       }
      ]
@@ -9286,39 +10285,56 @@ window.SLGIS_DATA = {
      "wattage": 250,
      "cct_k": 4200,
      "ccms_node": true,
-     "install_date": "2010-07-18",
-     "fixture_installed": "2016-12-26",
-     "last_inspected": "2026-09-21",
+     "install_date": "2010-07-03",
+     "fixture_installed": "2016-11-12",
+     "fixture_make": "Metalux",
+     "fixture_batch": "MTX-1611",
+     "fixture_warranty_years": 2,
+     "last_inspected": "2026-09-10",
+     "last_earthing_check": "2026-08-31",
+     "junction_box_condition": "Good",
      "feeder_panel": "FP-CP-06",
      "circuit": "C1",
      "circuit_seq": 5,
      "phase": "Y",
-     "energy_kwh": 192.8,
+     "energy_kwh": 191.7,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 188.2
+       "kwh": 185.3,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 183.6
+       "kwh": 184.3,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 167.3
+       "kwh": 171.1,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 180.7
+       "kwh": 181.5,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 194.6
+       "kwh": 189.4,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
       },
       {
        "month": "2026-09",
-       "kwh": 192.8
+       "kwh": 191.7,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -9331,16 +10347,16 @@ window.SLGIS_DATA = {
       "sla_hours": 48
      },
      "ticket": {
-      "id": "TKT-2026-0162",
+      "id": "TKT-2026-0166",
       "status": "In Progress",
-      "priority": "Medium",
+      "category": "not_working",
       "issue": "Ballast failure",
       "source": "CCMS auto-alert",
       "raised_at": "2026-10-12T19:42+05:30",
-      "sla_hours": 48,
-      "sla_due": "2026-10-14T19:42+05:30",
-      "assigned_crew": "R3 \u00b7 Farhan A.",
+      "assigned_crew": "R2 \u00b7 Deepak R.",
       "work_started_at": "2026-10-13T11:00+05:30",
+      "closed_at": null,
+      "resolution": null,
       "complaints": 0,
       "notes": null,
       "pole_uids": [
@@ -9349,67 +10365,35 @@ window.SLGIS_DATA = {
      },
      "repair_history": [
       {
-       "ticket_id": "TKT-2025-0131",
-       "type": "Preventive",
-       "issue": "Annual preventive maintenance",
-       "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
-       "source": "Scheduled (AMC)",
-       "priority": "Low",
-       "raised_at": "2025-05-03T13:13+05:30",
-       "resolved_at": "2025-05-03T14:43+05:30",
-       "downtime_h": 1.5,
-       "sla_met": true,
-       "crew": "R2 \u00b7 Deepak R.",
-       "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 392,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2024-0155",
+       "ticket_id": "TKT-2025-0144",
        "type": "Corrective",
-       "issue": "Lamp burnt out",
-       "action": "Replaced 250 W MH lamp",
-       "source": "Night patrol",
+       "issue": "MCB tripped at feeder pillar",
+       "action": "Reset MCB, insulation-resistance test of circuit",
+       "source": "Citizen app",
        "priority": "Medium",
-       "raised_at": "2024-06-22T05:01+05:30",
-       "resolved_at": "2024-06-23T03:25+05:30",
-       "downtime_h": 22.4,
+       "raised_at": "2025-07-15T05:39+05:30",
+       "resolved_at": "2025-07-16T22:27+05:30",
+       "downtime_h": 40.8,
        "sla_met": true,
-       "crew": "R1 \u00b7 Anil M.",
+       "crew": "R3 \u00b7 Farhan A.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 1546,
+       "cost_inr": 261,
        "status": "Closed"
       },
       {
-       "ticket_id": "TKT-2024-0149",
-       "type": "Preventive",
-       "issue": "Annual preventive maintenance",
-       "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
-       "source": "Scheduled (AMC)",
-       "priority": "Low",
-       "raised_at": "2024-06-01T13:55+05:30",
-       "resolved_at": "2024-06-01T14:55+05:30",
-       "downtime_h": 1.0,
-       "sla_met": true,
-       "crew": "R1 \u00b7 Anil M.",
-       "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 380,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2024-0126",
+       "ticket_id": "TKT-2023-0142",
        "type": "Corrective",
        "issue": "Ballast failure",
        "action": "Replaced MH ballast",
-       "source": "Call centre",
+       "source": "CCMS auto-alert",
        "priority": "Medium",
-       "raised_at": "2024-02-24T22:53+05:30",
-       "resolved_at": "2024-02-26T08:47+05:30",
-       "downtime_h": 33.9,
+       "raised_at": "2023-06-04T05:06+05:30",
+       "resolved_at": "2023-06-04T16:48+05:30",
+       "downtime_h": 11.7,
        "sla_met": true,
        "crew": "R1 \u00b7 Anil M.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 2430,
+       "cost_inr": 2494,
        "status": "Closed"
       }
      ]
@@ -9437,39 +10421,56 @@ window.SLGIS_DATA = {
      "wattage": 120,
      "cct_k": 4000,
      "ccms_node": true,
-     "install_date": "2010-07-07",
-     "fixture_installed": "2024-01-05",
-     "last_inspected": "2026-07-31",
+     "install_date": "2010-07-04",
+     "fixture_installed": "2023-07-23",
+     "fixture_make": "Lumetra",
+     "fixture_batch": "LUM-2307",
+     "fixture_warranty_years": 5,
+     "last_inspected": "2026-10-04",
+     "last_earthing_check": "2025-05-15",
+     "junction_box_condition": "Good",
      "feeder_panel": "FP-CP-06",
      "circuit": "C1",
      "circuit_seq": 6,
      "phase": "B",
-     "energy_kwh": 43.9,
+     "energy_kwh": 43.4,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 41.4
+       "kwh": 42.4,
+       "scheduled_h": 334.4,
+       "lit_h": 328.6
       },
       {
        "month": "2026-05",
-       "kwh": 40.8
+       "kwh": 42.1,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 38.2
+       "kwh": 38.3,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 40.3
+       "kwh": 39.8,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 43.0
+       "kwh": 41.8,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
       },
       {
        "month": "2026-09",
-       "kwh": 43.9
+       "kwh": 43.4,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -9484,35 +10485,51 @@ window.SLGIS_DATA = {
      "ticket": null,
      "repair_history": [
       {
-       "ticket_id": "TKT-2026-0136",
+       "ticket_id": "TKT-2026-0123",
+       "type": "Corrective",
+       "issue": "Surge protection device failure",
+       "action": "Replaced 10 kV surge protection device",
+       "source": "Call centre",
+       "priority": "Medium",
+       "raised_at": "2026-04-21T23:58+05:30",
+       "resolved_at": "2026-04-22T16:28+05:30",
+       "downtime_h": 16.5,
+       "sla_met": true,
+       "crew": "R3 \u00b7 Farhan A.",
+       "contractor": "Roshni Infra Maintenance",
+       "cost_inr": 815,
+       "status": "Closed"
+      },
+      {
+       "ticket_id": "TKT-2025-0129",
        "type": "Preventive",
        "issue": "Annual preventive maintenance",
        "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
        "source": "Scheduled (AMC)",
        "priority": "Low",
-       "raised_at": "2026-07-05T12:28+05:30",
-       "resolved_at": "2026-07-05T14:22+05:30",
-       "downtime_h": 1.9,
+       "raised_at": "2025-05-15T11:53+05:30",
+       "resolved_at": "2025-05-15T13:53+05:30",
+       "downtime_h": 2.0,
        "sla_met": true,
        "crew": "R2 \u00b7 Deepak R.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 427,
+       "cost_inr": 361,
        "status": "Closed"
       },
       {
-       "ticket_id": "TKT-2024-0103",
+       "ticket_id": "TKT-2023-0155",
        "type": "Retrofit",
        "issue": "LED retrofit (HPS 250 W \u2192 LED 120 W)",
        "action": "Replaced luminaire with LED; CCMS node fitted",
        "source": "Scheduled (retrofit programme)",
        "priority": "Low",
-       "raised_at": "2024-01-05T15:35+05:30",
-       "resolved_at": "2024-01-05T20:29+05:30",
-       "downtime_h": 4.9,
+       "raised_at": "2023-07-23T15:20+05:30",
+       "resolved_at": "2023-07-23T19:44+05:30",
+       "downtime_h": 4.4,
        "sla_met": true,
-       "crew": "R2 \u00b7 Deepak R.",
+       "crew": "R1 \u00b7 Anil M.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 11479,
+       "cost_inr": 11395,
        "status": "Closed"
       }
      ]
@@ -9540,39 +10557,56 @@ window.SLGIS_DATA = {
      "wattage": 120,
      "cct_k": 4000,
      "ccms_node": true,
-     "install_date": "2010-07-21",
-     "fixture_installed": "2023-11-23",
-     "last_inspected": "2026-09-03",
+     "install_date": "2010-07-12",
+     "fixture_installed": "2023-07-02",
+     "fixture_make": "Lumetra",
+     "fixture_batch": "LUM-2307",
+     "fixture_warranty_years": 5,
+     "last_inspected": "2026-08-31",
+     "last_earthing_check": "2026-01-10",
+     "junction_box_condition": "Fair",
      "feeder_panel": "FP-CP-06",
      "circuit": "C1",
      "circuit_seq": 7,
      "phase": "R",
-     "energy_kwh": 44.0,
+     "energy_kwh": 45.0,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 41.4
+       "kwh": 42.6,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 41.1
+       "kwh": 41.3,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 38.1
+       "kwh": 38.2,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 40.6
+       "kwh": 41.3,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 43.5
+       "kwh": 43.2,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
       },
       {
        "month": "2026-09",
-       "kwh": 44.0
+       "kwh": 45.0,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -9587,67 +10621,51 @@ window.SLGIS_DATA = {
      "ticket": null,
      "repair_history": [
       {
-       "ticket_id": "TKT-2026-0104",
-       "type": "Corrective",
-       "issue": "Underground cable fault",
-       "action": "Located fault, jointed cable (heat-shrink kit)",
-       "source": "Night patrol",
-       "priority": "High",
-       "raised_at": "2026-01-21T20:43+05:30",
-       "resolved_at": "2026-01-24T03:43+05:30",
-       "downtime_h": 55.0,
-       "sla_met": false,
-       "crew": "R2 \u00b7 Deepak R.",
-       "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 5271,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2025-0106",
+       "ticket_id": "TKT-2026-0102",
        "type": "Preventive",
        "issue": "Annual preventive maintenance",
        "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
        "source": "Scheduled (AMC)",
        "priority": "Low",
-       "raised_at": "2025-01-23T10:51+05:30",
-       "resolved_at": "2025-01-23T12:27+05:30",
-       "downtime_h": 1.6,
+       "raised_at": "2026-01-10T13:44+05:30",
+       "resolved_at": "2026-01-10T14:56+05:30",
+       "downtime_h": 1.2,
        "sla_met": true,
        "crew": "R1 \u00b7 Anil M.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 353,
+       "cost_inr": 390,
        "status": "Closed"
       },
       {
-       "ticket_id": "TKT-2024-0180",
-       "type": "Preventive",
-       "issue": "Annual preventive maintenance",
-       "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
-       "source": "Scheduled (AMC)",
-       "priority": "Low",
-       "raised_at": "2024-10-07T11:53+05:30",
-       "resolved_at": "2024-10-07T13:11+05:30",
-       "downtime_h": 1.3,
+       "ticket_id": "TKT-2024-0168",
+       "type": "Corrective",
+       "issue": "LED driver failure",
+       "action": "Replaced LED driver",
+       "source": "Night patrol",
+       "priority": "Medium",
+       "raised_at": "2024-10-30T20:18+05:30",
+       "resolved_at": "2024-10-31T09:48+05:30",
+       "downtime_h": 13.5,
        "sla_met": true,
        "crew": "R3 \u00b7 Farhan A.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 405,
+       "cost_inr": 3223,
        "status": "Closed"
       },
       {
-       "ticket_id": "TKT-2023-0189",
+       "ticket_id": "TKT-2023-0149",
        "type": "Retrofit",
        "issue": "LED retrofit (HPS 250 W \u2192 LED 120 W)",
        "action": "Replaced luminaire with LED; CCMS node fitted",
        "source": "Scheduled (retrofit programme)",
        "priority": "Low",
-       "raised_at": "2023-11-23T10:23+05:30",
-       "resolved_at": "2023-11-23T13:29+05:30",
-       "downtime_h": 3.1,
+       "raised_at": "2023-07-02T10:17+05:30",
+       "resolved_at": "2023-07-02T13:17+05:30",
+       "downtime_h": 3.0,
        "sla_met": true,
-       "crew": "R2 \u00b7 Deepak R.",
+       "crew": "R1 \u00b7 Anil M.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 11466,
+       "cost_inr": 10281,
        "status": "Closed"
       }
      ]
@@ -9675,39 +10693,56 @@ window.SLGIS_DATA = {
      "wattage": 120,
      "cct_k": 4000,
      "ccms_node": true,
-     "install_date": "2010-07-06",
-     "fixture_installed": "2024-02-06",
-     "last_inspected": "2026-09-29",
+     "install_date": "2010-07-18",
+     "fixture_installed": "2024-01-27",
+     "fixture_make": "Lumetra",
+     "fixture_batch": "LUM-2401",
+     "fixture_warranty_years": 5,
+     "last_inspected": "2026-08-02",
+     "last_earthing_check": "2025-03-31",
+     "junction_box_condition": "Good",
      "feeder_panel": "FP-CP-07",
      "circuit": "C2",
      "circuit_seq": 7,
      "phase": "R",
-     "energy_kwh": 44.9,
+     "energy_kwh": 43.9,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 41.9
+       "kwh": 42.6,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 40.8
+       "kwh": 41.2,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 38.1
+       "kwh": 37.7,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 40.9
+       "kwh": 39.8,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 44.0
+       "kwh": 43.3,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
       },
       {
        "month": "2026-09",
-       "kwh": 44.9
+       "kwh": 43.9,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -9722,51 +10757,67 @@ window.SLGIS_DATA = {
      "ticket": null,
      "repair_history": [
       {
-       "ticket_id": "TKT-2025-0144",
+       "ticket_id": "TKT-2025-0148",
        "type": "Corrective",
-       "issue": "Water ingress in luminaire",
-       "action": "Resealed luminaire, replaced gasket",
-       "source": "Citizen app",
+       "issue": "Flickering",
+       "action": "Replaced LED driver and module connector",
+       "source": "Night patrol",
        "priority": "Medium",
-       "raised_at": "2025-07-11T22:24+05:30",
-       "resolved_at": "2025-07-12T09:24+05:30",
-       "downtime_h": 11.0,
+       "raised_at": "2025-07-31T23:33+05:30",
+       "resolved_at": "2025-08-01T18:15+05:30",
+       "downtime_h": 18.7,
        "sla_met": true,
-       "crew": "R3 \u00b7 Farhan A.",
+       "crew": "R1 \u00b7 Anil M.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 1040,
+       "cost_inr": 3667,
        "status": "Closed"
       },
       {
-       "ticket_id": "TKT-2025-0126",
+       "ticket_id": "TKT-2025-0117",
        "type": "Preventive",
        "issue": "Annual preventive maintenance",
        "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
        "source": "Scheduled (AMC)",
        "priority": "Low",
-       "raised_at": "2025-04-16T13:09+05:30",
-       "resolved_at": "2025-04-16T14:57+05:30",
-       "downtime_h": 1.8,
+       "raised_at": "2025-03-31T12:53+05:30",
+       "resolved_at": "2025-03-31T13:59+05:30",
+       "downtime_h": 1.1,
        "sla_met": true,
-       "crew": "R3 \u00b7 Farhan A.",
+       "crew": "R1 \u00b7 Anil M.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 351,
+       "cost_inr": 357,
        "status": "Closed"
       },
       {
-       "ticket_id": "TKT-2024-0119",
+       "ticket_id": "TKT-2024-0137",
+       "type": "Preventive",
+       "issue": "Annual preventive maintenance",
+       "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
+       "source": "Scheduled (AMC)",
+       "priority": "Low",
+       "raised_at": "2024-05-09T11:20+05:30",
+       "resolved_at": "2024-05-09T12:32+05:30",
+       "downtime_h": 1.2,
+       "sla_met": true,
+       "crew": "R1 \u00b7 Anil M.",
+       "contractor": "Roshni Infra Maintenance",
+       "cost_inr": 443,
+       "status": "Closed"
+      },
+      {
+       "ticket_id": "TKT-2024-0110",
        "type": "Retrofit",
        "issue": "LED retrofit (HPS 250 W \u2192 LED 120 W)",
        "action": "Replaced luminaire with LED; CCMS node fitted",
        "source": "Scheduled (retrofit programme)",
        "priority": "Low",
-       "raised_at": "2024-02-06T15:07+05:30",
-       "resolved_at": "2024-02-06T19:13+05:30",
-       "downtime_h": 4.1,
+       "raised_at": "2024-01-27T10:14+05:30",
+       "resolved_at": "2024-01-27T15:08+05:30",
+       "downtime_h": 4.9,
        "sla_met": true,
-       "crew": "R3 \u00b7 Farhan A.",
+       "crew": "R1 \u00b7 Anil M.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 10370,
+       "cost_inr": 11398,
        "status": "Closed"
       }
      ]
@@ -9794,39 +10845,56 @@ window.SLGIS_DATA = {
      "wattage": 120,
      "cct_k": 4000,
      "ccms_node": true,
-     "install_date": "2010-07-21",
-     "fixture_installed": "2024-01-20",
-     "last_inspected": "2026-08-17",
+     "install_date": "2010-07-08",
+     "fixture_installed": "2023-09-18",
+     "fixture_make": "Lumetra",
+     "fixture_batch": "LUM-2307",
+     "fixture_warranty_years": 5,
+     "last_inspected": "2026-09-19",
+     "last_earthing_check": "2024-07-19",
+     "junction_box_condition": "Fair",
      "feeder_panel": "FP-CP-07",
      "circuit": "C2",
      "circuit_seq": 6,
      "phase": "B",
-     "energy_kwh": 44.9,
+     "energy_kwh": 44.7,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 42.4
+       "kwh": 42.0,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 42.1
+       "kwh": 41.9,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 38.7
+       "kwh": 37.7,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 40.7
+       "kwh": 40.7,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 43.9
+       "kwh": 42.2,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
       },
       {
        "month": "2026-09",
-       "kwh": 44.9
+       "kwh": 44.7,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -9841,51 +10909,35 @@ window.SLGIS_DATA = {
      "ticket": null,
      "repair_history": [
       {
-       "ticket_id": "TKT-2026-0143",
-       "type": "Preventive",
-       "issue": "Annual preventive maintenance",
-       "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
-       "source": "Scheduled (AMC)",
-       "priority": "Low",
-       "raised_at": "2026-08-12T15:51+05:30",
-       "resolved_at": "2026-08-12T17:39+05:30",
-       "downtime_h": 1.8,
-       "sla_met": true,
-       "crew": "R1 \u00b7 Anil M.",
-       "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 364,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2024-0131",
+       "ticket_id": "TKT-2025-0122",
        "type": "Corrective",
-       "issue": "Flickering",
-       "action": "Replaced LED driver and module connector",
-       "source": "Call centre",
+       "issue": "Loose connection in junction box",
+       "action": "Re-terminated cables, replaced connector",
+       "source": "Night patrol",
        "priority": "Medium",
-       "raised_at": "2024-03-16T21:27+05:30",
-       "resolved_at": "2024-03-19T02:33+05:30",
-       "downtime_h": 53.1,
+       "raised_at": "2025-04-21T06:27+05:30",
+       "resolved_at": "2025-04-23T23:45+05:30",
+       "downtime_h": 65.3,
        "sla_met": false,
        "crew": "R2 \u00b7 Deepak R.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 3231,
+       "cost_inr": 386,
        "status": "Closed"
       },
       {
-       "ticket_id": "TKT-2024-0109",
+       "ticket_id": "TKT-2023-0169",
        "type": "Retrofit",
        "issue": "LED retrofit (HPS 250 W \u2192 LED 120 W)",
        "action": "Replaced luminaire with LED; CCMS node fitted",
        "source": "Scheduled (retrofit programme)",
        "priority": "Low",
-       "raised_at": "2024-01-20T12:31+05:30",
-       "resolved_at": "2024-01-20T16:19+05:30",
-       "downtime_h": 3.8,
+       "raised_at": "2023-09-18T10:33+05:30",
+       "resolved_at": "2023-09-18T13:39+05:30",
+       "downtime_h": 3.1,
        "sla_met": true,
        "crew": "R2 \u00b7 Deepak R.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 10861,
+       "cost_inr": 11010,
        "status": "Closed"
       }
      ]
@@ -9903,7 +10955,7 @@ window.SLGIS_DATA = {
     },
     "properties": {
      "uid": "SL-CP-OC-024",
-     "status": "Functional",
+     "status": "Under Maintenance",
      "road": "Outer Circle",
      "location": "Outer Circle, N-Block frontage",
      "pole_type": "Octagonal GI",
@@ -9913,39 +10965,56 @@ window.SLGIS_DATA = {
      "wattage": 120,
      "cct_k": 4000,
      "ccms_node": true,
-     "install_date": "2010-07-26",
-     "fixture_installed": "2023-11-24",
-     "last_inspected": "2026-08-07",
+     "install_date": "2010-07-22",
+     "fixture_installed": "2023-10-14",
+     "fixture_make": "Lumetra",
+     "fixture_batch": "LUM-2307",
+     "fixture_warranty_years": 5,
+     "last_inspected": "2026-08-17",
+     "last_earthing_check": "2025-12-02",
+     "junction_box_condition": "Good",
      "feeder_panel": "FP-CP-07",
      "circuit": "C2",
      "circuit_seq": 5,
      "phase": "Y",
-     "energy_kwh": 44.9,
+     "energy_kwh": 45.4,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 41.9
+       "kwh": 42.7,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 41.8
+       "kwh": 42.1,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 37.9
+       "kwh": 37.5,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 40.7
+       "kwh": 39.8,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 43.9
+       "kwh": 43.8,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
       },
       {
        "month": "2026-09",
-       "kwh": 44.9
+       "kwh": 45.4,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -9957,54 +11026,38 @@ window.SLGIS_DATA = {
       "contract_ref": "AMC/SL/CP-OC/2025-28",
       "sla_hours": 48
      },
-     "ticket": null,
+     "ticket": {
+      "id": "TKT-2026-0163",
+      "status": "In Progress",
+      "category": "not_working",
+      "issue": "Lamp not glowing",
+      "source": "CCMS auto-alert",
+      "raised_at": "2026-10-12T12:00+05:30",
+      "assigned_crew": "R2 \u00b7 Deepak R.",
+      "work_started_at": "2026-10-13T16:00+05:30",
+      "closed_at": null,
+      "resolution": null,
+      "complaints": 0,
+      "notes": null,
+      "pole_uids": [
+       "SL-CP-OC-024"
+      ]
+     },
      "repair_history": [
       {
-       "ticket_id": "TKT-2026-0113",
-       "type": "Preventive",
-       "issue": "Annual preventive maintenance",
-       "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
-       "source": "Scheduled (AMC)",
-       "priority": "Low",
-       "raised_at": "2026-02-27T14:21+05:30",
-       "resolved_at": "2026-02-27T15:27+05:30",
-       "downtime_h": 1.1,
-       "sla_met": true,
-       "crew": "R2 \u00b7 Deepak R.",
-       "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 358,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2024-0139",
-       "type": "Corrective",
-       "issue": "Cable theft",
-       "action": "Replaced stolen cable, secured junction box",
-       "source": "Night patrol",
-       "priority": "High",
-       "raised_at": "2024-04-06T05:15+05:30",
-       "resolved_at": "2024-04-07T22:21+05:30",
-       "downtime_h": 41.1,
-       "sla_met": false,
-       "crew": "R1 \u00b7 Anil M.",
-       "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 7198,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2023-0190",
+       "ticket_id": "TKT-2023-0175",
        "type": "Retrofit",
        "issue": "LED retrofit (HPS 250 W \u2192 LED 120 W)",
        "action": "Replaced luminaire with LED; CCMS node fitted",
        "source": "Scheduled (retrofit programme)",
        "priority": "Low",
-       "raised_at": "2023-11-24T11:04+05:30",
-       "resolved_at": "2023-11-24T14:16+05:30",
-       "downtime_h": 3.2,
+       "raised_at": "2023-10-14T14:55+05:30",
+       "resolved_at": "2023-10-14T18:37+05:30",
+       "downtime_h": 3.7,
        "sla_met": true,
-       "crew": "R1 \u00b7 Anil M.",
+       "crew": "R2 \u00b7 Deepak R.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 10483,
+       "cost_inr": 11111,
        "status": "Closed"
       }
      ]
@@ -10032,39 +11085,56 @@ window.SLGIS_DATA = {
      "wattage": 120,
      "cct_k": 4000,
      "ccms_node": true,
-     "install_date": "2010-07-20",
-     "fixture_installed": "2024-01-09",
-     "last_inspected": "2026-09-25",
+     "install_date": "2010-07-02",
+     "fixture_installed": "2024-01-24",
+     "fixture_make": "Lumetra",
+     "fixture_batch": "LUM-2401",
+     "fixture_warranty_years": 5,
+     "last_inspected": "2026-08-28",
+     "last_earthing_check": "2026-07-04",
+     "junction_box_condition": "Good",
      "feeder_panel": "FP-CP-07",
      "circuit": "C2",
      "circuit_seq": 4,
      "phase": "R",
-     "energy_kwh": 43.7,
+     "energy_kwh": 45.5,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 42.5
+       "kwh": 42.6,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 40.5
+       "kwh": 41.5,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 37.8
+       "kwh": 37.9,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 40.6
+       "kwh": 40.7,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 42.6
+       "kwh": 43.3,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
       },
       {
        "month": "2026-09",
-       "kwh": 43.7
+       "kwh": 45.5,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -10079,83 +11149,51 @@ window.SLGIS_DATA = {
      "ticket": null,
      "repair_history": [
       {
-       "ticket_id": "TKT-2026-0108",
-       "type": "Corrective",
-       "issue": "Underground cable fault",
-       "action": "Located fault, jointed cable (heat-shrink kit)",
-       "source": "CCMS auto-alert",
-       "priority": "High",
-       "raised_at": "2026-01-30T20:40+05:30",
-       "resolved_at": "2026-02-02T22:46+05:30",
-       "downtime_h": 74.1,
-       "sla_met": false,
-       "crew": "R3 \u00b7 Farhan A.",
-       "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 6457,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2026-0103",
+       "ticket_id": "TKT-2026-0136",
        "type": "Preventive",
        "issue": "Annual preventive maintenance",
        "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
        "source": "Scheduled (AMC)",
        "priority": "Low",
-       "raised_at": "2026-01-18T12:03+05:30",
-       "resolved_at": "2026-01-18T13:45+05:30",
+       "raised_at": "2026-07-04T11:09+05:30",
+       "resolved_at": "2026-07-04T12:51+05:30",
        "downtime_h": 1.7,
-       "sla_met": true,
-       "crew": "R2 \u00b7 Deepak R.",
-       "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 449,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2025-0139",
-       "type": "Corrective",
-       "issue": "Water ingress in luminaire",
-       "action": "Resealed luminaire, replaced gasket",
-       "source": "Call centre",
-       "priority": "Medium",
-       "raised_at": "2025-06-15T05:59+05:30",
-       "resolved_at": "2025-06-17T03:35+05:30",
-       "downtime_h": 45.6,
-       "sla_met": true,
-       "crew": "R2 \u00b7 Deepak R.",
-       "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 1450,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2024-0163",
-       "type": "Corrective",
-       "issue": "Loose connection in junction box",
-       "action": "Re-terminated cables, replaced connector",
-       "source": "Night patrol",
-       "priority": "Medium",
-       "raised_at": "2024-08-05T22:45+05:30",
-       "resolved_at": "2024-08-06T11:27+05:30",
-       "downtime_h": 12.7,
        "sla_met": true,
        "crew": "R1 \u00b7 Anil M.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 489,
+       "cost_inr": 407,
        "status": "Closed"
       },
       {
-       "ticket_id": "TKT-2024-0106",
+       "ticket_id": "TKT-2026-0101",
+       "type": "Corrective",
+       "issue": "Flickering",
+       "action": "Replaced LED driver and module connector",
+       "source": "Call centre",
+       "priority": "Medium",
+       "raised_at": "2026-01-04T20:53+05:30",
+       "resolved_at": "2026-01-06T00:23+05:30",
+       "downtime_h": 27.5,
+       "sla_met": true,
+       "crew": "R1 \u00b7 Anil M.",
+       "contractor": "Roshni Infra Maintenance",
+       "cost_inr": 3384,
+       "status": "Closed"
+      },
+      {
+       "ticket_id": "TKT-2024-0109",
        "type": "Retrofit",
        "issue": "LED retrofit (HPS 250 W \u2192 LED 120 W)",
        "action": "Replaced luminaire with LED; CCMS node fitted",
        "source": "Scheduled (retrofit programme)",
        "priority": "Low",
-       "raised_at": "2024-01-09T15:10+05:30",
-       "resolved_at": "2024-01-09T19:10+05:30",
-       "downtime_h": 4.0,
+       "raised_at": "2024-01-24T11:09+05:30",
+       "resolved_at": "2024-01-24T13:39+05:30",
+       "downtime_h": 2.5,
        "sla_met": true,
-       "crew": "R2 \u00b7 Deepak R.",
+       "crew": "R3 \u00b7 Farhan A.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 10418,
+       "cost_inr": 11290,
        "status": "Closed"
       }
      ]
@@ -10183,39 +11221,56 @@ window.SLGIS_DATA = {
      "wattage": 120,
      "cct_k": 4000,
      "ccms_node": true,
-     "install_date": "2010-07-09",
-     "fixture_installed": "2024-01-02",
-     "last_inspected": "2026-08-29",
+     "install_date": "2010-07-02",
+     "fixture_installed": "2024-01-17",
+     "fixture_make": "Lumetra",
+     "fixture_batch": "LUM-2401",
+     "fixture_warranty_years": 5,
+     "last_inspected": "2026-09-24",
+     "last_earthing_check": "2025-12-03",
+     "junction_box_condition": "Good",
      "feeder_panel": "FP-CP-07",
      "circuit": "C2",
      "circuit_seq": 3,
      "phase": "B",
-     "energy_kwh": 44.9,
+     "energy_kwh": 45.4,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 42.5
+       "kwh": 41.9,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 42.2
+       "kwh": 41.1,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 37.6
+       "kwh": 38.2,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 41.6
+       "kwh": 40.8,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 44.4
+       "kwh": 42.6,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
       },
       {
        "month": "2026-09",
-       "kwh": 44.9
+       "kwh": 45.4,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -10230,67 +11285,51 @@ window.SLGIS_DATA = {
      "ticket": null,
      "repair_history": [
       {
-       "ticket_id": "TKT-2026-0142",
+       "ticket_id": "TKT-2025-0169",
        "type": "Preventive",
        "issue": "Annual preventive maintenance",
        "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
        "source": "Scheduled (AMC)",
        "priority": "Low",
-       "raised_at": "2026-08-07T10:35+05:30",
-       "resolved_at": "2026-08-07T11:59+05:30",
-       "downtime_h": 1.4,
+       "raised_at": "2025-12-03T13:44+05:30",
+       "resolved_at": "2025-12-03T15:26+05:30",
+       "downtime_h": 1.7,
        "sla_met": true,
        "crew": "R1 \u00b7 Anil M.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 398,
+       "cost_inr": 435,
        "status": "Closed"
       },
       {
-       "ticket_id": "TKT-2025-0137",
-       "type": "Corrective",
-       "issue": "Loose connection in junction box",
-       "action": "Re-terminated cables, replaced connector",
-       "source": "Citizen app",
-       "priority": "Medium",
-       "raised_at": "2025-06-14T05:50+05:30",
-       "resolved_at": "2025-06-14T13:08+05:30",
-       "downtime_h": 7.3,
+       "ticket_id": "TKT-2025-0154",
+       "type": "Preventive",
+       "issue": "Annual preventive maintenance",
+       "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
+       "source": "Scheduled (AMC)",
+       "priority": "Low",
+       "raised_at": "2025-09-01T10:32+05:30",
+       "resolved_at": "2025-09-01T11:32+05:30",
+       "downtime_h": 1.0,
        "sla_met": true,
-       "crew": "R2 \u00b7 Deepak R.",
-       "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 492,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2025-0119",
-       "type": "Corrective",
-       "issue": "Cable theft",
-       "action": "Replaced stolen cable, secured junction box",
-       "source": "CCMS auto-alert",
-       "priority": "High",
-       "raised_at": "2025-03-24T06:26+05:30",
-       "resolved_at": "2025-03-27T10:38+05:30",
-       "downtime_h": 76.2,
-       "sla_met": false,
        "crew": "R1 \u00b7 Anil M.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 7137,
+       "cost_inr": 382,
        "status": "Closed"
       },
       {
-       "ticket_id": "TKT-2024-0102",
+       "ticket_id": "TKT-2024-0107",
        "type": "Retrofit",
        "issue": "LED retrofit (HPS 250 W \u2192 LED 120 W)",
        "action": "Replaced luminaire with LED; CCMS node fitted",
        "source": "Scheduled (retrofit programme)",
        "priority": "Low",
-       "raised_at": "2024-01-02T14:53+05:30",
-       "resolved_at": "2024-01-02T19:35+05:30",
-       "downtime_h": 4.7,
+       "raised_at": "2024-01-17T15:56+05:30",
+       "resolved_at": "2024-01-17T20:26+05:30",
+       "downtime_h": 4.5,
        "sla_met": true,
-       "crew": "R1 \u00b7 Anil M.",
+       "crew": "R2 \u00b7 Deepak R.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 10764,
+       "cost_inr": 10620,
        "status": "Closed"
       }
      ]
@@ -10318,39 +11357,56 @@ window.SLGIS_DATA = {
      "wattage": 120,
      "cct_k": 4000,
      "ccms_node": true,
-     "install_date": "2010-07-09",
-     "fixture_installed": "2023-10-04",
-     "last_inspected": "2026-10-01",
+     "install_date": "2010-07-06",
+     "fixture_installed": "2023-07-25",
+     "fixture_make": "Lumetra",
+     "fixture_batch": "LUM-2307",
+     "fixture_warranty_years": 5,
+     "last_inspected": "2026-10-04",
+     "last_earthing_check": "2026-05-18",
+     "junction_box_condition": "Good",
      "feeder_panel": "FP-CP-07",
      "circuit": "C2",
      "circuit_seq": 2,
      "phase": "Y",
-     "energy_kwh": 44.7,
+     "energy_kwh": 44.9,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 39.5
+       "kwh": 42.5,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 41.4
+       "kwh": 41.9,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 37.3
+       "kwh": 37.5,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 41.1
+       "kwh": 40.0,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 42.5
+       "kwh": 42.5,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
       },
       {
        "month": "2026-09",
-       "kwh": 44.7
+       "kwh": 44.9,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -10365,67 +11421,19 @@ window.SLGIS_DATA = {
      "ticket": null,
      "repair_history": [
       {
-       "ticket_id": "TKT-2026-0121",
-       "type": "Corrective",
-       "issue": "LED driver failure",
-       "action": "Replaced LED driver",
-       "source": "CCMS auto-alert",
-       "priority": "Medium",
-       "raised_at": "2026-03-31T20:31+05:30",
-       "resolved_at": "2026-04-03T02:19+05:30",
-       "downtime_h": 53.8,
-       "sla_met": false,
-       "crew": "R1 \u00b7 Anil M.",
-       "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 3820,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2025-0112",
-       "type": "Preventive",
-       "issue": "Annual preventive maintenance",
-       "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
-       "source": "Scheduled (AMC)",
-       "priority": "Low",
-       "raised_at": "2025-03-03T12:25+05:30",
-       "resolved_at": "2025-03-03T14:19+05:30",
-       "downtime_h": 1.9,
-       "sla_met": true,
-       "crew": "R2 \u00b7 Deepak R.",
-       "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 393,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2024-0190",
-       "type": "Corrective",
-       "issue": "Surge protection device failure",
-       "action": "Replaced 10 kV surge protection device",
-       "source": "Night patrol",
-       "priority": "Medium",
-       "raised_at": "2024-12-01T05:47+05:30",
-       "resolved_at": "2024-12-03T11:41+05:30",
-       "downtime_h": 53.9,
-       "sla_met": false,
-       "crew": "R2 \u00b7 Deepak R.",
-       "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 668,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2023-0176",
+       "ticket_id": "TKT-2023-0157",
        "type": "Retrofit",
        "issue": "LED retrofit (HPS 250 W \u2192 LED 120 W)",
        "action": "Replaced luminaire with LED; CCMS node fitted",
        "source": "Scheduled (retrofit programme)",
        "priority": "Low",
-       "raised_at": "2023-10-04T13:59+05:30",
-       "resolved_at": "2023-10-04T16:41+05:30",
-       "downtime_h": 2.7,
+       "raised_at": "2023-07-25T10:25+05:30",
+       "resolved_at": "2023-07-25T14:07+05:30",
+       "downtime_h": 3.7,
        "sla_met": true,
-       "crew": "R3 \u00b7 Farhan A.",
+       "crew": "R2 \u00b7 Deepak R.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 10596,
+       "cost_inr": 10266,
        "status": "Closed"
       }
      ]
@@ -10453,39 +11461,56 @@ window.SLGIS_DATA = {
      "wattage": 120,
      "cct_k": 4000,
      "ccms_node": true,
-     "install_date": "2010-07-11",
-     "fixture_installed": "2023-09-11",
-     "last_inspected": "2026-09-04",
+     "install_date": "2010-07-27",
+     "fixture_installed": "2023-11-09",
+     "fixture_make": "Lumetra",
+     "fixture_batch": "LUM-2307",
+     "fixture_warranty_years": 5,
+     "last_inspected": "2026-08-16",
+     "last_earthing_check": "2025-08-20",
+     "junction_box_condition": "Good",
      "feeder_panel": "FP-CP-07",
      "circuit": "C2",
      "circuit_seq": 1,
      "phase": "R",
-     "energy_kwh": 44.2,
+     "energy_kwh": 43.4,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 43.2
+       "kwh": 42.1,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 41.4
+       "kwh": 41.9,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 39.0
+       "kwh": 37.9,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 40.7
+       "kwh": 40.2,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 42.4
+       "kwh": 42.3,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
       },
       {
        "month": "2026-09",
-       "kwh": 44.2
+       "kwh": 43.4,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -10500,51 +11525,51 @@ window.SLGIS_DATA = {
      "ticket": null,
      "repair_history": [
       {
-       "ticket_id": "TKT-2023-0191",
-       "type": "Corrective",
-       "issue": "LED driver failure",
-       "action": "Replaced LED driver",
-       "source": "CCMS auto-alert",
-       "priority": "Medium",
-       "raised_at": "2023-11-25T23:26+05:30",
-       "resolved_at": "2023-11-26T13:26+05:30",
-       "downtime_h": 14.0,
+       "ticket_id": "TKT-2025-0152",
+       "type": "Preventive",
+       "issue": "Annual preventive maintenance",
+       "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
+       "source": "Scheduled (AMC)",
+       "priority": "Low",
+       "raised_at": "2025-08-20T12:23+05:30",
+       "resolved_at": "2025-08-20T13:41+05:30",
+       "downtime_h": 1.3,
        "sla_met": true,
        "crew": "R2 \u00b7 Deepak R.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 3184,
+       "cost_inr": 408,
+       "status": "Closed"
+      },
+      {
+       "ticket_id": "TKT-2024-0182",
+       "type": "Corrective",
+       "issue": "Loose connection in junction box",
+       "action": "Re-terminated cables, replaced connector",
+       "source": "Call centre",
+       "priority": "Medium",
+       "raised_at": "2024-12-30T23:16+05:30",
+       "resolved_at": "2025-01-01T07:40+05:30",
+       "downtime_h": 32.4,
+       "sla_met": true,
+       "crew": "R2 \u00b7 Deepak R.",
+       "contractor": "Roshni Infra Maintenance",
+       "cost_inr": 558,
        "status": "Closed"
       },
       {
        "ticket_id": "TKT-2023-0183",
-       "type": "Corrective",
-       "issue": "Water ingress in luminaire",
-       "action": "Resealed luminaire, replaced gasket",
-       "source": "Call centre",
-       "priority": "Medium",
-       "raised_at": "2023-11-06T05:29+05:30",
-       "resolved_at": "2023-11-07T09:29+05:30",
-       "downtime_h": 28.0,
-       "sla_met": true,
-       "crew": "R1 \u00b7 Anil M.",
-       "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 1435,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2023-0166",
        "type": "Retrofit",
        "issue": "LED retrofit (HPS 250 W \u2192 LED 120 W)",
        "action": "Replaced luminaire with LED; CCMS node fitted",
        "source": "Scheduled (retrofit programme)",
        "priority": "Low",
-       "raised_at": "2023-09-11T11:36+05:30",
-       "resolved_at": "2023-09-11T14:12+05:30",
-       "downtime_h": 2.6,
+       "raised_at": "2023-11-09T14:44+05:30",
+       "resolved_at": "2023-11-09T19:20+05:30",
+       "downtime_h": 4.6,
        "sla_met": true,
        "crew": "R3 \u00b7 Farhan A.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 10048,
+       "cost_inr": 10198,
        "status": "Closed"
       }
      ]
@@ -10572,39 +11597,56 @@ window.SLGIS_DATA = {
      "wattage": 250,
      "cct_k": 4200,
      "ccms_node": true,
-     "install_date": "2010-07-14",
-     "fixture_installed": "2016-11-11",
-     "last_inspected": "2026-07-30",
+     "install_date": "2010-07-07",
+     "fixture_installed": "2016-10-17",
+     "fixture_make": "Metalux",
+     "fixture_batch": "MTX-1611",
+     "fixture_warranty_years": 2,
+     "last_inspected": "2026-08-28",
+     "last_earthing_check": "2025-02-20",
+     "junction_box_condition": "Good",
      "feeder_panel": "FP-CP-07",
      "circuit": "C1",
      "circuit_seq": 1,
      "phase": "R",
-     "energy_kwh": 196.2,
+     "energy_kwh": 195.0,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 185.6
+       "kwh": 188.6,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 184.1
+       "kwh": 184.3,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 168.5
+       "kwh": 165.4,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 183.0
+       "kwh": 179.0,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 191.4
+       "kwh": 189.9,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
       },
       {
        "month": "2026-09",
-       "kwh": 196.2
+       "kwh": 195.0,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -10619,35 +11661,67 @@ window.SLGIS_DATA = {
      "ticket": null,
      "repair_history": [
       {
-       "ticket_id": "TKT-2026-0116",
+       "ticket_id": "TKT-2024-0177",
        "type": "Corrective",
        "issue": "Ballast failure",
        "action": "Replaced MH ballast",
-       "source": "Night patrol",
+       "source": "Call centre",
        "priority": "Medium",
-       "raised_at": "2026-03-01T19:44+05:30",
-       "resolved_at": "2026-03-04T11:26+05:30",
-       "downtime_h": 63.7,
-       "sla_met": false,
-       "crew": "R3 \u00b7 Farhan A.",
+       "raised_at": "2024-11-26T19:04+05:30",
+       "resolved_at": "2024-11-27T12:58+05:30",
+       "downtime_h": 17.9,
+       "sla_met": true,
+       "crew": "R2 \u00b7 Deepak R.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 2895,
+       "cost_inr": 2653,
        "status": "Closed"
       },
       {
-       "ticket_id": "TKT-2023-0140",
-       "type": "Corrective",
-       "issue": "Ballast failure",
-       "action": "Replaced MH ballast",
-       "source": "CCMS auto-alert",
-       "priority": "Medium",
-       "raised_at": "2023-05-26T23:57+05:30",
-       "resolved_at": "2023-05-27T11:03+05:30",
-       "downtime_h": 11.1,
+       "ticket_id": "TKT-2024-0160",
+       "type": "Preventive",
+       "issue": "Annual preventive maintenance",
+       "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
+       "source": "Scheduled (AMC)",
+       "priority": "Low",
+       "raised_at": "2024-09-16T14:46+05:30",
+       "resolved_at": "2024-09-16T15:40+05:30",
+       "downtime_h": 0.9,
        "sla_met": true,
        "crew": "R3 \u00b7 Farhan A.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 2600,
+       "cost_inr": 373,
+       "status": "Closed"
+      },
+      {
+       "ticket_id": "TKT-2024-0152",
+       "type": "Corrective",
+       "issue": "Ballast failure",
+       "action": "Replaced MH ballast",
+       "source": "Call centre",
+       "priority": "Medium",
+       "raised_at": "2024-08-21T23:14+05:30",
+       "resolved_at": "2024-08-22T16:02+05:30",
+       "downtime_h": 16.8,
+       "sla_met": true,
+       "crew": "R2 \u00b7 Deepak R.",
+       "contractor": "Roshni Infra Maintenance",
+       "cost_inr": 2933,
+       "status": "Closed"
+      },
+      {
+       "ticket_id": "TKT-2023-0148",
+       "type": "Corrective",
+       "issue": "Pole damaged by vehicle",
+       "action": "Replaced pole, re-grouted foundation",
+       "source": "Night patrol",
+       "priority": "High",
+       "raised_at": "2023-07-02T05:59+05:30",
+       "resolved_at": "2023-07-04T14:11+05:30",
+       "downtime_h": 56.2,
+       "sla_met": false,
+       "crew": "R3 \u00b7 Farhan A.",
+       "contractor": "Roshni Infra Maintenance",
+       "cost_inr": 24266,
        "status": "Closed"
       }
      ]
@@ -10675,39 +11749,56 @@ window.SLGIS_DATA = {
      "wattage": 120,
      "cct_k": 4000,
      "ccms_node": true,
-     "install_date": "2010-07-05",
-     "fixture_installed": "2024-02-04",
-     "last_inspected": "2026-08-14",
+     "install_date": "2010-07-15",
+     "fixture_installed": "2024-01-05",
+     "fixture_make": "Lumetra",
+     "fixture_batch": "LUM-2401",
+     "fixture_warranty_years": 5,
+     "last_inspected": "2026-09-07",
+     "last_earthing_check": "2025-11-11",
+     "junction_box_condition": "Good",
      "feeder_panel": "FP-CP-07",
      "circuit": "C1",
      "circuit_seq": 2,
      "phase": "Y",
-     "energy_kwh": 45.0,
+     "energy_kwh": 45.5,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 43.2
+       "kwh": 42.6,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 41.7
+       "kwh": 42.1,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 38.2
+       "kwh": 39.3,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 41.1
+       "kwh": 40.3,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 42.9
+       "kwh": 43.1,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
       },
       {
        "month": "2026-09",
-       "kwh": 45.0
+       "kwh": 45.5,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -10722,19 +11813,35 @@ window.SLGIS_DATA = {
      "ticket": null,
      "repair_history": [
       {
-       "ticket_id": "TKT-2024-0117",
+       "ticket_id": "TKT-2025-0164",
+       "type": "Preventive",
+       "issue": "Annual preventive maintenance",
+       "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
+       "source": "Scheduled (AMC)",
+       "priority": "Low",
+       "raised_at": "2025-11-11T13:26+05:30",
+       "resolved_at": "2025-11-11T14:38+05:30",
+       "downtime_h": 1.2,
+       "sla_met": true,
+       "crew": "R1 \u00b7 Anil M.",
+       "contractor": "Roshni Infra Maintenance",
+       "cost_inr": 396,
+       "status": "Closed"
+      },
+      {
+       "ticket_id": "TKT-2024-0102",
        "type": "Retrofit",
        "issue": "LED retrofit (HPS 250 W \u2192 LED 120 W)",
        "action": "Replaced luminaire with LED; CCMS node fitted",
        "source": "Scheduled (retrofit programme)",
        "priority": "Low",
-       "raised_at": "2024-02-04T14:18+05:30",
-       "resolved_at": "2024-02-04T17:24+05:30",
-       "downtime_h": 3.1,
+       "raised_at": "2024-01-05T15:05+05:30",
+       "resolved_at": "2024-01-05T17:47+05:30",
+       "downtime_h": 2.7,
        "sla_met": true,
        "crew": "R1 \u00b7 Anil M.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 9884,
+       "cost_inr": 9841,
        "status": "Closed"
       }
      ]
@@ -10762,39 +11869,56 @@ window.SLGIS_DATA = {
      "wattage": 120,
      "cct_k": 4000,
      "ccms_node": true,
-     "install_date": "2010-07-02",
-     "fixture_installed": "2023-07-09",
-     "last_inspected": "2026-09-21",
+     "install_date": "2010-07-16",
+     "fixture_installed": "2023-08-20",
+     "fixture_make": "Lumetra",
+     "fixture_batch": "LUM-2307",
+     "fixture_warranty_years": 5,
+     "last_inspected": "2026-09-15",
+     "last_earthing_check": "2025-05-03",
+     "junction_box_condition": "Poor",
      "feeder_panel": "FP-CP-07",
      "circuit": "C1",
      "circuit_seq": 3,
      "phase": "B",
-     "energy_kwh": 43.5,
+     "energy_kwh": 43.6,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 42.6
+       "kwh": 42.8,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 38.6
+       "kwh": 40.3,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 37.9
+       "kwh": 37.9,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 40.8
+       "kwh": 40.6,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 44.3
+       "kwh": 42.7,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
       },
       {
        "month": "2026-09",
-       "kwh": 43.5
+       "kwh": 43.6,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -10807,16 +11931,16 @@ window.SLGIS_DATA = {
       "sla_hours": 48
      },
      "ticket": {
-      "id": "TKT-2026-0159",
+      "id": "TKT-2026-0162",
       "status": "Open",
-      "priority": "High",
+      "category": "not_working",
       "issue": "No supply - poles dark (CCMS: circuit current drop)",
       "source": "CCMS auto-alert",
       "raised_at": "2026-10-11T22:42+05:30",
-      "sla_hours": 24,
-      "sla_due": "2026-10-12T22:42+05:30",
       "assigned_crew": null,
       "work_started_at": null,
+      "closed_at": null,
+      "resolution": null,
       "complaints": 3,
       "notes": "Zero current reported downstream on circuit C1. Citizen complaints merged.",
       "pole_uids": [
@@ -10829,83 +11953,35 @@ window.SLGIS_DATA = {
      },
      "repair_history": [
       {
-       "ticket_id": "TKT-2026-0150",
-       "type": "Corrective",
-       "issue": "Loose connection in junction box",
-       "action": "Re-terminated cables, replaced connector",
-       "source": "Citizen app",
-       "priority": "Medium",
-       "raised_at": "2026-09-20T06:50+05:30",
-       "resolved_at": "2026-09-21T02:14+05:30",
-       "downtime_h": 19.4,
-       "sla_met": true,
-       "crew": "R1 \u00b7 Anil M.",
-       "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 515,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2026-0132",
-       "type": "Corrective",
-       "issue": "Timer/photocell fault (day burning)",
-       "action": "Replaced timer contactor",
-       "source": "Citizen app",
-       "priority": "Low",
-       "raised_at": "2026-05-09T21:29+05:30",
-       "resolved_at": "2026-05-12T14:29+05:30",
-       "downtime_h": 65.0,
-       "sla_met": true,
-       "crew": "R1 \u00b7 Anil M.",
-       "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 1625,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2024-0171",
-       "type": "Corrective",
-       "issue": "Loose connection in junction box",
-       "action": "Re-terminated cables, replaced connector",
-       "source": "Call centre",
-       "priority": "Medium",
-       "raised_at": "2024-08-26T22:42+05:30",
-       "resolved_at": "2024-08-27T14:30+05:30",
-       "downtime_h": 15.8,
-       "sla_met": true,
-       "crew": "R3 \u00b7 Farhan A.",
-       "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 354,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2024-0168",
+       "ticket_id": "TKT-2025-0125",
        "type": "Preventive",
        "issue": "Annual preventive maintenance",
        "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
        "source": "Scheduled (AMC)",
        "priority": "Low",
-       "raised_at": "2024-08-22T15:17+05:30",
-       "resolved_at": "2024-08-22T16:17+05:30",
-       "downtime_h": 1.0,
+       "raised_at": "2025-05-03T15:09+05:30",
+       "resolved_at": "2025-05-03T16:33+05:30",
+       "downtime_h": 1.4,
        "sla_met": true,
-       "crew": "R2 \u00b7 Deepak R.",
+       "crew": "R3 \u00b7 Farhan A.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 361,
+       "cost_inr": 433,
        "status": "Closed"
       },
       {
-       "ticket_id": "TKT-2023-0145",
+       "ticket_id": "TKT-2023-0165",
        "type": "Retrofit",
        "issue": "LED retrofit (HPS 250 W \u2192 LED 120 W)",
        "action": "Replaced luminaire with LED; CCMS node fitted",
        "source": "Scheduled (retrofit programme)",
        "priority": "Low",
-       "raised_at": "2023-07-09T10:46+05:30",
-       "resolved_at": "2023-07-09T14:04+05:30",
-       "downtime_h": 3.3,
+       "raised_at": "2023-08-20T15:44+05:30",
+       "resolved_at": "2023-08-20T19:08+05:30",
+       "downtime_h": 3.4,
        "sla_met": true,
-       "crew": "R1 \u00b7 Anil M.",
+       "crew": "R3 \u00b7 Farhan A.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 10971,
+       "cost_inr": 10181,
        "status": "Closed"
       }
      ]
@@ -10933,39 +12009,56 @@ window.SLGIS_DATA = {
      "wattage": 120,
      "cct_k": 4000,
      "ccms_node": true,
-     "install_date": "2010-07-19",
-     "fixture_installed": "2023-09-11",
-     "last_inspected": "2026-08-25",
+     "install_date": "2010-07-26",
+     "fixture_installed": "2023-11-24",
+     "fixture_make": "Lumetra",
+     "fixture_batch": "LUM-2307",
+     "fixture_warranty_years": 5,
+     "last_inspected": "2026-10-01",
+     "last_earthing_check": "2025-11-25",
+     "junction_box_condition": "Good",
      "feeder_panel": "FP-CP-07",
      "circuit": "C1",
      "circuit_seq": 4,
      "phase": "R",
-     "energy_kwh": 43.9,
+     "energy_kwh": 44.4,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 41.9
+       "kwh": 42.5,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 41.8
+       "kwh": 40.1,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 37.5
+       "kwh": 37.6,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 40.6
+       "kwh": 41.2,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 44.0
+       "kwh": 42.8,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
       },
       {
        "month": "2026-09",
-       "kwh": 43.9
+       "kwh": 44.4,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -10978,16 +12071,16 @@ window.SLGIS_DATA = {
       "sla_hours": 48
      },
      "ticket": {
-      "id": "TKT-2026-0159",
+      "id": "TKT-2026-0162",
       "status": "Open",
-      "priority": "High",
+      "category": "not_working",
       "issue": "No supply - poles dark (CCMS: circuit current drop)",
       "source": "CCMS auto-alert",
       "raised_at": "2026-10-11T22:42+05:30",
-      "sla_hours": 24,
-      "sla_due": "2026-10-12T22:42+05:30",
       "assigned_crew": null,
       "work_started_at": null,
+      "closed_at": null,
+      "resolution": null,
       "complaints": 3,
       "notes": "Zero current reported downstream on circuit C1. Citizen complaints merged.",
       "pole_uids": [
@@ -11000,67 +12093,51 @@ window.SLGIS_DATA = {
      },
      "repair_history": [
       {
-       "ticket_id": "TKT-2026-0115",
+       "ticket_id": "TKT-2025-0168",
        "type": "Preventive",
        "issue": "Annual preventive maintenance",
        "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
        "source": "Scheduled (AMC)",
        "priority": "Low",
-       "raised_at": "2026-03-01T11:37+05:30",
-       "resolved_at": "2026-03-01T12:49+05:30",
-       "downtime_h": 1.2,
-       "sla_met": true,
-       "crew": "R1 \u00b7 Anil M.",
-       "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 448,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2025-0156",
-       "type": "Corrective",
-       "issue": "Pole damaged by vehicle",
-       "action": "Replaced pole, re-grouted foundation",
-       "source": "Call centre",
-       "priority": "High",
-       "raised_at": "2025-08-20T20:22+05:30",
-       "resolved_at": "2025-08-25T05:40+05:30",
-       "downtime_h": 105.3,
-       "sla_met": false,
-       "crew": "R2 \u00b7 Deepak R.",
-       "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 21874,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2023-0186",
-       "type": "Preventive",
-       "issue": "Annual preventive maintenance",
-       "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
-       "source": "Scheduled (AMC)",
-       "priority": "Low",
-       "raised_at": "2023-11-17T12:24+05:30",
-       "resolved_at": "2023-11-17T14:06+05:30",
-       "downtime_h": 1.7,
+       "raised_at": "2025-11-25T13:29+05:30",
+       "resolved_at": "2025-11-25T15:17+05:30",
+       "downtime_h": 1.8,
        "sla_met": true,
        "crew": "R3 \u00b7 Farhan A.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 382,
+       "cost_inr": 390,
        "status": "Closed"
       },
       {
-       "ticket_id": "TKT-2023-0167",
+       "ticket_id": "TKT-2024-0129",
+       "type": "Preventive",
+       "issue": "Annual preventive maintenance",
+       "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
+       "source": "Scheduled (AMC)",
+       "priority": "Low",
+       "raised_at": "2024-03-23T10:17+05:30",
+       "resolved_at": "2024-03-23T11:17+05:30",
+       "downtime_h": 1.0,
+       "sla_met": true,
+       "crew": "R3 \u00b7 Farhan A.",
+       "contractor": "Roshni Infra Maintenance",
+       "cost_inr": 428,
+       "status": "Closed"
+      },
+      {
+       "ticket_id": "TKT-2023-0185",
        "type": "Retrofit",
        "issue": "LED retrofit (HPS 250 W \u2192 LED 120 W)",
        "action": "Replaced luminaire with LED; CCMS node fitted",
        "source": "Scheduled (retrofit programme)",
        "priority": "Low",
-       "raised_at": "2023-09-11T15:27+05:30",
-       "resolved_at": "2023-09-11T18:15+05:30",
-       "downtime_h": 2.8,
+       "raised_at": "2023-11-24T15:42+05:30",
+       "resolved_at": "2023-11-24T19:48+05:30",
+       "downtime_h": 4.1,
        "sla_met": true,
-       "crew": "R3 \u00b7 Farhan A.",
+       "crew": "R2 \u00b7 Deepak R.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 11052,
+       "cost_inr": 10137,
        "status": "Closed"
       }
      ]
@@ -11088,39 +12165,56 @@ window.SLGIS_DATA = {
      "wattage": 120,
      "cct_k": 4000,
      "ccms_node": true,
-     "install_date": "2010-07-04",
-     "fixture_installed": "2023-09-20",
-     "last_inspected": "2026-09-18",
+     "install_date": "2010-07-20",
+     "fixture_installed": "2024-01-09",
+     "fixture_make": "Lumetra",
+     "fixture_batch": "LUM-2401",
+     "fixture_warranty_years": 5,
+     "last_inspected": "2026-10-09",
+     "last_earthing_check": "2025-08-20",
+     "junction_box_condition": "Fair",
      "feeder_panel": "FP-CP-07",
      "circuit": "C1",
      "circuit_seq": 5,
      "phase": "Y",
-     "energy_kwh": 42.2,
+     "energy_kwh": 45.5,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 42.8
+       "kwh": 43.0,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 40.6
+       "kwh": 41.5,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 39.1
+       "kwh": 38.8,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 40.0
+       "kwh": 40.7,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 43.9
+       "kwh": 43.0,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
       },
       {
        "month": "2026-09",
-       "kwh": 42.2
+       "kwh": 45.5,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -11133,16 +12227,16 @@ window.SLGIS_DATA = {
       "sla_hours": 48
      },
      "ticket": {
-      "id": "TKT-2026-0159",
+      "id": "TKT-2026-0162",
       "status": "Open",
-      "priority": "High",
+      "category": "not_working",
       "issue": "No supply - poles dark (CCMS: circuit current drop)",
       "source": "CCMS auto-alert",
       "raised_at": "2026-10-11T22:42+05:30",
-      "sla_hours": 24,
-      "sla_due": "2026-10-12T22:42+05:30",
       "assigned_crew": null,
       "work_started_at": null,
+      "closed_at": null,
+      "resolution": null,
       "complaints": 3,
       "notes": "Zero current reported downstream on circuit C1. Citizen complaints merged.",
       "pole_uids": [
@@ -11155,83 +12249,67 @@ window.SLGIS_DATA = {
      },
      "repair_history": [
       {
-       "ticket_id": "TKT-2026-0148",
-       "type": "Corrective",
-       "issue": "Water ingress in luminaire",
-       "action": "Resealed luminaire, replaced gasket",
-       "source": "CCMS auto-alert",
-       "priority": "Medium",
-       "raised_at": "2026-09-17T23:21+05:30",
-       "resolved_at": "2026-09-18T16:03+05:30",
-       "downtime_h": 16.7,
-       "sla_met": true,
-       "crew": "R3 \u00b7 Farhan A.",
-       "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 951,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2025-0118",
+       "ticket_id": "TKT-2025-0151",
        "type": "Preventive",
        "issue": "Annual preventive maintenance",
        "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
        "source": "Scheduled (AMC)",
        "priority": "Low",
-       "raised_at": "2025-03-18T11:01+05:30",
-       "resolved_at": "2025-03-18T12:49+05:30",
-       "downtime_h": 1.8,
+       "raised_at": "2025-08-20T12:15+05:30",
+       "resolved_at": "2025-08-20T13:39+05:30",
+       "downtime_h": 1.4,
        "sla_met": true,
-       "crew": "R3 \u00b7 Farhan A.",
-       "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 449,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2024-0193",
-       "type": "Corrective",
-       "issue": "Water ingress in luminaire",
-       "action": "Resealed luminaire, replaced gasket",
-       "source": "CCMS auto-alert",
-       "priority": "Medium",
-       "raised_at": "2024-12-18T05:58+05:30",
-       "resolved_at": "2024-12-18T20:40+05:30",
-       "downtime_h": 14.7,
-       "sla_met": true,
-       "crew": "R3 \u00b7 Farhan A.",
-       "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 922,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2024-0132",
-       "type": "Corrective",
-       "issue": "Pole damaged by vehicle",
-       "action": "Replaced pole, re-grouted foundation",
-       "source": "CCMS auto-alert",
-       "priority": "High",
-       "raised_at": "2024-03-19T20:07+05:30",
-       "resolved_at": "2024-03-23T09:01+05:30",
-       "downtime_h": 84.9,
-       "sla_met": false,
        "crew": "R1 \u00b7 Anil M.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 25249,
+       "cost_inr": 402,
        "status": "Closed"
       },
       {
-       "ticket_id": "TKT-2023-0174",
+       "ticket_id": "TKT-2025-0140",
+       "type": "Corrective",
+       "issue": "Loose connection in junction box",
+       "action": "Re-terminated cables, replaced connector",
+       "source": "CCMS auto-alert",
+       "priority": "Medium",
+       "raised_at": "2025-06-24T21:02+05:30",
+       "resolved_at": "2025-06-27T02:56+05:30",
+       "downtime_h": 53.9,
+       "sla_met": false,
+       "crew": "R2 \u00b7 Deepak R.",
+       "contractor": "Roshni Infra Maintenance",
+       "cost_inr": 574,
+       "status": "Closed"
+      },
+      {
+       "ticket_id": "TKT-2025-0132",
+       "type": "Preventive",
+       "issue": "Annual preventive maintenance",
+       "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
+       "source": "Scheduled (AMC)",
+       "priority": "Low",
+       "raised_at": "2025-05-30T14:39+05:30",
+       "resolved_at": "2025-05-30T15:27+05:30",
+       "downtime_h": 0.8,
+       "sla_met": true,
+       "crew": "R2 \u00b7 Deepak R.",
+       "contractor": "Roshni Infra Maintenance",
+       "cost_inr": 412,
+       "status": "Closed"
+      },
+      {
+       "ticket_id": "TKT-2024-0105",
        "type": "Retrofit",
        "issue": "LED retrofit (HPS 250 W \u2192 LED 120 W)",
        "action": "Replaced luminaire with LED; CCMS node fitted",
        "source": "Scheduled (retrofit programme)",
        "priority": "Low",
-       "raised_at": "2023-09-20T14:12+05:30",
-       "resolved_at": "2023-09-20T17:48+05:30",
-       "downtime_h": 3.6,
+       "raised_at": "2024-01-09T13:03+05:30",
+       "resolved_at": "2024-01-09T16:03+05:30",
+       "downtime_h": 3.0,
        "sla_met": true,
-       "crew": "R1 \u00b7 Anil M.",
+       "crew": "R3 \u00b7 Farhan A.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 11457,
+       "cost_inr": 10790,
        "status": "Closed"
       }
      ]
@@ -11259,39 +12337,56 @@ window.SLGIS_DATA = {
      "wattage": 120,
      "cct_k": 4000,
      "ccms_node": true,
-     "install_date": "2010-07-12",
-     "fixture_installed": "2023-10-15",
-     "last_inspected": "2026-08-21",
+     "install_date": "2010-07-09",
+     "fixture_installed": "2024-01-02",
+     "fixture_make": "Lumetra",
+     "fixture_batch": "LUM-2401",
+     "fixture_warranty_years": 5,
+     "last_inspected": "2026-08-27",
+     "last_earthing_check": "2026-04-19",
+     "junction_box_condition": "Good",
      "feeder_panel": "FP-CP-07",
      "circuit": "C1",
      "circuit_seq": 6,
      "phase": "B",
-     "energy_kwh": 44.6,
+     "energy_kwh": 43.7,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 43.1
+       "kwh": 43.5,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 42.1
+       "kwh": 41.7,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 39.1
+       "kwh": 38.1,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 41.3
+       "kwh": 40.7,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 42.6
+       "kwh": 43.2,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
       },
       {
        "month": "2026-09",
-       "kwh": 44.6
+       "kwh": 43.7,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -11304,16 +12399,16 @@ window.SLGIS_DATA = {
       "sla_hours": 48
      },
      "ticket": {
-      "id": "TKT-2026-0159",
+      "id": "TKT-2026-0162",
       "status": "Open",
-      "priority": "High",
+      "category": "not_working",
       "issue": "No supply - poles dark (CCMS: circuit current drop)",
       "source": "CCMS auto-alert",
       "raised_at": "2026-10-11T22:42+05:30",
-      "sla_hours": 24,
-      "sla_due": "2026-10-12T22:42+05:30",
       "assigned_crew": null,
       "work_started_at": null,
+      "closed_at": null,
+      "resolution": null,
       "complaints": 3,
       "notes": "Zero current reported downstream on circuit C1. Citizen complaints merged.",
       "pole_uids": [
@@ -11326,51 +12421,51 @@ window.SLGIS_DATA = {
      },
      "repair_history": [
       {
-       "ticket_id": "TKT-2025-0170",
+       "ticket_id": "TKT-2026-0121",
        "type": "Preventive",
        "issue": "Annual preventive maintenance",
        "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
        "source": "Scheduled (AMC)",
        "priority": "Low",
-       "raised_at": "2025-11-01T11:41+05:30",
-       "resolved_at": "2025-11-01T12:53+05:30",
-       "downtime_h": 1.2,
+       "raised_at": "2026-04-19T13:57+05:30",
+       "resolved_at": "2026-04-19T15:57+05:30",
+       "downtime_h": 2.0,
        "sla_met": true,
        "crew": "R1 \u00b7 Anil M.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 382,
+       "cost_inr": 423,
        "status": "Closed"
       },
       {
-       "ticket_id": "TKT-2024-0167",
+       "ticket_id": "TKT-2024-0124",
        "type": "Corrective",
-       "issue": "Loose connection in junction box",
-       "action": "Re-terminated cables, replaced connector",
-       "source": "Citizen app",
+       "issue": "LED driver failure",
+       "action": "Replaced LED driver",
+       "source": "CCMS auto-alert",
        "priority": "Medium",
-       "raised_at": "2024-08-21T19:41+05:30",
-       "resolved_at": "2024-08-23T18:23+05:30",
-       "downtime_h": 46.7,
+       "raised_at": "2024-02-24T06:33+05:30",
+       "resolved_at": "2024-02-26T04:57+05:30",
+       "downtime_h": 46.4,
        "sla_met": true,
-       "crew": "R3 \u00b7 Farhan A.",
+       "crew": "R1 \u00b7 Anil M.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 519,
+       "cost_inr": 3577,
        "status": "Closed"
       },
       {
-       "ticket_id": "TKT-2023-0179",
+       "ticket_id": "TKT-2024-0101",
        "type": "Retrofit",
        "issue": "LED retrofit (HPS 250 W \u2192 LED 120 W)",
        "action": "Replaced luminaire with LED; CCMS node fitted",
        "source": "Scheduled (retrofit programme)",
        "priority": "Low",
-       "raised_at": "2023-10-15T12:09+05:30",
-       "resolved_at": "2023-10-15T16:57+05:30",
-       "downtime_h": 4.8,
+       "raised_at": "2024-01-02T11:09+05:30",
+       "resolved_at": "2024-01-02T14:51+05:30",
+       "downtime_h": 3.7,
        "sla_met": true,
        "crew": "R1 \u00b7 Anil M.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 10367,
+       "cost_inr": 11099,
        "status": "Closed"
       }
      ]
@@ -11398,39 +12493,56 @@ window.SLGIS_DATA = {
      "wattage": 120,
      "cct_k": 4000,
      "ccms_node": true,
-     "install_date": "2010-07-06",
-     "fixture_installed": "2023-09-12",
-     "last_inspected": "2026-09-26",
+     "install_date": "2010-07-09",
+     "fixture_installed": "2023-10-04",
+     "fixture_make": "Lumetra",
+     "fixture_batch": "LUM-2307",
+     "fixture_warranty_years": 5,
+     "last_inspected": "2026-09-08",
+     "last_earthing_check": "2025-11-18",
+     "junction_box_condition": "Fair",
      "feeder_panel": "FP-CP-07",
      "circuit": "C1",
      "circuit_seq": 7,
      "phase": "R",
-     "energy_kwh": 43.3,
+     "energy_kwh": 44.1,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 42.1
+       "kwh": 41.9,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 41.5
+       "kwh": 42.2,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 39.0
+       "kwh": 39.3,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 41.9
+       "kwh": 39.5,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 43.9
+       "kwh": 43.1,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
       },
       {
        "month": "2026-09",
-       "kwh": 43.3
+       "kwh": 44.1,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -11443,16 +12555,16 @@ window.SLGIS_DATA = {
       "sla_hours": 48
      },
      "ticket": {
-      "id": "TKT-2026-0159",
+      "id": "TKT-2026-0162",
       "status": "Open",
-      "priority": "High",
+      "category": "not_working",
       "issue": "No supply - poles dark (CCMS: circuit current drop)",
       "source": "CCMS auto-alert",
       "raised_at": "2026-10-11T22:42+05:30",
-      "sla_hours": 24,
-      "sla_due": "2026-10-12T22:42+05:30",
       "assigned_crew": null,
       "work_started_at": null,
+      "closed_at": null,
+      "resolution": null,
       "complaints": 3,
       "notes": "Zero current reported downstream on circuit C1. Citizen complaints merged.",
       "pole_uids": [
@@ -11465,83 +12577,35 @@ window.SLGIS_DATA = {
      },
      "repair_history": [
       {
-       "ticket_id": "TKT-2026-0147",
+       "ticket_id": "TKT-2025-0133",
        "type": "Preventive",
        "issue": "Annual preventive maintenance",
        "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
        "source": "Scheduled (AMC)",
        "priority": "Low",
-       "raised_at": "2026-09-17T12:25+05:30",
-       "resolved_at": "2026-09-17T13:49+05:30",
-       "downtime_h": 1.4,
+       "raised_at": "2025-05-31T14:40+05:30",
+       "resolved_at": "2025-05-31T15:28+05:30",
+       "downtime_h": 0.8,
        "sla_met": true,
-       "crew": "R2 \u00b7 Deepak R.",
+       "crew": "R1 \u00b7 Anil M.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 399,
+       "cost_inr": 353,
        "status": "Closed"
       },
       {
-       "ticket_id": "TKT-2025-0142",
-       "type": "Preventive",
-       "issue": "Annual preventive maintenance",
-       "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
-       "source": "Scheduled (AMC)",
-       "priority": "Low",
-       "raised_at": "2025-06-17T10:48+05:30",
-       "resolved_at": "2025-06-17T11:42+05:30",
-       "downtime_h": 0.9,
-       "sla_met": true,
-       "crew": "R2 \u00b7 Deepak R.",
-       "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 395,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2024-0177",
-       "type": "Corrective",
-       "issue": "Flickering",
-       "action": "Replaced LED driver and module connector",
-       "source": "Call centre",
-       "priority": "Medium",
-       "raised_at": "2024-09-22T23:52+05:30",
-       "resolved_at": "2024-09-23T22:28+05:30",
-       "downtime_h": 22.6,
-       "sla_met": true,
-       "crew": "R2 \u00b7 Deepak R.",
-       "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 4118,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2023-0197",
-       "type": "Corrective",
-       "issue": "LED driver failure",
-       "action": "Replaced LED driver",
-       "source": "CCMS auto-alert",
-       "priority": "Medium",
-       "raised_at": "2023-12-10T06:37+05:30",
-       "resolved_at": "2023-12-10T14:13+05:30",
-       "downtime_h": 7.6,
-       "sla_met": true,
-       "crew": "R2 \u00b7 Deepak R.",
-       "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 4120,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2023-0168",
+       "ticket_id": "TKT-2023-0173",
        "type": "Retrofit",
        "issue": "LED retrofit (HPS 250 W \u2192 LED 120 W)",
        "action": "Replaced luminaire with LED; CCMS node fitted",
        "source": "Scheduled (retrofit programme)",
        "priority": "Low",
-       "raised_at": "2023-09-12T14:02+05:30",
-       "resolved_at": "2023-09-12T17:44+05:30",
-       "downtime_h": 3.7,
+       "raised_at": "2023-10-04T11:05+05:30",
+       "resolved_at": "2023-10-04T14:17+05:30",
+       "downtime_h": 3.2,
        "sla_met": true,
-       "crew": "R1 \u00b7 Anil M.",
+       "crew": "R3 \u00b7 Farhan A.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 9937,
+       "cost_inr": 11395,
        "status": "Closed"
       }
      ]
@@ -11569,39 +12633,56 @@ window.SLGIS_DATA = {
      "wattage": 250,
      "cct_k": 2000,
      "ccms_node": false,
-     "install_date": "2010-07-24",
-     "fixture_installed": "2015-01-13",
-     "last_inspected": "2026-09-30",
+     "install_date": "2010-07-22",
+     "fixture_installed": "2014-03-21",
+     "fixture_make": "Sodiac",
+     "fixture_batch": "SOD-2014",
+     "fixture_warranty_years": 1,
+     "last_inspected": "2026-09-03",
+     "last_earthing_check": "2026-08-26",
+     "junction_box_condition": "Fair",
      "feeder_panel": "FP-CP-08",
      "circuit": "C2",
      "circuit_seq": 7,
      "phase": "R",
-     "energy_kwh": 99.5,
+     "energy_kwh": 102.2,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 94.0
+       "kwh": 94.7,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 95.8
+       "kwh": 92.0,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 84.8
+       "kwh": 86.6,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 95.0
+       "kwh": 88.9,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 98.4
+       "kwh": 97.1,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
       },
       {
        "month": "2026-09",
-       "kwh": 99.5
+       "kwh": 102.2,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -11616,35 +12697,35 @@ window.SLGIS_DATA = {
      "ticket": null,
      "repair_history": [
       {
-       "ticket_id": "TKT-2026-0137",
-       "type": "Preventive",
-       "issue": "Annual preventive maintenance",
-       "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
-       "source": "Scheduled (AMC)",
-       "priority": "Low",
-       "raised_at": "2026-07-05T14:50+05:30",
-       "resolved_at": "2026-07-05T16:08+05:30",
-       "downtime_h": 1.3,
+       "ticket_id": "TKT-2024-0153",
+       "type": "Corrective",
+       "issue": "Capacitor failure",
+       "action": "Replaced power-factor capacitor",
+       "source": "Call centre",
+       "priority": "Medium",
+       "raised_at": "2024-08-26T19:22+05:30",
+       "resolved_at": "2024-08-28T17:52+05:30",
+       "downtime_h": 46.5,
        "sla_met": true,
-       "crew": "R3 \u00b7 Farhan A.",
+       "crew": "R1 \u00b7 Anil M.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 361,
+       "cost_inr": 329,
        "status": "Closed"
       },
       {
-       "ticket_id": "TKT-2024-0145",
+       "ticket_id": "TKT-2024-0136",
        "type": "Corrective",
-       "issue": "Lamp cycling on/off",
-       "action": "Replaced end-of-life HPS lamp",
+       "issue": "MCB tripped at feeder pillar",
+       "action": "Reset MCB, insulation-resistance test of circuit",
        "source": "Night patrol",
        "priority": "Medium",
-       "raised_at": "2024-05-23T20:11+05:30",
-       "resolved_at": "2024-05-24T17:17+05:30",
-       "downtime_h": 21.1,
-       "sla_met": true,
-       "crew": "R2 \u00b7 Deepak R.",
+       "raised_at": "2024-04-22T20:53+05:30",
+       "resolved_at": "2024-04-25T12:29+05:30",
+       "downtime_h": 63.6,
+       "sla_met": false,
+       "crew": "R1 \u00b7 Anil M.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 1184,
+       "cost_inr": 299,
        "status": "Closed"
       }
      ]
@@ -11672,39 +12753,56 @@ window.SLGIS_DATA = {
      "wattage": 250,
      "cct_k": 2000,
      "ccms_node": false,
-     "install_date": "2010-07-25",
-     "fixture_installed": "2013-05-03",
-     "last_inspected": "2026-10-03",
+     "install_date": "2010-07-11",
+     "fixture_installed": "2013-06-13",
+     "fixture_make": "Sodiac",
+     "fixture_batch": "SOD-2013",
+     "fixture_warranty_years": 1,
+     "last_inspected": "2026-10-08",
+     "last_earthing_check": "2025-12-09",
+     "junction_box_condition": "Fair",
      "feeder_panel": "FP-CP-08",
      "circuit": "C2",
      "circuit_seq": 6,
      "phase": "B",
-     "energy_kwh": 101.6,
+     "energy_kwh": 99.6,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 93.9
+       "kwh": 94.4,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 95.3
+       "kwh": 91.4,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 84.6
+       "kwh": 85.1,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 91.2
+       "kwh": 92.5,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 96.5
+       "kwh": 94.8,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
       },
       {
        "month": "2026-09",
-       "kwh": 101.6
+       "kwh": 99.6,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -11719,83 +12817,51 @@ window.SLGIS_DATA = {
      "ticket": null,
      "repair_history": [
       {
-       "ticket_id": "TKT-2025-0161",
+       "ticket_id": "TKT-2025-0171",
        "type": "Preventive",
        "issue": "Annual preventive maintenance",
        "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
        "source": "Scheduled (AMC)",
        "priority": "Low",
-       "raised_at": "2025-09-05T13:49+05:30",
-       "resolved_at": "2025-09-05T15:07+05:30",
-       "downtime_h": 1.3,
+       "raised_at": "2025-12-09T14:46+05:30",
+       "resolved_at": "2025-12-09T15:34+05:30",
+       "downtime_h": 0.8,
        "sla_met": true,
        "crew": "R3 \u00b7 Farhan A.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 375,
+       "cost_inr": 438,
        "status": "Closed"
       },
       {
-       "ticket_id": "TKT-2025-0141",
+       "ticket_id": "TKT-2025-0161",
        "type": "Corrective",
-       "issue": "Ballast failure",
-       "action": "Replaced ballast",
-       "source": "Night patrol",
-       "priority": "Medium",
-       "raised_at": "2025-06-15T23:04+05:30",
-       "resolved_at": "2025-06-18T16:34+05:30",
-       "downtime_h": 65.5,
+       "issue": "Underground cable fault",
+       "action": "Located fault, jointed cable (heat-shrink kit)",
+       "source": "Citizen app",
+       "priority": "High",
+       "raised_at": "2025-10-25T23:31+05:30",
+       "resolved_at": "2025-10-30T04:55+05:30",
+       "downtime_h": 101.4,
        "sla_met": false,
-       "crew": "R2 \u00b7 Deepak R.",
-       "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 1917,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2024-0192",
-       "type": "Corrective",
-       "issue": "Timer/photocell fault (day burning)",
-       "action": "Replaced timer contactor",
-       "source": "Call centre",
-       "priority": "Low",
-       "raised_at": "2024-12-15T21:17+05:30",
-       "resolved_at": "2024-12-17T05:29+05:30",
-       "downtime_h": 32.2,
-       "sla_met": true,
        "crew": "R3 \u00b7 Farhan A.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 1313,
+       "cost_inr": 4418,
        "status": "Closed"
       },
       {
-       "ticket_id": "TKT-2024-0153",
+       "ticket_id": "TKT-2024-0122",
        "type": "Corrective",
-       "issue": "MCB tripped at feeder pillar",
-       "action": "Reset MCB, insulation-resistance test of circuit",
+       "issue": "Capacitor failure",
+       "action": "Replaced power-factor capacitor",
        "source": "Night patrol",
        "priority": "Medium",
-       "raised_at": "2024-06-11T22:25+05:30",
-       "resolved_at": "2024-06-12T08:25+05:30",
-       "downtime_h": 10.0,
+       "raised_at": "2024-02-16T19:41+05:30",
+       "resolved_at": "2024-02-17T14:17+05:30",
+       "downtime_h": 18.6,
        "sla_met": true,
        "crew": "R2 \u00b7 Deepak R.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 291,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2023-0200",
-       "type": "Corrective",
-       "issue": "Lamp cycling on/off",
-       "action": "Replaced end-of-life HPS lamp",
-       "source": "Night patrol",
-       "priority": "Medium",
-       "raised_at": "2023-12-25T21:49+05:30",
-       "resolved_at": "2023-12-28T04:43+05:30",
-       "downtime_h": 54.9,
-       "sla_met": false,
-       "crew": "R1 \u00b7 Anil M.",
-       "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 924,
+       "cost_inr": 300,
        "status": "Closed"
       }
      ]
@@ -11823,39 +12889,56 @@ window.SLGIS_DATA = {
      "wattage": 250,
      "cct_k": 2000,
      "ccms_node": false,
-     "install_date": "2010-07-09",
-     "fixture_installed": "2013-04-18",
-     "last_inspected": "2026-10-03",
+     "install_date": "2010-07-12",
+     "fixture_installed": "2014-07-26",
+     "fixture_make": "Sodiac",
+     "fixture_batch": "SOD-2014",
+     "fixture_warranty_years": 1,
+     "last_inspected": "2026-08-22",
+     "last_earthing_check": "2026-02-02",
+     "junction_box_condition": "Good",
      "feeder_panel": "FP-CP-08",
      "circuit": "C2",
      "circuit_seq": 5,
      "phase": "Y",
-     "energy_kwh": 101.7,
+     "energy_kwh": 99.3,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 95.7
+       "kwh": 96.1,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 93.1
+       "kwh": 94.9,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 87.3
+       "kwh": 85.3,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 94.1
+       "kwh": 90.8,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 95.8
+       "kwh": 97.2,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
       },
       {
        "month": "2026-09",
-       "kwh": 101.7
+       "kwh": 99.3,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -11870,83 +12953,99 @@ window.SLGIS_DATA = {
      "ticket": null,
      "repair_history": [
       {
-       "ticket_id": "TKT-2025-0158",
+       "ticket_id": "TKT-2026-0108",
        "type": "Preventive",
        "issue": "Annual preventive maintenance",
        "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
        "source": "Scheduled (AMC)",
        "priority": "Low",
-       "raised_at": "2025-08-25T11:50+05:30",
-       "resolved_at": "2025-08-25T13:20+05:30",
-       "downtime_h": 1.5,
+       "raised_at": "2026-02-02T12:41+05:30",
+       "resolved_at": "2026-02-02T13:53+05:30",
+       "downtime_h": 1.2,
        "sla_met": true,
-       "crew": "R3 \u00b7 Farhan A.",
+       "crew": "R2 \u00b7 Deepak R.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 355,
+       "cost_inr": 382,
        "status": "Closed"
       },
       {
-       "ticket_id": "TKT-2025-0145",
+       "ticket_id": "TKT-2025-0155",
+       "type": "Corrective",
+       "issue": "Capacitor failure",
+       "action": "Replaced power-factor capacitor",
+       "source": "Night patrol",
+       "priority": "Medium",
+       "raised_at": "2025-09-04T23:33+05:30",
+       "resolved_at": "2025-09-05T18:27+05:30",
+       "downtime_h": 18.9,
+       "sla_met": true,
+       "crew": "R3 \u00b7 Farhan A.",
+       "contractor": "Roshni Infra Maintenance",
+       "cost_inr": 267,
+       "status": "Closed"
+      },
+      {
+       "ticket_id": "TKT-2024-0114",
        "type": "Corrective",
        "issue": "Ignitor failure",
        "action": "Replaced ignitor",
        "source": "Night patrol",
        "priority": "Medium",
-       "raised_at": "2025-07-13T22:20+05:30",
-       "resolved_at": "2025-07-14T19:44+05:30",
-       "downtime_h": 21.4,
+       "raised_at": "2024-02-04T23:59+05:30",
+       "resolved_at": "2024-02-05T21:05+05:30",
+       "downtime_h": 21.1,
        "sla_met": true,
-       "crew": "R2 \u00b7 Deepak R.",
-       "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 560,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2024-0133",
-       "type": "Corrective",
-       "issue": "Lamp burnt out",
-       "action": "Replaced 250 W HPS lamp",
-       "source": "Call centre",
-       "priority": "Medium",
-       "raised_at": "2024-03-20T06:43+05:30",
-       "resolved_at": "2024-03-20T19:43+05:30",
-       "downtime_h": 13.0,
-       "sla_met": true,
-       "crew": "R2 \u00b7 Deepak R.",
-       "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 1037,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2023-0162",
-       "type": "Corrective",
-       "issue": "Pole damaged by vehicle",
-       "action": "Replaced pole, re-grouted foundation",
-       "source": "Night patrol",
-       "priority": "High",
-       "raised_at": "2023-09-05T21:51+05:30",
-       "resolved_at": "2023-09-10T08:15+05:30",
-       "downtime_h": 106.4,
-       "sla_met": false,
        "crew": "R1 \u00b7 Anil M.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 19674,
+       "cost_inr": 510,
        "status": "Closed"
       },
       {
-       "ticket_id": "TKT-2023-0133",
+       "ticket_id": "TKT-2023-0146",
+       "type": "Corrective",
+       "issue": "Timer/photocell fault (day burning)",
+       "action": "Replaced timer contactor",
+       "source": "Night patrol",
+       "priority": "Low",
+       "raised_at": "2023-06-23T22:24+05:30",
+       "resolved_at": "2023-06-24T16:30+05:30",
+       "downtime_h": 18.1,
+       "sla_met": true,
+       "crew": "R3 \u00b7 Farhan A.",
+       "contractor": "Roshni Infra Maintenance",
+       "cost_inr": 1231,
+       "status": "Closed"
+      },
+      {
+       "ticket_id": "TKT-2023-0137",
+       "type": "Corrective",
+       "issue": "Ignitor failure",
+       "action": "Replaced ignitor",
+       "source": "Night patrol",
+       "priority": "Medium",
+       "raised_at": "2023-04-24T05:37+05:30",
+       "resolved_at": "2023-04-24T15:37+05:30",
+       "downtime_h": 10.0,
+       "sla_met": true,
+       "crew": "R1 \u00b7 Anil M.",
+       "contractor": "Roshni Infra Maintenance",
+       "cost_inr": 604,
+       "status": "Closed"
+      },
+      {
+       "ticket_id": "TKT-2023-0116",
        "type": "Preventive",
        "issue": "Annual preventive maintenance",
        "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
        "source": "Scheduled (AMC)",
        "priority": "Low",
-       "raised_at": "2023-04-22T14:37+05:30",
-       "resolved_at": "2023-04-22T15:25+05:30",
-       "downtime_h": 0.8,
+       "raised_at": "2023-03-05T12:03+05:30",
+       "resolved_at": "2023-03-05T13:15+05:30",
+       "downtime_h": 1.2,
        "sla_met": true,
        "crew": "R2 \u00b7 Deepak R.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 433,
+       "cost_inr": 439,
        "status": "Closed"
       }
      ]
@@ -11964,7 +13063,7 @@ window.SLGIS_DATA = {
     },
     "properties": {
      "uid": "SL-CP-OC-039",
-     "status": "Faulty",
+     "status": "Under Maintenance",
      "road": "Outer Circle",
      "location": "Outer Circle, G-Block frontage \u00b7 Baba Kharak Singh Marg junction",
      "pole_type": "Octagonal GI",
@@ -11974,39 +13073,56 @@ window.SLGIS_DATA = {
      "wattage": 250,
      "cct_k": 2000,
      "ccms_node": false,
-     "install_date": "2010-07-02",
-     "fixture_installed": "2014-07-19",
-     "last_inspected": "2026-10-06",
+     "install_date": "2010-07-05",
+     "fixture_installed": "2014-02-03",
+     "fixture_make": "Sodiac",
+     "fixture_batch": "SOD-2014",
+     "fixture_warranty_years": 1,
+     "last_inspected": "2026-10-07",
+     "last_earthing_check": "2026-08-04",
+     "junction_box_condition": "Good",
      "feeder_panel": "FP-CP-08",
      "circuit": "C2",
      "circuit_seq": 4,
      "phase": "R",
-     "energy_kwh": 102.5,
+     "energy_kwh": 100.1,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 97.4
+       "kwh": 87.0,
+       "scheduled_h": 334.4,
+       "lit_h": 307.2
       },
       {
        "month": "2026-05",
-       "kwh": 94.6
+       "kwh": 94.2,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 87.4
+       "kwh": 85.2,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 91.6
+       "kwh": 93.0,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 97.8
+       "kwh": 98.8,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
       },
       {
        "month": "2026-09",
-       "kwh": 102.5
+       "kwh": 100.1,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -12019,16 +13135,16 @@ window.SLGIS_DATA = {
       "sla_hours": 48
      },
      "ticket": {
-      "id": "TKT-2026-0161",
-      "status": "Open",
-      "priority": "Medium",
+      "id": "TKT-2026-0165",
+      "status": "In Progress",
+      "category": "not_working",
       "issue": "Lamp burnt out",
       "source": "Night patrol",
       "raised_at": "2026-10-12T19:06+05:30",
-      "sla_hours": 48,
-      "sla_due": "2026-10-14T19:06+05:30",
-      "assigned_crew": null,
-      "work_started_at": null,
+      "assigned_crew": "R2 \u00b7 Deepak R.",
+      "work_started_at": "2026-10-13T17:00+05:30",
+      "closed_at": null,
+      "resolution": null,
       "complaints": 0,
       "notes": null,
       "pole_uids": [
@@ -12037,67 +13153,35 @@ window.SLGIS_DATA = {
      },
      "repair_history": [
       {
-       "ticket_id": "TKT-2026-0102",
-       "type": "Preventive",
-       "issue": "Annual preventive maintenance",
-       "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
-       "source": "Scheduled (AMC)",
-       "priority": "Low",
-       "raised_at": "2026-01-16T11:22+05:30",
-       "resolved_at": "2026-01-16T12:52+05:30",
-       "downtime_h": 1.5,
-       "sla_met": true,
-       "crew": "R1 \u00b7 Anil M.",
-       "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 368,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2025-0153",
-       "type": "Corrective",
-       "issue": "Lamp cycling on/off",
-       "action": "Replaced end-of-life HPS lamp",
-       "source": "Night patrol",
-       "priority": "Medium",
-       "raised_at": "2025-08-13T21:22+05:30",
-       "resolved_at": "2025-08-17T04:40+05:30",
-       "downtime_h": 79.3,
-       "sla_met": false,
-       "crew": "R1 \u00b7 Anil M.",
-       "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 1369,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2024-0196",
-       "type": "Corrective",
-       "issue": "Pole damaged by vehicle",
-       "action": "Replaced pole, re-grouted foundation",
-       "source": "Night patrol",
-       "priority": "High",
-       "raised_at": "2024-12-28T05:06+05:30",
-       "resolved_at": "2024-12-30T05:24+05:30",
-       "downtime_h": 48.3,
-       "sla_met": false,
-       "crew": "R3 \u00b7 Farhan A.",
-       "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 23681,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2023-0150",
+       "ticket_id": "TKT-2026-0116",
        "type": "Corrective",
        "issue": "Lamp burnt out",
        "action": "Replaced 250 W HPS lamp",
        "source": "Night patrol",
        "priority": "Medium",
-       "raised_at": "2023-07-25T19:33+05:30",
-       "resolved_at": "2023-07-29T05:09+05:30",
-       "downtime_h": 81.6,
+       "raised_at": "2026-04-01T23:25+05:30",
+       "resolved_at": "2026-04-04T03:37+05:30",
+       "downtime_h": 52.2,
        "sla_met": false,
-       "crew": "R3 \u00b7 Farhan A.",
+       "crew": "R2 \u00b7 Deepak R.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 1133,
+       "cost_inr": 1115,
+       "status": "Closed"
+      },
+      {
+       "ticket_id": "TKT-2025-0145",
+       "type": "Preventive",
+       "issue": "Annual preventive maintenance",
+       "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
+       "source": "Scheduled (AMC)",
+       "priority": "Low",
+       "raised_at": "2025-07-17T14:27+05:30",
+       "resolved_at": "2025-07-17T15:45+05:30",
+       "downtime_h": 1.3,
+       "sla_met": true,
+       "crew": "R2 \u00b7 Deepak R.",
+       "contractor": "Roshni Infra Maintenance",
+       "cost_inr": 437,
        "status": "Closed"
       }
      ]
@@ -12125,39 +13209,56 @@ window.SLGIS_DATA = {
      "wattage": 250,
      "cct_k": 2000,
      "ccms_node": false,
-     "install_date": "2010-07-27",
-     "fixture_installed": "2015-03-24",
-     "last_inspected": "2026-09-04",
+     "install_date": "2010-07-04",
+     "fixture_installed": "2013-01-09",
+     "fixture_make": "Sodiac",
+     "fixture_batch": "SOD-2013",
+     "fixture_warranty_years": 1,
+     "last_inspected": "2026-09-16",
+     "last_earthing_check": "2026-04-16",
+     "junction_box_condition": "Fair",
      "feeder_panel": "FP-CP-08",
      "circuit": "C2",
      "circuit_seq": 3,
      "phase": "B",
-     "energy_kwh": 102.5,
+     "energy_kwh": 100.6,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 93.4
+       "kwh": 95.2,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 92.9
+       "kwh": 92.2,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 88.1
+       "kwh": 88.0,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 90.9
+       "kwh": 89.1,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 100.1
+       "kwh": 98.9,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
       },
       {
        "month": "2026-09",
-       "kwh": 102.5
+       "kwh": 100.6,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -12172,35 +13273,83 @@ window.SLGIS_DATA = {
      "ticket": null,
      "repair_history": [
       {
-       "ticket_id": "TKT-2025-0164",
-       "type": "Corrective",
-       "issue": "Pole damaged by vehicle",
-       "action": "Replaced pole, re-grouted foundation",
-       "source": "Night patrol",
-       "priority": "High",
-       "raised_at": "2025-09-16T22:59+05:30",
-       "resolved_at": "2025-09-19T07:53+05:30",
-       "downtime_h": 56.9,
-       "sla_met": false,
-       "crew": "R2 \u00b7 Deepak R.",
-       "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 18687,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2023-0177",
+       "ticket_id": "TKT-2025-0147",
        "type": "Preventive",
        "issue": "Annual preventive maintenance",
        "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
        "source": "Scheduled (AMC)",
        "priority": "Low",
-       "raised_at": "2023-10-14T10:16+05:30",
-       "resolved_at": "2023-10-14T11:16+05:30",
-       "downtime_h": 1.0,
+       "raised_at": "2025-07-22T15:32+05:30",
+       "resolved_at": "2025-07-22T16:50+05:30",
+       "downtime_h": 1.3,
        "sla_met": true,
        "crew": "R1 \u00b7 Anil M.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 450,
+       "cost_inr": 378,
+       "status": "Closed"
+      },
+      {
+       "ticket_id": "TKT-2025-0123",
+       "type": "Corrective",
+       "issue": "Ignitor failure",
+       "action": "Replaced ignitor",
+       "source": "Night patrol",
+       "priority": "Medium",
+       "raised_at": "2025-04-27T06:04+05:30",
+       "resolved_at": "2025-04-28T04:04+05:30",
+       "downtime_h": 22.0,
+       "sla_met": true,
+       "crew": "R3 \u00b7 Farhan A.",
+       "contractor": "Roshni Infra Maintenance",
+       "cost_inr": 539,
+       "status": "Closed"
+      },
+      {
+       "ticket_id": "TKT-2025-0118",
+       "type": "Corrective",
+       "issue": "Ignitor failure",
+       "action": "Replaced ignitor",
+       "source": "Night patrol",
+       "priority": "Medium",
+       "raised_at": "2025-04-02T19:37+05:30",
+       "resolved_at": "2025-04-05T11:01+05:30",
+       "downtime_h": 63.4,
+       "sla_met": false,
+       "crew": "R2 \u00b7 Deepak R.",
+       "contractor": "Roshni Infra Maintenance",
+       "cost_inr": 460,
+       "status": "Closed"
+      },
+      {
+       "ticket_id": "TKT-2024-0106",
+       "type": "Corrective",
+       "issue": "Underground cable fault",
+       "action": "Located fault, jointed cable (heat-shrink kit)",
+       "source": "Night patrol",
+       "priority": "High",
+       "raised_at": "2024-01-13T20:15+05:30",
+       "resolved_at": "2024-01-15T06:57+05:30",
+       "downtime_h": 34.7,
+       "sla_met": false,
+       "crew": "R1 \u00b7 Anil M.",
+       "contractor": "Roshni Infra Maintenance",
+       "cost_inr": 3888,
+       "status": "Closed"
+      },
+      {
+       "ticket_id": "TKT-2023-0166",
+       "type": "Corrective",
+       "issue": "Ballast failure",
+       "action": "Replaced ballast",
+       "source": "Night patrol",
+       "priority": "Medium",
+       "raised_at": "2023-08-30T06:14+05:30",
+       "resolved_at": "2023-08-31T14:08+05:30",
+       "downtime_h": 31.9,
+       "sla_met": true,
+       "crew": "R1 \u00b7 Anil M.",
+       "contractor": "Roshni Infra Maintenance",
+       "cost_inr": 1748,
        "status": "Closed"
       }
      ]
@@ -12228,9 +13377,14 @@ window.SLGIS_DATA = {
      "wattage": 250,
      "cct_k": 2000,
      "ccms_node": false,
-     "install_date": "2010-07-25",
-     "fixture_installed": "2013-07-20",
-     "last_inspected": "2026-10-01",
+     "install_date": "2010-07-04",
+     "fixture_installed": "2014-03-18",
+     "fixture_make": "Sodiac",
+     "fixture_batch": "SOD-2014",
+     "fixture_warranty_years": 1,
+     "last_inspected": "2026-08-18",
+     "last_earthing_check": "2025-12-20",
+     "junction_box_condition": "Good",
      "feeder_panel": "FP-CP-08",
      "circuit": "C2",
      "circuit_seq": 2,
@@ -12240,27 +13394,39 @@ window.SLGIS_DATA = {
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 98.0
+       "kwh": 96.2,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 95.7
+       "kwh": 91.8,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 88.0
+       "kwh": 87.9,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 93.7
+       "kwh": 90.6,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 99.3
+       "kwh": 97.5,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
       },
       {
        "month": "2026-09",
-       "kwh": 101.2
+       "kwh": 101.2,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -12275,67 +13441,99 @@ window.SLGIS_DATA = {
      "ticket": null,
      "repair_history": [
       {
-       "ticket_id": "TKT-2024-0188",
+       "ticket_id": "TKT-2025-0142",
        "type": "Corrective",
-       "issue": "Lamp burnt out",
-       "action": "Replaced 250 W HPS lamp",
-       "source": "Citizen app",
+       "issue": "Capacitor failure",
+       "action": "Replaced power-factor capacitor",
+       "source": "Call centre",
        "priority": "Medium",
-       "raised_at": "2024-11-25T22:18+05:30",
-       "resolved_at": "2024-11-27T05:42+05:30",
-       "downtime_h": 31.4,
+       "raised_at": "2025-07-06T23:55+05:30",
+       "resolved_at": "2025-07-07T08:37+05:30",
+       "downtime_h": 8.7,
        "sla_met": true,
-       "crew": "R3 \u00b7 Farhan A.",
+       "crew": "R1 \u00b7 Anil M.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 1096,
+       "cost_inr": 315,
        "status": "Closed"
       },
       {
-       "ticket_id": "TKT-2024-0128",
+       "ticket_id": "TKT-2024-0175",
        "type": "Preventive",
        "issue": "Annual preventive maintenance",
        "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
        "source": "Scheduled (AMC)",
        "priority": "Low",
-       "raised_at": "2024-02-25T15:04+05:30",
-       "resolved_at": "2024-02-25T16:40+05:30",
-       "downtime_h": 1.6,
+       "raised_at": "2024-11-19T11:29+05:30",
+       "resolved_at": "2024-11-19T13:17+05:30",
+       "downtime_h": 1.8,
        "sla_met": true,
        "crew": "R3 \u00b7 Farhan A.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 397,
+       "cost_inr": 449,
        "status": "Closed"
       },
       {
-       "ticket_id": "TKT-2023-0143",
-       "type": "Corrective",
-       "issue": "Ignitor failure",
-       "action": "Replaced ignitor",
-       "source": "Night patrol",
-       "priority": "Medium",
-       "raised_at": "2023-06-27T05:33+05:30",
-       "resolved_at": "2023-06-30T13:45+05:30",
-       "downtime_h": 80.2,
-       "sla_met": false,
-       "crew": "R2 \u00b7 Deepak R.",
+       "ticket_id": "TKT-2024-0135",
+       "type": "Preventive",
+       "issue": "Annual preventive maintenance",
+       "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
+       "source": "Scheduled (AMC)",
+       "priority": "Low",
+       "raised_at": "2024-04-22T11:40+05:30",
+       "resolved_at": "2024-04-22T13:10+05:30",
+       "downtime_h": 1.5,
+       "sla_met": true,
+       "crew": "R1 \u00b7 Anil M.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 638,
+       "cost_inr": 411,
        "status": "Closed"
       },
       {
-       "ticket_id": "TKT-2023-0107",
+       "ticket_id": "TKT-2024-0132",
        "type": "Corrective",
        "issue": "Lamp burnt out",
        "action": "Replaced 250 W HPS lamp",
        "source": "Citizen app",
        "priority": "Medium",
-       "raised_at": "2023-02-21T19:23+05:30",
-       "resolved_at": "2023-02-23T04:23+05:30",
-       "downtime_h": 33.0,
+       "raised_at": "2024-04-16T21:07+05:30",
+       "resolved_at": "2024-04-18T05:25+05:30",
+       "downtime_h": 32.3,
        "sla_met": true,
-       "crew": "R1 \u00b7 Anil M.",
+       "crew": "R2 \u00b7 Deepak R.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 1013,
+       "cost_inr": 1240,
+       "status": "Closed"
+      },
+      {
+       "ticket_id": "TKT-2023-0144",
+       "type": "Corrective",
+       "issue": "Ballast failure",
+       "action": "Replaced ballast",
+       "source": "Call centre",
+       "priority": "Medium",
+       "raised_at": "2023-06-15T21:11+05:30",
+       "resolved_at": "2023-06-16T04:29+05:30",
+       "downtime_h": 7.3,
+       "sla_met": true,
+       "crew": "R2 \u00b7 Deepak R.",
+       "contractor": "Roshni Infra Maintenance",
+       "cost_inr": 1820,
+       "status": "Closed"
+      },
+      {
+       "ticket_id": "TKT-2023-0106",
+       "type": "Corrective",
+       "issue": "Pole damaged by vehicle",
+       "action": "Replaced pole, re-grouted foundation",
+       "source": "Night patrol",
+       "priority": "High",
+       "raised_at": "2023-02-14T22:17+05:30",
+       "resolved_at": "2023-02-17T22:53+05:30",
+       "downtime_h": 72.6,
+       "sla_met": false,
+       "crew": "R2 \u00b7 Deepak R.",
+       "contractor": "Roshni Infra Maintenance",
+       "cost_inr": 20125,
        "status": "Closed"
       }
      ]
@@ -12364,38 +13562,55 @@ window.SLGIS_DATA = {
      "cct_k": 2000,
      "ccms_node": false,
      "install_date": "2010-07-11",
-     "fixture_installed": "2014-07-24",
-     "last_inspected": "2026-09-19",
+     "fixture_installed": "2014-05-17",
+     "fixture_make": "Sodiac",
+     "fixture_batch": "SOD-2014",
+     "fixture_warranty_years": 1,
+     "last_inspected": "2026-09-22",
+     "last_earthing_check": "2026-05-30",
+     "junction_box_condition": "Good",
      "feeder_panel": "FP-CP-08",
      "circuit": "C2",
      "circuit_seq": 1,
      "phase": "R",
-     "energy_kwh": 100.2,
+     "energy_kwh": 102.9,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 96.9
+       "kwh": 97.6,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 88.1
+       "kwh": 94.8,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 85.2
+       "kwh": 88.0,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 90.5
+       "kwh": 89.2,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 97.3
+       "kwh": 96.2,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
       },
       {
        "month": "2026-09",
-       "kwh": 100.2
+       "kwh": 102.9,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -12410,67 +13625,67 @@ window.SLGIS_DATA = {
      "ticket": null,
      "repair_history": [
       {
-       "ticket_id": "TKT-2026-0149",
+       "ticket_id": "TKT-2025-0149",
        "type": "Preventive",
        "issue": "Annual preventive maintenance",
        "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
        "source": "Scheduled (AMC)",
        "priority": "Low",
-       "raised_at": "2026-09-19T13:05+05:30",
-       "resolved_at": "2026-09-19T14:41+05:30",
-       "downtime_h": 1.6,
-       "sla_met": true,
-       "crew": "R3 \u00b7 Farhan A.",
-       "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 371,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2026-0131",
-       "type": "Corrective",
-       "issue": "Ignitor failure",
-       "action": "Replaced ignitor",
-       "source": "Night patrol",
-       "priority": "Medium",
-       "raised_at": "2026-05-09T06:02+05:30",
-       "resolved_at": "2026-05-10T10:38+05:30",
-       "downtime_h": 28.6,
-       "sla_met": true,
-       "crew": "R2 \u00b7 Deepak R.",
-       "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 699,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2025-0186",
-       "type": "Corrective",
-       "issue": "Pole damaged by vehicle",
-       "action": "Replaced pole, re-grouted foundation",
-       "source": "Night patrol",
-       "priority": "High",
-       "raised_at": "2025-12-17T06:43+05:30",
-       "resolved_at": "2025-12-19T11:07+05:30",
-       "downtime_h": 52.4,
-       "sla_met": false,
-       "crew": "R2 \u00b7 Deepak R.",
-       "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 22410,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2025-0168",
-       "type": "Corrective",
-       "issue": "Lamp cycling on/off",
-       "action": "Replaced end-of-life HPS lamp",
-       "source": "Night patrol",
-       "priority": "Medium",
-       "raised_at": "2025-10-19T19:43+05:30",
-       "resolved_at": "2025-10-20T10:07+05:30",
-       "downtime_h": 14.4,
+       "raised_at": "2025-08-05T11:03+05:30",
+       "resolved_at": "2025-08-05T12:51+05:30",
+       "downtime_h": 1.8,
        "sla_met": true,
        "crew": "R1 \u00b7 Anil M.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 1387,
+       "cost_inr": 448,
+       "status": "Closed"
+      },
+      {
+       "ticket_id": "TKT-2025-0143",
+       "type": "Corrective",
+       "issue": "Ballast failure",
+       "action": "Replaced ballast",
+       "source": "Night patrol",
+       "priority": "Medium",
+       "raised_at": "2025-07-08T22:25+05:30",
+       "resolved_at": "2025-07-10T18:31+05:30",
+       "downtime_h": 44.1,
+       "sla_met": true,
+       "crew": "R3 \u00b7 Farhan A.",
+       "contractor": "Roshni Infra Maintenance",
+       "cost_inr": 2014,
+       "status": "Closed"
+      },
+      {
+       "ticket_id": "TKT-2024-0133",
+       "type": "Preventive",
+       "issue": "Annual preventive maintenance",
+       "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
+       "source": "Scheduled (AMC)",
+       "priority": "Low",
+       "raised_at": "2024-04-17T10:09+05:30",
+       "resolved_at": "2024-04-17T12:03+05:30",
+       "downtime_h": 1.9,
+       "sla_met": true,
+       "crew": "R1 \u00b7 Anil M.",
+       "contractor": "Roshni Infra Maintenance",
+       "cost_inr": 403,
+       "status": "Closed"
+      },
+      {
+       "ticket_id": "TKT-2023-0101",
+       "type": "Corrective",
+       "issue": "MCB tripped at feeder pillar",
+       "action": "Reset MCB, insulation-resistance test of circuit",
+       "source": "Citizen app",
+       "priority": "Medium",
+       "raised_at": "2023-01-18T05:09+05:30",
+       "resolved_at": "2023-01-20T10:03+05:30",
+       "downtime_h": 52.9,
+       "sla_met": false,
+       "crew": "R2 \u00b7 Deepak R.",
+       "contractor": "Roshni Infra Maintenance",
+       "cost_inr": 393,
        "status": "Closed"
       }
      ]
@@ -12498,39 +13713,56 @@ window.SLGIS_DATA = {
      "wattage": 250,
      "cct_k": 2000,
      "ccms_node": false,
-     "install_date": "2010-07-12",
-     "fixture_installed": "2015-05-26",
-     "last_inspected": "2026-09-07",
+     "install_date": "2010-07-04",
+     "fixture_installed": "2013-08-11",
+     "fixture_make": "Sodiac",
+     "fixture_batch": "SOD-2013",
+     "fixture_warranty_years": 1,
+     "last_inspected": "2026-09-03",
+     "last_earthing_check": "2026-07-12",
+     "junction_box_condition": "Good",
      "feeder_panel": "FP-CP-08",
      "circuit": "C1",
      "circuit_seq": 1,
      "phase": "R",
-     "energy_kwh": 98.2,
+     "energy_kwh": 99.9,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 96.4
+       "kwh": 94.0,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 92.1
+       "kwh": 92.3,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 87.8
+       "kwh": 86.7,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 91.7
+       "kwh": 90.3,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 96.7
+       "kwh": 97.0,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
       },
       {
        "month": "2026-09",
-       "kwh": 98.2
+       "kwh": 99.9,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -12545,35 +13777,99 @@ window.SLGIS_DATA = {
      "ticket": null,
      "repair_history": [
       {
-       "ticket_id": "TKT-2023-0156",
+       "ticket_id": "TKT-2025-0136",
        "type": "Corrective",
-       "issue": "Lamp cycling on/off",
-       "action": "Replaced end-of-life HPS lamp",
-       "source": "Call centre",
+       "issue": "Ballast failure",
+       "action": "Replaced ballast",
+       "source": "Citizen app",
        "priority": "Medium",
-       "raised_at": "2023-08-16T20:29+05:30",
-       "resolved_at": "2023-08-17T12:29+05:30",
-       "downtime_h": 16.0,
-       "sla_met": true,
-       "crew": "R3 \u00b7 Farhan A.",
+       "raised_at": "2025-06-10T05:22+05:30",
+       "resolved_at": "2025-06-13T14:28+05:30",
+       "downtime_h": 81.1,
+       "sla_met": false,
+       "crew": "R1 \u00b7 Anil M.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 922,
+       "cost_inr": 1762,
        "status": "Closed"
       },
       {
-       "ticket_id": "TKT-2023-0155",
+       "ticket_id": "TKT-2024-0178",
        "type": "Preventive",
        "issue": "Annual preventive maintenance",
        "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
        "source": "Scheduled (AMC)",
        "priority": "Low",
-       "raised_at": "2023-08-12T15:14+05:30",
-       "resolved_at": "2023-08-12T16:32+05:30",
-       "downtime_h": 1.3,
+       "raised_at": "2024-11-27T12:57+05:30",
+       "resolved_at": "2024-11-27T14:03+05:30",
+       "downtime_h": 1.1,
+       "sla_met": true,
+       "crew": "R1 \u00b7 Anil M.",
+       "contractor": "Roshni Infra Maintenance",
+       "cost_inr": 440,
+       "status": "Closed"
+      },
+      {
+       "ticket_id": "TKT-2024-0163",
+       "type": "Corrective",
+       "issue": "Underground cable fault",
+       "action": "Located fault, jointed cable (heat-shrink kit)",
+       "source": "Citizen app",
+       "priority": "High",
+       "raised_at": "2024-09-20T22:33+05:30",
+       "resolved_at": "2024-09-22T07:45+05:30",
+       "downtime_h": 33.2,
+       "sla_met": false,
+       "crew": "R2 \u00b7 Deepak R.",
+       "contractor": "Roshni Infra Maintenance",
+       "cost_inr": 5183,
+       "status": "Closed"
+      },
+      {
+       "ticket_id": "TKT-2024-0130",
+       "type": "Corrective",
+       "issue": "Ballast failure",
+       "action": "Replaced ballast",
+       "source": "Citizen app",
+       "priority": "Medium",
+       "raised_at": "2024-04-05T19:42+05:30",
+       "resolved_at": "2024-04-08T02:12+05:30",
+       "downtime_h": 54.5,
+       "sla_met": false,
+       "crew": "R2 \u00b7 Deepak R.",
+       "contractor": "Roshni Infra Maintenance",
+       "cost_inr": 2064,
+       "status": "Closed"
+      },
+      {
+       "ticket_id": "TKT-2023-0127",
+       "type": "Preventive",
+       "issue": "Annual preventive maintenance",
+       "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
+       "source": "Scheduled (AMC)",
+       "priority": "Low",
+       "raised_at": "2023-03-29T10:12+05:30",
+       "resolved_at": "2023-03-29T11:06+05:30",
+       "downtime_h": 0.9,
        "sla_met": true,
        "crew": "R2 \u00b7 Deepak R.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 382,
+       "cost_inr": 359,
+       "status": "Closed"
+      },
+      {
+       "ticket_id": "TKT-2023-0102",
+       "type": "Corrective",
+       "issue": "Ignitor failure",
+       "action": "Replaced ignitor",
+       "source": "Call centre",
+       "priority": "Medium",
+       "raised_at": "2023-01-25T19:28+05:30",
+       "resolved_at": "2023-01-27T23:52+05:30",
+       "downtime_h": 52.4,
+       "sla_met": false,
+       "crew": "R2 \u00b7 Deepak R.",
+       "contractor": "Roshni Infra Maintenance",
+       "cost_inr": 488,
        "status": "Closed"
       }
      ]
@@ -12601,39 +13897,56 @@ window.SLGIS_DATA = {
      "wattage": 250,
      "cct_k": 2000,
      "ccms_node": false,
-     "install_date": "2010-07-13",
-     "fixture_installed": "2013-05-21",
-     "last_inspected": "2026-09-05",
+     "install_date": "2010-07-26",
+     "fixture_installed": "2015-02-11",
+     "fixture_make": "Sodiac",
+     "fixture_batch": "SOD-2015",
+     "fixture_warranty_years": 1,
+     "last_inspected": "2026-09-14",
+     "last_earthing_check": "2026-01-18",
+     "junction_box_condition": "Good",
      "feeder_panel": "FP-CP-08",
      "circuit": "C1",
      "circuit_seq": 2,
      "phase": "Y",
-     "energy_kwh": 97.7,
+     "energy_kwh": 97.8,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 92.9
+       "kwh": 95.9,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 91.5
+       "kwh": 89.0,
+       "scheduled_h": 323.4,
+       "lit_h": 305.5
       },
       {
        "month": "2026-06",
-       "kwh": 87.2
+       "kwh": 88.1,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 93.1
+       "kwh": 92.3,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 99.9
+       "kwh": 91.0,
+       "scheduled_h": 336.1,
+       "lit_h": 323.1
       },
       {
        "month": "2026-09",
-       "kwh": 97.7
+       "kwh": 97.8,
+       "scheduled_h": 349.6,
+       "lit_h": 340.3
       }
      ],
      "contractor": {
@@ -12648,83 +13961,99 @@ window.SLGIS_DATA = {
      "ticket": null,
      "repair_history": [
       {
-       "ticket_id": "TKT-2026-0134",
+       "ticket_id": "TKT-2026-0149",
        "type": "Corrective",
-       "issue": "MCB tripped at feeder pillar",
-       "action": "Reset MCB, insulation-resistance test of circuit",
+       "issue": "Ignitor failure",
+       "action": "Replaced ignitor",
        "source": "Night patrol",
        "priority": "Medium",
-       "raised_at": "2026-05-16T05:59+05:30",
-       "resolved_at": "2026-05-17T02:29+05:30",
-       "downtime_h": 20.5,
-       "sla_met": true,
-       "crew": "R2 \u00b7 Deepak R.",
-       "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 320,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2026-0123",
-       "type": "Corrective",
-       "issue": "Lamp cycling on/off",
-       "action": "Replaced end-of-life HPS lamp",
-       "source": "Night patrol",
-       "priority": "Medium",
-       "raised_at": "2026-04-10T06:18+05:30",
-       "resolved_at": "2026-04-10T19:42+05:30",
-       "downtime_h": 13.4,
+       "raised_at": "2026-09-13T20:45+05:30",
+       "resolved_at": "2026-09-14T11:45+05:30",
+       "downtime_h": 15.0,
        "sla_met": true,
        "crew": "R3 \u00b7 Farhan A.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 1106,
+       "cost_inr": 560,
        "status": "Closed"
       },
       {
-       "ticket_id": "TKT-2025-0115",
+       "ticket_id": "TKT-2026-0144",
+       "type": "Corrective",
+       "issue": "Lamp burnt out",
+       "action": "Replaced 250 W HPS lamp",
+       "source": "Night patrol",
+       "priority": "Medium",
+       "raised_at": "2026-08-24T21:51+05:30",
+       "resolved_at": "2026-08-25T23:51+05:30",
+       "downtime_h": 26.0,
+       "sla_met": true,
+       "crew": "R2 \u00b7 Deepak R.",
+       "contractor": "Roshni Infra Maintenance",
+       "cost_inr": 1150,
+       "status": "Closed"
+      },
+      {
+       "ticket_id": "TKT-2026-0126",
+       "type": "Corrective",
+       "issue": "Ignitor failure",
+       "action": "Replaced ignitor",
+       "source": "Night patrol",
+       "priority": "Medium",
+       "raised_at": "2026-05-19T21:52+05:30",
+       "resolved_at": "2026-05-21T05:46+05:30",
+       "downtime_h": 31.9,
+       "sla_met": true,
+       "crew": "R3 \u00b7 Farhan A.",
+       "contractor": "Roshni Infra Maintenance",
+       "cost_inr": 508,
+       "status": "Closed"
+      },
+      {
+       "ticket_id": "TKT-2026-0104",
        "type": "Preventive",
        "issue": "Annual preventive maintenance",
        "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
        "source": "Scheduled (AMC)",
        "priority": "Low",
-       "raised_at": "2025-03-06T11:01+05:30",
-       "resolved_at": "2025-03-06T12:01+05:30",
-       "downtime_h": 1.0,
+       "raised_at": "2026-01-18T11:52+05:30",
+       "resolved_at": "2026-01-18T13:10+05:30",
+       "downtime_h": 1.3,
+       "sla_met": true,
+       "crew": "R2 \u00b7 Deepak R.",
+       "contractor": "Roshni Infra Maintenance",
+       "cost_inr": 441,
+       "status": "Closed"
+      },
+      {
+       "ticket_id": "TKT-2024-0131",
+       "type": "Corrective",
+       "issue": "Ballast failure",
+       "action": "Replaced ballast",
+       "source": "Citizen app",
+       "priority": "Medium",
+       "raised_at": "2024-04-08T05:36+05:30",
+       "resolved_at": "2024-04-08T21:24+05:30",
+       "downtime_h": 15.8,
        "sla_met": true,
        "crew": "R1 \u00b7 Anil M.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 409,
+       "cost_inr": 1884,
        "status": "Closed"
       },
       {
-       "ticket_id": "TKT-2024-0122",
-       "type": "Preventive",
-       "issue": "Annual preventive maintenance",
-       "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
-       "source": "Scheduled (AMC)",
-       "priority": "Low",
-       "raised_at": "2024-02-13T11:30+05:30",
-       "resolved_at": "2024-02-13T13:12+05:30",
-       "downtime_h": 1.7,
-       "sla_met": true,
-       "crew": "R2 \u00b7 Deepak R.",
-       "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 361,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2023-0182",
+       "ticket_id": "TKT-2023-0171",
        "type": "Corrective",
-       "issue": "Cable theft",
-       "action": "Replaced stolen cable, secured junction box",
-       "source": "Night patrol",
-       "priority": "High",
-       "raised_at": "2023-10-29T20:02+05:30",
-       "resolved_at": "2023-11-02T22:02+05:30",
-       "downtime_h": 98.0,
+       "issue": "Ballast failure",
+       "action": "Replaced ballast",
+       "source": "Citizen app",
+       "priority": "Medium",
+       "raised_at": "2023-09-24T23:46+05:30",
+       "resolved_at": "2023-09-27T06:28+05:30",
+       "downtime_h": 54.7,
        "sla_met": false,
        "crew": "R2 \u00b7 Deepak R.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 7127,
+       "cost_inr": 2133,
        "status": "Closed"
       }
      ]
@@ -12752,39 +14081,56 @@ window.SLGIS_DATA = {
      "wattage": 250,
      "cct_k": 2000,
      "ccms_node": false,
-     "install_date": "2010-07-12",
-     "fixture_installed": "2013-09-05",
-     "last_inspected": "2026-08-10",
+     "install_date": "2010-07-11",
+     "fixture_installed": "2014-01-01",
+     "fixture_make": "Sodiac",
+     "fixture_batch": "SOD-2014",
+     "fixture_warranty_years": 1,
+     "last_inspected": "2026-08-24",
+     "last_earthing_check": "2026-06-20",
+     "junction_box_condition": "Good",
      "feeder_panel": "FP-CP-08",
      "circuit": "C1",
      "circuit_seq": 3,
      "phase": "B",
-     "energy_kwh": 207.4,
+     "energy_kwh": 203.6,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 95.5
+       "kwh": 94.3,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 91.6
+       "kwh": 92.9,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 86.9
+       "kwh": 87.9,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 91.2
+       "kwh": 91.6,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 147.1
+       "kwh": 145.6,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
       },
       {
        "month": "2026-09",
-       "kwh": 207.4
+       "kwh": 203.6,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -12799,83 +14145,51 @@ window.SLGIS_DATA = {
      "ticket": null,
      "repair_history": [
       {
-       "ticket_id": "TKT-2025-0180",
-       "type": "Corrective",
-       "issue": "Lamp burnt out",
-       "action": "Replaced 250 W HPS lamp",
-       "source": "Night patrol",
-       "priority": "Medium",
-       "raised_at": "2025-12-03T23:47+05:30",
-       "resolved_at": "2025-12-05T07:11+05:30",
-       "downtime_h": 31.4,
-       "sla_met": true,
-       "crew": "R2 \u00b7 Deepak R.",
-       "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 1239,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2025-0111",
-       "type": "Corrective",
-       "issue": "Lamp cycling on/off",
-       "action": "Replaced end-of-life HPS lamp",
-       "source": "Call centre",
-       "priority": "Medium",
-       "raised_at": "2025-02-28T20:15+05:30",
-       "resolved_at": "2025-03-03T13:21+05:30",
-       "downtime_h": 65.1,
-       "sla_met": false,
-       "crew": "R1 \u00b7 Anil M.",
-       "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 1129,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2024-0166",
-       "type": "Corrective",
-       "issue": "Ignitor failure",
-       "action": "Replaced ignitor",
-       "source": "Night patrol",
-       "priority": "Medium",
-       "raised_at": "2024-08-13T21:24+05:30",
-       "resolved_at": "2024-08-16T12:54+05:30",
-       "downtime_h": 63.5,
-       "sla_met": false,
-       "crew": "R2 \u00b7 Deepak R.",
-       "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 550,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2024-0150",
+       "ticket_id": "TKT-2023-0195",
        "type": "Preventive",
        "issue": "Annual preventive maintenance",
        "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
        "source": "Scheduled (AMC)",
        "priority": "Low",
-       "raised_at": "2024-06-02T14:02+05:30",
-       "resolved_at": "2024-06-02T14:50+05:30",
-       "downtime_h": 0.8,
+       "raised_at": "2023-12-28T15:35+05:30",
+       "resolved_at": "2023-12-28T17:29+05:30",
+       "downtime_h": 1.9,
        "sla_met": true,
-       "crew": "R3 \u00b7 Farhan A.",
+       "crew": "R2 \u00b7 Deepak R.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 410,
+       "cost_inr": 438,
        "status": "Closed"
       },
       {
-       "ticket_id": "TKT-2023-0136",
+       "ticket_id": "TKT-2023-0179",
+       "type": "Corrective",
+       "issue": "Ballast failure",
+       "action": "Replaced ballast",
+       "source": "Citizen app",
+       "priority": "Medium",
+       "raised_at": "2023-10-24T21:46+05:30",
+       "resolved_at": "2023-10-25T10:58+05:30",
+       "downtime_h": 13.2,
+       "sla_met": true,
+       "crew": "R1 \u00b7 Anil M.",
+       "contractor": "Roshni Infra Maintenance",
+       "cost_inr": 1761,
+       "status": "Closed"
+      },
+      {
+       "ticket_id": "TKT-2023-0145",
        "type": "Corrective",
        "issue": "Lamp cycling on/off",
        "action": "Replaced end-of-life HPS lamp",
-       "source": "Night patrol",
+       "source": "Call centre",
        "priority": "Medium",
-       "raised_at": "2023-05-07T20:14+05:30",
-       "resolved_at": "2023-05-08T16:08+05:30",
-       "downtime_h": 19.9,
-       "sla_met": true,
-       "crew": "R3 \u00b7 Farhan A.",
+       "raised_at": "2023-06-20T22:32+05:30",
+       "resolved_at": "2023-06-24T06:32+05:30",
+       "downtime_h": 80.0,
+       "sla_met": false,
+       "crew": "R2 \u00b7 Deepak R.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 994,
+       "cost_inr": 1195,
        "status": "Closed"
       }
      ]
@@ -12903,39 +14217,56 @@ window.SLGIS_DATA = {
      "wattage": 250,
      "cct_k": 2000,
      "ccms_node": false,
-     "install_date": "2010-07-18",
-     "fixture_installed": "2014-07-28",
-     "last_inspected": "2026-09-14",
+     "install_date": "2010-07-13",
+     "fixture_installed": "2013-09-02",
+     "fixture_make": "Sodiac",
+     "fixture_batch": "SOD-2013",
+     "fixture_warranty_years": 1,
+     "last_inspected": "2026-09-23",
+     "last_earthing_check": "2025-12-16",
+     "junction_box_condition": "Good",
      "feeder_panel": "FP-CP-08",
      "circuit": "C1",
      "circuit_seq": 4,
      "phase": "R",
-     "energy_kwh": 101.6,
+     "energy_kwh": 102.9,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 93.7
+       "kwh": 98.3,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 92.0
+       "kwh": 94.2,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 87.4
+       "kwh": 87.6,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 94.0
+       "kwh": 92.7,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 96.5
+       "kwh": 97.9,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
       },
       {
        "month": "2026-09",
-       "kwh": 101.6
+       "kwh": 102.9,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -12948,16 +14279,16 @@ window.SLGIS_DATA = {
       "sla_hours": 48
      },
      "ticket": {
-      "id": "TKT-2026-0154",
+      "id": "TKT-2026-0156",
       "status": "Open",
-      "priority": "Medium",
+      "category": "flickering",
       "issue": "Lamp cycling on/off",
       "source": "Citizen app",
       "raised_at": "2026-10-10T20:15+05:30",
-      "sla_hours": 48,
-      "sla_due": "2026-10-12T20:15+05:30",
       "assigned_crew": null,
       "work_started_at": null,
+      "closed_at": null,
+      "resolution": null,
       "complaints": 2,
       "notes": null,
       "pole_uids": [
@@ -12966,51 +14297,19 @@ window.SLGIS_DATA = {
      },
      "repair_history": [
       {
-       "ticket_id": "TKT-2025-0136",
+       "ticket_id": "TKT-2025-0128",
        "type": "Corrective",
-       "issue": "Timer/photocell fault (day burning)",
-       "action": "Replaced timer contactor",
+       "issue": "Capacitor failure",
+       "action": "Replaced power-factor capacitor",
        "source": "Night patrol",
-       "priority": "Low",
-       "raised_at": "2025-06-07T05:03+05:30",
-       "resolved_at": "2025-06-07T10:51+05:30",
-       "downtime_h": 5.8,
-       "sla_met": true,
-       "crew": "R1 \u00b7 Anil M.",
-       "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 1466,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2024-0123",
-       "type": "Preventive",
-       "issue": "Annual preventive maintenance",
-       "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
-       "source": "Scheduled (AMC)",
-       "priority": "Low",
-       "raised_at": "2024-02-16T10:26+05:30",
-       "resolved_at": "2024-02-16T11:38+05:30",
-       "downtime_h": 1.2,
+       "priority": "Medium",
+       "raised_at": "2025-05-12T22:52+05:30",
+       "resolved_at": "2025-05-13T15:40+05:30",
+       "downtime_h": 16.8,
        "sla_met": true,
        "crew": "R3 \u00b7 Farhan A.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 426,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2023-0159",
-       "type": "Corrective",
-       "issue": "Underground cable fault",
-       "action": "Located fault, jointed cable (heat-shrink kit)",
-       "source": "Night patrol",
-       "priority": "High",
-       "raised_at": "2023-08-27T20:59+05:30",
-       "resolved_at": "2023-08-31T13:47+05:30",
-       "downtime_h": 88.8,
-       "sla_met": false,
-       "crew": "R3 \u00b7 Farhan A.",
-       "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 4828,
+       "cost_inr": 379,
        "status": "Closed"
       }
      ]
@@ -13038,39 +14337,56 @@ window.SLGIS_DATA = {
      "wattage": 250,
      "cct_k": 2000,
      "ccms_node": false,
-     "install_date": "2010-07-22",
-     "fixture_installed": "2014-09-21",
-     "last_inspected": "2026-08-20",
+     "install_date": "2010-07-25",
+     "fixture_installed": "2014-04-10",
+     "fixture_make": "Sodiac",
+     "fixture_batch": "SOD-2014",
+     "fixture_warranty_years": 1,
+     "last_inspected": "2026-09-23",
+     "last_earthing_check": "2026-09-02",
+     "junction_box_condition": "Good",
      "feeder_panel": "FP-CP-08",
      "circuit": "C1",
      "circuit_seq": 5,
      "phase": "Y",
-     "energy_kwh": 100.5,
+     "energy_kwh": 99.4,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 94.2
+       "kwh": 97.7,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 93.1
+       "kwh": 94.6,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 87.3
+       "kwh": 87.5,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 91.4
+       "kwh": 84.2,
+       "scheduled_h": 317.2,
+       "lit_h": 296.6
       },
       {
        "month": "2026-08",
-       "kwh": 97.8
+       "kwh": 95.4,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
       },
       {
        "month": "2026-09",
-       "kwh": 100.5
+       "kwh": 99.4,
+       "scheduled_h": 349.6,
+       "lit_h": 345.9
       }
      ],
      "contractor": {
@@ -13083,16 +14399,16 @@ window.SLGIS_DATA = {
       "sla_hours": 48
      },
      "ticket": {
-      "id": "TKT-2026-0163",
+      "id": "TKT-2026-0167",
       "status": "In Progress",
-      "priority": "Medium",
+      "category": "not_working",
       "issue": "Ignitor failure",
       "source": "Night patrol",
       "raised_at": "2026-10-12T20:00+05:30",
-      "sla_hours": 48,
-      "sla_due": "2026-10-14T20:00+05:30",
-      "assigned_crew": "R1 \u00b7 Anil M.",
+      "assigned_crew": "R2 \u00b7 Deepak R.",
       "work_started_at": "2026-10-13T10:15+05:30",
+      "closed_at": null,
+      "resolution": null,
       "complaints": 0,
       "notes": null,
       "pole_uids": [
@@ -13101,35 +14417,99 @@ window.SLGIS_DATA = {
      },
      "repair_history": [
       {
-       "ticket_id": "TKT-2026-0119",
+       "ticket_id": "TKT-2026-0151",
        "type": "Corrective",
-       "issue": "Ballast failure",
-       "action": "Replaced ballast",
-       "source": "Citizen app",
-       "priority": "Medium",
-       "raised_at": "2026-03-30T23:33+05:30",
-       "resolved_at": "2026-04-01T08:57+05:30",
-       "downtime_h": 33.4,
-       "sla_met": true,
-       "crew": "R3 \u00b7 Farhan A.",
-       "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 1621,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2023-0101",
-       "type": "Corrective",
-       "issue": "Timer/photocell fault (day burning)",
-       "action": "Replaced timer contactor",
+       "issue": "Lamp cycling on/off",
+       "action": "Replaced end-of-life HPS lamp",
        "source": "Night patrol",
-       "priority": "Low",
-       "raised_at": "2023-01-28T23:58+05:30",
-       "resolved_at": "2023-01-30T08:52+05:30",
-       "downtime_h": 32.9,
+       "priority": "Medium",
+       "raised_at": "2026-09-23T06:27+05:30",
+       "resolved_at": "2026-09-23T21:57+05:30",
+       "downtime_h": 15.5,
        "sla_met": true,
        "crew": "R1 \u00b7 Anil M.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 1777,
+       "cost_inr": 1205,
+       "status": "Closed"
+      },
+      {
+       "ticket_id": "TKT-2026-0146",
+       "type": "Preventive",
+       "issue": "Annual preventive maintenance",
+       "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
+       "source": "Scheduled (AMC)",
+       "priority": "Low",
+       "raised_at": "2026-09-02T13:26+05:30",
+       "resolved_at": "2026-09-02T15:02+05:30",
+       "downtime_h": 1.6,
+       "sla_met": true,
+       "crew": "R3 \u00b7 Farhan A.",
+       "contractor": "Roshni Infra Maintenance",
+       "cost_inr": 364,
+       "status": "Closed"
+      },
+      {
+       "ticket_id": "TKT-2026-0139",
+       "type": "Corrective",
+       "issue": "Lamp cycling on/off",
+       "action": "Replaced end-of-life HPS lamp",
+       "source": "Night patrol",
+       "priority": "Medium",
+       "raised_at": "2026-07-22T05:59+05:30",
+       "resolved_at": "2026-07-24T10:47+05:30",
+       "downtime_h": 52.8,
+       "sla_met": false,
+       "crew": "R1 \u00b7 Anil M.",
+       "contractor": "Roshni Infra Maintenance",
+       "cost_inr": 1395,
+       "status": "Closed"
+      },
+      {
+       "ticket_id": "TKT-2025-0116",
+       "type": "Corrective",
+       "issue": "Ballast failure",
+       "action": "Replaced ballast",
+       "source": "Night patrol",
+       "priority": "Medium",
+       "raised_at": "2025-03-24T06:22+05:30",
+       "resolved_at": "2025-03-25T03:04+05:30",
+       "downtime_h": 20.7,
+       "sla_met": true,
+       "crew": "R1 \u00b7 Anil M.",
+       "contractor": "Roshni Infra Maintenance",
+       "cost_inr": 1724,
+       "status": "Closed"
+      },
+      {
+       "ticket_id": "TKT-2024-0144",
+       "type": "Corrective",
+       "issue": "Lamp burnt out",
+       "action": "Replaced 250 W HPS lamp",
+       "source": "Night patrol",
+       "priority": "Medium",
+       "raised_at": "2024-06-13T23:24+05:30",
+       "resolved_at": "2024-06-15T14:00+05:30",
+       "downtime_h": 38.6,
+       "sla_met": true,
+       "crew": "R1 \u00b7 Anil M.",
+       "contractor": "Roshni Infra Maintenance",
+       "cost_inr": 1277,
+       "status": "Closed"
+      },
+      {
+       "ticket_id": "TKT-2023-0147",
+       "type": "Preventive",
+       "issue": "Annual preventive maintenance",
+       "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
+       "source": "Scheduled (AMC)",
+       "priority": "Low",
+       "raised_at": "2023-06-24T12:19+05:30",
+       "resolved_at": "2023-06-24T14:01+05:30",
+       "downtime_h": 1.7,
+       "sla_met": true,
+       "crew": "R3 \u00b7 Farhan A.",
+       "contractor": "Roshni Infra Maintenance",
+       "cost_inr": 351,
        "status": "Closed"
       }
      ]
@@ -13157,39 +14537,56 @@ window.SLGIS_DATA = {
      "wattage": 250,
      "cct_k": 2000,
      "ccms_node": false,
-     "install_date": "2010-07-13",
-     "fixture_installed": "2013-01-27",
-     "last_inspected": "2026-10-04",
+     "install_date": "2010-07-09",
+     "fixture_installed": "2013-03-08",
+     "fixture_make": "Sodiac",
+     "fixture_batch": "SOD-2013",
+     "fixture_warranty_years": 1,
+     "last_inspected": "2026-09-30",
+     "last_earthing_check": "2025-12-08",
+     "junction_box_condition": "Fair",
      "feeder_panel": "FP-CP-08",
      "circuit": "C1",
      "circuit_seq": 6,
      "phase": "B",
-     "energy_kwh": 97.7,
+     "energy_kwh": 100.4,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 95.8
+       "kwh": 96.9,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 92.8
+       "kwh": 92.6,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 88.1
+       "kwh": 88.6,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 92.1
+       "kwh": 89.3,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 99.4
+       "kwh": 98.5,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
       },
       {
        "month": "2026-09",
-       "kwh": 97.7
+       "kwh": 100.4,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -13204,83 +14601,35 @@ window.SLGIS_DATA = {
      "ticket": null,
      "repair_history": [
       {
-       "ticket_id": "TKT-2025-0120",
+       "ticket_id": "TKT-2025-0170",
        "type": "Corrective",
-       "issue": "Timer/photocell fault (day burning)",
-       "action": "Replaced timer contactor",
-       "source": "Citizen app",
-       "priority": "Low",
-       "raised_at": "2025-03-25T19:43+05:30",
-       "resolved_at": "2025-03-26T14:07+05:30",
-       "downtime_h": 18.4,
-       "sla_met": true,
-       "crew": "R2 \u00b7 Deepak R.",
-       "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 1388,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2024-0191",
-       "type": "Preventive",
-       "issue": "Annual preventive maintenance",
-       "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
-       "source": "Scheduled (AMC)",
-       "priority": "Low",
-       "raised_at": "2024-12-02T14:56+05:30",
-       "resolved_at": "2024-12-02T16:56+05:30",
-       "downtime_h": 2.0,
-       "sla_met": true,
-       "crew": "R2 \u00b7 Deepak R.",
-       "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 387,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2024-0174",
-       "type": "Preventive",
-       "issue": "Annual preventive maintenance",
-       "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
-       "source": "Scheduled (AMC)",
-       "priority": "Low",
-       "raised_at": "2024-09-03T10:19+05:30",
-       "resolved_at": "2024-09-03T11:25+05:30",
-       "downtime_h": 1.1,
-       "sla_met": true,
+       "issue": "Underground cable fault",
+       "action": "Located fault, jointed cable (heat-shrink kit)",
+       "source": "Call centre",
+       "priority": "High",
+       "raised_at": "2025-12-06T20:01+05:30",
+       "resolved_at": "2025-12-08T06:43+05:30",
+       "downtime_h": 34.7,
+       "sla_met": false,
        "crew": "R3 \u00b7 Farhan A.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 402,
+       "cost_inr": 5477,
        "status": "Closed"
       },
       {
-       "ticket_id": "TKT-2023-0160",
+       "ticket_id": "TKT-2024-0139",
        "type": "Corrective",
        "issue": "Capacitor failure",
        "action": "Replaced power-factor capacitor",
        "source": "Night patrol",
        "priority": "Medium",
-       "raised_at": "2023-08-29T21:58+05:30",
-       "resolved_at": "2023-08-31T02:04+05:30",
-       "downtime_h": 28.1,
+       "raised_at": "2024-05-16T19:40+05:30",
+       "resolved_at": "2024-05-17T11:04+05:30",
+       "downtime_h": 15.4,
        "sla_met": true,
-       "crew": "R2 \u00b7 Deepak R.",
+       "crew": "R1 \u00b7 Anil M.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 415,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2023-0118",
-       "type": "Corrective",
-       "issue": "Capacitor failure",
-       "action": "Replaced power-factor capacitor",
-       "source": "Call centre",
-       "priority": "Medium",
-       "raised_at": "2023-03-12T19:56+05:30",
-       "resolved_at": "2023-03-13T01:38+05:30",
-       "downtime_h": 5.7,
-       "sla_met": true,
-       "crew": "R3 \u00b7 Farhan A.",
-       "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 421,
+       "cost_inr": 430,
        "status": "Closed"
       }
      ]
@@ -13308,39 +14657,56 @@ window.SLGIS_DATA = {
      "wattage": 250,
      "cct_k": 2000,
      "ccms_node": false,
-     "install_date": "2010-07-03",
-     "fixture_installed": "2014-08-03",
-     "last_inspected": "2026-09-24",
+     "install_date": "2010-07-02",
+     "fixture_installed": "2015-08-26",
+     "fixture_make": "Sodiac",
+     "fixture_batch": "SOD-2015",
+     "fixture_warranty_years": 1,
+     "last_inspected": "2026-09-25",
+     "last_earthing_check": "2026-04-03",
+     "junction_box_condition": "Good",
      "feeder_panel": "FP-CP-08",
      "circuit": "C1",
      "circuit_seq": 7,
      "phase": "R",
-     "energy_kwh": 100.8,
+     "energy_kwh": 101.6,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 96.2
+       "kwh": 93.8,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 91.3
+       "kwh": 92.4,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 84.5
+       "kwh": 88.8,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 92.0
+       "kwh": 91.7,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 95.8
+       "kwh": 97.7,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
       },
       {
        "month": "2026-09",
-       "kwh": 100.8
+       "kwh": 101.6,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -13355,67 +14721,83 @@ window.SLGIS_DATA = {
      "ticket": null,
      "repair_history": [
       {
-       "ticket_id": "TKT-2026-0111",
-       "type": "Corrective",
-       "issue": "Capacitor failure",
-       "action": "Replaced power-factor capacitor",
-       "source": "Citizen app",
-       "priority": "Medium",
-       "raised_at": "2026-02-10T06:36+05:30",
-       "resolved_at": "2026-02-12T04:12+05:30",
-       "downtime_h": 45.6,
-       "sla_met": true,
-       "crew": "R3 \u00b7 Farhan A.",
-       "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 299,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2025-0133",
-       "type": "Preventive",
-       "issue": "Annual preventive maintenance",
-       "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
-       "source": "Scheduled (AMC)",
-       "priority": "Low",
-       "raised_at": "2025-05-17T13:15+05:30",
-       "resolved_at": "2025-05-17T15:09+05:30",
-       "downtime_h": 1.9,
-       "sla_met": true,
-       "crew": "R3 \u00b7 Farhan A.",
-       "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 440,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2024-0182",
-       "type": "Corrective",
-       "issue": "Ballast failure",
-       "action": "Replaced ballast",
-       "source": "Call centre",
-       "priority": "Medium",
-       "raised_at": "2024-10-21T06:10+05:30",
-       "resolved_at": "2024-10-23T03:28+05:30",
-       "downtime_h": 45.3,
-       "sla_met": true,
-       "crew": "R2 \u00b7 Deepak R.",
-       "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 1642,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2023-0171",
+       "ticket_id": "TKT-2025-0174",
        "type": "Corrective",
        "issue": "Pole damaged by vehicle",
        "action": "Replaced pole, re-grouted foundation",
        "source": "Citizen app",
        "priority": "High",
-       "raised_at": "2023-09-14T23:27+05:30",
-       "resolved_at": "2023-09-18T12:51+05:30",
-       "downtime_h": 85.4,
+       "raised_at": "2025-12-22T05:37+05:30",
+       "resolved_at": "2025-12-23T12:37+05:30",
+       "downtime_h": 31.0,
+       "sla_met": false,
+       "crew": "R1 \u00b7 Anil M.",
+       "contractor": "Roshni Infra Maintenance",
+       "cost_inr": 20240,
+       "status": "Closed"
+      },
+      {
+       "ticket_id": "TKT-2024-0113",
+       "type": "Preventive",
+       "issue": "Annual preventive maintenance",
+       "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
+       "source": "Scheduled (AMC)",
+       "priority": "Low",
+       "raised_at": "2024-02-02T13:42+05:30",
+       "resolved_at": "2024-02-02T14:42+05:30",
+       "downtime_h": 1.0,
+       "sla_met": true,
+       "crew": "R3 \u00b7 Farhan A.",
+       "contractor": "Roshni Infra Maintenance",
+       "cost_inr": 443,
+       "status": "Closed"
+      },
+      {
+       "ticket_id": "TKT-2023-0163",
+       "type": "Preventive",
+       "issue": "Annual preventive maintenance",
+       "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
+       "source": "Scheduled (AMC)",
+       "priority": "Low",
+       "raised_at": "2023-08-18T13:36+05:30",
+       "resolved_at": "2023-08-18T15:00+05:30",
+       "downtime_h": 1.4,
+       "sla_met": true,
+       "crew": "R2 \u00b7 Deepak R.",
+       "contractor": "Roshni Infra Maintenance",
+       "cost_inr": 408,
+       "status": "Closed"
+      },
+      {
+       "ticket_id": "TKT-2023-0152",
+       "type": "Corrective",
+       "issue": "Ignitor failure",
+       "action": "Replaced ignitor",
+       "source": "Call centre",
+       "priority": "Medium",
+       "raised_at": "2023-07-14T19:46+05:30",
+       "resolved_at": "2023-07-15T18:04+05:30",
+       "downtime_h": 22.3,
+       "sla_met": true,
+       "crew": "R3 \u00b7 Farhan A.",
+       "contractor": "Roshni Infra Maintenance",
+       "cost_inr": 592,
+       "status": "Closed"
+      },
+      {
+       "ticket_id": "TKT-2023-0104",
+       "type": "Corrective",
+       "issue": "Pole damaged by vehicle",
+       "action": "Replaced pole, re-grouted foundation",
+       "source": "Call centre",
+       "priority": "High",
+       "raised_at": "2023-02-07T22:59+05:30",
+       "resolved_at": "2023-02-11T19:05+05:30",
+       "downtime_h": 92.1,
        "sla_met": false,
        "crew": "R3 \u00b7 Farhan A.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 22680,
+       "cost_inr": 18174,
        "status": "Closed"
       }
      ]
@@ -13443,39 +14825,56 @@ window.SLGIS_DATA = {
      "wattage": 120,
      "cct_k": 4000,
      "ccms_node": true,
-     "install_date": "2010-07-10",
-     "fixture_installed": "2023-11-19",
-     "last_inspected": "2026-08-23",
+     "install_date": "2010-07-14",
+     "fixture_installed": "2023-10-20",
+     "fixture_make": "Lumetra",
+     "fixture_batch": "LUM-2307",
+     "fixture_warranty_years": 5,
+     "last_inspected": "2026-09-06",
+     "last_earthing_check": "2026-05-13",
+     "junction_box_condition": "Fair",
      "feeder_panel": "FP-CP-05",
      "circuit": "C2",
      "circuit_seq": 7,
      "phase": "R",
-     "energy_kwh": 43.8,
+     "energy_kwh": 45.5,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 43.4
+       "kwh": 42.3,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 40.5
+       "kwh": 40.1,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 38.3
+       "kwh": 38.8,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 40.3
+       "kwh": 39.6,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 44.2
+       "kwh": 41.9,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
       },
       {
        "month": "2026-09",
-       "kwh": 43.8
+       "kwh": 45.5,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -13490,19 +14889,51 @@ window.SLGIS_DATA = {
      "ticket": null,
      "repair_history": [
       {
-       "ticket_id": "TKT-2023-0188",
+       "ticket_id": "TKT-2025-0134",
+       "type": "Corrective",
+       "issue": "Surge protection device failure",
+       "action": "Replaced 10 kV surge protection device",
+       "source": "Citizen app",
+       "priority": "Medium",
+       "raised_at": "2025-06-02T20:32+05:30",
+       "resolved_at": "2025-06-03T22:50+05:30",
+       "downtime_h": 26.3,
+       "sla_met": true,
+       "crew": "R1 \u00b7 Anil M.",
+       "contractor": "Roshni Infra Maintenance",
+       "cost_inr": 766,
+       "status": "Closed"
+      },
+      {
+       "ticket_id": "TKT-2024-0181",
+       "type": "Preventive",
+       "issue": "Annual preventive maintenance",
+       "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
+       "source": "Scheduled (AMC)",
+       "priority": "Low",
+       "raised_at": "2024-12-18T15:20+05:30",
+       "resolved_at": "2024-12-18T16:44+05:30",
+       "downtime_h": 1.4,
+       "sla_met": true,
+       "crew": "R3 \u00b7 Farhan A.",
+       "contractor": "Roshni Infra Maintenance",
+       "cost_inr": 392,
+       "status": "Closed"
+      },
+      {
+       "ticket_id": "TKT-2023-0177",
        "type": "Retrofit",
        "issue": "LED retrofit (HPS 250 W \u2192 LED 120 W)",
        "action": "Replaced luminaire with LED; CCMS node fitted",
        "source": "Scheduled (retrofit programme)",
        "priority": "Low",
-       "raised_at": "2023-11-19T15:05+05:30",
-       "resolved_at": "2023-11-19T18:17+05:30",
-       "downtime_h": 3.2,
+       "raised_at": "2023-10-20T15:41+05:30",
+       "resolved_at": "2023-10-20T20:23+05:30",
+       "downtime_h": 4.7,
        "sla_met": true,
        "crew": "R2 \u00b7 Deepak R.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 9847,
+       "cost_inr": 9984,
        "status": "Closed"
       }
      ]
@@ -13530,39 +14961,56 @@ window.SLGIS_DATA = {
      "wattage": 120,
      "cct_k": 4000,
      "ccms_node": true,
-     "install_date": "2010-07-26",
-     "fixture_installed": "2023-07-15",
-     "last_inspected": "2026-08-02",
+     "install_date": "2010-07-25",
+     "fixture_installed": "2024-02-11",
+     "fixture_make": "Lumetra",
+     "fixture_batch": "LUM-2401",
+     "fixture_warranty_years": 5,
+     "last_inspected": "2026-09-28",
+     "last_earthing_check": "2026-09-04",
+     "junction_box_condition": "Fair",
      "feeder_panel": "FP-CP-05",
      "circuit": "C2",
      "circuit_seq": 6,
      "phase": "B",
-     "energy_kwh": 44.5,
+     "energy_kwh": 42.8,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 43.2
+       "kwh": 42.9,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 40.4
+       "kwh": 41.6,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 37.7
+       "kwh": 38.9,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 40.5
+       "kwh": 39.9,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 44.2
+       "kwh": 42.0,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
       },
       {
        "month": "2026-09",
-       "kwh": 44.5
+       "kwh": 42.8,
+       "scheduled_h": 349.6,
+       "lit_h": 337.6
       }
      ],
      "contractor": {
@@ -13577,19 +15025,51 @@ window.SLGIS_DATA = {
      "ticket": null,
      "repair_history": [
       {
-       "ticket_id": "TKT-2023-0146",
+       "ticket_id": "TKT-2026-0152",
+       "type": "Corrective",
+       "issue": "LED driver failure",
+       "action": "Replaced LED driver",
+       "source": "Night patrol",
+       "priority": "Medium",
+       "raised_at": "2026-09-27T06:18+05:30",
+       "resolved_at": "2026-09-28T10:42+05:30",
+       "downtime_h": 28.4,
+       "sla_met": true,
+       "crew": "R2 \u00b7 Deepak R.",
+       "contractor": "Roshni Infra Maintenance",
+       "cost_inr": 3111,
+       "status": "Closed"
+      },
+      {
+       "ticket_id": "TKT-2026-0147",
+       "type": "Preventive",
+       "issue": "Annual preventive maintenance",
+       "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
+       "source": "Scheduled (AMC)",
+       "priority": "Low",
+       "raised_at": "2026-09-04T10:52+05:30",
+       "resolved_at": "2026-09-04T12:34+05:30",
+       "downtime_h": 1.7,
+       "sla_met": true,
+       "crew": "R3 \u00b7 Farhan A.",
+       "contractor": "Roshni Infra Maintenance",
+       "cost_inr": 374,
+       "status": "Closed"
+      },
+      {
+       "ticket_id": "TKT-2024-0119",
        "type": "Retrofit",
        "issue": "LED retrofit (HPS 250 W \u2192 LED 120 W)",
        "action": "Replaced luminaire with LED; CCMS node fitted",
        "source": "Scheduled (retrofit programme)",
        "priority": "Low",
-       "raised_at": "2023-07-15T12:08+05:30",
-       "resolved_at": "2023-07-15T16:44+05:30",
-       "downtime_h": 4.6,
+       "raised_at": "2024-02-11T11:22+05:30",
+       "resolved_at": "2024-02-11T16:16+05:30",
+       "downtime_h": 4.9,
        "sla_met": true,
-       "crew": "R1 \u00b7 Anil M.",
+       "crew": "R3 \u00b7 Farhan A.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 10504,
+       "cost_inr": 10488,
        "status": "Closed"
       }
      ]
@@ -13617,39 +15097,56 @@ window.SLGIS_DATA = {
      "wattage": 120,
      "cct_k": 4000,
      "ccms_node": true,
-     "install_date": "2010-07-25",
-     "fixture_installed": "2023-11-11",
-     "last_inspected": "2026-09-10",
+     "install_date": "2010-07-08",
+     "fixture_installed": "2024-02-10",
+     "fixture_make": "Lumetra",
+     "fixture_batch": "LUM-2401",
+     "fixture_warranty_years": 5,
+     "last_inspected": "2026-09-17",
+     "last_earthing_check": "2026-03-28",
+     "junction_box_condition": "Good",
      "feeder_panel": "FP-CP-05",
      "circuit": "C2",
      "circuit_seq": 5,
      "phase": "Y",
-     "energy_kwh": 43.5,
+     "energy_kwh": 43.4,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 41.5
+       "kwh": 42.2,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 41.0
+       "kwh": 40.8,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 39.0
+       "kwh": 38.8,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 41.4
+       "kwh": 39.6,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 44.0
+       "kwh": 43.8,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
       },
       {
        "month": "2026-09",
-       "kwh": 43.5
+       "kwh": 43.4,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -13664,35 +15161,51 @@ window.SLGIS_DATA = {
      "ticket": null,
      "repair_history": [
       {
-       "ticket_id": "TKT-2023-0201",
+       "ticket_id": "TKT-2024-0162",
+       "type": "Corrective",
+       "issue": "Water ingress in luminaire",
+       "action": "Resealed luminaire, replaced gasket",
+       "source": "Citizen app",
+       "priority": "Medium",
+       "raised_at": "2024-09-20T05:07+05:30",
+       "resolved_at": "2024-09-22T20:19+05:30",
+       "downtime_h": 63.2,
+       "sla_met": false,
+       "crew": "R2 \u00b7 Deepak R.",
+       "contractor": "Roshni Infra Maintenance",
+       "cost_inr": 975,
+       "status": "Closed"
+      },
+      {
+       "ticket_id": "TKT-2024-0143",
        "type": "Preventive",
        "issue": "Annual preventive maintenance",
        "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
        "source": "Scheduled (AMC)",
        "priority": "Low",
-       "raised_at": "2023-12-26T13:31+05:30",
-       "resolved_at": "2023-12-26T15:31+05:30",
-       "downtime_h": 2.0,
+       "raised_at": "2024-06-02T15:09+05:30",
+       "resolved_at": "2024-06-02T15:57+05:30",
+       "downtime_h": 0.8,
        "sla_met": true,
        "crew": "R1 \u00b7 Anil M.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 448,
+       "cost_inr": 401,
        "status": "Closed"
       },
       {
-       "ticket_id": "TKT-2023-0184",
+       "ticket_id": "TKT-2024-0118",
        "type": "Retrofit",
        "issue": "LED retrofit (HPS 250 W \u2192 LED 120 W)",
        "action": "Replaced luminaire with LED; CCMS node fitted",
        "source": "Scheduled (retrofit programme)",
        "priority": "Low",
-       "raised_at": "2023-11-11T11:20+05:30",
-       "resolved_at": "2023-11-11T14:56+05:30",
-       "downtime_h": 3.6,
+       "raised_at": "2024-02-10T13:51+05:30",
+       "resolved_at": "2024-02-10T16:33+05:30",
+       "downtime_h": 2.7,
        "sla_met": true,
-       "crew": "R2 \u00b7 Deepak R.",
+       "crew": "R3 \u00b7 Farhan A.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 10142,
+       "cost_inr": 10209,
        "status": "Closed"
       }
      ]
@@ -13720,39 +15233,56 @@ window.SLGIS_DATA = {
      "wattage": 120,
      "cct_k": 4000,
      "ccms_node": true,
-     "install_date": "2010-07-27",
-     "fixture_installed": "2023-08-12",
-     "last_inspected": "2026-10-05",
+     "install_date": "2010-07-25",
+     "fixture_installed": "2023-12-17",
+     "fixture_make": "Lumetra",
+     "fixture_batch": "LUM-2307",
+     "fixture_warranty_years": 5,
+     "last_inspected": "2026-08-21",
+     "last_earthing_check": "2026-04-05",
+     "junction_box_condition": "Poor",
      "feeder_panel": "FP-CP-05",
      "circuit": "C2",
      "circuit_seq": 4,
      "phase": "R",
-     "energy_kwh": 39.5,
+     "energy_kwh": 39.6,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 42.9
+       "kwh": 41.7,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 41.0
+       "kwh": 40.4,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 38.7
+       "kwh": 38.6,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 40.9
+       "kwh": 40.8,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 43.1
+       "kwh": 42.4,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
       },
       {
        "month": "2026-09",
-       "kwh": 39.5
+       "kwh": 39.6,
+       "scheduled_h": 349.6,
+       "lit_h": 306.8
       }
      ],
      "contractor": {
@@ -13765,16 +15295,16 @@ window.SLGIS_DATA = {
       "sla_hours": 48
      },
      "ticket": {
-      "id": "TKT-2026-0151",
+      "id": "TKT-2026-0153",
       "status": "In Progress",
-      "priority": "High",
+      "category": "damaged",
       "issue": "Pole damaged by vehicle",
       "source": "Call centre",
       "raised_at": "2026-09-27T23:30+05:30",
-      "sla_hours": 24,
-      "sla_due": "2026-09-28T23:30+05:30",
-      "assigned_crew": "R1 \u00b7 Anil M.",
+      "assigned_crew": "R3 \u00b7 Farhan A.",
       "work_started_at": "2026-09-28T22:00+05:30",
+      "closed_at": null,
+      "resolution": null,
       "complaints": 0,
       "notes": "Pole made safe and isolated. Replacement pole on order.",
       "pole_uids": [
@@ -13783,67 +15313,35 @@ window.SLGIS_DATA = {
      },
      "repair_history": [
       {
-       "ticket_id": "TKT-2025-0159",
-       "type": "Corrective",
-       "issue": "Underground cable fault",
-       "action": "Located fault, jointed cable (heat-shrink kit)",
-       "source": "Citizen app",
-       "priority": "High",
-       "raised_at": "2025-09-03T06:44+05:30",
-       "resolved_at": "2025-09-05T01:08+05:30",
-       "downtime_h": 42.4,
-       "sla_met": false,
-       "crew": "R3 \u00b7 Farhan A.",
-       "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 5586,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2024-0160",
-       "type": "Corrective",
-       "issue": "Flickering",
-       "action": "Replaced LED driver and module connector",
-       "source": "CCMS auto-alert",
-       "priority": "Medium",
-       "raised_at": "2024-07-17T05:23+05:30",
-       "resolved_at": "2024-07-17T19:11+05:30",
-       "downtime_h": 13.8,
-       "sla_met": true,
-       "crew": "R3 \u00b7 Farhan A.",
-       "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 3841,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2024-0144",
+       "ticket_id": "TKT-2024-0151",
        "type": "Preventive",
        "issue": "Annual preventive maintenance",
        "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
        "source": "Scheduled (AMC)",
        "priority": "Low",
-       "raised_at": "2024-05-20T10:31+05:30",
-       "resolved_at": "2024-05-20T11:43+05:30",
-       "downtime_h": 1.2,
+       "raised_at": "2024-08-09T13:54+05:30",
+       "resolved_at": "2024-08-09T14:42+05:30",
+       "downtime_h": 0.8,
        "sla_met": true,
        "crew": "R1 \u00b7 Anil M.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 414,
+       "cost_inr": 392,
        "status": "Closed"
       },
       {
-       "ticket_id": "TKT-2023-0154",
+       "ticket_id": "TKT-2023-0190",
        "type": "Retrofit",
        "issue": "LED retrofit (HPS 250 W \u2192 LED 120 W)",
        "action": "Replaced luminaire with LED; CCMS node fitted",
        "source": "Scheduled (retrofit programme)",
        "priority": "Low",
-       "raised_at": "2023-08-12T12:46+05:30",
-       "resolved_at": "2023-08-12T17:16+05:30",
-       "downtime_h": 4.5,
+       "raised_at": "2023-12-17T11:17+05:30",
+       "resolved_at": "2023-12-17T15:53+05:30",
+       "downtime_h": 4.6,
        "sla_met": true,
-       "crew": "R2 \u00b7 Deepak R.",
+       "crew": "R3 \u00b7 Farhan A.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 11427,
+       "cost_inr": 11161,
        "status": "Closed"
       }
      ]
@@ -13871,39 +15369,56 @@ window.SLGIS_DATA = {
      "wattage": 120,
      "cct_k": 4000,
      "ccms_node": true,
-     "install_date": "2010-07-13",
-     "fixture_installed": "2024-01-16",
-     "last_inspected": "2026-08-23",
+     "install_date": "2010-07-22",
+     "fixture_installed": "2024-02-15",
+     "fixture_make": "Lumetra",
+     "fixture_batch": "LUM-2401",
+     "fixture_warranty_years": 5,
+     "last_inspected": "2026-09-20",
+     "last_earthing_check": "2026-08-27",
+     "junction_box_condition": "Poor",
      "feeder_panel": "FP-CP-05",
      "circuit": "C2",
      "circuit_seq": 3,
      "phase": "B",
-     "energy_kwh": 44.7,
+     "energy_kwh": 43.7,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 42.3
+       "kwh": 43.5,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 40.6
+       "kwh": 41.6,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 39.1
+       "kwh": 37.6,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 40.4
+       "kwh": 41.1,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 42.4
+       "kwh": 43.8,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
       },
       {
        "month": "2026-09",
-       "kwh": 44.7
+       "kwh": 43.7,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -13918,83 +15433,35 @@ window.SLGIS_DATA = {
      "ticket": null,
      "repair_history": [
       {
-       "ticket_id": "TKT-2025-0146",
-       "type": "Corrective",
-       "issue": "LED driver failure",
-       "action": "Replaced LED driver",
-       "source": "CCMS auto-alert",
-       "priority": "Medium",
-       "raised_at": "2025-07-15T21:39+05:30",
-       "resolved_at": "2025-07-17T12:03+05:30",
-       "downtime_h": 38.4,
-       "sla_met": true,
-       "crew": "R1 \u00b7 Anil M.",
-       "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 4132,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2025-0102",
-       "type": "Corrective",
-       "issue": "Water ingress in luminaire",
-       "action": "Resealed luminaire, replaced gasket",
-       "source": "Call centre",
-       "priority": "Medium",
-       "raised_at": "2025-01-06T21:44+05:30",
-       "resolved_at": "2025-01-09T14:38+05:30",
-       "downtime_h": 64.9,
-       "sla_met": false,
-       "crew": "R2 \u00b7 Deepak R.",
-       "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 1209,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2024-0184",
+       "ticket_id": "TKT-2026-0145",
        "type": "Preventive",
        "issue": "Annual preventive maintenance",
        "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
        "source": "Scheduled (AMC)",
        "priority": "Low",
-       "raised_at": "2024-10-29T11:44+05:30",
-       "resolved_at": "2024-10-29T13:02+05:30",
-       "downtime_h": 1.3,
+       "raised_at": "2026-08-27T10:17+05:30",
+       "resolved_at": "2026-08-27T11:29+05:30",
+       "downtime_h": 1.2,
        "sla_met": true,
-       "crew": "R3 \u00b7 Farhan A.",
+       "crew": "R2 \u00b7 Deepak R.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 427,
+       "cost_inr": 403,
        "status": "Closed"
       },
       {
-       "ticket_id": "TKT-2024-0178",
-       "type": "Corrective",
-       "issue": "Loose connection in junction box",
-       "action": "Re-terminated cables, replaced connector",
-       "source": "Call centre",
-       "priority": "Medium",
-       "raised_at": "2024-09-27T21:50+05:30",
-       "resolved_at": "2024-09-29T18:02+05:30",
-       "downtime_h": 44.2,
-       "sla_met": true,
-       "crew": "R3 \u00b7 Farhan A.",
-       "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 433,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2024-0107",
+       "ticket_id": "TKT-2024-0121",
        "type": "Retrofit",
        "issue": "LED retrofit (HPS 250 W \u2192 LED 120 W)",
        "action": "Replaced luminaire with LED; CCMS node fitted",
        "source": "Scheduled (retrofit programme)",
        "priority": "Low",
-       "raised_at": "2024-01-16T15:23+05:30",
-       "resolved_at": "2024-01-16T18:47+05:30",
-       "downtime_h": 3.4,
+       "raised_at": "2024-02-15T12:11+05:30",
+       "resolved_at": "2024-02-15T14:47+05:30",
+       "downtime_h": 2.6,
        "sla_met": true,
        "crew": "R3 \u00b7 Farhan A.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 10732,
+       "cost_inr": 11055,
        "status": "Closed"
       }
      ]
@@ -14022,39 +15489,56 @@ window.SLGIS_DATA = {
      "wattage": 120,
      "cct_k": 4000,
      "ccms_node": true,
-     "install_date": "2010-07-10",
-     "fixture_installed": "2024-01-01",
-     "last_inspected": "2026-08-06",
+     "install_date": "2010-07-03",
+     "fixture_installed": "2023-11-27",
+     "fixture_make": "Lumetra",
+     "fixture_batch": "LUM-2307",
+     "fixture_warranty_years": 5,
+     "last_inspected": "2026-09-16",
+     "last_earthing_check": "2024-11-07",
+     "junction_box_condition": "Poor",
      "feeder_panel": "FP-CP-05",
      "circuit": "C2",
      "circuit_seq": 2,
      "phase": "Y",
-     "energy_kwh": 43.7,
+     "energy_kwh": 44.9,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 42.5
+       "kwh": 42.7,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 41.9
+       "kwh": 40.9,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 37.9
+       "kwh": 38.7,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 40.7
+       "kwh": 40.5,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 44.2
+       "kwh": 43.0,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
       },
       {
        "month": "2026-09",
-       "kwh": 43.7
+       "kwh": 44.9,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -14069,67 +15553,67 @@ window.SLGIS_DATA = {
      "ticket": null,
      "repair_history": [
       {
-       "ticket_id": "TKT-2025-0147",
+       "ticket_id": "TKT-2025-0101",
        "type": "Corrective",
-       "issue": "LED driver failure",
-       "action": "Replaced LED driver",
-       "source": "CCMS auto-alert",
+       "issue": "Water ingress in luminaire",
+       "action": "Resealed luminaire, replaced gasket",
+       "source": "Night patrol",
        "priority": "Medium",
-       "raised_at": "2025-07-21T19:20+05:30",
-       "resolved_at": "2025-07-23T17:44+05:30",
-       "downtime_h": 46.4,
+       "raised_at": "2025-01-04T20:41+05:30",
+       "resolved_at": "2025-01-05T17:41+05:30",
+       "downtime_h": 21.0,
        "sla_met": true,
-       "crew": "R2 \u00b7 Deepak R.",
+       "crew": "R3 \u00b7 Farhan A.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 3318,
+       "cost_inr": 942,
        "status": "Closed"
       },
       {
-       "ticket_id": "TKT-2025-0132",
-       "type": "Corrective",
-       "issue": "Surge protection device failure",
-       "action": "Replaced 10 kV surge protection device",
-       "source": "Citizen app",
-       "priority": "Medium",
-       "raised_at": "2025-05-10T22:07+05:30",
-       "resolved_at": "2025-05-12T01:07+05:30",
-       "downtime_h": 27.0,
-       "sla_met": true,
-       "crew": "R1 \u00b7 Anil M.",
-       "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 721,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2025-0125",
+       "ticket_id": "TKT-2024-0171",
        "type": "Preventive",
        "issue": "Annual preventive maintenance",
        "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
        "source": "Scheduled (AMC)",
        "priority": "Low",
-       "raised_at": "2025-04-14T15:08+05:30",
-       "resolved_at": "2025-04-14T16:02+05:30",
-       "downtime_h": 0.9,
+       "raised_at": "2024-11-07T14:52+05:30",
+       "resolved_at": "2024-11-07T16:04+05:30",
+       "downtime_h": 1.2,
        "sla_met": true,
-       "crew": "R2 \u00b7 Deepak R.",
+       "crew": "R3 \u00b7 Farhan A.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 363,
+       "cost_inr": 419,
        "status": "Closed"
       },
       {
-       "ticket_id": "TKT-2024-0101",
+       "ticket_id": "TKT-2024-0146",
+       "type": "Preventive",
+       "issue": "Annual preventive maintenance",
+       "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
+       "source": "Scheduled (AMC)",
+       "priority": "Low",
+       "raised_at": "2024-06-30T10:54+05:30",
+       "resolved_at": "2024-06-30T12:18+05:30",
+       "downtime_h": 1.4,
+       "sla_met": true,
+       "crew": "R1 \u00b7 Anil M.",
+       "contractor": "Roshni Infra Maintenance",
+       "cost_inr": 417,
+       "status": "Closed"
+      },
+      {
+       "ticket_id": "TKT-2023-0187",
        "type": "Retrofit",
        "issue": "LED retrofit (HPS 250 W \u2192 LED 120 W)",
        "action": "Replaced luminaire with LED; CCMS node fitted",
        "source": "Scheduled (retrofit programme)",
        "priority": "Low",
-       "raised_at": "2024-01-01T12:46+05:30",
-       "resolved_at": "2024-01-01T16:46+05:30",
-       "downtime_h": 4.0,
+       "raised_at": "2023-11-27T11:04+05:30",
+       "resolved_at": "2023-11-27T15:10+05:30",
+       "downtime_h": 4.1,
        "sla_met": true,
        "crew": "R2 \u00b7 Deepak R.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 10544,
+       "cost_inr": 11319,
        "status": "Closed"
       }
      ]
@@ -14157,39 +15641,56 @@ window.SLGIS_DATA = {
      "wattage": 120,
      "cct_k": 4000,
      "ccms_node": true,
-     "install_date": "2010-07-17",
-     "fixture_installed": "2024-02-09",
-     "last_inspected": "2026-09-04",
+     "install_date": "2010-07-04",
+     "fixture_installed": "2024-02-20",
+     "fixture_make": "Lumetra",
+     "fixture_batch": "LUM-2401",
+     "fixture_warranty_years": 5,
+     "last_inspected": "2026-09-24",
+     "last_earthing_check": "2026-03-11",
+     "junction_box_condition": "Good",
      "feeder_panel": "FP-CP-05",
      "circuit": "C2",
      "circuit_seq": 1,
      "phase": "R",
-     "energy_kwh": 42.6,
+     "energy_kwh": 43.4,
      "energy_month": "2026-09",
      "energy_history": [
       {
        "month": "2026-04",
-       "kwh": 42.7
+       "kwh": 43.5,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
       },
       {
        "month": "2026-05",
-       "kwh": 41.9
+       "kwh": 41.1,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
       },
       {
        "month": "2026-06",
-       "kwh": 38.1
+       "kwh": 38.2,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
       },
       {
        "month": "2026-07",
-       "kwh": 40.8
+       "kwh": 40.9,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
       },
       {
        "month": "2026-08",
-       "kwh": 44.0
+       "kwh": 43.4,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
       },
       {
        "month": "2026-09",
-       "kwh": 42.6
+       "kwh": 43.4,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
       }
      ],
      "contractor": {
@@ -14204,51 +15705,587 @@ window.SLGIS_DATA = {
      "ticket": null,
      "repair_history": [
       {
-       "ticket_id": "TKT-2026-0144",
-       "type": "Corrective",
-       "issue": "Surge protection device failure",
-       "action": "Replaced 10 kV surge protection device",
-       "source": "CCMS auto-alert",
-       "priority": "Medium",
-       "raised_at": "2026-09-03T19:37+05:30",
-       "resolved_at": "2026-09-04T15:55+05:30",
-       "downtime_h": 20.3,
-       "sla_met": true,
-       "crew": "R3 \u00b7 Farhan A.",
-       "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 724,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2025-0128",
-       "type": "Preventive",
-       "issue": "Annual preventive maintenance",
-       "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
-       "source": "Scheduled (AMC)",
-       "priority": "Low",
-       "raised_at": "2025-04-28T12:13+05:30",
-       "resolved_at": "2025-04-28T13:25+05:30",
-       "downtime_h": 1.2,
-       "sla_met": true,
-       "crew": "R1 \u00b7 Anil M.",
-       "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 392,
-       "status": "Closed"
-      },
-      {
-       "ticket_id": "TKT-2024-0121",
+       "ticket_id": "TKT-2024-0123",
        "type": "Retrofit",
        "issue": "LED retrofit (HPS 250 W \u2192 LED 120 W)",
        "action": "Replaced luminaire with LED; CCMS node fitted",
        "source": "Scheduled (retrofit programme)",
        "priority": "Low",
-       "raised_at": "2024-02-09T10:11+05:30",
-       "resolved_at": "2024-02-09T13:29+05:30",
-       "downtime_h": 3.3,
+       "raised_at": "2024-02-20T13:51+05:30",
+       "resolved_at": "2024-02-20T17:57+05:30",
+       "downtime_h": 4.1,
        "sla_met": true,
-       "crew": "R1 \u00b7 Anil M.",
+       "crew": "R3 \u00b7 Farhan A.",
        "contractor": "Roshni Infra Maintenance",
-       "cost_inr": 10798,
+       "cost_inr": 9802,
+       "status": "Closed"
+      }
+     ]
+    }
+   },
+   {
+    "type": "Feature",
+    "id": "SL-CP-R1-001",
+    "geometry": {
+     "type": "Point",
+     "coordinates": [
+      77.219554,
+      28.631488
+     ]
+    },
+    "properties": {
+     "uid": "SL-CP-R1-001",
+     "status": "Functional",
+     "road": "Radial Road 1",
+     "location": "Radial Road 1, beside Palika Bazaar \u00b7 Inner Circle end",
+     "pole_type": "Swaged tubular GI",
+     "pole_height_m": 7,
+     "arm_count": 1,
+     "fixture_type": "LED",
+     "wattage": 45,
+     "cct_k": 4000,
+     "ccms_node": true,
+     "install_date": "2024-03-15",
+     "fixture_installed": "2024-03-02",
+     "fixture_make": "Arcbeam",
+     "fixture_batch": "ARB-2403",
+     "fixture_warranty_years": 5,
+     "last_inspected": "2026-08-24",
+     "last_earthing_check": "2026-04-01",
+     "junction_box_condition": "Good",
+     "feeder_panel": "FP-CP-02",
+     "circuit": "C3",
+     "circuit_seq": 1,
+     "phase": "R",
+     "energy_kwh": 16.5,
+     "energy_month": "2026-09",
+     "energy_history": [
+      {
+       "month": "2026-04",
+       "kwh": 16.3,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
+      },
+      {
+       "month": "2026-05",
+       "kwh": 15.7,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
+      },
+      {
+       "month": "2026-06",
+       "kwh": 14.3,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
+      },
+      {
+       "month": "2026-07",
+       "kwh": 15.2,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
+      },
+      {
+       "month": "2026-08",
+       "kwh": 15.7,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
+      },
+      {
+       "month": "2026-09",
+       "kwh": 16.5,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
+      }
+     ],
+     "contractor": {
+      "id": "CTR-01",
+      "name": "Prakash Electro Services",
+      "contact_person": "R. K. Verma",
+      "phone": "+91 98XXX X4102",
+      "email": "cp-om@prakash-electro.example",
+      "contract_ref": "AMC/SL/CP-IC/2025-28",
+      "sla_hours": 48
+     },
+     "ticket": null,
+     "repair_history": [
+      {
+       "ticket_id": "TKT-2026-0115",
+       "type": "Preventive",
+       "issue": "Annual preventive maintenance",
+       "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
+       "source": "Scheduled (AMC)",
+       "priority": "Low",
+       "raised_at": "2026-04-01T13:59+05:30",
+       "resolved_at": "2026-04-01T15:53+05:30",
+       "downtime_h": 1.9,
+       "sla_met": true,
+       "crew": "P1 \u00b7 Ramesh K.",
+       "contractor": "Prakash Electro Services",
+       "cost_inr": 447,
+       "status": "Closed"
+      },
+      {
+       "ticket_id": "TKT-2024-0140",
+       "type": "Preventive",
+       "issue": "Annual preventive maintenance",
+       "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
+       "source": "Scheduled (AMC)",
+       "priority": "Low",
+       "raised_at": "2024-05-19T11:18+05:30",
+       "resolved_at": "2024-05-19T13:06+05:30",
+       "downtime_h": 1.8,
+       "sla_met": true,
+       "crew": "P2 \u00b7 Sunil T.",
+       "contractor": "Prakash Electro Services",
+       "cost_inr": 401,
+       "status": "Closed"
+      }
+     ]
+    }
+   },
+   {
+    "type": "Feature",
+    "id": "SL-CP-R1-002",
+    "geometry": {
+     "type": "Point",
+     "coordinates": [
+      77.219532,
+      28.631218
+     ]
+    },
+    "properties": {
+     "uid": "SL-CP-R1-002",
+     "status": "Functional",
+     "road": "Radial Road 1",
+     "location": "Radial Road 1, beside Palika Bazaar",
+     "pole_type": "Swaged tubular GI",
+     "pole_height_m": 7,
+     "arm_count": 1,
+     "fixture_type": "LED",
+     "wattage": 45,
+     "cct_k": 4000,
+     "ccms_node": true,
+     "install_date": "2024-03-10",
+     "fixture_installed": "2024-03-20",
+     "fixture_make": "Arcbeam",
+     "fixture_batch": "ARB-2403",
+     "fixture_warranty_years": 5,
+     "last_inspected": "2026-08-28",
+     "last_earthing_check": "2026-08-22",
+     "junction_box_condition": "Fair",
+     "feeder_panel": "FP-CP-02",
+     "circuit": "C3",
+     "circuit_seq": 2,
+     "phase": "Y",
+     "energy_kwh": 16.4,
+     "energy_month": "2026-09",
+     "energy_history": [
+      {
+       "month": "2026-04",
+       "kwh": 15.7,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
+      },
+      {
+       "month": "2026-05",
+       "kwh": 15.6,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
+      },
+      {
+       "month": "2026-06",
+       "kwh": 14.5,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
+      },
+      {
+       "month": "2026-07",
+       "kwh": 14.9,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
+      },
+      {
+       "month": "2026-08",
+       "kwh": 16.1,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
+      },
+      {
+       "month": "2026-09",
+       "kwh": 16.4,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
+      }
+     ],
+     "contractor": {
+      "id": "CTR-01",
+      "name": "Prakash Electro Services",
+      "contact_person": "R. K. Verma",
+      "phone": "+91 98XXX X4102",
+      "email": "cp-om@prakash-electro.example",
+      "contract_ref": "AMC/SL/CP-IC/2025-28",
+      "sla_hours": 48
+     },
+     "ticket": null,
+     "repair_history": [
+      {
+       "ticket_id": "TKT-2025-0113",
+       "type": "Preventive",
+       "issue": "Annual preventive maintenance",
+       "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
+       "source": "Scheduled (AMC)",
+       "priority": "Low",
+       "raised_at": "2025-03-13T14:17+05:30",
+       "resolved_at": "2025-03-13T15:47+05:30",
+       "downtime_h": 1.5,
+       "sla_met": true,
+       "crew": "P2 \u00b7 Sunil T.",
+       "contractor": "Prakash Electro Services",
+       "cost_inr": 392,
+       "status": "Closed"
+      },
+      {
+       "ticket_id": "TKT-2024-0138",
+       "type": "Corrective",
+       "issue": "Timer/photocell fault (day burning)",
+       "action": "Replaced timer contactor",
+       "source": "CCMS auto-alert",
+       "priority": "Low",
+       "raised_at": "2024-05-10T19:40+05:30",
+       "resolved_at": "2024-05-12T10:22+05:30",
+       "downtime_h": 38.7,
+       "sla_met": true,
+       "crew": "P2 \u00b7 Sunil T.",
+       "contractor": "Prakash Electro Services",
+       "cost_inr": 1591,
+       "status": "Closed"
+      }
+     ]
+    }
+   },
+   {
+    "type": "Feature",
+    "id": "SL-CP-R1-003",
+    "geometry": {
+     "type": "Point",
+     "coordinates": [
+      77.219513,
+      28.630948
+     ]
+    },
+    "properties": {
+     "uid": "SL-CP-R1-003",
+     "status": "Functional",
+     "road": "Radial Road 1",
+     "location": "Radial Road 1, beside Palika Bazaar",
+     "pole_type": "Swaged tubular GI",
+     "pole_height_m": 7,
+     "arm_count": 1,
+     "fixture_type": "LED",
+     "wattage": 45,
+     "cct_k": 4000,
+     "ccms_node": true,
+     "install_date": "2024-03-04",
+     "fixture_installed": "2024-03-21",
+     "fixture_make": "Arcbeam",
+     "fixture_batch": "ARB-2403",
+     "fixture_warranty_years": 5,
+     "last_inspected": "2026-09-14",
+     "last_earthing_check": "2026-08-06",
+     "junction_box_condition": "Good",
+     "feeder_panel": "FP-CP-02",
+     "circuit": "C3",
+     "circuit_seq": 3,
+     "phase": "B",
+     "energy_kwh": 16.5,
+     "energy_month": "2026-09",
+     "energy_history": [
+      {
+       "month": "2026-04",
+       "kwh": 15.6,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
+      },
+      {
+       "month": "2026-05",
+       "kwh": 15.2,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
+      },
+      {
+       "month": "2026-06",
+       "kwh": 14.1,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
+      },
+      {
+       "month": "2026-07",
+       "kwh": 15.0,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
+      },
+      {
+       "month": "2026-08",
+       "kwh": 16.1,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
+      },
+      {
+       "month": "2026-09",
+       "kwh": 16.5,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
+      }
+     ],
+     "contractor": {
+      "id": "CTR-01",
+      "name": "Prakash Electro Services",
+      "contact_person": "R. K. Verma",
+      "phone": "+91 98XXX X4102",
+      "email": "cp-om@prakash-electro.example",
+      "contract_ref": "AMC/SL/CP-IC/2025-28",
+      "sla_hours": 48
+     },
+     "ticket": null,
+     "repair_history": [
+      {
+       "ticket_id": "TKT-2026-0140",
+       "type": "Preventive",
+       "issue": "Annual preventive maintenance",
+       "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
+       "source": "Scheduled (AMC)",
+       "priority": "Low",
+       "raised_at": "2026-08-06T13:42+05:30",
+       "resolved_at": "2026-08-06T15:24+05:30",
+       "downtime_h": 1.7,
+       "sla_met": true,
+       "crew": "P1 \u00b7 Ramesh K.",
+       "contractor": "Prakash Electro Services",
+       "cost_inr": 444,
+       "status": "Closed"
+      },
+      {
+       "ticket_id": "TKT-2024-0179",
+       "type": "Preventive",
+       "issue": "Annual preventive maintenance",
+       "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
+       "source": "Scheduled (AMC)",
+       "priority": "Low",
+       "raised_at": "2024-12-03T13:25+05:30",
+       "resolved_at": "2024-12-03T14:19+05:30",
+       "downtime_h": 0.9,
+       "sla_met": true,
+       "crew": "P1 \u00b7 Ramesh K.",
+       "contractor": "Prakash Electro Services",
+       "cost_inr": 388,
+       "status": "Closed"
+      }
+     ]
+    }
+   },
+   {
+    "type": "Feature",
+    "id": "SL-CP-R1-004",
+    "geometry": {
+     "type": "Point",
+     "coordinates": [
+      77.219482,
+      28.630317
+     ]
+    },
+    "properties": {
+     "uid": "SL-CP-R1-004",
+     "status": "Functional",
+     "road": "Radial Road 1",
+     "location": "Radial Road 1, beside Palika Bazaar",
+     "pole_type": "Swaged tubular GI",
+     "pole_height_m": 7,
+     "arm_count": 1,
+     "fixture_type": "LED",
+     "wattage": 45,
+     "cct_k": 4000,
+     "ccms_node": true,
+     "install_date": "2024-03-09",
+     "fixture_installed": "2024-03-09",
+     "fixture_make": "Arcbeam",
+     "fixture_batch": "ARB-2403",
+     "fixture_warranty_years": 5,
+     "last_inspected": "2026-09-08",
+     "last_earthing_check": "2024-10-28",
+     "junction_box_condition": "Good",
+     "feeder_panel": "FP-CP-02",
+     "circuit": "C3",
+     "circuit_seq": 4,
+     "phase": "R",
+     "energy_kwh": 16.9,
+     "energy_month": "2026-09",
+     "energy_history": [
+      {
+       "month": "2026-04",
+       "kwh": 15.7,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
+      },
+      {
+       "month": "2026-05",
+       "kwh": 15.1,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
+      },
+      {
+       "month": "2026-06",
+       "kwh": 14.4,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
+      },
+      {
+       "month": "2026-07",
+       "kwh": 15.3,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
+      },
+      {
+       "month": "2026-08",
+       "kwh": 15.4,
+       "scheduled_h": 336.1,
+       "lit_h": 328.5
+      },
+      {
+       "month": "2026-09",
+       "kwh": 16.9,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
+      }
+     ],
+     "contractor": {
+      "id": "CTR-01",
+      "name": "Prakash Electro Services",
+      "contact_person": "R. K. Verma",
+      "phone": "+91 98XXX X4102",
+      "email": "cp-om@prakash-electro.example",
+      "contract_ref": "AMC/SL/CP-IC/2025-28",
+      "sla_hours": 48
+     },
+     "ticket": null,
+     "repair_history": [
+      {
+       "ticket_id": "TKT-2026-0143",
+       "type": "Corrective",
+       "issue": "Timer/photocell fault (day burning)",
+       "action": "Replaced timer contactor",
+       "source": "Citizen app",
+       "priority": "Low",
+       "raised_at": "2026-08-15T05:21+05:30",
+       "resolved_at": "2026-08-16T02:09+05:30",
+       "downtime_h": 20.8,
+       "sla_met": true,
+       "crew": "P2 \u00b7 Sunil T.",
+       "contractor": "Prakash Electro Services",
+       "cost_inr": 1670,
+       "status": "Closed"
+      }
+     ]
+    }
+   },
+   {
+    "type": "Feature",
+    "id": "SL-CP-R1-005",
+    "geometry": {
+     "type": "Point",
+     "coordinates": [
+      77.219473,
+      28.630046
+     ]
+    },
+    "properties": {
+     "uid": "SL-CP-R1-005",
+     "status": "Functional",
+     "road": "Radial Road 1",
+     "location": "Radial Road 1, beside Palika Bazaar \u00b7 Outer Circle end",
+     "pole_type": "Swaged tubular GI",
+     "pole_height_m": 7,
+     "arm_count": 1,
+     "fixture_type": "LED",
+     "wattage": 45,
+     "cct_k": 4000,
+     "ccms_node": true,
+     "install_date": "2024-03-26",
+     "fixture_installed": "2024-03-16",
+     "fixture_make": "Arcbeam",
+     "fixture_batch": "ARB-2403",
+     "fixture_warranty_years": 5,
+     "last_inspected": "2026-10-08",
+     "last_earthing_check": "2026-05-24",
+     "junction_box_condition": "Fair",
+     "feeder_panel": "FP-CP-02",
+     "circuit": "C3",
+     "circuit_seq": 5,
+     "phase": "Y",
+     "energy_kwh": 16.8,
+     "energy_month": "2026-09",
+     "energy_history": [
+      {
+       "month": "2026-04",
+       "kwh": 16.0,
+       "scheduled_h": 334.4,
+       "lit_h": 334.4
+      },
+      {
+       "month": "2026-05",
+       "kwh": 15.7,
+       "scheduled_h": 323.4,
+       "lit_h": 323.4
+      },
+      {
+       "month": "2026-06",
+       "kwh": 14.1,
+       "scheduled_h": 302.0,
+       "lit_h": 302.0
+      },
+      {
+       "month": "2026-07",
+       "kwh": 14.8,
+       "scheduled_h": 317.2,
+       "lit_h": 317.2
+      },
+      {
+       "month": "2026-08",
+       "kwh": 16.1,
+       "scheduled_h": 336.1,
+       "lit_h": 336.1
+      },
+      {
+       "month": "2026-09",
+       "kwh": 16.8,
+       "scheduled_h": 349.6,
+       "lit_h": 349.6
+      }
+     ],
+     "contractor": {
+      "id": "CTR-01",
+      "name": "Prakash Electro Services",
+      "contact_person": "R. K. Verma",
+      "phone": "+91 98XXX X4102",
+      "email": "cp-om@prakash-electro.example",
+      "contract_ref": "AMC/SL/CP-IC/2025-28",
+      "sla_hours": 48
+     },
+     "ticket": null,
+     "repair_history": [
+      {
+       "ticket_id": "TKT-2026-0128",
+       "type": "Preventive",
+       "issue": "Annual preventive maintenance",
+       "action": "Cleaned luminaire, IR & earth-resistance test, tightened terminations",
+       "source": "Scheduled (AMC)",
+       "priority": "Low",
+       "raised_at": "2026-05-24T15:59+05:30",
+       "resolved_at": "2026-05-24T17:53+05:30",
+       "downtime_h": 1.9,
+       "sla_met": true,
+       "crew": "P1 \u00b7 Ramesh K.",
+       "contractor": "Prakash Electro Services",
+       "cost_inr": 356,
        "status": "Closed"
       }
      ]
@@ -14283,7 +16320,35 @@ window.SLGIS_DATA = {
       "C1",
       "C2"
      ],
-     "contractor_id": "CTR-01"
+     "contractor_id": "CTR-01",
+     "metered_kwh_history": [
+      {
+       "month": "2026-04",
+       "kwh": 261.5
+      },
+      {
+       "month": "2026-05",
+       "kwh": 252.0
+      },
+      {
+       "month": "2026-06",
+       "kwh": 232.6
+      },
+      {
+       "month": "2026-07",
+       "kwh": 245.6
+      },
+      {
+       "month": "2026-08",
+       "kwh": 261.0
+      },
+      {
+       "month": "2026-09",
+       "kwh": 270.5
+      }
+     ],
+     "temp_connections": [],
+     "planned_shutdowns": []
     }
    },
    {
@@ -14307,9 +16372,55 @@ window.SLGIS_DATA = {
      "commissioned": "2010-08-14",
      "circuits": [
       "C1",
-      "C2"
+      "C2",
+      "C3"
      ],
-     "contractor_id": "CTR-01"
+     "contractor_id": "CTR-01",
+     "metered_kwh_history": [
+      {
+       "month": "2026-04",
+       "kwh": 341.4
+      },
+      {
+       "month": "2026-05",
+       "kwh": 331.3
+      },
+      {
+       "month": "2026-06",
+       "kwh": 305.5
+      },
+      {
+       "month": "2026-07",
+       "kwh": 324.9
+      },
+      {
+       "month": "2026-08",
+       "kwh": 338.0
+      },
+      {
+       "month": "2026-09",
+       "kwh": 358.5
+      }
+     ],
+     "temp_connections": [
+      {
+       "purpose": "Food stalls, Palika Park",
+       "kw": 1.2,
+       "from": "2026-10-11T18:00+05:30",
+       "to": "2026-10-25T18:00+05:30"
+      }
+     ],
+     "planned_shutdowns": [
+      {
+       "start": "2026-08-13T22:00+05:30",
+       "end": "2026-08-14T02:00+05:30",
+       "circuits": [
+        "C1",
+        "C2"
+       ],
+       "reason": "Cable jointing"
+      }
+     ]
     }
    },
    {
@@ -14335,7 +16446,35 @@ window.SLGIS_DATA = {
       "C1",
       "C2"
      ],
-     "contractor_id": "CTR-02"
+     "contractor_id": "CTR-02",
+     "metered_kwh_history": [
+      {
+       "month": "2026-04",
+       "kwh": 292.2
+      },
+      {
+       "month": "2026-05",
+       "kwh": 283.9
+      },
+      {
+       "month": "2026-06",
+       "kwh": 265.9
+      },
+      {
+       "month": "2026-07",
+       "kwh": 318.1
+      },
+      {
+       "month": "2026-08",
+       "kwh": 340.8
+      },
+      {
+       "month": "2026-09",
+       "kwh": 351.0
+      }
+     ],
+     "temp_connections": [],
+     "planned_shutdowns": []
     }
    },
    {
@@ -14361,7 +16500,35 @@ window.SLGIS_DATA = {
       "C1",
       "C2"
      ],
-     "contractor_id": "CTR-02"
+     "contractor_id": "CTR-02",
+     "metered_kwh_history": [
+      {
+       "month": "2026-04",
+       "kwh": 288.0
+      },
+      {
+       "month": "2026-05",
+       "kwh": 275.2
+      },
+      {
+       "month": "2026-06",
+       "kwh": 257.7
+      },
+      {
+       "month": "2026-07",
+       "kwh": 272.3
+      },
+      {
+       "month": "2026-08",
+       "kwh": 287.3
+      },
+      {
+       "month": "2026-09",
+       "kwh": 320.6
+      }
+     ],
+     "temp_connections": [],
+     "planned_shutdowns": []
     }
    },
    {
@@ -14387,7 +16554,45 @@ window.SLGIS_DATA = {
       "C1",
       "C2"
      ],
-     "contractor_id": "CTR-03"
+     "contractor_id": "CTR-03",
+     "metered_kwh_history": [
+      {
+       "month": "2026-04",
+       "kwh": 605.4
+      },
+      {
+       "month": "2026-05",
+       "kwh": 584.5
+      },
+      {
+       "month": "2026-06",
+       "kwh": 549.5
+      },
+      {
+       "month": "2026-07",
+       "kwh": 574.7
+      },
+      {
+       "month": "2026-08",
+       "kwh": 616.8
+      },
+      {
+       "month": "2026-09",
+       "kwh": 625.2
+      }
+     ],
+     "temp_connections": [],
+     "planned_shutdowns": [
+      {
+       "start": "2026-10-13T17:00+05:30",
+       "end": "2026-10-13T21:00+05:30",
+       "circuits": [
+        "C1",
+        "C2"
+       ],
+       "reason": "Feeder pillar replacement"
+      }
+     ]
     }
    },
    {
@@ -14413,7 +16618,35 @@ window.SLGIS_DATA = {
       "C1",
       "C2"
      ],
-     "contractor_id": "CTR-03"
+     "contractor_id": "CTR-03",
+     "metered_kwh_history": [
+      {
+       "month": "2026-04",
+       "kwh": 839.3
+      },
+      {
+       "month": "2026-05",
+       "kwh": 812.7
+      },
+      {
+       "month": "2026-06",
+       "kwh": 761.0
+      },
+      {
+       "month": "2026-07",
+       "kwh": 797.6
+      },
+      {
+       "month": "2026-08",
+       "kwh": 842.8
+      },
+      {
+       "month": "2026-09",
+       "kwh": 865.4
+      }
+     ],
+     "temp_connections": [],
+     "planned_shutdowns": []
     }
    },
    {
@@ -14439,7 +16672,42 @@ window.SLGIS_DATA = {
       "C1",
       "C2"
      ],
-     "contractor_id": "CTR-03"
+     "contractor_id": "CTR-03",
+     "metered_kwh_history": [
+      {
+       "month": "2026-04",
+       "kwh": 755.7
+      },
+      {
+       "month": "2026-05",
+       "kwh": 744.9
+      },
+      {
+       "month": "2026-06",
+       "kwh": 676.5
+      },
+      {
+       "month": "2026-07",
+       "kwh": 715.7
+      },
+      {
+       "month": "2026-08",
+       "kwh": 765.6
+      },
+      {
+       "month": "2026-09",
+       "kwh": 794.2
+      }
+     ],
+     "temp_connections": [
+      {
+       "purpose": "Festive decorative lighting, Janpath market",
+       "kw": 5.6,
+       "from": "2026-10-10T18:00+05:30",
+       "to": "2026-11-08T18:00+05:30"
+      }
+     ],
+     "planned_shutdowns": []
     }
    },
    {
@@ -14465,9 +16733,800 @@ window.SLGIS_DATA = {
       "C1",
       "C2"
      ],
-     "contractor_id": "CTR-03"
+     "contractor_id": "CTR-03",
+     "metered_kwh_history": [
+      {
+       "month": "2026-04",
+       "kwh": 1353.0
+      },
+      {
+       "month": "2026-05",
+       "kwh": 1327.5
+      },
+      {
+       "month": "2026-06",
+       "kwh": 1250.6
+      },
+      {
+       "month": "2026-07",
+       "kwh": 1289.3
+      },
+      {
+       "month": "2026-08",
+       "kwh": 1430.3
+      },
+      {
+       "month": "2026-09",
+       "kwh": 1551.5
+      }
+     ],
+     "temp_connections": [
+      {
+       "purpose": "Temporary puja pandal supply",
+       "kw": 3.6,
+       "from": "2026-10-12T18:00+05:30",
+       "to": "2026-10-22T18:00+05:30"
+      }
+     ],
+     "planned_shutdowns": []
     }
    }
   ]
- }
+ },
+ "landmarks": {
+  "type": "FeatureCollection",
+  "name": "landmarks",
+  "features": [
+   {
+    "type": "Feature",
+    "id": "LM-MX-01",
+    "geometry": {
+     "type": "Point",
+     "coordinates": [
+      77.218754,
+      28.633735
+     ]
+    },
+    "properties": {
+     "landmark_id": "LM-MX-01",
+     "kind": "metro_exit",
+     "name": "Rajiv Chowk metro exit 1",
+     "approximate": true
+    }
+   },
+   {
+    "type": "Feature",
+    "id": "LM-MX-02",
+    "geometry": {
+     "type": "Point",
+     "coordinates": [
+      77.219342,
+      28.634012
+     ]
+    },
+    "properties": {
+     "landmark_id": "LM-MX-02",
+     "kind": "metro_exit",
+     "name": "Rajiv Chowk metro exit 2",
+     "approximate": true
+    }
+   },
+   {
+    "type": "Feature",
+    "id": "LM-MX-03",
+    "geometry": {
+     "type": "Point",
+     "coordinates": [
+      77.220757,
+      28.633647
+     ]
+    },
+    "properties": {
+     "landmark_id": "LM-MX-03",
+     "kind": "metro_exit",
+     "name": "Rajiv Chowk metro exit 3",
+     "approximate": true
+    }
+   },
+   {
+    "type": "Feature",
+    "id": "LM-MX-04",
+    "geometry": {
+     "type": "Point",
+     "coordinates": [
+      77.220216,
+      28.63161
+     ]
+    },
+    "properties": {
+     "landmark_id": "LM-MX-04",
+     "kind": "metro_exit",
+     "name": "Rajiv Chowk metro exit 5",
+     "approximate": true
+    }
+   },
+   {
+    "type": "Feature",
+    "id": "LM-MX-05",
+    "geometry": {
+     "type": "Point",
+     "coordinates": [
+      77.219239,
+      28.631596
+     ]
+    },
+    "properties": {
+     "landmark_id": "LM-MX-05",
+     "kind": "metro_exit",
+     "name": "Rajiv Chowk metro exit 6",
+     "approximate": true
+    }
+   },
+   {
+    "type": "Feature",
+    "id": "LM-MX-06",
+    "geometry": {
+     "type": "Point",
+     "coordinates": [
+      77.218366,
+      28.632343
+     ]
+    },
+    "properties": {
+     "landmark_id": "LM-MX-06",
+     "kind": "metro_exit",
+     "name": "Rajiv Chowk metro exit 7",
+     "approximate": true
+    }
+   },
+   {
+    "type": "Feature",
+    "id": "LM-MX-07",
+    "geometry": {
+     "type": "Point",
+     "coordinates": [
+      77.218282,
+      28.632931
+     ]
+    },
+    "properties": {
+     "landmark_id": "LM-MX-07",
+     "kind": "metro_exit",
+     "name": "Rajiv Chowk metro exit 8",
+     "approximate": true
+    }
+   },
+   {
+    "type": "Feature",
+    "id": "LM-BS-01",
+    "geometry": {
+     "type": "Point",
+     "coordinates": [
+      77.219344,
+      28.629762
+     ]
+    },
+    "properties": {
+     "landmark_id": "LM-BS-01",
+     "kind": "bus_stop",
+     "name": "Bus stop \u00b7 Janpath",
+     "approximate": true
+    }
+   },
+   {
+    "type": "Feature",
+    "id": "LM-BS-02",
+    "geometry": {
+     "type": "Point",
+     "coordinates": [
+      77.222647,
+      28.631261
+     ]
+    },
+    "properties": {
+     "landmark_id": "LM-BS-02",
+     "kind": "bus_stop",
+     "name": "Bus stop \u00b7 Barakhamba Road",
+     "approximate": true
+    }
+   },
+   {
+    "type": "Feature",
+    "id": "LM-BS-03",
+    "geometry": {
+     "type": "Point",
+     "coordinates": [
+      77.223152,
+      28.632896
+     ]
+    },
+    "properties": {
+     "landmark_id": "LM-BS-03",
+     "kind": "bus_stop",
+     "name": "Bus stop \u00b7 M-Block",
+     "approximate": true
+    }
+   },
+   {
+    "type": "Feature",
+    "id": "LM-BS-04",
+    "geometry": {
+     "type": "Point",
+     "coordinates": [
+      77.216471,
+      28.631752
+     ]
+    },
+    "properties": {
+     "landmark_id": "LM-BS-04",
+     "kind": "bus_stop",
+     "name": "Bus stop \u00b7 Baba Kharak Singh Marg",
+     "approximate": true
+    }
+   },
+   {
+    "type": "Feature",
+    "id": "LM-BS-05",
+    "geometry": {
+     "type": "Point",
+     "coordinates": [
+      77.218013,
+      28.635429
+     ]
+    },
+    "properties": {
+     "landmark_id": "LM-BS-05",
+     "kind": "bus_stop",
+     "name": "Bus stop \u00b7 Chelmsford Road",
+     "approximate": true
+    }
+   },
+   {
+    "type": "Feature",
+    "id": "LM-SW-01",
+    "geometry": {
+     "type": "Point",
+     "coordinates": [
+      77.219617,
+      28.629833
+     ]
+    },
+    "properties": {
+     "landmark_id": "LM-SW-01",
+     "kind": "subway",
+     "name": "Subway \u00b7 Janpath",
+     "approximate": true
+    }
+   },
+   {
+    "type": "Feature",
+    "id": "LM-SW-02",
+    "geometry": {
+     "type": "Point",
+     "coordinates": [
+      77.222677,
+      28.631483
+     ]
+    },
+    "properties": {
+     "landmark_id": "LM-SW-02",
+     "kind": "subway",
+     "name": "Subway \u00b7 Barakhamba Road",
+     "approximate": true
+    }
+   },
+   {
+    "type": "Feature",
+    "id": "LM-SW-03",
+    "geometry": {
+     "type": "Point",
+     "coordinates": [
+      77.216928,
+      28.634233
+     ]
+    },
+    "properties": {
+     "landmark_id": "LM-SW-03",
+     "kind": "subway",
+     "name": "Subway \u00b7 Panchkuian Road",
+     "approximate": true
+    }
+   },
+   {
+    "type": "Feature",
+    "id": "LM-PX-01",
+    "geometry": {
+     "type": "Point",
+     "coordinates": [
+      77.219593,
+      28.631657
+     ]
+    },
+    "properties": {
+     "landmark_id": "LM-PX-01",
+     "kind": "crossing",
+     "name": "Crossing \u00b7 Radial Road 1",
+     "approximate": true
+    }
+   },
+   {
+    "type": "Feature",
+    "id": "LM-PX-02",
+    "geometry": {
+     "type": "Point",
+     "coordinates": [
+      77.218621,
+      28.633404
+     ]
+    },
+    "properties": {
+     "landmark_id": "LM-PX-02",
+     "kind": "crossing",
+     "name": "Crossing \u00b7 Radial Road 3",
+     "approximate": true
+    }
+   },
+   {
+    "type": "Feature",
+    "id": "LM-PX-03",
+    "geometry": {
+     "type": "Point",
+     "coordinates": [
+      77.220388,
+      28.633754
+     ]
+    },
+    "properties": {
+     "landmark_id": "LM-PX-03",
+     "kind": "crossing",
+     "name": "Crossing \u00b7 Radial Road 5",
+     "approximate": true
+    }
+   },
+   {
+    "type": "Feature",
+    "id": "LM-PX-04",
+    "geometry": {
+     "type": "Point",
+     "coordinates": [
+      77.217656,
+      28.630542
+     ]
+    },
+    "properties": {
+     "landmark_id": "LM-PX-04",
+     "kind": "crossing",
+     "name": "Crossing \u00b7 Sansad Marg",
+     "approximate": true
+    }
+   },
+   {
+    "type": "Feature",
+    "id": "LM-PX-05",
+    "geometry": {
+     "type": "Point",
+     "coordinates": [
+      77.219867,
+      28.63571
+     ]
+    },
+    "properties": {
+     "landmark_id": "LM-PX-05",
+     "kind": "crossing",
+     "name": "Crossing \u00b7 State Entry Road",
+     "approximate": true
+    }
+   },
+   {
+    "type": "Feature",
+    "id": "LM-PX-06",
+    "geometry": {
+     "type": "Point",
+     "coordinates": [
+      77.220909,
+      28.630079
+     ]
+    },
+    "properties": {
+     "landmark_id": "LM-PX-06",
+     "kind": "crossing",
+     "name": "Crossing \u00b7 Kasturba Gandhi Marg",
+     "approximate": true
+    }
+   },
+   {
+    "type": "Feature",
+    "id": "LM-ATM-01",
+    "geometry": {
+     "type": "Point",
+     "coordinates": [
+      77.217845,
+      28.632862
+     ]
+    },
+    "properties": {
+     "landmark_id": "LM-ATM-01",
+     "kind": "atm",
+     "name": "ATM \u00b7 A-Block",
+     "approximate": true
+    }
+   },
+   {
+    "type": "Feature",
+    "id": "LM-ATM-02",
+    "geometry": {
+     "type": "Point",
+     "coordinates": [
+      77.221183,
+      28.633985
+     ]
+    },
+    "properties": {
+     "landmark_id": "LM-ATM-02",
+     "kind": "atm",
+     "name": "ATM \u00b7 D-Block",
+     "approximate": true
+    }
+   },
+   {
+    "type": "Feature",
+    "id": "LM-ATM-03",
+    "geometry": {
+     "type": "Point",
+     "coordinates": [
+      77.220597,
+      28.63137
+     ]
+    },
+    "properties": {
+     "landmark_id": "LM-ATM-03",
+     "kind": "atm",
+     "name": "ATM \u00b7 F-Block",
+     "approximate": true
+    }
+   },
+   {
+    "type": "Feature",
+    "id": "LM-ATM-04",
+    "geometry": {
+     "type": "Point",
+     "coordinates": [
+      77.218604,
+      28.634826
+     ]
+    },
+    "properties": {
+     "landmark_id": "LM-ATM-04",
+     "kind": "atm",
+     "name": "ATM \u00b7 H-Block",
+     "approximate": true
+    }
+   },
+   {
+    "type": "Feature",
+    "id": "LM-PK-01",
+    "geometry": {
+     "type": "Point",
+     "coordinates": [
+      77.218988,
+      28.631492
+     ]
+    },
+    "properties": {
+     "landmark_id": "LM-PK-01",
+     "kind": "parking",
+     "name": "Parking \u00b7 Palika Bazaar",
+     "approximate": true
+    }
+   },
+   {
+    "type": "Feature",
+    "id": "LM-PK-02",
+    "geometry": {
+     "type": "Point",
+     "coordinates": [
+      77.222374,
+      28.632584
+     ]
+    },
+    "properties": {
+     "landmark_id": "LM-PK-02",
+     "kind": "parking",
+     "name": "Parking \u00b7 M-Block",
+     "approximate": true
+    }
+   },
+   {
+    "type": "Feature",
+    "id": "LM-PK-03",
+    "geometry": {
+     "type": "Point",
+     "coordinates": [
+      77.217027,
+      28.632707
+     ]
+    },
+    "properties": {
+     "landmark_id": "LM-PK-03",
+     "kind": "parking",
+     "name": "Parking \u00b7 G-Block",
+     "approximate": true
+    }
+   }
+  ]
+ },
+ "excavationPermits": {
+  "type": "FeatureCollection",
+  "name": "excavation_permits",
+  "features": [
+   {
+    "type": "Feature",
+    "id": "EXC-01",
+    "geometry": {
+     "type": "LineString",
+     "coordinates": [
+      [
+       77.218889,
+       28.629901
+      ],
+      [
+       77.218747,
+       28.629937
+      ],
+      [
+       77.218608,
+       28.629978
+      ],
+      [
+       77.21847,
+       28.630024
+      ],
+      [
+       77.218334,
+       28.630073
+      ],
+      [
+       77.218197,
+       28.630122
+      ],
+      [
+       77.21806,
+       28.630173
+      ],
+      [
+       77.21793,
+       28.630234
+      ],
+      [
+       77.217805,
+       28.630305
+      ]
+     ]
+    },
+    "properties": {
+     "permit_id": "EXC-01",
+     "agency": "City Water Utility",
+     "purpose": "Water main replacement",
+     "start": "2026-10-07T18:00+05:30",
+     "end": "2026-10-22T18:00+05:30",
+     "approximate": true
+    }
+   },
+   {
+    "type": "Feature",
+    "id": "EXC-02",
+    "geometry": {
+     "type": "LineString",
+     "coordinates": [
+      [
+       77.221716,
+       28.634032
+      ],
+      [
+       77.221775,
+       28.633954
+      ],
+      [
+       77.221831,
+       28.633873
+      ],
+      [
+       77.221882,
+       28.63379
+      ],
+      [
+       77.221929,
+       28.633705
+      ],
+      [
+       77.221973,
+       28.633619
+      ],
+      [
+       77.222011,
+       28.633531
+      ],
+      [
+       77.222046,
+       28.633441
+      ],
+      [
+       77.222076,
+       28.63335
+      ],
+      [
+       77.222101,
+       28.633259
+      ],
+      [
+       77.222122,
+       28.633166
+      ]
+     ]
+    },
+    "properties": {
+     "permit_id": "EXC-02",
+     "agency": "FibreLink Networks",
+     "purpose": "Telecom duct laying",
+     "start": "2026-09-03T18:00+05:30",
+     "end": "2026-10-01T18:00+05:30",
+     "approximate": true
+    }
+   },
+   {
+    "type": "Feature",
+    "id": "EXC-03",
+    "geometry": {
+     "type": "LineString",
+     "coordinates": [
+      [
+       77.218386,
+       28.632585
+      ],
+      [
+       77.218377,
+       28.632636
+      ],
+      [
+       77.21837,
+       28.632687
+      ],
+      [
+       77.218367,
+       28.632738
+      ],
+      [
+       77.218365,
+       28.63279
+      ],
+      [
+       77.218367,
+       28.632842
+      ],
+      [
+       77.21837,
+       28.632893
+      ],
+      [
+       77.218377,
+       28.632944
+      ],
+      [
+       77.218386,
+       28.632995
+      ]
+     ]
+    },
+    "properties": {
+     "permit_id": "EXC-03",
+     "agency": "Urban Gas Distribution",
+     "purpose": "Gas pipeline",
+     "start": "2026-10-17T18:00+05:30",
+     "end": "2026-11-02T18:00+05:30",
+     "approximate": true
+    }
+   }
+  ]
+ },
+ "waterloggingSpots": {
+  "type": "FeatureCollection",
+  "name": "waterlogging_spots",
+  "features": [
+   {
+    "type": "Feature",
+    "id": "WL-01",
+    "geometry": {
+     "type": "Point",
+     "coordinates": [
+      77.21935,
+      28.629811
+     ]
+    },
+    "properties": {
+     "spot_id": "WL-01",
+     "name": "Outer Circle near Janpath",
+     "radius_m": 45,
+     "approximate": true
+    }
+   },
+   {
+    "type": "Feature",
+    "id": "WL-02",
+    "geometry": {
+     "type": "Point",
+     "coordinates": [
+      77.220912,
+      28.630946
+     ]
+    },
+    "properties": {
+     "spot_id": "WL-02",
+     "name": "Middle Circle near F-Block",
+     "radius_m": 40,
+     "approximate": true
+    }
+   },
+   {
+    "type": "Feature",
+    "id": "WL-03",
+    "geometry": {
+     "type": "Point",
+     "coordinates": [
+      77.218521,
+      28.632389
+     ]
+    },
+    "properties": {
+     "spot_id": "WL-03",
+     "name": "Inner Circle near metro exit 7",
+     "radius_m": 35,
+     "approximate": true
+    }
+   }
+  ]
+ },
+ "locationTickets": {
+  "type": "FeatureCollection",
+  "name": "location_tickets",
+  "features": [
+   {
+    "type": "Feature",
+    "id": "TKT-2026-0175",
+    "geometry": {
+     "type": "Point",
+     "coordinates": [
+      77.218928,
+      28.630908
+     ]
+    },
+    "properties": {
+     "id": "TKT-2026-0175",
+     "status": "Open",
+     "category": "not_working",
+     "issue": "Walkway lights out, Palika Park",
+     "source": "Citizen app",
+     "raised_at": "2026-10-13T13:00+05:30",
+     "complaints": 1
+    }
+   }
+  ]
+ },
+ "citizenSamples": [
+  {
+   "id": "CR-S01",
+   "uid": "SL-CP-IC-010",
+   "ticket_id": "TKT-2026-0159",
+   "category": "not_working",
+   "created_at": "2026-10-11T20:30+05:30",
+   "simulated": true
+  },
+  {
+   "id": "CR-S02",
+   "uid": "SL-CP-IC-007",
+   "ticket_id": "TKT-2026-0157",
+   "category": "not_working",
+   "created_at": "2026-10-11T16:00+05:30",
+   "simulated": true
+  }
+ ]
 };

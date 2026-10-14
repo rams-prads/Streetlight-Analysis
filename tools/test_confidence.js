@@ -158,6 +158,23 @@ test('perceptual hash distance and the simulated AI photo check', () => {
   assert.match(s.text, /simulated/);
 });
 
+test('AI photo findings (pilot server) nudge confidence a little, and only where a photo can show it', () => {
+  const ai = (f) => ({ kind: 'live', hash: null, ai: { streetlight_visible: true, lamp: 'unclear', dark_scene: null, pole_damaged: null, light_blocked: null, ...f } });
+  const one = (photo, category) => photoCheck(photo, category, {}, cfg)[0];
+  assert.equal(one(ai({ lamp: 'off', dark_scene: true }), 'not_working').points, cfg.aiPhoto);
+  assert.equal(one(ai({ lamp: 'off', dark_scene: false }), 'not_working').effect, 0, 'lamps are off by day anyway');
+  assert.equal(one(ai({ lamp: 'on' }), 'not_working').points, -cfg.aiPhoto);
+  assert.equal(one(ai({ lamp: 'on', dark_scene: false }), 'day_burning').effect, 1);
+  assert.equal(one(ai({ pole_damaged: true }), 'damaged').effect, 1);
+  assert.equal(one(ai({ pole_damaged: null }), 'damaged').effect, 0, 'not clear is neutral');
+  assert.equal(one(ai({ lamp: 'off', dark_scene: true }), 'flickering').effect, 0);
+  assert.equal(one(ai({ streetlight_visible: false, lamp: 'off', dark_scene: true }), 'not_working').effect, 0);
+  assert.ok(cfg.aiPhoto < cfg.photoLive && cfg.aiPhoto < cfg.ccms, 'smaller than a live photo or CCMS');
+  // it never decides alone: a CCMS contradiction still gives Needs check, whatever the AI says
+  const r = scoreReport({ category: 'not_working', reporters: 1, ccms: { night: 'on' }, photo: { live: true }, extra: photoCheck(ai({ lamp: 'off', dark_scene: true }), 'not_working', {}, cfg) }, cfg);
+  assert.equal(r.band, 'Needs check');
+});
+
 for (const [name, fn] of tests) {
   try {
     fn();

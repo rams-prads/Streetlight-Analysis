@@ -4,8 +4,9 @@
  * Leaflet 1.9.4 + leaflet.heat 0.2.0 (+ MapLibre GL 4.7 for the vector basemap).
  *
  * Plain scripts that share one global scope (no modules, so file:// works), loaded in this order:
- *   data/streetlights.js · config.js (1) · app.js (0, 2–7) · analysis.js (8) · tickets.js (9–11)
- *   · views.js (12–13) · panels.js (14) · main.js (15–17)
+ *   data/streetlights.js · server-config.js · config.js (1) · app.js (0, 2–7) · analysis.js (8)
+ *   · confidence.js (9a) · share.js (9b) · tickets.js (9–11) · views.js (12–13) · panels.js (14)
+ *   · roles.js (15) · backend.js (19, pilot server only) · main.js (16–18)
  *
  * COORDINATE CONVENTION, read before editing
  *   GeoJSON (RFC 7946) stores positions as [longitude, latitude].
@@ -123,6 +124,8 @@ function toLatLng(featureOrPosition) {
   const position = Array.isArray(featureOrPosition) ? featureOrPosition : featureOrPosition.geometry.coordinates;
   return L.GeoJSON.coordsToLatLng(position);
 }
+/** The reverse, for saving: an L.LatLng back to a GeoJSON [longitude, latitude] position (Leaflet's own converter). */
+const toPosition = (latlng) => L.GeoJSON.latLngToCoords(latlng);
 /** Every vertex of a LineString (or a Polygon's outer ring), each converted by toLatLng(). */
 function toLatLngs(feature) {
   const g = feature.geometry;
@@ -197,7 +200,7 @@ function meterHtml(stats, cls = '') {
 /** Demo only: ?now=YYYY-MM-DDTHH:MM (IST) starts the app's clock at that moment; it keeps running from there. */
 const CLOCK_OFFSET_MS = (() => {
   const raw = new URLSearchParams(location.search).get(DEMO_CLOCK_PARAM);
-  if (!raw) return 0;
+  if (!raw || (SERVER && !SERVER.demoClock)) return 0; // a pilot server runs on real time unless DEMO_CLOCK=1
   const withTime = /^\d{4}-\d{2}-\d{2}$/.test(raw) ? `${raw}T00:00` : raw;
   const hasZone = /(Z|[+-]\d{2}:?\d{2})$/i.test(withTime);
   const t = new Date(hasZone ? withTime : `${withTime}${IST_OFFSET}`).getTime();

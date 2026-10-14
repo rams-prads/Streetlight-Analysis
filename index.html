@@ -75,6 +75,7 @@
     </div>
 
     <div id="view-switch" class="segmented view-switch mt-3" role="radiogroup" aria-label="View (demo switch, not a login)" title="Demo switch, not a login"></div>
+    <p id="session-line" class="session-line" hidden></p>
 
     <div class="search mt-3">
       <i class="fa-solid fa-magnifying-glass search-icon" aria-hidden="true"></i>
@@ -244,8 +245,27 @@
       </div>
 
       <details id="rm-contact" class="contact mt-4">
-        <summary class="field-label"><span data-i18n="form_contact">Contact details</span> <span class="text-ink-3 font-normal">(<span data-i18n="optional">optional</span>)</span></summary>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-2">
+        <summary class="field-label"><span id="rm-contact-label" data-i18n="form_contact">Contact details</span> <span id="rm-contact-optional" class="text-ink-3 font-normal">(<span data-i18n="optional">optional</span>)</span></summary>
+        <!-- Pilot server: the mobile number is verified by an SMS code and not stored (backend.js) -->
+        <div id="rm-contact-server" class="mt-2" hidden>
+          <div id="rm-otp-ask" class="flex flex-wrap items-end gap-2">
+            <label class="block flex-1 min-w-[10rem]">
+              <span class="field-label" data-i18n="form_mobile">Mobile</span>
+              <input id="rm-otp-phone" class="input mt-1.5" inputmode="tel" autocomplete="tel" placeholder="98765 43210">
+            </label>
+            <button type="button" class="btn btn-ghost" data-otp="send" data-i18n="otp_send">Send code</button>
+          </div>
+          <div id="rm-otp-code" class="flex flex-wrap items-end gap-2 mt-2" hidden>
+            <label class="block">
+              <span class="field-label" data-i18n="otp_code">Code from SMS</span>
+              <input id="rm-otp-input" class="input mt-1.5 otp-input" inputmode="numeric" autocomplete="one-time-code" maxlength="6">
+            </label>
+            <button type="button" class="btn btn-ghost" data-otp="verify" data-i18n="otp_verify">Verify</button>
+          </div>
+          <p id="rm-otp-status" class="text-xs text-ink-3 mt-1.5" role="status"></p>
+          <p id="rm-otp-done" class="otp-done" hidden><i class="fa-solid fa-circle-check" aria-hidden="true"></i> <span data-i18n="otp_verified">Mobile verified</span></p>
+        </div>
+        <div id="rm-contact-demo" class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-2">
           <label class="block">
             <span class="field-label" data-i18n="form_name">Your name</span>
             <input name="name" class="input mt-1.5" maxlength="60" autocomplete="name">
@@ -259,11 +279,38 @@
       </details>
 
       <p class="text-[11.5px] text-ink-3 mt-4"><i class="fa-solid fa-circle-info" aria-hidden="true"></i>
-        <span data-i18n="form_demo">Demo: saved in this browser session only. Nothing is sent.</span></p>
+        <span id="rm-footnote" data-i18n="form_demo">Demo: saved in this browser session only. Nothing is sent.</span></p>
 
       <div class="mt-4 flex justify-end gap-2">
         <button type="button" class="btn btn-ghost" data-close data-i18n="report_cancel">Cancel</button>
         <button type="submit" class="btn btn-primary"><i class="fa-solid fa-paper-plane" aria-hidden="true"></i> <span data-i18n="form_send">Send report</span></button>
+      </div>
+    </form>
+  </div>
+
+  <!-- ================= Staff sign-in (pilot server only) ================= -->
+  <div id="login-modal" class="modal" hidden>
+    <div class="modal-backdrop" data-close-login></div>
+    <form id="login-form" class="modal-card panel login-card" role="dialog" aria-modal="true" aria-labelledby="lm-title" novalidate>
+      <div class="flex items-start gap-3">
+        <div class="min-w-0 flex-1">
+          <p class="eyebrow">Pilot server</p>
+          <h2 id="lm-title" class="text-lg font-semibold mt-0.5">Staff sign-in</h2>
+        </div>
+        <button type="button" class="icon-btn" data-close-login aria-label="Close"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
+      </div>
+      <label class="block mt-4">
+        <span class="field-label">Username</span>
+        <input name="username" class="input mt-1.5" autocomplete="username" autocapitalize="none" spellcheck="false" required>
+      </label>
+      <label class="block mt-3">
+        <span class="field-label">Password</span>
+        <input name="password" type="password" class="input mt-1.5" autocomplete="current-password" required>
+      </label>
+      <p id="lm-error" class="field-error" role="alert" hidden></p>
+      <div class="mt-4 flex justify-end gap-2">
+        <button type="button" class="btn btn-ghost" data-close-login>Cancel</button>
+        <button type="submit" class="btn btn-primary"><i class="fa-solid fa-right-to-bracket" aria-hidden="true"></i> Sign in</button>
       </div>
     </form>
   </div>
@@ -287,6 +334,7 @@
           crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <!-- The app: plain scripts sharing one scope, in this order (no modules, so file:// works) -->
   <script src="data/streetlights.js"></script>
+  <script src="server-config.js"></script>
   <script src="config.js"></script>
   <script src="app.js"></script>
   <script src="analysis.js"></script>
@@ -296,6 +344,7 @@
   <script src="views.js"></script>
   <script src="panels.js"></script>
   <script src="roles.js"></script>
+  <script src="backend.js"></script>
   <script src="main.js"></script>
 </body>
 </html>

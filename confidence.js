@@ -178,9 +178,26 @@ function hashDistance(a, b) {
 
 /**
  * AI photo check: a pluggable hook. Input: the photo, the category and the pole; output: signals with
- * reasons, in the same shape scoreReport uses. SIMULATED in this MVP: nothing leaves the browser and
- * no AI service is called. A real check needs a backend (see README).
+ * reasons, in the same shape scoreReport uses. On the pilot server with an AI check configured, the
+ * photo carries the model's findings (photo.ai); they move confidence a little (cfg.aiPhoto), never
+ * decide on their own. Without findings (the demo, or no AI configured) it is a simulated stub.
  */
-function photoCheck(photo, category, pole) { // eslint-disable-line no-unused-vars
-  return photo ? [{ key: 'ai', effect: 0, points: 0, text: 'AI photo check: simulated, not run' }] : [];
+function photoCheck(photo, category, pole, cfg = CONFIDENCE) { // eslint-disable-line no-unused-vars
+  if (!photo) return [];
+  const f = photo.ai;
+  if (!f) return [{ key: 'ai', effect: 0, points: 0, text: 'AI photo check: simulated, not run' }];
+  const say = (effect, text) => [{ key: 'ai', effect, points: effect * cfg.aiPhoto, text: `AI photo check: ${text}` }];
+  const yesNo = (v, yes, no) => (v === true ? say(1, yes) : v === false ? say(-1, no) : say(0, 'not clear from the photo'));
+  if (f.streetlight_visible === false && category !== 'blocked') return say(0, 'no street light in view');
+  if (category === 'not_working') {
+    if (f.lamp === 'on') return say(-1, 'lamp looks on');
+    return f.lamp === 'off' && f.dark_scene === true ? say(1, 'lamp looks off after dark') : say(0, 'lamp state not clear (lamps are off by day)');
+  }
+  if (category === 'day_burning') {
+    if (f.dark_scene === true) return say(0, 'photo taken after dark');
+    return f.lamp === 'on' ? say(1, 'lamp looks on in daylight') : f.lamp === 'off' ? say(-1, 'lamp looks off') : say(0, 'lamp state not clear');
+  }
+  if (category === 'damaged') return yesNo(f.pole_damaged, 'pole looks damaged', 'pole looks intact');
+  if (category === 'blocked') return yesNo(f.light_blocked, 'light looks blocked', 'light does not look blocked');
+  return say(0, category === 'flickering' ? 'flicker cannot be seen in a photo' : 'nothing to check for this problem');
 }

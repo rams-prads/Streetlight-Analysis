@@ -146,6 +146,8 @@ function handleAction(el, { fromSidebar = false } = {}) {
   const keep = () => renderSelected({ keepScroll: true });
   switch (d.action) {
     case 'close': closeSidebar(); break;
+    case 'staff-login': openStaffLogin(); break;
+    case 'staff-logout': staffLogout(); break;
     case 'back': goBack(); break;
     case 'zoom-pole': flyToVisible(state.byUid.get(d.uid).latlng, Math.max(map.getZoom(), 18)); break;
     case 'select-pole': selectPole(d.uid, { zoom: fromSidebar || d.zoom === '1', fromSidebar }); break;
@@ -554,4 +556,10 @@ function init() {
 }
 
 if (BOOT_ERROR) fatal(BOOT_ERROR);
-else init();
+else if (SERVER) { // pilot server: load the saved state first (backend.js)
+  serverBoot().then(() => {
+    init();
+    bindServerEvents();
+    startSync();
+  }).catch((err) => fatal(`The server could not be reached (${err.message}). Reload the page to try again.`));
+} else init();

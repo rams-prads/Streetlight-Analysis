@@ -7,3 +7,6 @@ __pycache__/
 .idea/
 Thumbs.db
 .DS_Store
+
+# Server state (database, photos, secret)
+server/data/

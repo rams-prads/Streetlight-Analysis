@@ -10,7 +10,7 @@ import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
-const SUITES = ['core.mjs', 'confidence.mjs'];
+const SUITES = ['core.mjs', 'confidence.mjs', 'server.mjs'];
 const [, , suite] = process.argv;
 if (!suite) {
   let failedSuites = 0;

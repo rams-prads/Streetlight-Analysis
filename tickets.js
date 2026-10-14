@@ -26,11 +26,12 @@ function noteTicketId(id) {
   if (m) state.ticketSeq[m[1]] = Math.max(state.ticketSeq[m[1]] ?? 0, Number(m[2]));
 }
 function nextTicketId() {
+  if (SERVER) return takeLeasedId('tickets'); // unique across browsers (backend.js)
   const year = fmtYear(now());
   state.ticketSeq[year] = (state.ticketSeq[year] ?? 100) + 1;
   return `TKT-${year}-${String(state.ticketSeq[year]).padStart(4, '0')}`;
 }
-const nextReportId = () => `CR-${String(state.reports.filter((r) => !r.simulated).length + 1).padStart(3, '0')}`;
+const nextReportId = () => (SERVER ? takeLeasedId('reports') : `CR-${String(state.reports.filter((r) => !r.simulated).length + 1).padStart(3, '0')}`);
 
 /** Who a ticket goes to: safety and trees first, then circuit faults, then the pole's contractor (or the survey team). */
 function routeTeam(t) {
@@ -53,6 +54,7 @@ function prepareTicket(t, kind) {
 
 /** Index the live tickets: share one object between the poles of an outage, add location tickets and sample reports. */
 function indexTickets() {
+  if (SERVER) return indexFromDocs(); // backend.js
   for (const f of state.features) {
     const p = f.properties;
     p.repair_history ??= [];
@@ -294,6 +296,7 @@ function reportEvidence(r, t = state.tickets.get(r.ticket_id) ?? null) {
 function ticketConfidence(t) {
   const plain = (ev) => ({ ...scoreReport(ev, CONFIDENCE), notes: [], count: 0 });
   if (isEmergency(t)) return plain({ category: CONFIDENCE.emergencyCategories[0] });
+  if (SERVER && SYNC.scope === 'public') return { ...plain({ category: t.category }), band: t.band ?? null }; // no evidence in the public copy
   if (t.field_outcome) return plain({ category: t.category, field: t.field_outcome });
   if (SYSTEM_SOURCES.includes(t.source)) {
     return { bypass: false, band: 'Confirmed', final: null, score: null, contradicted: false, notes: [], count: t.reports.length,
@@ -405,6 +408,7 @@ function duskCheckFor(t) {
 
 /** Simulated CCMS feed: confirm every repaired CCMS lamp once it has been dark long enough. */
 function processDuskChecks() {
+  if (SERVER && !SYNC.me.staff) return false; // a staff browser confirms it and the server shares it
   let changed = false;
   for (const t of [...state.tickets.values()]) {
     if (t.status !== 'Awaiting dusk check') continue;
@@ -431,6 +435,7 @@ function attachDuskPhoto(id, file) {
   }
   if (t.dusk_photo?.url) URL.revokeObjectURL(t.dusk_photo.url);
   t.dusk_photo = { url: URL.createObjectURL(file), name: file.name, at: now().toISOString() };
+  if (SERVER) uploadDuskPhoto(t, file);
   logActivity('Night photo added', { ticket: t });
   renderSelected({ keepScroll: true });
 }
@@ -551,15 +556,18 @@ function recordOutcome(t, outcome) {
   logActivity(`On site: ${OUTCOME_LABEL[outcome]}`, { ticket: t, to: OUTCOME_LABEL[outcome] });
 }
 
-/** Needs check, cheapest first: poll the pole's CCMS node (simulated). */
-function pollCcms(id) {
+/** Needs check, cheapest first: poll the pole's CCMS node (live through the pilot server's adapter, else simulated). */
+async function pollCcms(id) {
   const t = state.tickets.get(id);
   const p = t && ticketPoles(t).find((x) => x.ccms_node);
   if (!p) return;
-  t.ccms_poll = { at: now().toISOString(), state: simulatedCcmsState(p), daylight: 'off' };
-  logActivity(`CCMS polled (simulated): lamp ${t.ccms_poll.state}`, { ticket: t, to: t.ccms_poll.state });
+  const live = await serverCcmsPoll(p.uid);
+  if (live === undefined) return; // the live feed did not answer
+  const via = live ? 'CCMS' : 'CCMS (simulated)';
+  t.ccms_poll = { at: live?.at ?? now().toISOString(), state: live?.state ?? simulatedCcmsState(p), daylight: 'off' };
+  logActivity(`${live ? 'CCMS polled' : 'CCMS polled (simulated)'}: lamp ${t.ccms_poll.state}`, { ticket: t, to: t.ccms_poll.state });
   afterDataChange();
-  toast({ tone: 'info', icon: 'fa-tower-broadcast', title: `CCMS (simulated): lamp ${t.ccms_poll.state}`, body: needsCheck(t) ? 'Still needs a check.' : `Now ${t.confidence.band.toLowerCase()}.` });
+  toast({ tone: 'info', icon: 'fa-tower-broadcast', title: `${via}: lamp ${t.ccms_poll.state}`, body: needsCheck(t) ? 'Still needs a check.' : `Now ${t.confidence.band.toLowerCase()}.` });
 }
 
 /** Needs check: put the pole on the next night audit, or ask a crew already working nearby to look. */
@@ -715,6 +723,7 @@ function afterDataChange() {
  * already in progress, or awaiting their dusk check, are left as they are.
  */
 function collapseCircuitFaults() {
+  if (SERVER && !SYNC.me.staff) return;
   for (const [panelId, circuits] of panelPoles) {
     for (const circuit of circuits.keys()) {
       const fault = circuitFault(panelId, circuit);
@@ -961,6 +970,7 @@ function openReportModal(presetCategory) {
   $('#rm-phone-error').hidden = true;
   $('#rm-count').textContent = '0/500';
   $('#rm-contact').open = false;
+  if (SERVER) syncContactMode(); // pilot server: the mobile number to verify, open until verified
   $('#rm-geo-status').textContent = '';
   $('#rm-location').innerHTML = draftLocationHtml();
   $('#rm-noticed-options').innerHTML = ['last_night', 'earlier_today', 'just_now'].map((k) => `<label class="chip-radio">
@@ -1002,7 +1012,7 @@ function setDraftPhoto(file, kind) {
   img.src = photoUrl;
   img.hidden = false;
   $('#rm-photo-name').textContent = file.name;
-  const photo = { kind, name: file.name, url: photoUrl, hash: null };
+  const photo = { kind, name: file.name, url: photoUrl, hash: null, file };
   photo.ready = imageHash(file).then((hash) => { photo.hash = hash; });
   draftPhoto = photo;
 }
@@ -1088,12 +1098,14 @@ async function submitReportForm() {
   submitting = false;
   if (state.draft !== draft) return;
   const citizen = isCitizen();
+  const noticed = CONFIDENCE.nightCategories.includes(category) ? String(fd.get('noticed') || '') || null : null;
+  const note = String(fd.get('description') ?? '').trim();
+  if (SERVER && citizen) return submitCitizenReport({ category, draft, photoDraft, noticed, note }); // backend.js
   const photo = photoDraft ? { kind: photoDraft.kind, name: photoDraft.name, url: photoDraft.url, hash: photoDraft.hash } : null;
   if (photo) photoUrl = null; // the report keeps the picture, in memory only
   const { report, ticket, outcome, hold } = fileReport({
-    category, uid: draft.uid, latlng: draft.clickLatLng, photo, device: draftDevice,
-    noticed: CONFIDENCE.nightCategories.includes(category) ? String(fd.get('noticed') || '') || null : null,
-    note: String(fd.get('description') ?? '').trim(), name: String(fd.get('name') ?? '').trim(), phone,
+    category, uid: draft.uid, latlng: draft.clickLatLng, photo, device: draftDevice, noticed,
+    note, name: String(fd.get('name') ?? '').trim(), phone,
     source: citizen ? 'Citizen app' : 'Call centre',
   });
   closeReportModal({ restoreFocus: false });
@@ -1161,6 +1173,7 @@ function markShared(r, channel) {
   const t = state.tickets.get(r.ticket_id);
   if (!t) return;
   t.public ??= { shared_at: now().toISOString(), report_id: r.id };
+  if (SERVER) return citizenShared(r.id, channel); // the server records it and tells operators
   logActivity(`Shared publicly by reporter (${channel})`, { ticket: t, role: 'citizen' });
 }
 

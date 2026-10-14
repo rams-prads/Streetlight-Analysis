@@ -15,12 +15,14 @@ const roleShowsOverlay = (name) => ROLE_OVERLAYS[state.role]?.includes(name) ?? 
 const roleCanReport = () => state.role === 'citizen' || state.role === 'operator';
 
 function renderViewSwitch() {
-  $('#view-switch').innerHTML = ROLES.map((r) => `<button type="button" role="radio" data-role-switch="${r.id}" aria-checked="${r.id === state.role}">${esc(r.label)}</button>`).join('');
+  $('#view-switch').innerHTML = ROLES.filter((r) => roleAllowedHere(r.id)) // on the pilot server: the views this person may open
+    .map((r) => `<button type="button" role="radio" data-role-switch="${r.id}" aria-checked="${r.id === state.role}">${esc(r.label)}</button>`).join('');
 }
 
 /** Switch view: each view shows only what that role needs. Layers it lacks are switched off, and return with a view that has them. */
 function setRole(role, { writeUrl = true } = {}) {
   if (!ROLES.some((r) => r.id === role)) return;
+  if (!roleAllowedHere(role)) return openStaffLogin(); // pilot server: staff views need a sign-in
   state.role = role;
   document.body.dataset.role = role;
   for (const b of $$('[data-role-switch]')) b.setAttribute('aria-checked', String(b.dataset.roleSwitch === role));

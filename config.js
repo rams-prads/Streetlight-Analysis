@@ -11,6 +11,9 @@
  * ========================================================================== */
 'use strict';
 
+// Set by the pilot server (server/server.js serves server-config.js); null in the demo (file://, GitHub Pages).
+const SERVER = (typeof window !== 'undefined' && window.SLGIS_SERVER) || null;
+
 // ---- 1.1 Basemap -----------------------------------------------------------
 // Optional: a free CARTO Basemaps key (https://carto.com/basemaps/apikey) switches the night map to
 // CARTO Dark Matter. Keyless CARTO tiles come back stamped "API KEY REQUIRED", so without a key the
@@ -89,7 +92,9 @@ const LANDMARK_KINDS = {                 // weight = how much a nearby landmark 
 };
 
 // ---- 1.6 Citizen reporting (B) ----------------------------------------------
-const BASE_URL = 'https://rams-prads.github.io/Streetlight-Analysis/'; // public address (GitHub Pages); QR labels link to BASE_URL#report=<UID>
+// Public address; QR labels link to BASE_URL#report=<UID>. The demo is on GitHub Pages; a pilot server
+// uses its PUBLIC_BASE_URL setting, or the address it is opened at.
+const BASE_URL = SERVER ? SERVER.baseUrl ?? `${location.origin}/` : 'https://rams-prads.github.io/Streetlight-Analysis/';
 const DUPLICATE_RADIUS_M = 30;           // a location-only report this close to an open location ticket merges into it
 const DUPLICATE_WINDOW_HOURS = 48;       // ...if that ticket was raised within this many hours
 // Report categories, in the order the chips appear. `team` routes the ticket, `severity` feeds the
@@ -202,6 +207,7 @@ const CONFIDENCE = {                     // scoring weights, in points
   photoReused: 20,                       // the photo matches another report's, on a different pole or day
   locationMatch: 10,                     // the reporter was within LOCATION_MATCH_M of the pole
   timing: 5,                             // noticed at a time when the problem can be seen
+  aiPhoto: 6,                            // the AI photo check backs up (+) or contradicts (−) the report; less than a live photo
   locationMaxAccuracyM: LOCATION_MAX_ACCURACY_M,
   locationMatchM: LOCATION_MATCH_M,
   nightCategories: ['not_working', 'flickering'], // lamp faults that can only be seen after dark
@@ -214,7 +220,9 @@ const SYSTEM_SOURCES = ['CCMS auto-alert', 'Night patrol', 'Night audit', 'Circu
 // ---- 1.12 Public escalation on X (citizen-initiated) ----------------------------
 // The citizen posts from their own account, by choice. No bot, no X API, no keys.
 const PUBLIC_ESCALATION_ENABLED = true;  // let citizens share overdue complaints on X; Management can switch it off
-const OFFICIAL_HANDLES = {               // replace with verified official handles; placeholders are left out of posts
+// Placeholders are left out of posts. A pilot server sets the verified handles (OFFICIAL_HANDLES_JSON);
+// the public demo runs on mock data, so it never tags a real account.
+const OFFICIAL_HANDLES = SERVER?.handles ?? {
   electrical: '@OFFICIAL_HANDLE_ELECTRICAL',
   horticulture: '@OFFICIAL_HANDLE_HORTICULTURE',
   emergency: '@OFFICIAL_HANDLE_EMERGENCY',
@@ -228,9 +236,21 @@ const X_POST = {                         // X web intent and its character count
 };
 const SHARE_LANDMARK_MAX_M = 150;        // a post names the nearest landmark within this distance
 
+// ---- 1.14 Pilot server (only when served by server/server.js) ---------------
+const SYNC_DEBOUNCE_MS = 400;            // a staff action is sent this long after the last click or key
+const SYNC_RETRY_MS = 10000;             // retry after a failed send (offline, server restarting)
+const STAFF_PULL_MS = 5000;              // staff browsers ask for other people's changes this often
+const PUBLIC_PULL_MS = 30000;            // citizens' and visitors' browsers refresh this often
+const ID_LEASE_SIZE = 5;                 // ticket / report IDs a staff browser keeps in hand
+const PHOTO_MAX_PX = 1280;               // photos are downsized to this longest side before upload (also drops EXIF, incl. GPS)
+const PHOTO_JPEG_QUALITY = 0.85;
+const PHOTO_BLUR_PX = 18;                // blur radius for faces and number plates found by the AI check
+const PHOTO_BLUR_PAD = 0.25;             // each blur box grows by this share of its size on every side
+
 // ---- 1.13 Citizen text (EN / हिन्दी) ------------------------------------------
 // Every string the Citizen view shows, in one dictionary. {name} marks a value filled in at run time.
-// The Hindi strings are a first draft and need review by a native speaker before any public use.
+// The Hindi strings were revised for consistency (nukta, chandrabindu, one form for category labels) but still
+// need sign-off by a native speaker before any public use.
 const CITIZEN_TEXT = {
   en: {
     brand_sub: 'Connaught Place pilot · NDMC area, New Delhi',
@@ -346,6 +366,22 @@ const CITIZEN_TEXT = {
     post_status: 'Status: {url}',
     status_title: 'Complaint status',
     status_missing: 'This complaint is not in this demo’s data.',
+    form_server: 'Sent to the street light team. Your mobile number is used only to verify you; it is not stored.',
+    form_contact_server: 'Your mobile number',
+    otp_send: 'Send code',
+    otp_code: 'Code from SMS',
+    otp_verify: 'Verify',
+    otp_sent: 'Code sent to ******{last4}.',
+    otp_dev: 'Development server: the code is {code}.',
+    otp_verified: 'Mobile verified',
+    otp_needed: 'Verify your mobile number to send the report.',
+    otp_wrong: 'Wrong code. Try again.',
+    otp_expired: 'The code expired. Send a new one.',
+    otp_failed: 'Could not send the code. Try again in a moment.',
+    send_failed: 'Could not send. Check your connection and try again.',
+    sending: 'Sending…',
+    my_reports_note_server: 'Updates appear here. SMS updates are not switched on yet.',
+    staff_signin: 'Staff sign-in',
   },
   hi: {
     brand_sub: 'कनॉट प्लेस पायलट · एनडीएमसी क्षेत्र, नई दिल्ली',
@@ -353,7 +389,7 @@ const CITIZEN_TEXT = {
     mock_chip_tip: 'नमूना (कृत्रिम) डेटा पर चलने वाला डेमो',
     view_label: 'व्यू',
     search_placeholder: 'बत्ती का नंबर या सड़क खोजें',
-    search_label: 'बत्तियां और सड़कें खोजें',
+    search_label: 'बत्तियाँ और सड़कें खोजें',
     search_empty: '“{q}” के लिए कुछ नहीं मिला',
     my_reports: 'मेरी शिकायतें',
     new_update: 'नया अपडेट',
@@ -363,9 +399,9 @@ const CITIZEN_TEXT = {
     esc_hint: 'रद्द करने के लिए',
     legend: 'संकेत',
     legend_status: 'स्ट्रीटलाइट की स्थिति',
-    legend_filter: 'छांटने के लिए टैप करें',
+    legend_filter: 'फ़िल्टर के लिए टैप करें',
     layers: 'परतें',
-    overlays: 'मैप पर दिखाएं',
+    overlays: 'मैप पर दिखाएँ',
     basemap: 'आधार मैप',
     night: 'रात',
     satellite: 'सैटेलाइट',
@@ -376,7 +412,7 @@ const CITIZEN_TEXT = {
     'status_Under Maintenance': 'मरम्मत जारी',
     zoom_in: 'ज़ूम इन',
     zoom_out: 'ज़ूम आउट',
-    zoom_home: 'पूरा पायलट क्षेत्र दिखाएं',
+    zoom_home: 'पूरा पायलट क्षेत्र दिखाएँ',
     close: 'बंद करें',
     back: 'वापस',
     form_eyebrow: 'शिकायत दर्ज करें',
@@ -386,39 +422,39 @@ const CITIZEN_TEXT = {
     form_note: 'टिप्पणी',
     optional: 'वैकल्पिक',
     form_note_placeholder: 'जैसे: जनपथ कोने से तीसरी बत्ती, मंगलवार से बंद',
-    form_photo_not_image: 'कोई चित्र फ़ाइल चुनें',
+    form_photo_not_image: 'कोई फ़ोटो फ़ाइल चुनें',
     form_contact: 'संपर्क विवरण',
     form_name: 'आपका नाम',
     form_mobile: 'मोबाइल',
     form_mobile_error: '10 अंकों का भारतीय मोबाइल नंबर डालें, या खाली छोड़ दें।',
     form_demo: 'डेमो: केवल इस ब्राउज़र सत्र में सहेजा जाता है। कुछ भी भेजा नहीं जाता।',
     form_send: 'शिकायत भेजें',
-    loc_snapped: 'आपके टैप से {m} मी. दूर की सबसे नज़दीकी बत्ती।',
+    loc_snapped: 'सबसे नज़दीकी बत्ती, आपके टैप से {m} मी. दूर।',
     loc_selected: 'मैप पर चुनी गई बत्ती।',
-    loc_none: '{m} मी. के भीतर कोई बत्ती नहीं। इस जगह की जांच की जाएगी।',
+    loc_none: '{m} मी. के भीतर कोई बत्ती नहीं। इस जगह की जाँच की जाएगी।',
     loc_already: 'यह पहले से दर्ज है। आपकी शिकायत उसी में जोड़ी जाएगी।',
     shutdown_until: '{time} तक बिजली की नियोजित कटौती है।',
     shutdown_logged: 'आपकी शिकायत दर्ज होगी, पर कोई टीम नहीं भेजी जाएगी।',
     safety: 'खंभे से दूर रहें। कोई घायल हो तो 112 पर कॉल करें।',
-    cat_not_working: 'नहीं जल रही',
-    cat_flickering: 'टिमटिमा रही है',
-    cat_day_burning: 'दिन में जल रही है',
-    cat_damaged: 'खंभा टूटा या झुका है',
+    cat_not_working: 'बत्ती नहीं जल रही',
+    cat_flickering: 'बत्ती टिमटिमा रही',
+    cat_day_burning: 'दिन में भी जल रही',
+    cat_damaged: 'खंभा टूटा या झुका हुआ',
     cat_exposed: 'खुले तार / खुला बॉक्स',
     cat_shock: 'करंट या चिंगारी',
-    cat_blocked: 'पेड़ या होर्डिंग से रोशनी रुकी',
+    cat_blocked: 'पेड़ या होर्डिंग से रोशनी ढकी',
     cat_other: 'कुछ और',
     toast_sent: 'शिकायत भेजी गई',
-    toast_sent_body: 'संदर्भ {id}। इसे “मेरी शिकायतें” में देखें।',
+    toast_sent_body: 'शिकायत संख्या {id}। इसे “मेरी शिकायतें” में देखें।',
     toast_merged: 'पहले की शिकायत में जोड़ा गया',
-    toast_merged_body: 'इस बत्ती की अब तक {n} शिकायतें।',
+    toast_merged_body: 'इस बत्ती के लिए अब तक {n} शिकायतें।',
     toast_logged: 'शिकायत दर्ज की गई',
-    my_reports_note: 'सिमुलेशन: अपडेट केवल इसी सत्र में यहां दिखते हैं। कोई SMS या WhatsApp नहीं भेजा जाता।',
+    my_reports_note: 'सिमुलेशन: अपडेट केवल इसी सत्र में यहाँ दिखते हैं। कोई SMS या WhatsApp नहीं भेजा जाता।',
     my_reports_empty: 'अभी कोई शिकायत नहीं।',
     map_location: 'मैप पर जगह',
     st_received: 'प्राप्त हुई',
     st_assigned: 'टीम भेजी गई',
-    st_checking: 'ठीक की गई · अंधेरा होने पर जांच',
+    st_checking: 'मरम्मत हो गई · अंधेरा होने पर जाँच होगी',
     st_fixed: 'ठीक हो गई',
     st_logged: 'दर्ज · {time} तक नियोजित बिजली कटौती',
     st_reopened: 'फिर से खोली गई',
@@ -426,25 +462,25 @@ const CITIZEN_TEXT = {
     yes: 'हाँ',
     no: 'नहीं',
     fixed_thanks: 'पुष्टि के लिए धन्यवाद।',
-    reopened_toast: 'शिकायत फिर से खोली गई। टीम दोबारा जांच करेगी।',
+    reopened_toast: 'शिकायत फिर से खोली गई। टीम दोबारा जाँच करेगी।',
     pole_eyebrow: 'स्ट्रीटलाइट',
     pole_reported: 'यह पहले से दर्ज है। मरम्मत जारी है।',
-    pole_ok: 'कोई ज्ञात समस्या नहीं।',
+    pole_ok: 'कोई समस्या दर्ज नहीं है।',
     pole_shutdown: '{time} तक नियोजित बिजली कटौती के कारण बंद।',
-    photo_take: 'फोटो खींचें',
-    photo_upload: 'फोटो अपलोड करें',
-    photo_privacy: 'फोटो का उपयोग केवल इस शिकायत की जांच के लिए होगा।',
+    photo_take: 'फ़ोटो खींचें',
+    photo_upload: 'फ़ोटो अपलोड करें',
+    photo_privacy: 'फ़ोटो का उपयोग केवल इस शिकायत की जाँच के लिए होगा।',
     use_location: 'मेरी लोकेशन इस्तेमाल करें',
     locating: 'आपकी लोकेशन खोजी जा रही है…',
     location_added: 'लोकेशन जोड़ी गई (±{m} मी.)',
     location_failed: 'लोकेशन उपलब्ध नहीं',
     noticed: 'कब देखा',
     noticed_last_night: 'कल रात',
-    noticed_earlier_today: 'आज पहले',
-    noticed_just_now: 'अभी',
+    noticed_earlier_today: 'आज दिन में',
+    noticed_just_now: 'अभी-अभी',
     st_confirmed: 'पुष्टि हुई',
     st_confirmed_assigned: 'पुष्टि हुई। टीम भेजी गई।',
-    st_checked: 'मौके पर जांच: बत्ती जल रही थी',
+    st_checked: 'मौके पर जाँच: बत्ती जल रही थी',
     working_q: 'अब जल रही है?',
     share: 'सार्वजनिक रूप से साझा करें',
     share_title: 'यह शिकायत साझा करें',
@@ -461,5 +497,21 @@ const CITIZEN_TEXT = {
     post_status: 'स्थिति: {url}',
     status_title: 'शिकायत की स्थिति',
     status_missing: 'यह शिकायत इस डेमो के डेटा में नहीं है।',
+    form_server: 'शिकायत स्ट्रीटलाइट टीम को भेजी जाती है। आपका मोबाइल नंबर केवल पुष्टि के लिए है; इसे सहेजा नहीं जाता।',
+    form_contact_server: 'आपका मोबाइल नंबर',
+    otp_send: 'कोड भेजें',
+    otp_code: 'SMS में आया कोड',
+    otp_verify: 'पुष्टि करें',
+    otp_sent: '******{last4} पर कोड भेजा गया।',
+    otp_dev: 'डेवलपमेंट सर्वर: कोड {code} है।',
+    otp_verified: 'मोबाइल की पुष्टि हो गई',
+    otp_needed: 'शिकायत भेजने के लिए अपने मोबाइल नंबर की पुष्टि करें।',
+    otp_wrong: 'गलत कोड। फिर से कोशिश करें।',
+    otp_expired: 'कोड की समय-सीमा खत्म हो गई। नया कोड भेजें।',
+    otp_failed: 'कोड नहीं भेजा जा सका। थोड़ी देर बाद फिर कोशिश करें।',
+    send_failed: 'नहीं भेजा जा सका। इंटरनेट जाँचें और फिर कोशिश करें।',
+    sending: 'भेजा जा रहा है…',
+    my_reports_note_server: 'अपडेट यहाँ दिखते हैं। SMS अपडेट अभी चालू नहीं हैं।',
+    staff_signin: 'कर्मचारी लॉग-इन',
   },
 };

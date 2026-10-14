@@ -159,7 +159,7 @@ function openFromHash() {
     openStatus(h.ticket);
     return;
   }
-  const view = ROLES.some((r) => r.id === h.view) ? h.view : DEFAULT_ROLE;
+  const view = ROLES.some((r) => r.id === h.view) && roleAllowedHere(h.view) ? h.view : defaultRoleHere();
   if (view !== state.role) setRole(view, { writeUrl: false });
   if (h.id && state.byUid.has(h.id)) selectPole(h.id, { zoom: true });
   else if (h.id && state.panels.has(h.id) && roleAllows('feeder')) openPanel(h.id, { zoom: true });
@@ -531,8 +531,8 @@ function duskCheckHtml(t) {
       ? `Verify after ${esc(fmtTime(c.confirmAt))}: the CCMS node reports the lamp on after dark.`
       : 'Waiting for the CCMS node to report the lamp on.';
   } else if (t.dusk_photo) {
-    body = `<span class="flex items-center gap-3 mt-1"><img class="photo-preview" src="${esc(t.dusk_photo.url)}" alt="Night photo of the repaired lamp">
-      <span>Night photo · taken ${esc(fmtDateTime(t.dusk_photo.at))}</span></span>
+    body = `<span class="flex items-center gap-3 mt-1">${t.dusk_photo.url ? `<img class="photo-preview" src="${esc(t.dusk_photo.url)}" alt="Night photo of the repaired lamp">` : '<i class="fa-solid fa-camera text-ink-3" aria-hidden="true"></i>'}
+      <span>Night photo · taken ${esc(fmtDateTime(t.dusk_photo.at))}${t.dusk_photo.url ? '' : ' (kept on the crew’s phone)'}</span></span>
       ${state.role === 'field' ? `<button type="button" class="btn btn-primary btn-block mt-2" data-action="confirm-dusk" data-ticket="${esc(t.id)}"><i class="fa-solid fa-check" aria-hidden="true"></i>Confirm lamp is lit</button>` : ''}`;
   } else if (!c.photoNow) {
     body = `Verify after ${esc(fmtTime(c.photoFrom))}: night photo of the lit lamp.`;
@@ -546,7 +546,7 @@ function duskCheckHtml(t) {
   return `<div class="dusk"><p class="workflow-label"><i class="fa-solid fa-moon" aria-hidden="true"></i>Dusk check</p><div class="text-[12.5px] text-ink-2">${body}</div></div>`;
 }
 
-const DEMO_LABEL = '<p class="workflow-label"><i class="fa-solid fa-user-gear" aria-hidden="true"></i>Demo workflow</p>';
+const DEMO_LABEL = SERVER ? '' : '<p class="workflow-label"><i class="fa-solid fa-user-gear" aria-hidden="true"></i>Demo workflow</p>';
 const isCrewCheck = (t, crew) => t.status === 'Open' && t.check?.kind === 'crew' && t.check.crew === crew;
 const resolutionSelect = (t) => `<select class="input flex-1" data-field="resolution" aria-label="Work carried out">${[...(RESOLUTIONS.find(([re]) => re.test(t.issue ?? ''))?.[1] ?? []), 'Repaired on site (other)']
   .map((o) => `<option>${esc(o)}</option>`).join('')}</select>`;
@@ -925,7 +925,7 @@ VIEWS.myreports = function renderMyReportsView() {
   }).join('');
   return `${viewHead({ eyebrow: tr('pole_eyebrow'), title: tr('my_reports') })}
     <div class="sb-body">
-      <p class="text-[12px] text-ink-3 mt-4"><i class="fa-solid fa-circle-info" aria-hidden="true"></i> ${esc(tr('my_reports_note'))}</p>
+      <p class="text-[12px] text-ink-3 mt-4"><i class="fa-solid fa-circle-info" aria-hidden="true"></i> ${esc(tr(SERVER ? 'my_reports_note_server' : 'my_reports_note'))}</p>
       ${mine.length ? `<ul class="report-cards">${items}</ul>` : `<p class="empty mt-4">${esc(tr('my_reports_empty'))}</p>`}
     </div>`;
 };
@@ -934,14 +934,22 @@ VIEWS.myreports = function renderMyReportsView() {
 function answerFixed(reportId, fixed) {
   const r = state.reports.find((x) => x.id === reportId);
   if (!r || !r.resolved_at) return;
+  if (SERVER) return citizenFeedback(reportId, fixed); // backend.js
   if (fixed) {
     r.confirmed = 'yes';
     logActivity(`Reporter confirmed the fix (${r.id})`, { uids: r.uid ? [r.uid] : [], role: 'citizen' });
     renderSelected({ keepScroll: true });
     return;
   }
+  if (!applyNotFixed(r)) return;
+  afterDataChange();
+  toast({ tone: 'info', icon: 'fa-rotate-left', title: tr('st_reopened'), body: tr('reopened_toast') });
+}
+
+/** The reporter says it is not fixed: reopen the ticket (or join the pole's newer one). Also used by staff browsers on the pilot server. */
+function applyNotFixed(r) {
   const t = reopenTicket(r.ticket_id, `reporter says not fixed (${r.id})`, { report: r });
-  if (!t) return;
+  if (!t) return null;
   if (t.id !== r.ticket_id) { // the pole already had a newer ticket: add this report to it
     t.complaints += 1;
     t.reports.push(r.id);
@@ -949,9 +957,8 @@ function answerFixed(reportId, fixed) {
   }
   r.resolved_at = null;
   r.confirmed = null;
-  r.reopened_at = now().toISOString();
-  afterDataChange();
-  toast({ tone: 'info', icon: 'fa-rotate-left', title: tr('st_reopened'), body: tr('reopened_toast') });
+  r.reopened_at ??= now().toISOString();
+  return t;
 }
 
 // ---- public escalation: share preview (citizen) and department update (operator) ------------------

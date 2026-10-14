@@ -20,6 +20,10 @@ Optional local server: `python -m http.server 8000`, then open <http://localhost
 Online: <https://rams-prads.github.io/Streetlight-Analysis/> (GitHub Pages, served from the `main` branch).
 QR pole labels and public status links point there (`BASE_URL` in `config.js`).
 
+**Pilot server.** `node server/server.js` serves the same app with saved state, staff sign-in, phone
+verification for citizens, photo checks and live adapters (SMS, AI, CCMS). See [server/README.md](server/README.md).
+Without it, everything runs in the browser as a demo, as before.
+
 **Demo clock.** Add `?now=YYYY-MM-DDTHH:MM` (IST) to start the app's clock at that moment, e.g.
 `index.html?now=2026-10-13T19:30` (after sunset on the snapshot day). There is no visible control;
 it exists so time-dependent flows (dusk checks, night audit, SLA, shutdowns) can be shown at any hour.
@@ -79,7 +83,19 @@ Status symbols use shape as well as colour, so red/green colour blindness doesn'
 ├── views.js                      12–13  Selection, URL hash, sidebar views
 ├── panels.js                     14  View switch, header, layers, legend, insights, search, toasts
 ├── roles.js                      15  Queue, work order, night audit, dashboard, labels, event check
+├── backend.js                    19  Pilot server only: load, sync, sign-in, phone codes, photo upload
 ├── main.js                       16–18  Switches, events, init and clock tick
+├── server-config.js              `null` here; the pilot server replaces it with its settings
+├── server/                       The pilot backend (Node 22.13+, no packages): see server/README.md
+│   ├── server.js                 HTTP server: the app, the JSON API, who may see what
+│   ├── store.js                  SQLite documents with revisions, seeding from the dataset
+│   ├── auth.js                   Staff passwords, sessions, phone OTP, rate limits
+│   ├── providers.js              SMS (console, MSG91, Twilio), AI photo check (Claude), CCMS
+│   └── admin.js                  Staff accounts from the command line
+├── docs/
+│   ├── usability-test.md         10-minute sessions per view: tasks, what to watch, results sheet
+│   ├── data-request.md           The datasets and accounts needed from NDMC
+│   └── data-handling.md          Personal data in the pilot, for a DPDP review
 ├── data/
 │   ├── streetlights.js           window.SLGIS_DATA: everything below, loadable from file://
 │   ├── streetlights.geojson      119 poles
@@ -92,10 +108,12 @@ Status symbols use shape as well as colour, so red/green colour blindness doesn'
     ├── validate_data.py          Checks structure, [lon, lat] order, cross-references, sync
     ├── test_confidence.js        Unit tests for report confidence (node, no dependencies)
     ├── test_share.js             Unit tests for the post text and X's counting rules
+    ├── test_server.js            Integration tests for the pilot server's API
     └── e2e/                      Browser tests in headless Chrome (node, no dependencies)
         ├── run.mjs               Runs the suites; drives Chrome over the DevTools Protocol
         ├── core.mjs              Map, role views, tickets, field crew, management (rounds 1–2)
         ├── confidence.mjs        Report confidence, checks, outcomes, public escalation (round 3)
+        ├── server.mjs            The pilot server: phone code, report, staff sign-in, sync, conflict
         └── fixtures/             Test photos
 ```
 
@@ -160,6 +178,11 @@ illustrative, not real regulations, contract terms, penalty rates or warranty pe
 | `PUBLIC_ESCALATION_ENABLED` | `true` | citizens may share overdue complaints on X (Management can switch it off) |
 | `OFFICIAL_HANDLES`, `TEAM_DEPARTMENT` | placeholders | department X handles; replace with verified official handles |
 | `X_POST`, `SHARE_LANDMARK_MAX_M` | 280, links count 23; 150 | X's limit and counting; landmark named in a post |
+| `SYNC_DEBOUNCE_MS`, `SYNC_RETRY_MS` | 400, 10 000 | pilot server: send a staff action this long after the last click; retry after a failed send |
+| `STAFF_PULL_MS`, `PUBLIC_PULL_MS` | 5 000, 30 000 | pilot server: how often staff and public browsers look for other people's changes |
+| `ID_LEASE_SIZE` | 5 | pilot server: ticket and report IDs a staff browser keeps in hand |
+| `PHOTO_MAX_PX`, `PHOTO_JPEG_QUALITY` | 1280, 0.85 | pilot server: photos are downsized and re-encoded before upload (drops EXIF and GPS) |
+| `PHOTO_BLUR_PX`, `PHOTO_BLUR_PAD` | 18, 0.25 | pilot server: blur for faces and number plates, and how much each box grows |
 
 Sunrise and sunset are computed (NOAA solar position, zenith 90.833°) for the zone centre, in IST,
 in both the generator and the browser; the energy baseline uses each month's real night length.
@@ -189,11 +212,13 @@ person fake. Safety emergencies (exposed wires, shock or sparking) skip it entir
 - Confidence nudges priority by at most 6 points, less than any other factor, so it never outweighs safety,
   criticality or the length of a dark stretch.
 
-**AI photo check (designed, not live).** `photoCheck(photo, category, pole)` in `confidence.js` is a pluggable hook
-that returns signals with reasons. In this MVP it is a labelled, simulated stub: nothing leaves the browser. A real
-check needs a backend that calls a vision model, or a custom model trained on local street-light photos
-(general-purpose object detectors have no street-lamp class). API keys must stay on that server, never in this
-front end.
+**AI photo check.** `photoCheck(photo, category, pole)` in `confidence.js` turns the AI's findings into signals with
+reasons. In the demo it is a labelled, simulated stub: nothing leaves the browser. On the pilot server with
+`ANTHROPIC_API_KEY` set, the server asks Claude what the photo shows (lamp on or off, after dark or not, pole
+damaged, light blocked) and where the faces and number plates are; the browser blurs those before upload. The
+findings move confidence by at most 6 points (`CONFIDENCE.aiPhoto`), and only where a photo can show the
+problem (a daytime photo of a lamp that is "not working" proves nothing; flicker cannot be photographed). The
+key stays on the server.
 
 ## Public escalation on X
 
@@ -206,7 +231,8 @@ front end.
   photo or personal location. Written in the citizen's language and fitted to X's 280-character limit with its
   weighted counting (links count as 23).
 - **Placeholder handles** (`@OFFICIAL_HANDLE_…`) are left out of posts until replaced with verified official
-  handles; the Management view says so.
+  handles; the Management view says so. The public demo runs on mock data, so it keeps the placeholders and
+  never tags a real account; the pilot server takes the verified handles from `OFFICIAL_HANDLES_JSON`.
 - The exact text is previewed first. **Share…** uses the device's share sheet where available (e.g. WhatsApp);
   otherwise **Copy text**.
 - Operators see **Public** on the ticket and "Shared publicly by reporter" in its activity. It never raises priority,
@@ -220,13 +246,15 @@ front end.
 ```
 node tools/test_confidence.js    # report confidence: emergencies, neutral evidence, CCMS, location, reporters, photos, outcomes
 node tools/test_share.js         # post text, X's weighted counting, handles, links
-node tools/e2e/run.mjs           # browser tests: every view and flow, through real clicks (about 10 minutes)
+node tools/test_server.js        # the pilot server's API: sign-in, sync and conflicts, phone codes, citizen reports, photos
+node tools/e2e/run.mjs           # browser tests: every view and flow, through real clicks (about 12 minutes)
 ```
 
 The browser tests need Google Chrome (set `CHROME` to its path if it is not in the usual place) and an
 internet connection for the CDN libraries and map tiles. They open `index.html` from disk at 19:30 on the
 snapshot day; screenshots go to the system temp folder (`slgis-e2e`). Run one suite with
-`node tools/e2e/run.mjs core.mjs`.
+`node tools/e2e/run.mjs core.mjs`. The `server.mjs` suite starts its own pilot server on port 8097 with a
+throwaway database.
 
 ## Regenerate the data
 
@@ -247,18 +275,20 @@ dark-grey raster tiles. To use CARTO Dark Matter, set `CARTO_API_KEY` in `config
 
 ## MVP limits / next steps
 
-- Tickets, reports, photos and the audit trail live in memory for the session; a backend (e.g. PostGIS + REST) would persist them.
-- No authentication: the view switch is a demo. Real role-based login is a next step.
-- Notifications are simulated in **My reports**; real SMS / WhatsApp updates need a backend.
-- Offline night audits need a service worker, which only works over http(s): add one now that the app is on GitHub Pages.
-- The Hindi strings in `config.js` are a first draft and **need review by a native speaker**. Data strings (locations, issues) stay in English.
-- Landmark, permit and waterlogging positions are approximate synthetic placements; replace them with verified survey data.
-- The CCMS feed and CCMS polls are simulated; live CCMS, crew GPS and meter readings would replace the mock data.
-- Reporter identities are simulated. A real deployment would verify reporters by phone OTP, which needs a backend.
+- **Real data.** Everything is still synthetic. [docs/data-request.md](docs/data-request.md) lists what to ask NDMC
+  for; an importer will be written against the files they send.
+- **Before citizens use the pilot:** a real SMS provider with DLT-approved templates, verified X handles, the
+  privacy review in [docs/data-handling.md](docs/data-handling.md) (retention, notice wording, erase requests),
+  and the 10-minute sessions in [docs/usability-test.md](docs/usability-test.md).
+- The Hindi strings were revised for consistency but still **need sign-off by a native speaker**. Data strings
+  (locations, issues) stay in English.
+- The live CCMS, MSG91 and Twilio adapters follow the published APIs but are untested against the live services;
+  the CCMS reply shape is an assumption until the vendor's API is known. Crew GPS and meter readings are not connected.
+- Photos are blurred in the browser; server-side blurring needs an image library. Citizen SMS updates ("fixed")
+  are not sent yet. Finer per-role write rules for staff are a next step (every write is logged).
+- In the demo (no server) tickets, reports and the audit trail live in memory for the session, and the view
+  switch is not a login.
+- Offline night audits need a service worker (the app is now served over https): a next step.
 - A browser cannot prove a photo was taken live; "Take photo" only asks for the camera.
-- The AI photo check is a simulated stub (see above); a real one needs a backend with a vision model or a custom model.
-- `#ticket=<ID>` only shows tickets in the loaded data; a live public status page needs a backend.
-- Replace the placeholder X handles with verified official handles before switching public sharing on.
-- Privacy, before storing any photo: blur faces and number plates, set a retention period, and review data handling
-  against India's Digital Personal Data Protection Act, 2023. In this MVP photos stay in memory only.
+- Landmark, permit and waterlogging positions are approximate synthetic placements; replace them with verified survey data.
 - Tailwind runs from its Play CDN (it logs a "not for production" warning); compile it for production.

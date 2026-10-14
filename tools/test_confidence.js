@@ -34,6 +34,8 @@ test('a report with no evidence is neutral (not penalised)', () => {
   assert.equal(r.score, cfg.neutral);
   assert.equal(r.band, 'Likely');
   assert.ok(r.signals.every((s) => s.effect === 0 && s.points === 0), 'every signal neutral');
+  // missing evidence is tagged so the view can fold it into one line
+  assert.equal(r.signals.filter((s) => s.absent).map((s) => s.absent).join(','), 'CCMS node,track record,photo,location');
 });
 
 test('a CCMS contradiction gives Needs check, never a rejection', () => {

@@ -89,7 +89,7 @@ const LANDMARK_KINDS = {                 // weight = how much a nearby landmark 
 };
 
 // ---- 1.6 Citizen reporting (B) ----------------------------------------------
-const BASE_URL = '';                     // public address of this app; QR labels link to BASE_URL#report=<UID>
+const BASE_URL = 'https://rams-prads.github.io/Streetlight-Analysis/'; // public address (GitHub Pages); QR labels link to BASE_URL#report=<UID>
 const DUPLICATE_RADIUS_M = 30;           // a location-only report this close to an open location ticket merges into it
 const DUPLICATE_WINDOW_HOURS = 48;       // ...if that ticket was raised within this many hours
 // Report categories, in the order the chips appear. `team` routes the ticket, `severity` feeds the

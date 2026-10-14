@@ -17,6 +17,9 @@ Font Awesome, the QR library and the basemap load from public CDNs.
 
 Optional local server: `python -m http.server 8000`, then open <http://localhost:8000>.
 
+Online: <https://rams-prads.github.io/Streetlight-Analysis/> (GitHub Pages, served from the `main` branch).
+QR pole labels and public status links point there (`BASE_URL` in `config.js`).
+
 **Demo clock.** Add `?now=YYYY-MM-DDTHH:MM` (IST) to start the app's clock at that moment, e.g.
 `index.html?now=2026-10-13T19:30` (after sunset on the snapshot day). There is no visible control;
 it exists so time-dependent flows (dusk checks, night audit, SLA, shutdowns) can be shown at any hour.
@@ -52,7 +55,7 @@ A switch at the top of the header picks the view. It is a **demo switch, not a l
 | Overlays (off by default) | Planned shutdowns, landmarks, coverage gaps (spacing too wide: *add a pole*), waterlogging spots, excavation permits. |
 | Field crew | Work order grouped into stops and ordered by nearest neighbour (route drawn while open), "Carry: …" spares line on lamp jobs, night audit with large **Lit / Dark** buttons. |
 | Management | Uptime per month (zone, road, contractor), contractor scorecard (example payment rule), chronic poles and batch failure rates, warranty claims, energy reconciliation, "Due before monsoon", event check (pick roads or draw a route; printable). |
-| Pole labels | Printable QR label sheet; each code opens `BASE_URL#report=<UID>`. Set `BASE_URL` in `config.js` first. |
+| Pole labels | Printable QR label sheet; each code opens `BASE_URL#report=<UID>`. Labels use `BASE_URL` from `config.js` (the GitHub Pages address). |
 | Share publicly (citizen) | In **My reports**, a quiet **Share publicly** appears only on a complaint past its SLA, or one the citizen said was not fixed. It previews the exact post, then opens X's web intent, the device's share sheet, or copies the text. See *Public escalation on X*. |
 | Public status link | `#ticket=<ID>` (e.g. `BASE_URL#ticket=TKT-2026-0156`) opens a plain status card for that complaint in the Citizen view. |
 | Search / filter | Search box (or press `/`). Click a status in the legend to hide or show it. `Esc` backs out one step (form, drawing, report mode, highlight, trace, sidebar, back to a list). |
@@ -88,7 +91,12 @@ Status symbols use shape as well as colour, so red/green colour blindness doesn'
     ├── generate_data.py          Rebuilds the dataset (seeded, reproducible)
     ├── validate_data.py          Checks structure, [lon, lat] order, cross-references, sync
     ├── test_confidence.js        Unit tests for report confidence (node, no dependencies)
-    └── test_share.js             Unit tests for the post text and X's counting rules
+    ├── test_share.js             Unit tests for the post text and X's counting rules
+    └── e2e/                      Browser tests in headless Chrome (node, no dependencies)
+        ├── run.mjs               Runs the suites; drives Chrome over the DevTools Protocol
+        ├── core.mjs              Map, role views, tickets, field crew, management (rounds 1–2)
+        ├── confidence.mjs        Report confidence, checks, outcomes, public escalation (round 3)
+        └── fixtures/             Test photos
 ```
 
 All scripts are plain `<script>` files sharing one scope (no modules, so `file://` works).
@@ -131,7 +139,7 @@ illustrative, not real regulations, contract terms, penalty rates or warranty pe
 | `MIN_DARK_RUN` | 2 | dark poles in a row that make an unlit stretch |
 | `DESIGN_SPACING_RATIO` | 5.5 (example) | spacing above this × pole height = coverage gap |
 | `CRITICALITY_RADIUS_M` | 40 | landmarks this close raise criticality |
-| `BASE_URL` | `''` | public address for QR labels |
+| `BASE_URL` | `https://rams-prads.github.io/Streetlight-Analysis/` | public address for QR labels and status links (`''` turns both off) |
 | `DUPLICATE_RADIUS_M`, `DUPLICATE_WINDOW_HOURS` | 30, 48 | location-report merging |
 | `CIRCUIT_FAULT_SHARE`, `MIN_CABLE_FAULT_RUN` | 0.6, 3 | panel vs cable fault |
 | `EMERGENCY_SLA_HOURS`, `SLA_BASE_HOURS`, `SLA_MODIFIERS` | 4, … (examples) | service levels |
@@ -212,7 +220,13 @@ front end.
 ```
 node tools/test_confidence.js    # report confidence: emergencies, neutral evidence, CCMS, location, reporters, photos, outcomes
 node tools/test_share.js         # post text, X's weighted counting, handles, links
+node tools/e2e/run.mjs           # browser tests: every view and flow, through real clicks (about 10 minutes)
 ```
+
+The browser tests need Google Chrome (set `CHROME` to its path if it is not in the usual place) and an
+internet connection for the CDN libraries and map tiles. They open `index.html` from disk at 19:30 on the
+snapshot day; screenshots go to the system temp folder (`slgis-e2e`). Run one suite with
+`node tools/e2e/run.mjs core.mjs`.
 
 ## Regenerate the data
 
@@ -236,8 +250,7 @@ dark-grey raster tiles. To use CARTO Dark Matter, set `CARTO_API_KEY` in `config
 - Tickets, reports, photos and the audit trail live in memory for the session; a backend (e.g. PostGIS + REST) would persist them.
 - No authentication: the view switch is a demo. Real role-based login is a next step.
 - Notifications are simulated in **My reports**; real SMS / WhatsApp updates need a backend.
-- Offline night audits need a service worker, which only works over http(s): add one once the app is hosted.
-- Set `BASE_URL` once hosted, so the QR pole labels work.
+- Offline night audits need a service worker, which only works over http(s): add one now that the app is on GitHub Pages.
 - The Hindi strings in `config.js` are a first draft and **need review by a native speaker**. Data strings (locations, issues) stay in English.
 - Landmark, permit and waterlogging positions are approximate synthetic placements; replace them with verified survey data.
 - The CCMS feed and CCMS polls are simulated; live CCMS, crew GPS and meter readings would replace the mock data.

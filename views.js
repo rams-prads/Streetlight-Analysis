@@ -508,9 +508,18 @@ function confidenceHtml(t) {
   const label = c.final ?? c.band;
   return `<details class="evidence" data-fold="evidence-${esc(t.id)}">
     <summary><span class="band band--${esc((c.band ?? 'final').toLowerCase().replace(/\s+/g, '-'))}">${esc(label)}</span><span class="evidence-why">Why</span><i class="fa-solid fa-chevron-down fold-chevron" aria-hidden="true"></i></summary>
-    <ul class="signals">${c.signals.map((s) => line(s.effect, s.text)).join('')}${c.notes.map((n) => line(-1, n)).join('')}</ul>
+    <ul class="signals">${signalLines(c.signals).map((s) => line(s.effect, s.text)).join('')}${c.notes.map((n) => line(-1, n)).join('')}</ul>
     ${c.count > 1 && c.basis ? `<p class="text-[11px] text-ink-3 mt-1">Best supported of ${c.count} reports: ${esc(c.basis)}</p>` : ''}
   </details>`;
+}
+
+/** Evidence the report simply lacks (no photo, no location, …) folds into one neutral line at the end. */
+function signalLines(signals) {
+  const absent = signals.filter((s) => s.absent);
+  if (absent.length < 2) return signals;
+  const names = absent.map((s) => s.absent);
+  const list = `${names.slice(0, -1).join(', ')} or ${names[names.length - 1]}`;
+  return [...signals.filter((s) => !s.absent), { effect: 0, text: `No ${list}` }];
 }
 
 /** Dusk check (D3): CCMS confirms by itself after dark; other poles need a night photo from the crew. */

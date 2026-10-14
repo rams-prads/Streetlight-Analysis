@@ -211,8 +211,9 @@ const underWarranty = (p, at = now()) => {
   const end = warrantyEnd(p);
   return Boolean(end) && at < end;
 };
+/** A warranty claim only once the fault is likely: not while the report still needs checking. */
 const ticketWarranty = (t) => t.team === 'lamp' && !EXTERNAL_CAUSE.test(t.issue ?? '') && !NOT_A_LAMP_JOB.test(t.issue ?? '')
-  && ticketPoles(t).some((p) => underWarranty(p));
+  && t.confidence?.band !== 'Needs check' && ticketPoles(t).some((p) => underWarranty(p));
 
 // ---- 9.1 Report confidence: the evidence confidence.js scores ------------------------
 const BAND_RANK = { Confirmed: 3, Likely: 2, 'Needs check': 1 };

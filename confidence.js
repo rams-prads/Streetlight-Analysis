@@ -24,11 +24,13 @@
  *   timing:   null | { noticed, darkAtReport }    noticed: 'last_night' | 'earlier_today' | 'just_now' | null
  *   extra:    []                                  signals from photoCheck()
  * }
- * Returns { bypass, band, final, score, contradicted, signals: [{ key, effect: 1 | 0 | -1, points, text }] }.
+ * Returns { bypass, band, final, score, contradicted, signals: [{ key, effect: 1 | 0 | -1, points, text, absent? }] }.
+ * `absent` names evidence the report simply does not have (no photo, no location, …), so a view can fold those lines.
  */
 function scoreReport(ev, cfg) {
   const signals = [];
   const add = (key, points, text, effect = Math.sign(points)) => signals.push({ key, effect, points, text });
+  const none = (key, text, absent) => signals.push({ key, effect: 0, points: 0, text, absent });
 
   // Safety first: emergencies are never scored and always go out at once.
   if (cfg.emergencyCategories.includes(ev.category)) {
@@ -54,7 +56,7 @@ function scoreReport(ev, cfg) {
     const via = c?.poll ? 'CCMS poll' : 'CCMS';
     const when = c?.poll ? 'now' : 'at its last switch-on';
     if (!c) {
-      add('ccms', 0, 'No CCMS node on this pole');
+      none('ccms', 'No CCMS node on this pole', 'CCMS node');
     } else if (night && (c.night === 'off' || c.night === 'abnormal')) {
       add('ccms', cfg.ccms, `${via}: lamp ${c.night === 'off' ? 'off' : 'abnormal'} ${when}`);
     } else if (night) {
@@ -90,7 +92,7 @@ function scoreReport(ev, cfg) {
     add('track', pts, `${t.confirmed} of ${t.reports} past reports confirmed on site`);
     score += pts;
   } else {
-    add('track', 0, 'New reporter: no track record yet');
+    none('track', 'New reporter: no track record yet', 'track record');
   }
 
   // Photo: optional; a live photo counts more, and photos count most for physical problems.
@@ -107,13 +109,13 @@ function scoreReport(ev, cfg) {
       score -= cfg.photoReused;
     }
   } else {
-    add('photo', 0, 'No photo');
+    none('photo', 'No photo', 'photo');
   }
 
   // Location: only from "Use my location". Close by supports; far away is neutral, never negative.
   const loc = ev.location;
   if (!loc) {
-    add('location', 0, 'No location shared');
+    none('location', 'No location shared', 'location');
   } else if (loc.accuracyM > cfg.locationMaxAccuracyM) {
     add('location', 0, `Location too rough (±${Math.round(loc.accuracyM)} m), not used`);
   } else if (loc.distanceM <= cfg.locationMatchM) {
